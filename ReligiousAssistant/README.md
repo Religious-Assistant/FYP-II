@@ -1,10 +1,10 @@
-Pre-requisite:
+*Pre-requisite*
 Install JDK>=11, NodeJS>=12, Android SDK, Emulator
 Set JAVA_HOME, ANDROID_HOME
 
 Then:
 
->npx react-native init AwesomeProject
+>npx react-native init AwesomeProject <br />
 >npx react-native run-android
 
 if required
