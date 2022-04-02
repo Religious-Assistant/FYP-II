@@ -14,6 +14,7 @@ import { NativeBaseProvider } from 'native-base';
 
 import LoginScreen from './src/screens/LoginScreen';
 
+
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
