@@ -19,17 +19,13 @@ export default function LoginScreen() {
       <Text style={styles.text}>Religious Assistant -Login</Text>
       </Box>
       </Box>
-
-
   )
 }
 
 const styles = StyleSheet.create({
   text:{
       fontSize:20,
-      fontFamily: fonts.SourceSansPro.bold,
+      fontFamily: fonts.Signika.medium,
       backgroundColor: colors.secondary,
   }
 })
-
-

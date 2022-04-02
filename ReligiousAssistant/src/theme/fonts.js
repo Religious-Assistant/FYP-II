@@ -1,8 +1,10 @@
 const fonts={
-    SourceSansPro:{
-        bold:'SourceSansPro-Bold',
-        regular:'SourceSansPro',
-        italic:'SourceSansPro-Bold'
+    Signika:{
+        regular:'Signika-Regular',
+        bold:'Signika-Bold',
+        semi_bold:'Signika-SemiBold',
+        ligh:'Signika-Light',
+        medium:'Signika-Medium',
     }
 }
 
