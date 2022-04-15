@@ -13,6 +13,7 @@ import {
 import { NativeBaseProvider } from 'native-base';
 
 import LoginScreen from './src/screens/LoginScreen';
+import RegisteredMuslimDashboard from './src/screens/muslim_module/RegisteredMuslimDashboard';
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,7 +22,7 @@ const App= () => {
     <NativeBaseProvider>
     <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <LoginScreen />
+      <RegisteredMuslimDashboard />
     </SafeAreaView>
     </NativeBaseProvider>
   );
