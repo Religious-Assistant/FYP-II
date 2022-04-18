@@ -35,15 +35,15 @@ function RegisterScreen() {
       style={styles.image}
       resizeMode="stretch"
       source={require('../../assets/images/signUp_bg.png')}>
-      <Center w="100%" h="80%" mt="12">
+      <Center w="100%" h="80%" mt="5">
         <Box
           safeArea
           p="-2"
           w="95%"
           mb="18"
-          mt="12"
-          maxW="340"
-          maxH="700"
+          mt="1"
+          maxW="80%"
+          maxH="100%"
           py="8">
           <VStack space={3} mt="12" _text={styles.text} h="90%">
             <FormControl mt="8">
