@@ -13,17 +13,17 @@ import {
 import { NativeBaseProvider } from 'native-base';
 
 import LoginScreen from './src/screens/LoginScreen';
-
+import SplashScreeen from './src/screens/SplashScreeen';
+import ConnectAsGuest from './src/screens/ConnectAsGuest';
+import RegisterScreen from './src/screens/RegisterScreen';
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
-    <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <LoginScreen />
-    </SafeAreaView>
+      <ConnectAsGuest />
     </NativeBaseProvider>
   );
 };
