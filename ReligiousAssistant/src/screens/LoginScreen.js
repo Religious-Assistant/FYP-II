@@ -1,31 +1,27 @@
+import { Button, View } from 'native-base';
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Text, Box } from 'native-base';
+import { ImageBackground} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Icon from 'react-native-vector-icons/Ionicons';
-
-import fonts from '../theme/fonts';
-import colors from '../theme/colors';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
+
+  const navigation=useNavigation()
+
+  function gotoRegister(){
+    navigation.navigate('RegisteredMuslimDashboard')
+  }
+
   return (
-<Box>
-<Box alignSelf="center" bg="primary.500" _text={{
-      fontSize: "md",
-      fontWeight: "medium",
-      color: "warmGray.50",
-      letterSpacing: "lg"
-    }}>
-      <Text style={styles.text}>Religious Assistant -Login</Text>
-      </Box>
-      </Box>
+  <SafeAreaView style={{flex:1}}>
+     <ImageBackground
+        style={{ flex: 1 }}
+        source={require('../../assets/images/login.png')}>
+          <View style={{alignItems:'center', top:500}}>
+          <Button onPress={gotoRegister} style={{width:150,}}>Register Now</Button>
+          </View>
+        </ImageBackground>
+  </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  text:{
-      fontSize:20,
-      fontFamily: fonts.Signika.medium,
-      backgroundColor: colors.secondary,
-  }
-})

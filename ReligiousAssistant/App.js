@@ -3,27 +3,23 @@
  * @version 1.0
  */
 
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
-  SafeAreaView,
   StatusBar,
-  useColorScheme,
-  View
 } from 'react-native';
-import { NativeBaseProvider } from 'native-base';
 
-import LoginScreen from './src/screens/LoginScreen';
-import RegisteredMuslimDashboard from './src/screens/muslim_module/RegisteredMuslimDashboard';
+import { NativeBaseProvider } from 'native-base';
+import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
+import RootNavigator from './src/navigation/RootNavigator';
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
-    <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RegisteredMuslimDashboard />
-    </SafeAreaView>
+        <RootNavigator />
     </NativeBaseProvider>
   );
 };
