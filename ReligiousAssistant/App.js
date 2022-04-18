@@ -23,7 +23,7 @@ const App= () => {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ConnectAsGuest />
+      <RegisterScreen />
     </NativeBaseProvider>
   );
 };

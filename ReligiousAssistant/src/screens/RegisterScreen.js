@@ -42,7 +42,7 @@ function RegisterScreen() {
           w="95%"
           mb="18"
           mt="12"
-          maxW="360"
+          maxW="340"
           maxH="700"
           py="8">
           <VStack space={3} mt="12" _text={styles.text} h="90%">
