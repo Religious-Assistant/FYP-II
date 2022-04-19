@@ -11,7 +11,7 @@ export default function MyDropdown(props) {
               mt={props.mt}
               shadow={2}
               selectedValue={religion}
-              minWidth="200"
+              minWidth="50%"
               _text={styles.text}
               accessibilityLabel="Choose religion"
               placeholder="Choose religion"

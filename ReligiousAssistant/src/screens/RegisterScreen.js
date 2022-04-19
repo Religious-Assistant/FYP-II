@@ -35,7 +35,7 @@ function RegisterScreen() {
       style={styles.image}
       resizeMode="stretch"
       source={require('../../assets/images/signUp_bg.png')}>
-      <Center w="100%" h="80%" mt="12">
+      <Center w="100%" h="80%" mt="12 ">
         <Box
           safeArea
           p="-2"

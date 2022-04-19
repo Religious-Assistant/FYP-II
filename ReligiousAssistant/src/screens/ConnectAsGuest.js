@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {ImageBackground, Dimensions} from 'react-native';
+import {ImageBackground, Dimensions,View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {
   Center,
@@ -27,16 +27,17 @@ import MyDropdown from '../components/MyDropdown';
 
 export default function ConnectAsGuest() {
   return (
+    <View style={styles.flexRatio}>
     <ImageBackground
       style={styles.image}
       source={require('../../assets/images/connectAsGuest_bg.png')}>
-      <Center w="100%" mt={'25'}>
-        <Box safeArea p="1" w="90%" maxW="360" py="7" mt="20">
-          <VStack mt="20" space={3} _text={styles.text}>
-            <MyDropdown mt="15" />
+      <Center w="100%" mt={'20%'}>
+        <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
+          <VStack mt="20%" space={3} _text={styles.text}>
+            <MyDropdown mt="10%" />
           </VStack>
-          <MyButton title="Connect as guest" variant="solid" mt="4" color={colors.white} />
-          <HStack mt="20" justifyContent="center">
+          <MyButton title="Connect as guest" variant="solid" mt="5%" color={colors.white} />
+          <HStack mt="25%" justifyContent="center">
             <Text
               fontSize="sm"
               color={colors.cover}
@@ -58,9 +59,13 @@ export default function ConnectAsGuest() {
         </Box>
       </Center>
     </ImageBackground>
+    </View>
   );
 }
 const styles = StyleSheet.create({
+  flexRatio:{
+    flex:1
+  },
   container: {
     flex: 1,
     width: '100%',
