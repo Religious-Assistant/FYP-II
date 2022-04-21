@@ -1,23 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState } from 'react';
-import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import profile from './assets/profile.png';
+/**
+ * @author Nadir
+ * @version 1.0
+ */
 
+import React, { useRef, useState, useEffect } from 'react';
+import { Animated, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import profile from '../../../assets/images/profile.png';
+
+import { Image, Text,View } from 'native-base';
 // Tab ICons...
-import home from './assets/home.png';
-import search from './assets/search.png';
-import notifications from './assets/bell.png';
-import settings from './assets/settings.png';
-import logout from './assets/logout.png';
+import home from '../../../assets/images/home.png';
+import search from '../../../assets/images/search.png';
+import notifications from '../../../assets/images/bell.png';
+import settings from '../../../assets/images/settings.png';
+import logout from '../../../assets/images/logout.png';
 
 // Menu
-import menu from './assets/menu.png';
-import close from './assets/close.png';
+import menu from '../../../assets/images/menu_ic.png';
+import close from '../../../assets/images/close.png';
 
-// Photo
-import photo from './assets/photo.jpg';
+
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import Home from './Home';
+import { color } from 'react-native-reanimated';
 
 export default function CustomDrawer() {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -31,7 +37,7 @@ export default function CustomDrawer() {
   // Scale Intially must be One...
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
-
+  
   return (
     <SafeAreaView style={styles.container}>
 
@@ -42,7 +48,9 @@ export default function CustomDrawer() {
           borderRadius: 50,
           marginTop: 8,
           left:32,
-        }}></Image>
+        }}
+        alt='Profile image'
+        ></Image>
 
         <Text style={{
           fontSize: 20,
@@ -57,7 +65,7 @@ export default function CustomDrawer() {
             // Tab Bar Buttons....
           }
 
-          {TabButton(currentTab, setCurrentTab, "Home", home)}
+          {TabButton(currentTab, setCurrentTab, "View Profile", home)}
           {TabButton(currentTab, setCurrentTab, "Search", search)}
           {TabButton(currentTab, setCurrentTab, "Notifications", notifications)}
           {TabButton(currentTab, setCurrentTab, "Settings", settings)}
@@ -76,14 +84,16 @@ export default function CustomDrawer() {
 
       <Animated.View style={{
         flexGrow: 1,
-        backgroundColor: 'white',
+        backgroundColor: colors.primary,
         position: 'absolute',
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
-        paddingHorizontal: 15,
-        paddingVertical: 20,
+        borderLeftColor:showMenu?colors.secondary:colors.primary,
+        borderLeftWidth:showMenu?1:0,
+        borderTopColor:showMenu?colors.secondary:colors.primary,
+        borderTopWidth:showMenu?1:0,
         borderRadius: showMenu ? 15 : 0,
         // Transforming View...
         transform: [
@@ -92,79 +102,57 @@ export default function CustomDrawer() {
         ]
       }}>
 
-        {
-          // Menu Button...
-        }
-
         <Animated.View style={{
           transform: [{
             translateY: closeButtonOffset
           }]
         }}>
+                      <View style={styles.appBar}>
           <TouchableOpacity onPress={() => {
             // Do Actions Here....
             // Scaling the view...
             Animated.timing(scaleValue, {
               toValue: showMenu ? 1 : 0.88,
-              duration: 300,
-              useNativeDriver: true
+              duration: 200,
+              useNativeDriver: true,
             })
               .start()
 
             Animated.timing(offsetValue, {
               // YOur Random Value...
               toValue: showMenu ? 0 : 230,
-              duration: 300,
-              useNativeDriver: true
+              duration: 200,
+              useNativeDriver: true,
             })
               .start()
 
             Animated.timing(closeButtonOffset, {
               // YOur Random Value...
               toValue: !showMenu ? -30 : 0,
-              duration: 300,
-              useNativeDriver: true
+              duration: 200,
+              useNativeDriver: true,
             })
               .start()
 
             setShowMenu(!showMenu);
           }}>
-
             <Image source={showMenu ? close : menu} style={{
               width: 20,
               height: 20,
-              tintColor: 'black',
-              marginTop: showMenu?40:0,
+              tintColor:colors.white,
+              marginTop: showMenu?40:15,
+              marginLeft: showMenu?10:10,
 
-            }}></Image>
+            }}
+            alt={showMenu?'Close':'Open'}
+            ></Image>
+
 
           </TouchableOpacity>
-
-          <Text style={{
-            fontSize: 30,
-            fontWeight: 'bold',
-            color: 'black',
-            paddingTop: 20
-          }}>{currentTab}</Text>
-
-          <Image source={photo} style={{
-            width: '100%',
-            height: 300,
-            borderRadius: 15,
-            marginTop: 25
-          }}></Image>
-
-          <Text style={{
-            fontSize: 20,
-            fontWeight: 'bold'
-            , paddingTop: 15,
-            paddingBottom: 5
-          }}>Jenna Ezarik</Text>
-
-          <Text style={{
-          }}>Techie, YouTuber, PS Lover, Apple Sheep's Sister</Text>
+          <Text style={[styles.titleText,{marginTop: showMenu?40:15}]}>Home</Text>
+          </View>
         </Animated.View>
-
+        <Home />
       </Animated.View>
 
     </SafeAreaView>
@@ -196,7 +184,9 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
         <Image source={image} style={{
           width: 25, height: 25,
           tintColor: currentTab == title ? colors.secondary : "white"
-        }}></Image>
+        }}
+        alt='Icon'
+        ></Image>
 
         <Text style={{
           fontSize: 15,
@@ -211,6 +201,15 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 }
 
 const styles = StyleSheet.create({
+  appBar:{
+    flexDirection:'row',
+  },
+  titleText:{
+    fontFamily:fonts.Signika.bold,
+    color:colors.secondary,
+    marginLeft:'36%',
+    fontSize:18,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.primary,

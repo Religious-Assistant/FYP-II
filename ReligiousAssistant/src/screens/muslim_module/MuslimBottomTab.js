@@ -6,8 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import RegisteredMuslimDashboard from './RegisteredMuslimDashboard';
 import Notifications from './Notifications';
 import Settings from './Settings';
-import Profile from './Profile';
 import FindMosque from './FindMosque'
+import fonts from '../../theme/fonts';
+import NamazTimings from './NamazTimings';
 //import all screens
 
 const BottomTab = createBottomTabNavigator();
@@ -38,6 +39,14 @@ const AddMosqueButton=({children, onPress})=>{
 
 export default function MuslimBottomTab(){
 
+    const isTabBarVisible = (navState) => {
+        if (!navState) {
+          return true;
+        }
+        let tabBarVisible = navState.routes[navState.index].params ? navState.routes[navState.index].params.showTabBar : true;
+        return tabBarVisible;
+      }
+      
     return(
         <>
             <BottomTab.Navigator initialRouteName='Home'
@@ -47,7 +56,7 @@ export default function MuslimBottomTab(){
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     position:'absolute',
-                    bottom:25,
+                    bottom:10,
                     left:7, 
                     right:7,
                     elevation:0,
@@ -62,6 +71,7 @@ export default function MuslimBottomTab(){
                     options={{
                         // tabBarLabel:'Home',
                         headerShown:false,
+                        // tabBarVisible:isTabBarVisible()
                         tabBarIcon:({focused})=>(
                             <View style={{
                                 alignItems:'center', justifyContent:'center', top:10}}>
@@ -74,9 +84,10 @@ export default function MuslimBottomTab(){
                                     }}
                                 >
                                 </Image>
-                                <Text style={{color:focused?'#f3ba1c':'#0f1e3d', fontSize:12}}>Home</Text>
+                                <Text style={[styles.tabItemText, {color:focused?'#f3ba1c':'#0f1e3d'}]}>Home</Text>
                             </View>
-                        )
+                        ),
+                        
                     }}
                 />
                 <BottomTab.Screen name="Notifications" component={Notifications} 
@@ -94,7 +105,7 @@ export default function MuslimBottomTab(){
                                     }}
                                 >
                                 </Image>
-                                <Text style={{color:focused?'#f3ba1c':'#0f1e3d', fontSize:12}}>Alerts</Text>
+                                <Text style={[styles.tabItemText, {color:focused?'#f3ba1c':'#0f1e3d'}]}>Alerts</Text>
                             </View>
                         )
                     }}
@@ -120,13 +131,13 @@ export default function MuslimBottomTab(){
                     }}
                 />
 
-                <BottomTab.Screen name="Profile" component={Profile}
+                <BottomTab.Screen name="Prayers" component={NamazTimings}
                  options={{
                     // tabBarLabel:'Home',
                     headerShown:false,
                     tabBarIcon:({focused})=>(
                         <View style={{alignItems:'center', justifyContent:'center', top:10}}>
-                            <Image source={require('../../../assets/images/profile_ic.png')}
+                            <Image source={require('../../../assets/images/time_ic.png')}
                                 resizeMode='contain'
                                 style={{
                                     width:25,
@@ -135,7 +146,7 @@ export default function MuslimBottomTab(){
                                 }}
                             >
                             </Image>
-                            <Text style={{color:focused?'#f3ba1c':'#0f1e3d', fontSize:12}}>Profile</Text>
+                            <Text style={[styles.tabItemText, {color:focused?'#f3ba1c':'#0f1e3d'}]}>Prayers</Text>
                         </View>
                     )
                 }}
@@ -155,7 +166,7 @@ export default function MuslimBottomTab(){
                                 }}
                             >
                             </Image>
-                            <Text style={{color:focused?'#f3ba1c':'#0f1e3d', fontSize:12}}>Settings</Text>
+                            <Text style={[styles.tabItemText, {color:focused?'#f3ba1c':'#0f1e3d'}]}>Settings</Text>
                         </View>
                     )
                 }}
@@ -175,5 +186,9 @@ const styles=StyleSheet.create({
         shadowOpacity:0.15,
         shadowRadius:3.5,
         elevation:5,   
+    },
+    tabItemText:{
+        fontSize:12,
+        fontFamily:fonts.Signika.medium
     }
 });

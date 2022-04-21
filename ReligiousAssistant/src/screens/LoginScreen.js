@@ -19,7 +19,7 @@ export default function LoginScreen() {
         style={{ flex: 1 }}
         source={require('../../assets/images/login.png')}>
           <View style={{alignItems:'center', top:500}}>
-          <Button onPress={gotoRegister} style={{width:150,}}>Register Now</Button>
+          <Button onPress={gotoRegister} style={{width:150,}}>Login Now</Button>
           </View>
         </ImageBackground>
   </SafeAreaView>

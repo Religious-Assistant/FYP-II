@@ -9,7 +9,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { NativeBaseProvider } from 'native-base';
+import {NativeBaseProvider } from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 
@@ -18,8 +18,8 @@ const App= () => {
 
   return (
     <NativeBaseProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <RootNavigator />
+      <StatusBar backgroundColor={'transparent'} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <RootNavigator />
     </NativeBaseProvider>
   );
 };
