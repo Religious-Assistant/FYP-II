@@ -10,7 +10,7 @@ export default function LoginScreen() {
   const navigation=useNavigation()
 
   function gotoRegister(){
-    navigation.navigate('RegisteredMuslimDashboard')
+    navigation.navigate('Dashboard')
   }
 
   return (

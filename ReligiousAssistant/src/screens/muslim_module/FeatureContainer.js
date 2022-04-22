@@ -1,4 +1,4 @@
-import {View, Text, Box, VStack, Divider, Center, Image, ScrollView} from 'native-base';
+import {View, Text, Center, Image, ScrollView} from 'native-base';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
@@ -12,15 +12,15 @@ export default function FeatureContainer() {
   const featureArray1=[
     {
       title:"Recite Quran",
-      image:require('../../../assets/images/quran.png'),
+      image:require('../../../assets/images/quran_ic.png'),
     },
     {
       title:"Closest Mosque",
-      image:require('../../../assets/images/mosque.png'),
+      image:require('../../../assets/images/mosque_ic.png'),
     },
     {
       title:"View Calander",
-      image:require('../../../assets/images/islamic_calander.png'),
+      image:require('../../../assets/images/islamic_calander_ic.png'),
     }
   
   ]
@@ -28,11 +28,11 @@ export default function FeatureContainer() {
   const featureArray2=[
     {
       title:"Learn Namaz",
-      image:require('../../../assets/images/learn_namaz.png'),
+      image:require('../../../assets/images/learn_namaz_ic.png'),
     },
     {
       title:"Accountability",
-      image:require('../../../assets/images/accountability.png'),
+      image:require('../../../assets/images/accountability_ic.png'),
     },
     {
       title:"Announcements",
@@ -43,7 +43,7 @@ export default function FeatureContainer() {
   const featureArray3=[
     {
       title:"Auto Silent",
-      image:require('../../../assets/images/auto_silent.png'),
+      image:require('../../../assets/images/auto_silent_ic.png'),
     },
     {
       title:"Add Mosque",
@@ -55,7 +55,7 @@ export default function FeatureContainer() {
     },
     {
       title:"Qibla Rukh",
-      image:require('../../../assets/images/qibla_direction.png'),
+      image:require('../../../assets/images/qibla_direction_ic.png'),
     },
     {
       title:"Rakah Info",

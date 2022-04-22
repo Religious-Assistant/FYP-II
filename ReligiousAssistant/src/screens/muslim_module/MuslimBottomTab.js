@@ -9,6 +9,7 @@ import Settings from './Settings';
 import FindMosque from './FindMosque'
 import fonts from '../../theme/fonts';
 import NamazTimings from './NamazTimings';
+import Home from './Home';
 //import all screens
 
 const BottomTab = createBottomTabNavigator();
@@ -67,7 +68,7 @@ export default function MuslimBottomTab(){
                   }
               }}
             >
-                <BottomTab.Screen name="Home" component={RegisteredMuslimDashboard} 
+                <BottomTab.Screen name="Home" component={Home} 
                     options={{
                         // tabBarLabel:'Home',
                         headerShown:false,
@@ -96,7 +97,7 @@ export default function MuslimBottomTab(){
                         headerShown:false,
                         tabBarIcon:({focused})=>(
                             <View style={{alignItems:'center', justifyContent:'center', top:10}}>
-                                <Image source={require('../../../assets/images/notf_ic.png')}
+                                <Image source={require('../../../assets/images/notifications_ic.png')}
                                     resizeMode='contain'
                                     style={{
                                         width:25,

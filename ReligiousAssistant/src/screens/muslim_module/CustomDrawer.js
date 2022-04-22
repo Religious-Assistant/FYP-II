@@ -5,25 +5,27 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { Animated, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import profile from '../../../assets/images/profile.png';
 
 import { Image, Text,View } from 'native-base';
+
+
+import profile from '../../../assets/images/avatar_ic.png';
 // Tab ICons...
-import home from '../../../assets/images/home.png';
-import search from '../../../assets/images/search.png';
-import notifications from '../../../assets/images/bell.png';
-import settings from '../../../assets/images/settings.png';
-import logout from '../../../assets/images/logout.png';
+import home from '../../../assets/images/home_ic.png';
+import search from '../../../assets/images/search_ic.png';
+import notifications from '../../../assets/images/notifications_ic.png';
+import settings from '../../../assets/images/settings_ic.png';
+import logout from '../../../assets/images/logout_ic.png';
 
 // Menu
 import menu from '../../../assets/images/menu_ic.png';
-import close from '../../../assets/images/close.png';
+import close from '../../../assets/images/close_ic.png';
 
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import Home from './Home';
-import { color } from 'react-native-reanimated';
+import MuslimBottomTab from './MuslimBottomTab';
 
 export default function CustomDrawer() {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -152,7 +154,8 @@ export default function CustomDrawer() {
           <Text style={[styles.titleText,{marginTop: showMenu?40:15}]}>Home</Text>
           </View>
         </Animated.View>
-        <Home />
+        {/* <Home /> */}
+        <MuslimBottomTab />
       </Animated.View>
 
     </SafeAreaView>
