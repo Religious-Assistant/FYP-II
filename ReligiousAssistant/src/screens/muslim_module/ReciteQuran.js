@@ -4,7 +4,7 @@ import React from 'react'
 export default function ReciteQuran() {
   return (
     <View>
-      <Text>ReciteQuran</Text>
+      <Text>Recite Quran</Text>
     </View>
   )
 }

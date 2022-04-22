@@ -3,7 +3,6 @@ import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native'
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import RegisteredMuslimDashboard from './RegisteredMuslimDashboard';
 import Notifications from './Notifications';
 import Settings from './Settings';
 import FindMosque from './FindMosque'
@@ -39,14 +38,6 @@ const AddMosqueButton=({children, onPress})=>{
 }
 
 export default function MuslimBottomTab(){
-
-    const isTabBarVisible = (navState) => {
-        if (!navState) {
-          return true;
-        }
-        let tabBarVisible = navState.routes[navState.index].params ? navState.routes[navState.index].params.showTabBar : true;
-        return tabBarVisible;
-      }
       
     return(
         <>

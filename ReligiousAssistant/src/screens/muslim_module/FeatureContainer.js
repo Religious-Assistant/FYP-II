@@ -2,25 +2,32 @@ import {View, Text, Center, Image, ScrollView} from 'native-base';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import { useNavigation } from '@react-navigation/native';
 
-
+import { RECITE_QURAN, FIND_MOSQUE, VIEW_CALANDER } from '../../navigation/constants';
 
 export default function FeatureContainer() {
+
+  const navigator=useNavigation()
+
   const featureArray1=[
     {
       title:"Recite Quran",
       image:require('../../../assets/images/quran_ic.png'),
+      screen:RECITE_QURAN,
     },
     {
       title:"Closest Mosque",
       image:require('../../../assets/images/mosque_ic.png'),
+      screen:FIND_MOSQUE,
     },
     {
       title:"View Calander",
       image:require('../../../assets/images/islamic_calander_ic.png'),
+      screen:VIEW_CALANDER,
     }
   
   ]
@@ -70,14 +77,21 @@ export default function FeatureContainer() {
       <View style={{flex:0.5, flexDirection:'row', justifyContent:'space-evenly', marginTop:10}}>
         {
           featureArray1.map((item,index)=>{
-            return <FeatureCard>
+            return <TouchableOpacity onPress={()=>{
+              navigator.navigate(item.screen)
+            }}
+            tvParallaxProperties={{shiftDistanceX:2}}
+            >
+                          <FeatureCard>
               <Image source={item.image}
                 style={{
                   height: 50,
                   width: 50,
                 }}/>
               <Text style={styles.cardTitle}>{item.title}</Text>
-            </FeatureCard>          })
+            </FeatureCard>          
+            </TouchableOpacity>
+          })
         }
       </View>
 
