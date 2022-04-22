@@ -16,14 +16,16 @@ import LoginScreen from './src/screens/LoginScreen';
 import SplashScreeen from './src/screens/SplashScreeen';
 import ConnectAsGuest from './src/screens/ConnectAsGuest';
 import RegisterScreen from './src/screens/RegisterScreen';
-
+import CustomDropdown from './src/components/CustomDropdown';
+import OtpInputs from './src/components/OtpInputs';
+import VerificationScreen from './src/screens/VerificationScreen';
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ConnectAsGuest />
+      <VerificationScreen />
     </NativeBaseProvider>
   );
 };

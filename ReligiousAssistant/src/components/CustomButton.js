@@ -5,11 +5,17 @@
 
 import React from 'react';
 import {Button} from 'native-base';
-import fonts from '../theme/fonts';
 
-export default function MyButton(props) {
+import fonts from '../theme/fonts';
+import colors from '../theme/colors';
+
+export default function CustomButton(props) {
   return (
     <Button
+      onPress={props.onPress}
+      disabled={props.disabled}
+      onChangeText={props.onChangeText}
+      isSecureText={true}
       _text={{
         fontSize: 'md',
         fontWeight: '900',

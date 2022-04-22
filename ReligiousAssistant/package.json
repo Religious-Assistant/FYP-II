@@ -14,12 +14,18 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
+    "@react-native-picker/picker": "github:react-native-picker/picker",
+    "formik": "^2.2.9",
     "native-base": "^3.3.7",
     "react": "17.0.2",
+    "react-hook-form": "^7.30.0",
     "react-native": "0.67.4",
+    "react-native-easy-grid": "^0.2.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-svg": "^12.3.0",
-    "react-native-vector-icons": "^9.1.0"
+    "react-native-vector-icons": "^9.1.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
