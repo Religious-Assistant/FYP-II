@@ -4,7 +4,7 @@ import React from 'react'
 export default function Profile() {
   return (
     <View>
-      <Text>Profile</Text>
+      <Text>Profile SCreen</Text>
     </View>
   )
 }

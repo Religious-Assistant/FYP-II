@@ -5,128 +5,181 @@ import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-import { RECITE_QURAN, FIND_MOSQUE, VIEW_CALANDER } from '../../navigation/constants';
+import {
+  RECITE_QURAN,
+  FIND_MOSQUE,
+  VIEW_CALANDER,
+  LEARN_NAMAZ,
+  ACCOUNTABILITY,
+  ANNOUNCEMENTS,
+  AUTO_SILENT,
+  ADD_MOSQUE,
+  TASBIH_COUNTER,
+  QIBLA_DIRECTION,
+  RAKAH_INFO,
+} from '../../navigation/constants';
 
 export default function FeatureContainer() {
+  const navigator = useNavigation();
 
-  const navigator=useNavigation()
+  const featureArray1 = [
+    {
+      title: 'Recite Quran',
+      image: require('../../../assets/images/quran_ic.png'),
+      screen: RECITE_QURAN,
+    },
+    {
+      title: 'Closest Mosque',
+      image: require('../../../assets/images/mosque_ic.png'),
+      screen: FIND_MOSQUE,
+    },
+    {
+      title: 'View Calander',
+      image: require('../../../assets/images/islamic_calander_ic.png'),
+      screen: VIEW_CALANDER,
+    },
+  ];
 
-  const featureArray1=[
+  const featureArray2 = [
     {
-      title:"Recite Quran",
-      image:require('../../../assets/images/quran_ic.png'),
-      screen:RECITE_QURAN,
+      title: 'Learn Namaz',
+      image: require('../../../assets/images/learn_namaz_ic.png'),
+      screen: LEARN_NAMAZ,
     },
     {
-      title:"Closest Mosque",
-      image:require('../../../assets/images/mosque_ic.png'),
-      screen:FIND_MOSQUE,
+      title: 'Accountability',
+      image: require('../../../assets/images/accountability_ic.png'),
+      screen: ACCOUNTABILITY,
     },
     {
-      title:"View Calander",
-      image:require('../../../assets/images/islamic_calander_ic.png'),
-      screen:VIEW_CALANDER,
-    }
-  
-  ]
+      title: 'Announcements',
+      image: require('../../../assets/images/announcement_ic.png'),
+      screen: ANNOUNCEMENTS,
+    },
+  ];
 
-  const featureArray2=[
+  const featureArray3 = [
     {
-      title:"Learn Namaz",
-      image:require('../../../assets/images/learn_namaz_ic.png'),
+      title: 'Auto Silent',
+      image: require('../../../assets/images/auto_silent_ic.png'),
+      screen: AUTO_SILENT,
     },
     {
-      title:"Accountability",
-      image:require('../../../assets/images/accountability_ic.png'),
+      title: 'Add Mosque',
+      image: require('../../../assets/images/add_ic.png'),
+      screen: ADD_MOSQUE,
     },
     {
-      title:"Announcements",
-      image:require('../../../assets/images/announcement_ic.png'),
-    },  
-  ]
+      title: 'Tasbih Counter',
+      image: require('../../../assets/images/tasbih_ic.png'),
+      screen: TASBIH_COUNTER,
+    },
+    {
+      title: 'Qibla Rukh',
+      image: require('../../../assets/images/qibla_direction_ic.png'),
+      screen: QIBLA_DIRECTION,
+    },
+    {
+      title: 'Rakah Info',
+      image: require('../../../assets/images/info_ic.png'),
+      screen: RAKAH_INFO,
+    },
+  ];
 
-  const featureArray3=[
-    {
-      title:"Auto Silent",
-      image:require('../../../assets/images/auto_silent_ic.png'),
-    },
-    {
-      title:"Add Mosque",
-      image:require('../../../assets/images/add_ic.png'),
-    },
-    {
-      title:"Tasbih Counter",
-      image:require('../../../assets/images/tasbih_ic.png'),
-    },
-    {
-      title:"Qibla Rukh",
-      image:require('../../../assets/images/qibla_direction_ic.png'),
-    },
-    {
-      title:"Rakah Info",
-      image:require('../../../assets/images/info_ic.png'),
-    },    
-  
-  ]
-  
   return (
     <View style={styles.container}>
-      <View style={{backgroundColor:colors.white, flex:0.5, borderTopLeftRadius:25}}> 
-      <View style={{flex:0.5, flexDirection:'row', justifyContent:'space-evenly', marginTop:10}}>
-        {
-          featureArray1.map((item,index)=>{
-            return <TouchableOpacity onPress={()=>{
-              navigator.navigate(item.screen)
-            }}
-            tvParallaxProperties={{shiftDistanceX:2}}
-            >
-                          <FeatureCard>
-              <Image source={item.image}
-                style={{
-                  height: 50,
-                  width: 50,
-                }}/>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-            </FeatureCard>          
-            </TouchableOpacity>
-          })
-        }
-      </View>
+      <View
+        style={{
+          backgroundColor: colors.white,
+          flex: 0.5,
+          borderTopLeftRadius: 25,
+        }}>
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            marginTop: 10,
+          }}>
+          {featureArray1.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item.title}
+                onPress={() => {
+                  navigator.navigate(item.screen);
+                }}>
+                <FeatureCard>
+                  <Image
+                    source={item.image}
+                    style={{
+                      height: 50,
+                      width: 50,
+                    }}
+                  />
+                  <Text style={styles.cardTitle}>{item.title}</Text>
+                </FeatureCard>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
-      <View style={{flex:0.5, flexDirection:'row', justifyContent:'space-evenly', marginTop:-20}}>
-        {
-          featureArray2.map((item,index)=>{
-            return <FeatureCard>
-              <Image source={item.image}
-                style={{
-                  height: 50,
-                  width: 50,
-                }}/>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-            </FeatureCard>          })
-        }
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            marginTop: -20,
+          }}>
+          {featureArray2.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item.title}
+                onPress={() => {
+                  navigator.navigate(item.screen);
+                }}>
+                <FeatureCard>
+                  <Image
+                    source={item.image}
+                    style={{
+                      height: 50,
+                      width: 50,
+                    }}
+                  />
+                  <Text style={styles.cardTitle}>{item.title}</Text>
+                </FeatureCard>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
-
-
-      </View>
-      <View style={{backgroundColor:colors.tertiary, flex:0.30}} mb={5}> 
-        <Text style={styles.moreText} p={2}>More Features</Text>
+      <View style={{backgroundColor: colors.tertiary, flex: 0.3}} mb={5}>
+        <Text style={styles.moreText} p={2}>
+          More Features
+        </Text>
         <ScrollView showsHorizontalScrollIndicator horizontal mt={1}>
-        {
-          featureArray3.map((item,index)=>{
-            return <MoreFeaturesCard key={index}>
-              <Image source={item.image}
-                style={{
-                  height: 50,
-                  width: 50,
-                }}
-                alt='Icon..'
-                />
-              <Text style={styles.cardTitle}>{item.title}</Text>
-            </MoreFeaturesCard>          })
-        }
+          {featureArray3.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item.title}
+                onPress={() => {
+                  navigator.navigate(item.screen);
+                }}>
+                <MoreFeaturesCard key={index}>
+                  <Image
+                    source={item.image}
+                    style={{
+                      height: 50,
+                      width: 50,
+                    }}
+                    alt="Icon.."
+                  />
+                  <Text style={styles.cardTitle}>{item.title}</Text>
+                </MoreFeaturesCard>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
       </View>
     </View>
@@ -134,48 +187,44 @@ export default function FeatureContainer() {
 }
 
 function FeatureCard(props) {
-  return (
-    <Center style={styles.card}>{props.children}</Center>
-  );
+  return <Center style={styles.card}>{props.children}</Center>;
 }
 
 function MoreFeaturesCard(props) {
-  return (
-    <Center style={styles.moreFeaturesCard}>{props.children}</Center>
-  );
+  return <Center style={styles.moreFeaturesCard}>{props.children}</Center>;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 0.8,
-    padding:10,
+    padding: 10,
     backgroundColor: colors.white,
     borderTopLeftRadius: 30,
   },
   card: {
-    width:100,
-    height:100,
-    borderRadius:10,
+    width: 100,
+    height: 100,
+    borderRadius: 10,
     // elevation:10,
-    shadowOffset:{height:1,width:1},
-    backgroundColor:colors.tertiary
+    shadowOffset: {height: 1, width: 1},
+    backgroundColor: colors.tertiary,
   },
-  moreFeaturesCard:{
-    width:100,
-    height:90,
-    borderRadius:10,
+  moreFeaturesCard: {
+    width: 100,
+    height: 90,
+    borderRadius: 10,
     // elevation:10,
-    marginLeft:3,
-    marginRight:3,
-    backgroundColor:colors.white
+    marginLeft: 3,
+    marginRight: 3,
+    backgroundColor: colors.white,
   },
-  cardTitle:{
-    fontFamily:fonts.Signika.medium,
-    fontSize:14,
+  cardTitle: {
+    fontFamily: fonts.Signika.medium,
+    fontSize: 14,
   },
-  moreText:{
-    fontFamily:fonts.Signika.bold,
-    fontSize:16,
-    color:colors.secondary
-  }
+  moreText: {
+    fontFamily: fonts.Signika.bold,
+    fontSize: 16,
+    color: colors.secondary,
+  },
 });

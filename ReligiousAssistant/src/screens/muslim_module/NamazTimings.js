@@ -4,7 +4,7 @@ import React from 'react'
 export default function NamazTimings() {
   return (
     <View>
-      <Text>NamazTimings</Text>
+      <Text>Prayer Times</Text>
     </View>
   )
 }
