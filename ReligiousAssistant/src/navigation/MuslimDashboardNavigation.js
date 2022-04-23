@@ -23,7 +23,7 @@ function MuslimDashboardNavigation(){
         
         <HomeStack.Navigator initialRouteName={REGISTERED_MUSLIM_HOME_STACK} >
             <HomeStack.Screen name={REGISTERED_MUSLIM_HOME_STACK} component={RegisteredMuslimDashboard} options={{headerShown:false}} />
-            <HomeStack.Screen name={RECITE_QURAN} component={ReciteQuran}/>
+            <HomeStack.Screen name={RECITE_QURAN} component={ReciteQuran} options={{headerShown:false}}/>
             <HomeStack.Screen name={FIND_MOSQUE} component={FindMosque} />
             <HomeStack.Screen name={VIEW_CALANDER} component={Calander} />
 

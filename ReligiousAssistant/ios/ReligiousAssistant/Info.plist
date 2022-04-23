@@ -59,11 +59,14 @@
 		<string>SourceSansPro-Italic.ttf</string>
 		<string>SourceSansPro-Regular.ttf</string>
 		<string>SourceSansPro-SemiBold.ttf</string>
+<<<<<<< HEAD
 		<string>Signika-Bold.ttf</string>
 		<string>Signika-Light.ttf</string>
 		<string>Signika-Medium.ttf</string>
 		<string>Signika-Regular.ttf</string>
 		<string>Signika-SemiBold.ttf</string>
+=======
+>>>>>>> Kinza-m1-1.0
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>

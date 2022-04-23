@@ -8,7 +8,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { AUTH_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, REGISTERED_MUSLIM_HOME_STACK } from './constants';
+import { AUTH_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK } from './constants';
 import AuthStackNavigation from './AuthNavigation';
 import MuslimDashboardNavigation from './MuslimDashboardNavigation';
 
