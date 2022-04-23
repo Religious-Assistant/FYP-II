@@ -13,6 +13,7 @@ import {NativeBaseProvider } from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 
+
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
 

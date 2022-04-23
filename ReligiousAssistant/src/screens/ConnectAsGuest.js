@@ -4,63 +4,56 @@
  */
 
 import React from 'react';
-import {ImageBackground, Dimensions} from 'react-native';
+import {ImageBackground, Dimensions, View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {
   Center,
   Box,
-  Select,
-  CheckIcon,
   VStack,
-  HStack,
-  Icon,
-  Text,
-  Link,
 } from 'native-base';
 
-import MyIcon from 'react-native-vector-icons/Ionicons';
-import MyButton from '../components/MyButton';
+import CustomButton from '../components/CustomButton';
+import BottomText from '../components/BottomText';
+import CustomDropdown from '../components/CustomDropdown';
 
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
-import MyDropdown from '../components/MyDropdown';
+import { SIGNUP } from '../navigation/constants';
 
 export default function ConnectAsGuest() {
   return (
-    <ImageBackground
-      style={styles.image}
-      source={require('../../assets/images/connectAsGuest_bg.png')}>
-      <Center w="100%" mt={'25'}>
-        <Box safeArea p="1" w="90%" maxW="360" py="7" mt="20">
-          <VStack mt="20" space={3} _text={styles.text}>
-            <MyDropdown mt="15" />
-          </VStack>
-          <MyButton title="Connect as guest" variant="solid" mt="4" color={colors.white} />
-          <HStack mt="20" justifyContent="center">
-            <Text
-              fontSize="sm"
+    <View style={styles.flexRatio}>
+      <ImageBackground
+        style={styles.image}
+        source={require('../../assets/images/connectAsGuest_bg.png')}>
+        <Center w="100%" mt={'20%'}>
+          <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
+            <VStack mt="20%" space={3} _text={styles.text}>
+              <CustomDropdown mt="10%" />
+            </VStack>
+            <CustomButton
+              title="Connect as guest"
+              variant="solid"
+              mt="5%"
+              color={colors.white}
+            />
+            <BottomText
+              text="Do you want to register?"
+              goTo="Sign up"
               color={colors.cover}
-              fontFamily={fonts.Signika.bold}
-              _dark={{
-                color: 'warmGray.200',
-              }}>
-              Do you want to Register?{' '}
-            </Text>
-            <Link _text={styles.link} href="#">
-              Sign Up
-              <Icon
-                as={<MyIcon name="arrow-redo-circle-outline" />}
-                color={colors.secondary}
-                size={25}
-              />
-            </Link>
-          </HStack>
-        </Box>
-      </Center>
-    </ImageBackground>
+              destination={SIGNUP}
+              mt="25%"
+            />
+          </Box>
+        </Center>
+      </ImageBackground>
+    </View>
   );
 }
 const styles = StyleSheet.create({
+  flexRatio: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     width: '100%',
@@ -79,15 +72,13 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   text: {
-    fontSize: 'md',
     fontWeight: '900',
-    fontFamily: fonts.Signika.bold,
+    fontFamily: fonts.Signika.medium,
     color: colors.white,
   },
   link: {
     color: colors.secondary,
-    fontWeight: 'medium',
     fontSize: 'sm',
-    fontFamily: fonts.Signika.bold,
+    fontFamily: fonts.Signika.medium,
   },
 });

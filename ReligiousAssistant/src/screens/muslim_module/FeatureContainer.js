@@ -154,7 +154,7 @@ export default function FeatureContainer() {
           })}
         </View>
       </View>
-      <View style={{backgroundColor: colors.tertiary, flex: 0.3}} mb={5}>
+      <View style={{backgroundColor: colors.cover, flex: 0.3}} mb={5}>
         <Text style={styles.moreText} p={2}>
           More Features
         </Text>
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // elevation:10,
     shadowOffset: {height: 1, width: 1},
-    backgroundColor: colors.tertiary,
+    backgroundColor: colors.cover,
   },
   moreFeaturesCard: {
     width: 100,
