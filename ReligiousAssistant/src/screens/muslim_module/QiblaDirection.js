@@ -1,18 +1,23 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React, {Component} from 'react';
 import {
   Image,
   ImageBackground,
   StyleSheet,
-  Text,
   View,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import Geolocation from 'react-native-geolocation-service';
 import colors from '../../theme/colors';
-import {Center,Box} from 'native-base';
-import fonts from '../../theme/fonts'
-import image from '../../../assets/images/qibla_bg.png'
+import {Center} from 'native-base';
+import image from '../../../assets/images/qibla_bg.png';
+import kompass from '../../../assets/images/kompas.png';
+import kabahImg from '../../../assets/images/kakbah.png';
 
 class QiblaDirection extends Component {
   state = {
@@ -88,40 +93,42 @@ class QiblaDirection extends Component {
           style={styles.imageBg}
           resizeMode="stretch"
           source={image}>
-
-        <Center w="100%" mt={'95'} h="95%" maxW="100%">
-          <ImageBackground
-            source={require('../../../assets/images/kompas.png')}
-            style={[
-              styles.image,
-              {transform: [{rotate: `${360 - this.state.compassHeading}deg`}]},
-            ]}>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                transform: [{rotate: `${this.state.qiblad}deg`}],
-              }}>
-              <Image
-                source={require('../../../assets/images/kakbah.png')}
+          <Center w="100%" mt={'95'} h="95%" maxW="100%">
+            <ImageBackground
+              source={kompass}
+              style={[
+                styles.image,
+                {
+                  transform: [
+                    {rotate: `${360 - this.state.compassHeading}deg`},
+                  ],
+                },
+              ]}>
+              <View
                 style={{
-                  marginBottom: '52%',
-                  resizeMode: 'contain',
-                  flex: 0.7,
-                  alignSelf: 'center',
-                  marginRight: '7.5%',
-                }}
-              />
-            </View>
-          </ImageBackground>
-        </Center>
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transform: [{rotate: `${this.state.qiblad}deg`}],
+                }}>
+                <Image
+                  source={kabahImg}
+                  style={{
+                    marginBottom: '52%',
+                    resizeMode: 'contain',
+                    flex: 0.7,
+                    alignSelf: 'center',
+                    marginRight: '7.5%',
+                  }}
+                />
+              </View>
+            </ImageBackground>
+          </Center>
         </ImageBackground>
       </View>
     );
   }
 }
-
 
 export default QiblaDirection;
 const styles = StyleSheet.create({

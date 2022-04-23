@@ -4,7 +4,7 @@ import React from 'react'
 export default function Accountability() {
   return (
     <View>
-      <Text>Accountability</Text>
+      <Text>LearnNamaz</Text>
     </View>
   )
 }
