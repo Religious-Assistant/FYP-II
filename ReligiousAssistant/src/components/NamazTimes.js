@@ -1,8 +1,15 @@
-import {View, Box, Checkbox} from 'native-base';
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React from 'react';
+import {View, Box, Checkbox} from 'native-base';
 import {StyleSheet, Text} from 'react-native';
+
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
+
 export default function NamazTimes(props) {
   return (
     <View>
@@ -17,7 +24,7 @@ export default function NamazTimes(props) {
         mt={props.mt}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.text}>{props.text}</Text>
-          <Checkbox value={props.text} my={2} accessibilityLabel="Namaz time"/>
+          <Checkbox value={props.text} my={2} colorScheme="green" accessibilityLabel="Namaz time" />
         </View>
       </Box>
     </View>

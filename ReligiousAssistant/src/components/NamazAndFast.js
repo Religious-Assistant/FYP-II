@@ -1,9 +1,17 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text, Box, VStack, Divider} from 'native-base';
+import {Box, VStack, Divider} from 'native-base';
+
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
+
 import NamazTimes from './NamazTimes';
+
 export default function NamazAndFast(props) {
   const namaz = ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'];
   return (
@@ -12,9 +20,8 @@ export default function NamazAndFast(props) {
         style={styles.mainBox}
         marginTop="5%"
         marginLeft={'2%'}
-        maxW="95%"
-        maxH={'90%'}
-        shadow={2}
+        maxW="96%"
+        maxH={'93%'}
         >
         <VStack space="1.5" divider={<Divider />}>
           <NamazTimes text="Fajr" mt="2%"/>
@@ -22,7 +29,6 @@ export default function NamazAndFast(props) {
           <NamazTimes text="Asr"/>
           <NamazTimes text="Maghrib"/>
           <NamazTimes text="Isha" mb="2%"/>
-          
         </VStack>
       </Box>
     </View>
@@ -41,7 +47,6 @@ const styles = StyleSheet.create({
   },
   mainBox: {
     border: 1,
-    borderRadius: 10,
     borderWidth: 4,
     backgroundColor: colors.cover,
     borderColor: colors.cover,

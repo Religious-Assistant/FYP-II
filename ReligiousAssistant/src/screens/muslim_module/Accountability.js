@@ -1,44 +1,67 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Center, Heading, VStack } from 'native-base' 
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
 
-import colors from '../../theme/colors'
-import fonts from '../../theme/fonts'
-import CalendarPickerr from '../../components/CalendarPicker'
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Heading} from 'native-base';
+import CalendarPicker from 'react-native-calendar-picker';
 
-export default function Accountability() {
-  return (
-    <View style={styles.container}>
-    <View style={styles.headerContainer}>
-      <Heading ml={'25%'} color={colors.white}>
-        Self <Heading color={colors.secondary}>Accountability</Heading>
-      </Heading>
-    </View>
-    <Center w="100%" h="95%" maxW="100%">
-      <VStack space={3} mt={'80%'}>
-        <CalendarPickerr/>
- </VStack>
- </Center>
- </View>
-  )
+import fonts from '../../theme/fonts';
+import colors from '../../theme/colors';
+
+import NamazAndFast from '../../components/NamazAndFast';
+
+export default class Accountability extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedStartDate: null,
+    };
+    this.onDateChange = this.onDateChange.bind(this);
+  }
+
+  onDateChange(date) {
+    this.setState({
+      selectedStartDate: date,
+    });
+  }
+  render() {
+    const {selectedStartDate} = this.state;
+    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+    return (
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <View style={styles.headerContainer}>
+          <Heading ml={'25%'} color={colors.white}>
+            Self <Heading color={colors.secondary}>Accountability</Heading>
+          </Heading>
+        </View>
+        <View style={styles.container}>
+          <CalendarPicker
+            onDateChange={this.onDateChange}
+            selectedDayColor={colors.secondary}
+            todayBackgroundColor={colors.primary}
+            todayTextStyle={{color: 'white'}}
+          />
+        </View>
+        <NamazAndFast currDate={startDate} />
+      </View>
+    );
+  }
 }
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.primary,
+    flex: 0.5,
+    backgroundColor: colors.white,
+    fontFamily: fonts.Signika.regular,
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
+    backgroundColor: colors.primary,
   },
-  title: {
-    fontSize: 20,
-    fontFamily: fonts.Signika.medium,
-    lineHeight: 20 * 1.4,
-    marginTop: 50,
-    marginBottom: 10,
-    marginHorizontal: 20,
-  },
-})
+});
