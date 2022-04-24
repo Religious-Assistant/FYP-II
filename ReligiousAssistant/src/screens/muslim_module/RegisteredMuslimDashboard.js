@@ -27,7 +27,8 @@ import fonts from '../../theme/fonts';
 
 import MuslimBottomTab from './MuslimBottomTab';
 import { useNavigation } from '@react-navigation/native';
-import { REGISTERED_MUSLIM_DASHBOARD_STACK } from '../../navigation/constants';
+
+import { AUTH_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK } from '../../navigation/constants';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -170,7 +171,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 
     <TouchableOpacity onPress={() => {
       if (title == "LogOut") {
-        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+        navigator.navigate(AUTH_STACK)
       } else {
         setCurrentTab(title)
       }

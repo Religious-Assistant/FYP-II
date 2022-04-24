@@ -36,9 +36,9 @@ export default function FeatureContainer() {
       screen: FIND_MOSQUE,
     },
     {
-      title: 'View Calander',
-      image: require('../../../assets/images/islamic_calander_ic.png'),
-      screen: VIEW_CALANDER,
+      title: 'Qibla Rukh',
+      image: require('../../../assets/images/qibla_direction_ic.png'),
+      screen: QIBLA_DIRECTION,
     },
   ];
 
@@ -72,14 +72,14 @@ export default function FeatureContainer() {
       screen: ADD_MOSQUE,
     },
     {
+      title: 'View Calander',
+      image: require('../../../assets/images/islamic_calander_ic.png'),
+      screen: VIEW_CALANDER,
+    },
+    {
       title: 'Tasbih Counter',
       image: require('../../../assets/images/tasbih_ic.png'),
       screen: TASBIH_COUNTER,
-    },
-    {
-      title: 'Qibla Rukh',
-      image: require('../../../assets/images/qibla_direction_ic.png'),
-      screen: QIBLA_DIRECTION,
     },
     {
       title: 'Rakah Info',
