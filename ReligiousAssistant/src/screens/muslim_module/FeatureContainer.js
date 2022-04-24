@@ -117,6 +117,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
+                    alt='Icon...'
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
@@ -146,6 +147,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
+                    alt='Icon...'
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>

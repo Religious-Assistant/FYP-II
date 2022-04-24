@@ -3,15 +3,13 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
-  Text,
   View,
   Dimensions,
 } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import Geolocation from 'react-native-geolocation-service';
 import colors from '../../theme/colors';
-import {Center, Box} from 'native-base';
-import fonts from '../../theme/fonts';
+import {Center} from 'native-base';
 import image from '../../../assets/images/qibla_bg.png';
 
 class QiblaDirection extends Component {

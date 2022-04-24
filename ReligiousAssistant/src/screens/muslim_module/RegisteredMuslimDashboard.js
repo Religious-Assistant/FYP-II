@@ -9,13 +9,15 @@ import { Animated, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-nati
 import { Image, Text,View } from 'native-base';
 
 
-import profile from '../../../assets/images/avatar_ic.png';
 // Tab ICons...
-import home from '../../../assets/images/home_ic.png';
-import search from '../../../assets/images/search_ic.png';
-import notifications from '../../../assets/images/notifications_ic.png';
-import settings from '../../../assets/images/settings_ic.png';
-import logout from '../../../assets/images/logout_ic.png';
+import profile from '../../../assets/images/nadir.png';
+import profile_ic from '../../../assets/images/profile_ic.png';
+import imam_ic from '../../../assets/images/imam_ic.png';
+import about_ic from '../../../assets/images/about_ic.png';
+import share_ic from '../../../assets/images/share_ic.png';
+
+import logout_ic from '../../../assets/images/logout_ic.png';
+
 
 // Menu
 import menu from '../../../assets/images/menu_ic.png';
@@ -28,7 +30,7 @@ import fonts from '../../theme/fonts';
 import MuslimBottomTab from './MuslimBottomTab';
 import { useNavigation } from '@react-navigation/native';
 
-import { AUTH_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK } from '../../navigation/constants';
+import { AUTH_STACK } from '../../navigation/constants';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -47,6 +49,7 @@ export default function RegisteredMuslimDashboard() {
     <SafeAreaView style={styles.container}>
 
       <View style={{ justifyContent: 'flex-start', padding: 15 }}>
+        <View style={{}}>
         <Image source={profile} style={{
           width: 80,
           height: 80,
@@ -61,24 +64,26 @@ export default function RegisteredMuslimDashboard() {
           fontSize: 20,
           color: 'white',
           marginTop: 20,
-          left:27,
-          fontFamily:fonts.Signika.regular
-        }}>Full Name</Text>
+          left:15,
+          fontFamily:fonts.Signika.bold
+        }}>Nadir Hussain</Text>
+        </View>
 
-        <View style={{ flexGrow: 1, marginTop: 50 }}>
+        <View style={{ flexGrow: 1, marginTop: 50, }}>
           {
             // Tab Bar Buttons....
           }
 
-          {TabButton(currentTab, setCurrentTab, "View Profile", home)}
-          {TabButton(currentTab, setCurrentTab, "Search", search)}
-          {TabButton(currentTab, setCurrentTab, "Notifications", notifications)}
-          {TabButton(currentTab, setCurrentTab, "Settings", settings)}
+          {TabButton(currentTab, setCurrentTab, "View Profile", profile_ic)}
+          {TabButton(currentTab, setCurrentTab, "Apply as Imam", imam_ic)}
+          {TabButton(currentTab, setCurrentTab, "About", about_ic)}
+          {TabButton(currentTab, setCurrentTab, "Share App", share_ic)}
+
 
         </View>
 
         <View>
-          {TabButton(currentTab, setCurrentTab, "LogOut", logout)}
+          {TabButton(currentTab, setCurrentTab, "LogOut", logout_ic)}
         </View>
 
       </View>
@@ -196,8 +201,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 
         <Text style={{
           fontSize: 15,
-          fontWeight: 'bold',
           paddingLeft: 15,
+          fontFamily:fonts.Signika.semi_bold,
           color: currentTab == title ? colors.secondary : "white"
         }}>{title}</Text>
 

@@ -63,16 +63,16 @@ const ReciteQuran = () => {
           backgroundColor: colors.primary,
           padding: 10,
         }}>
-        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+        {/* <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
           <TouchableOpacity onPress={()=>{
               navigator.goBack();
-          }}>
-          <Image
+          }}> */}
+          {/* <Image
             source={require('../../../assets/images/left_arrow_ic.png')}
             style={{width: 30, height: 30, tintColor: colors.white}}
             alt="Back Icon.."
-          />
-          </TouchableOpacity>
+          /> */}
+          {/* </TouchableOpacity> */}
           <Animated.Image
             source={require('../../../assets/images/recite_quran_img.png')}
             style={{
@@ -82,7 +82,7 @@ const ReciteQuran = () => {
             }}
             alt="Loading..."
           />
-        </View>
+        {/* </View> */}
       </Animated.View>
 
       {/* <Animated.ScrollView
@@ -102,17 +102,22 @@ const ReciteQuran = () => {
 
 const FirstRoute = () => {
   const [surahs, setSurahs] = useState();
+  const abortController=new AbortController()
+  const signal=abortController.signal
+
   useEffect(() => {
-    getSurahs().then(response => {
+    getSurahs(signal).then(response => {
       setSurahs(response.data);
     });
+
+    return ()=>{abortController.abort()}
   }, []);
 
   return (
     <Animated.ScrollView>
       {surahs ? (
         surahs.map((item, index) => {
-          return <SurahCard surah={item} key={item.number} />;
+          return <SurahCard surah={item} key={index} />;
         })
       ) : (
         <View
@@ -133,7 +138,7 @@ const FirstRoute = () => {
 
 const SurahCard = ({surah}) => {
   return (
-    <View style={styles.surahCardContainer}>
+  <View style={styles.surahCardContainer}>
       <View style={{flex: 0.1}}>
         <Text style={styles.surahNumber}>{surah.number}.</Text>
       </View>
@@ -144,7 +149,7 @@ const SurahCard = ({surah}) => {
         </View>
       </View>
       <View style={{flex: 0.4}}>
-        <Text style={styles.surahNameEnglish}>{surah.name}</Text>
+        <Text style={styles.surahNameArabic}>{surah.name}</Text>
       </View>
     </View>
   );
@@ -152,10 +157,14 @@ const SurahCard = ({surah}) => {
 
 const SecondRoute = () => {
   const [surahs, setSurahs] = useState();
+  const abortController=new AbortController()
+  const signal=abortController.signal
+
   useEffect(() => {
-    getSurahs().then(response => {
+    getSurahs(signal).then(response => {
       setSurahs(response.data);
     });
+    return ()=>{abortController.abort()}
   }, []);
 
   return(   <Animated.ScrollView>
@@ -207,7 +216,7 @@ function TabNav() {
   const [routes] = React.useState([
     {key: 'first', title: 'BY SURAH'},
     {key: 'second', title: 'BY PARAH'},
-    {key: 'third', title: '3RD OPTION'},
+    {key: 'third', title: 'TRANSLATION'},
   ]);
 
   return (
@@ -265,6 +274,11 @@ const styles = StyleSheet.create({
   surahNameEnglish: {
     fontSize: 16,
     fontFamily: fonts.Signika.bold,
+  },
+  surahNameArabic:{
+    fontSize: 16,
+    fontFamily: fonts.Signika.bold,
+    color:colors.success.light,
   },
   numberOfAyahs: {
     fontSize: 13,
