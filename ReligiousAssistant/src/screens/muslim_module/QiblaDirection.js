@@ -131,6 +131,7 @@ class QiblaDirection extends Component {
 }
 
 export default QiblaDirection;
+
 const styles = StyleSheet.create({
   Maincontainer: {
     flex: 1,

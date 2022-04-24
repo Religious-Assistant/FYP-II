@@ -12,7 +12,8 @@ import {
 import {NativeBaseProvider } from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import Accountability from './src/screens/muslim_module/Accountability';
-
+import NamazTimings from './src/screens/muslim_module/NamazTimings';
+import QiblaDirection from './src/screens/muslim_module/QiblaDirection';
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -20,7 +21,7 @@ const App= () => {
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor={'transparent'} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Accountability/>
+      <NamazTimings/>
     </NativeBaseProvider>
   );
 };
