@@ -4,7 +4,7 @@
  * 
  */
 
-import React from 'react';
+import React , {useEffect}from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -43,8 +43,14 @@ const loginValidationSchema = yup.object().shape({
   password: yup.string().min(8).required('Password is required'),
 });
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
   const navigator = useNavigation();
+
+  useEffect(()=>{
+    navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    })
+  },[navigation])
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
