@@ -19,8 +19,7 @@ export default function CustomButton(props) {
       isSecureText={true}
       _text={{
         fontSize: 'md',
-        fontWeight: '900',
-        fontFamily: fonts.Signika.bold,
+        fontFamily: fonts.Signika.medium,
         color: props.color,
       }}
       mt={props.mt}

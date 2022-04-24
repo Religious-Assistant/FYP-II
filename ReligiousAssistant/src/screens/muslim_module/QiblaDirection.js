@@ -1,3 +1,8 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React, {Component} from 'react';
 import {
   Image,
@@ -11,6 +16,8 @@ import Geolocation from 'react-native-geolocation-service';
 import colors from '../../theme/colors';
 import {Center} from 'native-base';
 import image from '../../../assets/images/qibla_bg.png';
+import kompass from '../../../assets/images/kompas.png';
+import kabahImg from '../../../assets/images/kakbah.png';
 
 class QiblaDirection extends Component {
   state = {
@@ -88,7 +95,7 @@ class QiblaDirection extends Component {
           source={image}>
           <Center w="100%" mt={'95'} h="95%" maxW="100%">
             <ImageBackground
-              source={require('../../../assets/images/kompas.png')}
+              source={kompass}
               style={[
                 styles.image,
                 {
@@ -105,7 +112,7 @@ class QiblaDirection extends Component {
                   transform: [{rotate: `${this.state.qiblad}deg`}],
                 }}>
                 <Image
-                  source={require('../../../assets/images/kakbah.png')}
+                  source={kabahImg}
                   style={{
                     marginBottom: '52%',
                     resizeMode: 'contain',

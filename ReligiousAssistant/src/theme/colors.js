@@ -1,8 +1,6 @@
 const colors={
     primary:'#0f1f3c',          //For background    
     secondary:'#f3ba1f',        //For Buttons
-    // tertiary:'#f1f0f1',
-             //For TextInputs, 
     tertiary:'#47556f',
     cover:'#f1f0f1',            //For card background
     white:'#FFFFFF',            //For white text

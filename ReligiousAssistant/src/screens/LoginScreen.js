@@ -1,6 +1,6 @@
 /**
- * @author  
- * @version 
+ * @author Kinza 
+ * @version 1.0
  * 
  */
 
@@ -105,18 +105,17 @@ export default function LoginScreen() {
                         error={errors.password}
                         errosTouched={touched.password}
                       />
-                      <View style={{flexDirection: 'row'}} mt="2%">
+                      <View style={{flexDirection: 'row', marginTop:'2%'}}>
                         <Checkbox
-                          bgColor={colors.tertiary}
                           alignSelf="flex-start"
                           _text={styles.link}
                           value="info"
                           colorScheme="info"
-                          defaultIsChecked>
+                          >
                           Remember me
                         </Checkbox>
                         <Link _text={styles.link} alignSelf="flex-end" ml="19%">
-                          Forget Password?
+                          Forgot Password?
                         </Link>
                       </View>
                     </FormControl>
@@ -135,7 +134,7 @@ export default function LoginScreen() {
                 OR
               </Button>
               <CustomButton
-                title="Connect as guest"
+                title="Connect as Guest"
                 variant="outline"
                 mt="-4%"
                 onPress={enterAsGuest}

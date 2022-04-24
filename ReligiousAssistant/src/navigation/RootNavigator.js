@@ -20,7 +20,7 @@ const MainStack=createNativeStackNavigator()
 export default function RootNavigator() {
   return (
     <NavigationContainer>
-        <MainStack.Navigator initialRouteName={REGISTERED_MUSLIM_DASHBOARD_STACK}>
+        <MainStack.Navigator initialRouteName={AUTH_STACK}>
             <MainStack.Screen name={AUTH_STACK} component={AuthStackNavigation} options={{headerShown:false}}/>
             <MainStack.Screen name={REGISTERED_MUSLIM_DASHBOARD_STACK} component={MuslimDashboardNavigation} options={{headerShown:false}}/>
             {/* <MainStack.Screen name={REGISTERED_MUSLIM_DASHBOARD_STACK} component={ReciteQuran} options={{headerShown:false}}/> */}
