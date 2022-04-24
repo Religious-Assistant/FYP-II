@@ -51,10 +51,10 @@ export default function LoginScreen() {
   }
 
   function loginHandler(values) {
-    if(values.username==='kinza'){
+    if((values.username).toLowerCase()==='kinza'){
       navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
     }
-    else if(values.username==='akash'){
+    else if((values.username).toLowerCase()==='akash'){
       navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
     }
   }
