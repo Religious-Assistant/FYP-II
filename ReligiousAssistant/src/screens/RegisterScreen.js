@@ -26,7 +26,7 @@ import CustomButton from '../components/CustomButton';
 import ErrorMessage from '../components/ErrorMessage';
 import image from '../../assets/images/signUp_bg.png';
 import {useNavigation} from '@react-navigation/native';
-import { ENTER_AS_GUEST, LOGIN } from '../navigation/constants';
+import { ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION } from '../navigation/constants';
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 const registerValidationSchema = yup.object().shape({
@@ -41,6 +41,12 @@ const registerValidationSchema = yup.object().shape({
 
 function CheckRegister() {
   const navigator = useNavigation();
+
+
+  function signupHandler(values){
+    navigator.navigate(OTP_VERIFICATION);
+    console.log(values);
+  }
 
   function enterAsGuest(){
     navigator.navigate(ENTER_AS_GUEST)
@@ -59,8 +65,7 @@ function CheckRegister() {
                 validationSchema={registerValidationSchema}
                 initialValues={{username: '', password: '', phoneNumber: ''}}
                 onSubmit={values => {
-                  navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
-                  console.log(values);
+                  signupHandler(values);
                 }}>
                 {({
                   handleChange,

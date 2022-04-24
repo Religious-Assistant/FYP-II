@@ -17,13 +17,21 @@ import colors from '../theme/colors';
 import {Display} from '../utils';
 import CustomButton from '../components/CustomButton';
 import {VStack, Center} from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { LOGIN } from '../navigation/constants';
 const VerificationScreen = () => {
+
   const phoneNumber = '03313456766';
   const firstInput = useRef();
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+
+  const navigator=useNavigation()
+  function verifyOTP(){
+    navigator.navigate(LOGIN)
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -100,7 +108,7 @@ const VerificationScreen = () => {
               />
             </View>
           </View>
-          <CustomButton title="Verify" variant="solid" color="white" />
+          <CustomButton title="Verify" variant="solid" color="white" onPress={verifyOTP} />
         </VStack>
       </Center>
     </View>

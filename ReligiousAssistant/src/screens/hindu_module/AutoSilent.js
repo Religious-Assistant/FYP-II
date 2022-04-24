@@ -1,0 +1,14 @@
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+
+const AutoSilent = () => {
+  return (
+    <View>
+      <Text>AutoSilent</Text>
+    </View>
+  )
+}
+
+export default AutoSilent
+
+const styles = StyleSheet.create({})

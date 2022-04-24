@@ -23,20 +23,20 @@ function MuslimDashboardNavigation(){
         
         <HomeStack.Navigator initialRouteName={REGISTERED_MUSLIM_HOME_STACK} >
             <HomeStack.Screen name={REGISTERED_MUSLIM_HOME_STACK} component={RegisteredMuslimDashboard} options={{headerShown:false}} />
-            <HomeStack.Screen name={RECITE_QURAN} component={ReciteQuran}/>
-            <HomeStack.Screen name={FIND_MOSQUE} component={FindMosque} />
-            <HomeStack.Screen name={VIEW_CALANDER} component={Calander} />
+            <HomeStack.Screen name={RECITE_QURAN} component={ReciteQuran} options={{title:'Recite Quran'}}/>
+            <HomeStack.Screen name={FIND_MOSQUE} component={FindMosque} options={{title:'Find Mosque'}}/>
+            <HomeStack.Screen name={VIEW_CALANDER} component={Calander} options={{title:'Calander'}}/>
 
-            <HomeStack.Screen name={LEARN_NAMAZ} component={LearnNamaz}/>
-            <HomeStack.Screen name={ACCOUNTABILITY} component={Accountability} />
-            <HomeStack.Screen name={ANNOUNCEMENTS} component={Announcements} />
+            <HomeStack.Screen name={LEARN_NAMAZ} component={LearnNamaz} options={{title:'Learn Namaz'}}/>
+            <HomeStack.Screen name={ACCOUNTABILITY} component={Accountability} options={{title:'Accountability'}}/>
+            <HomeStack.Screen name={ANNOUNCEMENTS} component={Announcements} options={{title:'Announcements'}}/>
             
-            <HomeStack.Screen name={AUTO_SILENT} component={AutoSilent}/>
-            <HomeStack.Screen name={ADD_MOSQUE} component={AddMosque} />
-            <HomeStack.Screen name={TASBIH_COUNTER} component={TasbihCounter} />
+            <HomeStack.Screen name={AUTO_SILENT} component={AutoSilent} options={{title:'Auto Silent'}}/>
+            <HomeStack.Screen name={ADD_MOSQUE} component={AddMosque} options={{title:'Add Mosque'}}/>
+            <HomeStack.Screen name={TASBIH_COUNTER} component={TasbihCounter} options={{title:'Tasbih'}}/>
             
-            <HomeStack.Screen name={QIBLA_DIRECTION} component={QiblaDirection}/>
-            <HomeStack.Screen name={RAKAH_INFO} component={RakahInfo} />
+            <HomeStack.Screen name={QIBLA_DIRECTION} component={QiblaDirection} options={{title:'Find Qibla'}}/>
+            <HomeStack.Screen name={RAKAH_INFO} component={RakahInfo} options={{title:'Rakah Info'}}/>
             
         </HomeStack.Navigator>
         

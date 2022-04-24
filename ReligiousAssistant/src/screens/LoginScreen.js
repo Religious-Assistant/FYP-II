@@ -33,6 +33,7 @@ import image from '../../assets/images/login_bg.png';
 import {useNavigation} from '@react-navigation/native';
 import {
   ENTER_AS_GUEST,
+  REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
   SIGNUP,
 } from '../navigation/constants';
@@ -49,9 +50,13 @@ export default function LoginScreen() {
     navigator.navigate(ENTER_AS_GUEST);
   }
 
-  function loginHandler() {
-    navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
-    console.log(values);
+  function loginHandler(values) {
+    if(values.username==='kinza'){
+      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
+    }
+    else if(values.username==='akash'){
+      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+    }
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -66,7 +71,7 @@ export default function LoginScreen() {
                 validationSchema={loginValidationSchema}
                 initialValues={{username: '', password: ''}}
                 onSubmit={values => {
-                  loginHandler();
+                  loginHandler(values);
                 }}>
                 {({
                   handleChange,

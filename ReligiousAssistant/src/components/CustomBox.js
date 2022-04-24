@@ -7,7 +7,7 @@ import React from 'react';
 import {Box, Image, Button, Text} from 'native-base';
 import {StyleSheet, View} from 'react-native';
 
-import mosqueIcon from '../../assets/images/mosque_ic.png';
+import mosqueIcon from '../../assets/images/closest_mosque_ic.png';
 import directionIcon from '../../assets/images/direction_ic.png';
 
 import colors from '../theme/colors';
