@@ -12,6 +12,8 @@ import {
 import {NativeBaseProvider } from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import FindMosque from './src/screens/muslim_module/FindMosque';
+import Accountability from './src/screens/muslim_module/Accountability';
+import CalendarPickerr from './src/components/CalendarPicker';
 
 const App= () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,7 +21,7 @@ const App= () => {
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor={'transparent'} barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <FindMosque />
+      <FindMosque/>
     </NativeBaseProvider>
   );
 };
