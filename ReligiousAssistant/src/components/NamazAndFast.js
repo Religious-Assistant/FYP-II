@@ -21,14 +21,13 @@ export default function NamazAndFast(props) {
         marginTop="5%"
         marginLeft={'2%'}
         maxW="96%"
-        maxH={'93%'}
-        >
+        maxH={'93%'}>
         <VStack space="1.5" divider={<Divider />}>
-          <NamazTimes text="Fajr" mt="2%"/>
-          <NamazTimes text="Zuhr"/>
-          <NamazTimes text="Asr"/>
-          <NamazTimes text="Maghrib"/>
-          <NamazTimes text="Isha" mb="2%"/>
+          <NamazTimes text="Fajr" mt="2%" />
+          <NamazTimes text="Zuhr" />
+          <NamazTimes text="Asr" />
+          <NamazTimes text="Maghrib" />
+          <NamazTimes text="Isha" mb="2%" />
         </VStack>
       </Box>
     </View>
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
   },
   text: {
-    fontSize:20,
+    fontSize: 20,
     fontFamily: fonts.Signika.regular,
   },
   mainBox: {

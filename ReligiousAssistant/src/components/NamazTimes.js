@@ -24,7 +24,12 @@ export default function NamazTimes(props) {
         mt={props.mt}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.text}>{props.text}</Text>
-          <Checkbox value={props.text} my={2} colorScheme="green" accessibilityLabel="Namaz time" />
+          <Checkbox
+            value={props.text}
+            my={2}
+            colorScheme="green"
+            accessibilityLabel="Namaz time"
+          />
         </View>
       </Box>
     </View>

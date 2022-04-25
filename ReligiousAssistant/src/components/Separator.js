@@ -1,3 +1,8 @@
+/**
+ * @author Kinza
+ * @version 1.0
+ */
+
 import React from 'react';
 import {View} from 'react-native';
 

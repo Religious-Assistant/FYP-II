@@ -10,7 +10,6 @@ import fonts from '../theme/fonts';
 import colors from '../theme/colors';
 
 export default function CustomButton(props) {
-  
   return (
     <Button
       onPress={props.onPress}

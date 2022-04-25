@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Animated, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Image, Text,View } from 'native-base';

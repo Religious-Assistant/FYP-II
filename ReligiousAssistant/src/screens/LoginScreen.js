@@ -1,10 +1,10 @@
 /**
- * @author Kinza 
+ * @author Kinza
  * @version 1.0
- * 
+ *
  */
 
-import React , {useEffect}from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -46,21 +46,20 @@ const loginValidationSchema = yup.object().shape({
 export default function LoginScreen({navigation}) {
   const navigator = useNavigation();
 
-  useEffect(()=>{
-    navigation.addListener('beforeRemove', (e) => {
+  useEffect(() => {
+    navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-    })
-  },[navigation])
+    });
+  }, [navigation]);
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
   }
 
   function loginHandler(values) {
-    if((values.username).toLowerCase()==='kinza'){
+    if (values.username.toLowerCase() === 'kinza') {
       navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
-    }
-    else if((values.username).toLowerCase()==='akash'){
+    } else if (values.username.toLowerCase() === 'akash') {
       navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
     }
   }
@@ -116,13 +115,12 @@ export default function LoginScreen({navigation}) {
                         error={errors.password}
                         errosTouched={touched.password}
                       />
-                      <View style={{flexDirection: 'row', marginTop:'2%'}}>
+                      <View style={{flexDirection: 'row', marginTop: '2%'}}>
                         <Checkbox
                           alignSelf="flex-start"
                           _text={styles.link}
                           value="info"
-                          colorScheme="info"
-                          >
+                          colorScheme="info">
                           Remember me
                         </Checkbox>
                         <Link _text={styles.link} alignSelf="flex-end" ml="19%">

@@ -5,22 +5,20 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import {Heading} from 'native-base';
 import Separator from '../components/Separator';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';
 import {Display} from '../utils';
 import CustomButton from '../components/CustomButton';
 import {VStack, Center} from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { LOGIN } from '../navigation/constants';
-const VerificationScreen = () => {
+import {useNavigation} from '@react-navigation/native';
+import {LOGIN} from '../navigation/constants';
 
+const VerificationScreen = () => {
   const phoneNumber = '03313456766';
   const firstInput = useRef();
   const secondInput = useRef();
@@ -28,90 +26,94 @@ const VerificationScreen = () => {
   const fourthInput = useRef();
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
 
-  const navigator=useNavigation()
-  function verifyOTP(){
-    navigator.navigate(LOGIN)
+  const navigator = useNavigation();
+  function verifyOTP() {
+    navigator.navigate(LOGIN);
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-     
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={colors.white}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.headerContainer}>
-        <Heading ml={'25%'} color={colors.white}>
-          OTP <Heading color={colors.secondary}>Verification</Heading>
-        </Heading>
+      <View style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={colors.white}
+          translucent
+        />
+        <Separator height={StatusBar.currentHeight} />
+        <View style={styles.headerContainer}>
+          <Heading ml={'25%'} color={colors.white}>
+            OTP <Heading color={colors.secondary}>Verification</Heading>
+          </Heading>
+        </View>
+        <Center w="100%" h="95%" maxW="100%">
+          <VStack space={3} mt={'-30%'}>
+            <Text style={styles.content}>
+              Enter the OTP number just sent you at{' '}
+              <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
+            </Text>
+            <View style={styles.otpContainer}>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={firstInput}
+                  onChangeText={text => {
+                    setOtp({...otp, 1: text});
+                    text && secondInput.current.focus();
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={secondInput}
+                  onChangeText={text => {
+                    setOtp({...otp, 2: text});
+                    text
+                      ? thirdInput.current.focus()
+                      : firstInput.current.focus();
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={thirdInput}
+                  onChangeText={text => {
+                    setOtp({...otp, 3: text});
+                    text
+                      ? fourthInput.current.focus()
+                      : secondInput.current.focus();
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={fourthInput}
+                  onChangeText={text => {
+                    setOtp({...otp, 4: text});
+                    !text && thirdInput.current.focus();
+                  }}
+                />
+              </View>
+            </View>
+            <CustomButton
+              title="Verify"
+              variant="solid"
+              color="white"
+              onPress={verifyOTP}
+            />
+          </VStack>
+        </Center>
       </View>
-      <Center w="100%" h="95%" maxW="100%">
-        <VStack space={3} mt={'-30%'}>
-          <Text style={styles.content}>
-            Enter the OTP number just sent you at{' '}
-            <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
-          </Text>
-          <View style={styles.otpContainer}>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={firstInput}
-                onChangeText={text => {
-                  setOtp({...otp, 1: text});
-                  text && secondInput.current.focus();
-                }}
-              />
-            </View>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={secondInput}
-                onChangeText={text => {
-                  setOtp({...otp, 2: text});
-                  text
-                    ? thirdInput.current.focus()
-                    : firstInput.current.focus();
-                }}
-              />
-            </View>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={thirdInput}
-                onChangeText={text => {
-                  setOtp({...otp, 3: text});
-                  text
-                    ? fourthInput.current.focus()
-                    : secondInput.current.focus();
-                }}
-              />
-            </View>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={fourthInput}
-                onChangeText={text => {
-                  setOtp({...otp, 4: text});
-                  !text && thirdInput.current.focus();
-                }}
-              />
-            </View>
-          </View>
-          <CustomButton title="Verify" variant="solid" color="white" onPress={verifyOTP} />
-        </VStack>
-      </Center>
-    </View>
     </TouchableWithoutFeedback>
   );
 };

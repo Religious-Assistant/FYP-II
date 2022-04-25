@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {Center, VStack, Box, Input, Icon, Divider} from 'native-base';
+import {Center, VStack, Input, Icon} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import Ioicons from 'react-native-vector-icons/Ionicons';

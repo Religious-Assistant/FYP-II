@@ -11,6 +11,7 @@ import {
   View,
   Dimensions,
 } from 'react-native';
+
 import CompassHeading from 'react-native-compass-heading';
 import Geolocation from 'react-native-geolocation-service';
 import colors from '../../theme/colors';

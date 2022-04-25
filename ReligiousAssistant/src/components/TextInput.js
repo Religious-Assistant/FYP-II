@@ -29,7 +29,9 @@ export default function TextInput(props) {
       w={{
         base: props.base,
       }}
-      InputLeftElement={<Icon as={props.icon} size={5} ml="2%" color={colors.white} />}
+      InputLeftElement={
+        <Icon as={props.icon} size={5} ml="2%" color={colors.white} />
+      }
       onChangeText={props.onChangeText}
       onBlur={props.onBlur}
       value={props.value}

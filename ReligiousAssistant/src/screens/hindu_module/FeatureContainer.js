@@ -1,4 +1,9 @@
-import {View, Text, Center, Image, ScrollView} from 'native-base';
+/**
+ * @author Nadir
+ * @version 1.0
+ */
+
+import {View, Text, Center, Image} from 'native-base';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
@@ -53,7 +58,7 @@ export default function FeatureContainer() {
       title: 'Auto Silent',
       image: require('../../../assets/images/auto_silent_ic.png'),
       screen: HINDU_AUTO_SILENT,
-    }
+    },
   ];
 
   const featureArray3 = [
@@ -103,7 +108,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
-                    alt='Icon...'
+                    alt="Icon..."
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
@@ -133,7 +138,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
-                    alt='Icon...'
+                    alt="Icon..."
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
@@ -144,34 +149,34 @@ export default function FeatureContainer() {
       </View>
 
       <View
-          style={{
-            flex: 0.5,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            marginTop: -20,
-          }}>
-          {featureArray3.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={item.title}
-                onPress={() => {
-                  navigator.navigate(item.screen);
-                }}>
-                <FeatureCard>
-                  <Image
-                    source={item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
-                    }}
-                    alt='Icon...'
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </FeatureCard>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        style={{
+          flex: 0.5,
+          flexDirection: 'row',
+          justifyContent: 'space-evenly',
+          marginTop: -20,
+        }}>
+        {featureArray3.map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={item.title}
+              onPress={() => {
+                navigator.navigate(item.screen);
+              }}>
+              <FeatureCard>
+                <Image
+                  source={item.image}
+                  style={{
+                    height: 50,
+                    width: 50,
+                  }}
+                  alt="Icon..."
+                />
+                <Text style={styles.cardTitle}>{item.title}</Text>
+              </FeatureCard>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 }

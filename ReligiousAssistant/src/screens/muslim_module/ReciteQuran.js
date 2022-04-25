@@ -9,14 +9,13 @@
 
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import React, {useRef, useEffect, useState} from 'react';
-import {View, Text, Image} from 'native-base';
+import {View, Text} from 'native-base';
 import colors from '../../theme/colors';
 import Animated from 'react-native-reanimated';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import fonts from '../../theme/fonts';
 import {getSurahs} from '../../services/apis/ReciteQuranService';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const ReciteQuran = () => {
   const animatedHeaderValue = useRef(new Animated.Value(0)).current;
@@ -50,7 +49,7 @@ const ReciteQuran = () => {
     extrapolate: 'clamp',
   });
 
-  const navigator=useNavigation()
+  const navigator = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -67,21 +66,21 @@ const ReciteQuran = () => {
           <TouchableOpacity onPress={()=>{
               navigator.goBack();
           }}> */}
-          {/* <Image
+        {/* <Image
             source={require('../../../assets/images/left_arrow_ic.png')}
             style={{width: 30, height: 30, tintColor: colors.white}}
             alt="Back Icon.."
           /> */}
-          {/* </TouchableOpacity> */}
-          <Animated.Image
-            source={require('../../../assets/images/recite_quran_img.png')}
-            style={{
-              width: animatedImageHeight,
-              height: animatedImageHeight,
-              marginTop: animatedImageMarginTop,
-            }}
-            alt="Loading..."
-          />
+        {/* </TouchableOpacity> */}
+        <Animated.Image
+          source={require('../../../assets/images/recite_quran_img.png')}
+          style={{
+            width: animatedImageHeight,
+            height: animatedImageHeight,
+            marginTop: animatedImageMarginTop,
+          }}
+          alt="Loading..."
+        />
         {/* </View> */}
       </Animated.View>
 
@@ -102,15 +101,17 @@ const ReciteQuran = () => {
 
 const FirstRoute = () => {
   const [surahs, setSurahs] = useState();
-  const abortController=new AbortController()
-  const signal=abortController.signal
+  const abortController = new AbortController();
+  const signal = abortController.signal;
 
   useEffect(() => {
     getSurahs(signal).then(response => {
       setSurahs(response.data);
     });
 
-    return ()=>{abortController.abort()}
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -125,7 +126,7 @@ const FirstRoute = () => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            padding:15,
+            padding: 15,
           }}>
           <Text style={{fontSize: 20, fontFamily: fonts.Signika.bold}}>
             Loading Surahs
@@ -138,7 +139,7 @@ const FirstRoute = () => {
 
 const SurahCard = ({surah}) => {
   return (
-  <View style={styles.surahCardContainer}>
+    <View style={styles.surahCardContainer}>
       <View style={{flex: 0.1}}>
         <Text style={styles.surahNumber}>{surah.number}.</Text>
       </View>
@@ -157,37 +158,40 @@ const SurahCard = ({surah}) => {
 
 const SecondRoute = () => {
   const [surahs, setSurahs] = useState();
-  const abortController=new AbortController()
-  const signal=abortController.signal
+  const abortController = new AbortController();
+  const signal = abortController.signal;
 
   useEffect(() => {
     getSurahs(signal).then(response => {
       setSurahs(response.data);
     });
-    return ()=>{abortController.abort()}
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
-  return(   <Animated.ScrollView>
-  {surahs ? (
-    surahs.map((item, index) => {
-      return <SurahCard surah={item} key={item.number} />;
-    })
-  ) : (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding:15,
-      }}>
-      <Text style={{fontSize: 20, fontFamily: fonts.Signika.bold}}>
-        Loading Surahs
-      </Text>
-    </View>
-  )}
-</Animated.ScrollView>
-);
-}
+  return (
+    <Animated.ScrollView>
+      {surahs ? (
+        surahs.map((item, index) => {
+          return <SurahCard surah={item} key={item.number} />;
+        })
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15,
+          }}>
+          <Text style={{fontSize: 20, fontFamily: fonts.Signika.bold}}>
+            Loading Surahs
+          </Text>
+        </View>
+      )}
+    </Animated.ScrollView>
+  );
+};
 
 const ThirdRoute = () => (
   <View style={{flex: 1, backgroundColor: colors.tertiary}}>
@@ -275,10 +279,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.Signika.bold,
   },
-  surahNameArabic:{
+  surahNameArabic: {
     fontSize: 16,
     fontFamily: fonts.Signika.bold,
-    color:colors.success.light,
+    color: colors.success.light,
   },
   numberOfAyahs: {
     fontSize: 13,

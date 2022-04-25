@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import { Select, CheckIcon} from 'native-base';
+import {Select, CheckIcon} from 'native-base';
 
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';

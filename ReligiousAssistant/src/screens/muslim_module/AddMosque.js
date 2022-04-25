@@ -1,3 +1,8 @@
+/**
+ * @author Nadir
+ * @version 1.0
+ */
+
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 

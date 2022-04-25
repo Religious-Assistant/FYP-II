@@ -3,35 +3,27 @@
  * @version 1.0
  */
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  ImageBackground,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
 
-
-import bg_gif from  '../../assets/images/splash.gif';
-import { LOGIN } from '../navigation/constants';
+import bg_gif from '../../assets/images/splash.gif';
+import {LOGIN} from '../navigation/constants';
 
 function SplashScreeen() {
+  const navigator = useNavigation();
 
-  const navigator=useNavigation()
-  
-  useEffect(()=>{
-    setTimeout(()=>{
-      navigator.navigate(LOGIN)
-    },2000)
-
-  },[])
+  useEffect(() => {
+    setTimeout(() => {
+      navigator.navigate(LOGIN);
+    }, 2000);
+  }, []);
 
   return (
     <ImageBackground
       style={styles.image}
       resizeMode="stretch"
-      source={bg_gif}>
-    </ImageBackground>
+      source={bg_gif}></ImageBackground>
   );
 }
 const styles = StyleSheet.create({

@@ -1,14 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+/**
+ * @author Nadir
+ * @version 1.0
+ */
+
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 
 const AddTemple = () => {
   return (
     <View>
       <Text>AddMosque</Text>
     </View>
-  )
-}
+  );
+};
 
-export default AddTemple
+export default AddTemple;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

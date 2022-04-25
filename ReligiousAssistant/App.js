@@ -4,7 +4,7 @@
  */
 
 import 'react-native-gesture-handler';
-import React , {useEffect}from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 
 import {NativeBaseProvider} from 'native-base';

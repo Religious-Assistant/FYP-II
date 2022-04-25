@@ -1,6 +1,9 @@
+/**
+ * @author Nadir
+ * @version 1.0
+ */
 
 import React from 'react'
-
 import colors from '../../theme/colors'
 import {View} from 'react-native'
 import Header from './Header'

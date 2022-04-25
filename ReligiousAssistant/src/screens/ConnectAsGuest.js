@@ -6,11 +6,7 @@
 import React from 'react';
 import {ImageBackground, Dimensions, View} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {
-  Center,
-  Box,
-  VStack,
-} from 'native-base';
+import {Center, Box, VStack} from 'native-base';
 
 import CustomButton from '../components/CustomButton';
 import BottomText from '../components/BottomText';
@@ -18,7 +14,7 @@ import CustomDropdown from '../components/CustomDropdown';
 
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
-import { SIGNUP } from '../navigation/constants';
+import {SIGNUP} from '../navigation/constants';
 
 export default function ConnectAsGuest() {
   return (

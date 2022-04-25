@@ -39,7 +39,12 @@ export default function PasswordInput(props) {
         />
       }
       InputLeftElement={
-        <Icon as={<Fontisto name="locked" />} size={5} ml="2%" color={colors.white} />
+        <Icon
+          as={<Fontisto name="locked" />}
+          size={5}
+          ml="2%"
+          color={colors.white}
+        />
       }
       placeholder={props.textTitle}
       mr={mRight}

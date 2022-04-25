@@ -1,7 +1,11 @@
+/**
+ * @author Nadir
+ * @version 1.0
+ */
+
 import {View, Text, Image} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native'
-import {Heading} from 'native-base';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 

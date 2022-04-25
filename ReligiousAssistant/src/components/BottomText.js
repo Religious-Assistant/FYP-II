@@ -9,11 +9,11 @@ import {StyleSheet} from 'react-native';
 
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function BottomText(props) {
-  const navigator=useNavigation()
+  const navigator = useNavigation();
   return (
     <HStack mt={props.mt} justifyContent="center">
       <Text
@@ -28,32 +28,30 @@ export default function BottomText(props) {
         }}>
         {props.text}{' '}
       </Text>
-      <TouchableOpacity onPress={()=>{
-        navigator.navigate(props.destination)
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigator.navigate(props.destination);
+        }}>
         <View style={styles.container}>
-        <Text style={styles.link} >
-        {props.goTo}
-      </Text>
-      <Image
-          source={require('../../assets/images/right_arrow_ic.png')}
-          style={{
-            width: 25,
-            height: 25,
-            tintColor:colors.secondary,
-            marginLeft:5,
-            
-          }}
-          alt="Icon.."
-        />
+          <Text style={styles.link}>{props.goTo}</Text>
+          <Image
+            source={require('../../assets/images/right_arrow_ic.png')}
+            style={{
+              width: 25,
+              height: 25,
+              tintColor: colors.secondary,
+              marginLeft: 5,
+            }}
+            alt="Icon.."
+          />
         </View>
       </TouchableOpacity>
     </HStack>
   );
 }
 const styles = StyleSheet.create({
-  container:{
-    flexDirection:'row',
+  container: {
+    flexDirection: 'row',
   },
   text: {
     fontWeight: '900',

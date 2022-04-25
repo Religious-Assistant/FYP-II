@@ -33,7 +33,7 @@ export default function CustomBox(props) {
       shadow={2}
       mt={props.mt}
       ref={myRef}>
-      <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Image
           source={mosqueIcon}
           style={{
