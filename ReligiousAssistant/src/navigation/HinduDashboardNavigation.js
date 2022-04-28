@@ -35,11 +35,14 @@ function HinduDashboardNavigation() {
         options={{headerShown: false}}
       />
 
+{/* Add screen for Veg/Non veg days */}
+
       <HomeStack.Screen
         name={RECITE_GITA}
         component={ReciteGita}
         options={{title: 'Recite Gita'}}
       />
+      
       <HomeStack.Screen
         name={FIND_TEMPLE}
         component={FindTemple}
