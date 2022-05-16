@@ -1,0 +1,9 @@
+Clone a git repo
+    then 
+>heroku login
+>heroku create 'app-name-here'
+>git push heroku main
+> heroku ps:scale web=1
+> heroku open
+
+//For database or Environment variables, set them in config vars
