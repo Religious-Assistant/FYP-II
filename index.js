@@ -1,8 +1,10 @@
 const express=require('express')
 const app=express()
 const mongoose=require('mongoose')
+require('dotenv').config()
 
-const {port, database_url}=require('./config')
+const port=process.env.PORT || 8888;
+const database_url=process.env.DATABASE_URL;
 
 mongoose.connect(database_url).then(()=>{
     console.log(`Connected to database`)

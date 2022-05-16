@@ -1,7 +1,8 @@
 const User=require('../models/userModel');
 const bcryptjs=require('bcryptjs');  //For password hashing
 const jwt=require('jsonwebtoken');
-const {jwt_secret} = require('../config');
+const jwt_secret=process.env.JWT_KEY;
+
 
 const registerUser=async(req, res)=>{
 

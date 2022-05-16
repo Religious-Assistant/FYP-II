@@ -1,4 +1,4 @@
-Clone a git repo
+Clone a git repo, be on main branch
     then 
 >heroku login
 >heroku create 'app-name-here'
