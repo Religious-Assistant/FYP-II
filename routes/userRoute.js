@@ -1,6 +1,7 @@
 const express=require('express')
 const user_route=express()
 const user_controller=require('../controllers/userController')
+
 const authMiddleWare=require('../middlewares/authMiddleWare')
 
 const bodyParser=require('body-parser')

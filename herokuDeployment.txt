@@ -12,4 +12,7 @@ Switch to another app via heroku cli
 Log erros
 >heroku logs --tail
 
+DELETE heroku app
+>heroku apps:destroy
+
 //For database or Environment variables, set them in config vars
