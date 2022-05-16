@@ -10,6 +10,7 @@ const database_url=process.env.DATABASE_URL;
 
 const app=express()
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json())
 
 mongoose.connect(database_url).then(()=>{
     console.log(`Connected to database`)
