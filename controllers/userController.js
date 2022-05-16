@@ -3,7 +3,6 @@ const bcryptjs=require('bcryptjs');  //For password hashing
 const jwt=require('jsonwebtoken');
 const {jwt_secret} = require('../config');
 
-
 const registerUser=async(req, res)=>{
 
     try{
