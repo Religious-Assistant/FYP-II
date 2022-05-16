@@ -6,4 +6,10 @@ Clone a git repo, be on main branch
 > heroku ps:scale web=1
 > heroku open
 
+Switch to another app via heroku cli
+>heroku git:remote -a app_name
+
+Log erros
+>heroku logs --tail
+
 //For database or Environment variables, set them in config vars
