@@ -3,7 +3,8 @@ const mongoose=require('mongoose')
 const user=mongoose.Schema({
     username:{
         type: String,
-        required: true
+        required: true,
+        unique:true,
     },
     password:{
         type: String,
@@ -17,7 +18,21 @@ const user=mongoose.Schema({
         type: Number,
         required: true
     },
+    verified:{
+        type:Boolean,
+        default:false,
+    },
+    avatar:{
+        type: String,
+    }
 
 }, {timestamps: true})
+
+//Can be used for notifications
+
+// user.post('save',(doc, next)=>{
+//     console.log('New document inserted')
+//     next();
+// })
 
 module.exports=mongoose.model('User', user)

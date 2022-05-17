@@ -21,7 +21,6 @@ mongoose.connect(database_url).then(()=>{
 
 
 //routes
-
 const user_routes=require('./routes/userRoute');
 
 app.use('/api', user_routes)
