@@ -24,7 +24,14 @@ const user=mongoose.Schema({
     },
     avatar:{
         type: String,
-    }
+    },
+    location:[
+        {
+            latitude:Number,
+            longitude:Number
+        }
+    ],
+    primaryMosque:String,
 
 }, {timestamps: true})
 

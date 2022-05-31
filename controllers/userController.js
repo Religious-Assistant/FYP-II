@@ -1,20 +1,25 @@
 const User=require('../models/userModel');
 const bcryptjs=require('bcryptjs');  //For password hashing
 const jwt=require('jsonwebtoken');
+const path=require('path')
+const fs = require("fs");
+
 const jwt_secret=process.env.JWT_KEY;
 
-
 const registerUser=async(req, res)=>{
+
 
     try{
         const {username, password,mobile, religion}=await req.body
         const securePassword=await encryptPassword(password);
-        // console.log(req.body)        
+        
+
         const user=new User({
             username:username,
             password:securePassword,
             mobile: mobile,
-            religion: religion
+            religion: religion,
+            avatar:"avatar.png"           
         })
 
         //Check if user already exists
@@ -24,7 +29,24 @@ const registerUser=async(req, res)=>{
         }
         else{
             const user_data=await user.save();
-            res.status(200).send({success:true, data:user_data})
+
+            const directoryPath ='../public/avatars'; 
+            await fs.readdir(path.resolve(__dirname,directoryPath), function (err, files) {
+                if (err) {
+                  return console.log("Unable to scan directory: " + err);
+                }
+                
+                files.forEach(function(file) {
+                    
+                    if (file === 'avatar.png') {
+                        // image=`http://localhost:${port}/public/`
+                        const image=fs.readFileSync(path.resolve(__dirname,`${directoryPath}/${file}`))
+                        console.log(image)
+                        res.status(200).send({success:true, data:user_data, avatar:image})
+                        return
+                    }
+                });
+            })
         }
 
     }catch(error){
@@ -90,8 +112,43 @@ const updatePassword=async(req, res)=>{
     }
 }
 
+const updateProfileImage=async(req,res)=>{
+
+    try{
+        const image=req.files.avatar
+        const {username}=req.body
+        console.log(image.name)
+
+        const user=await User.findOne({username})
+        if(user){
+
+            image.mv(path.resolve(__dirname,"public/avatars"),(error)=>{
+                // if(!error){
+                //     const updatedData=await User.updateOne({username:username},{$set:{avatar:image.name}})                    
+                // }
+                // else{
+                //     res.send({success:false, msg:'Failed to upload image'})
+                // }
+                
+            })
+        }
+        else{
+            res.status(400).send({success:false, msg:"No such user"})
+        }
+
+    }
+    catch(error){
+        res.status(400).send(error.message)
+    }
+}
+
+const getProfile=async(req, res)=>{
+    // const image=await fs.readFileSync(path.resolve(__dirname,`public/avatars/avatar.png`))
+    // res.send({avatar:image})
+    res.send({msg:"Success"})
+}
 async function encryptPassword(password){
-    return await bcryptjs.hash(password,10);
+    return await bcryptjs.hash(password,5);
 }
 
 async function createToken(id){
@@ -101,5 +158,8 @@ async function createToken(id){
 module.exports={
     registerUser,
     loginUser,
-    updatePassword
+    updatePassword,
+    updateProfileImage,
+    getProfile
+
 }
