@@ -8,18 +8,16 @@ const jwt_secret=process.env.JWT_KEY;
 
 const registerUser=async(req, res)=>{
 
-
+    console.log('Register API hit')
     try{
         const {username, password,mobile, religion}=await req.body
         const securePassword=await encryptPassword(password);
         
-
         const user=new User({
             username:username,
             password:securePassword,
             mobile: mobile,
             religion: religion,
-            avatar:"avatar.png"           
         })
 
         //Check if user already exists
@@ -41,8 +39,14 @@ const registerUser=async(req, res)=>{
                     if (file === 'avatar.png') {
                         // image=`http://localhost:${port}/public/`
                         const image=fs.readFileSync(path.resolve(__dirname,`${directoryPath}/${file}`))
-                        console.log(image)
-                        res.status(200).send({success:true, data:user_data, avatar:image})
+                        
+                        const response={
+                            success:true, 
+                            data:user_data, 
+                            avatar:image
+                        }
+                        
+                        res.status(200).send(response)
                         return
                     }
                 });
@@ -56,10 +60,9 @@ const registerUser=async(req, res)=>{
 
 const loginUser=async(req, res)=>{
 
-    console.log(req.body)
+    console.log('Login API hit')
     try{
         const {username, password}=req.body || req.query || req.params;
-
         const user_data=await User.findOne({username:username});
 
         if(user_data){
@@ -75,6 +78,7 @@ const loginUser=async(req, res)=>{
                     religion:user_data.religion,
                     token:token
                 }
+                
                 res.send({success:true,data: resultData})
             }
             else{
@@ -91,7 +95,8 @@ const loginUser=async(req, res)=>{
 }
 
 const updatePassword=async(req, res)=>{
-    
+
+    console.log('Update password API hit')
     try{
         const {username, password}=req.body
         console.log(username)
@@ -114,6 +119,7 @@ const updatePassword=async(req, res)=>{
 
 const updateProfileImage=async(req,res)=>{
 
+    console.log('Update Profile API hit')
     try{
         const image=req.files.avatar
         const {username}=req.body

@@ -1,6 +1,7 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const dotenv=require('dotenv')
+const cors=require('cors')
 const bodyParser=require('body-parser')
 const fileUpload=require('express-fileupload')
 const path=require('path')
@@ -12,6 +13,7 @@ const database_url=process.env.DATABASE_URL;
 
 const app=express()
 
+app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 app.use(fileUpload())
