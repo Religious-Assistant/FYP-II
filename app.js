@@ -18,6 +18,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 app.use(fileUpload())
 app.use(express.static(path.join(__dirname,'public')))
+app.use('/avatars',express.static(path.join(__dirname,'public/avatars')))
+
 
 mongoose.connect(database_url).then(()=>{
     console.log(`Connected to database`)
