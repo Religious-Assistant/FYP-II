@@ -17,6 +17,9 @@ export default function CustomButton(props) {
       disabled={props.disabled}
       onChangeText={props.onChangeText}
       isSecureText={true}
+      w={{
+        base: props.base,
+      }}
       _text={{
         fontSize: 'md',
         fontFamily: fonts.Signika.medium,

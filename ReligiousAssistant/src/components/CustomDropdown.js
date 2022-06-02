@@ -20,8 +20,8 @@ export default function CustomDropdown(props) {
       shadow={2}
       selectedValue={religion}
       minWidth="50%"
-      accessibilityLabel="Choose religion"
-      placeholder="Choose religion"
+      accessibilityLabel={props.placeholder}
+      placeholder={props.placeholder}
       w={{
         base: props.base,
       }}

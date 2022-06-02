@@ -29,7 +29,9 @@ export default function ConnectAsGuest() {
         <Center w="100%" mt={'20%'}>
           <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
             <VStack mt="20%" space={3} _text={styles.text}>
-              <CustomDropdown mt="10%" />
+              <CustomDropdown 
+              placeholder="Choose Religion"
+              mt="10%" />
             </VStack>
             <CustomButton
               title="Connect as guest"

@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 import colors from '../../theme/colors';
 import {Center} from 'native-base';
 import image from '../../../assets/images/qibla_bg.png';
@@ -98,18 +98,18 @@ class QiblaDirection extends Component {
               source={kompass}
               style={[
                 styles.image,
-                {
-                  transform: [
-                    {rotate: `${360 - this.state.compassHeading}deg`},
-                  ],
-                },
+                // {
+                //   transform: [
+                //     {rotate: `${360 - this.state.compassHeading}deg`},
+                //   ],
+                // },
               ]}>
               <View
                 style={{
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transform: [{rotate: `${this.state.qiblad}deg`}],
+                  //transform: [{rotate: `${this.state.qiblad}deg`}],
                 }}>
                 <Image
                   source={kabahImg}

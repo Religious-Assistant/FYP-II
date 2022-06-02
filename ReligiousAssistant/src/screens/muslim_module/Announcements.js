@@ -1,10 +1,118 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
+import {View, Text} from 'react-native';
+import React from 'react';
+import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  Heading,
+  Image,
+  Center,
+  VStack,
+  Box,
+  ScrollView,
+  TextArea,
+} from 'native-base';
+
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Entypo from 'react-native-vector-icons/Entypo';
+import timeICon from '../../../assets/images/rakah_ic.png';
+import TextInput from '../../components/TextInput';
+import CustomButton from '../../components/CustomButton';
 
 export default function Announcements() {
+  
   return (
-    <View>
-      <Text>Announcements</Text>
-    </View>
-  )
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        <View
+          style={{
+            flex: 0.17,
+            backgroundColor: colors.primary,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            position: 'absolute',
+            alignItems: 'center',
+          }}>
+          <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+            <Image
+              source={timeICon}
+              style={{
+                marginTop: '10%',
+                marginRight: '5%',
+                marginBottom: '5%',
+                height: 100,
+                width: 100,
+              }}
+              alt="icon .."
+            />
+          </View>
+          <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+            <Heading color={colors.secondary} marginLeft="10%" marginTop={'5%'}>
+              <Text style={{fontFamily: fonts.Signika.bold}}>Make </Text>
+              <Heading color={colors.white}>
+                <Text style={{fontFamily: fonts.Signika.bold}}>
+                  Announcement
+                </Text>
+              </Heading>
+            </Heading>
+          </View>
+        </View>
+        <View style={{flex: 0.83}} width="95%">
+          <Center
+            width="88%"
+            space={2}
+            maxW="88%"
+            marginTop={'35%'}
+            marginLeft={'8%'}
+            marginBottom={'5%'}>
+            <TextArea
+              mt={'50%'}
+              color={colors.white}
+              bgColor={colors.tertiary}
+              placeholder="Statement"
+              w="100%"
+              maxW="400"
+            />
+            <TextInput
+              textTitle="Location"
+              mt="5%"
+              type="password"
+              icon={<Entypo name="location" />}
+            />
+            <CustomButton
+              title="Add Mosque"
+              variant="solid"
+              mt="8%"
+              color="white"
+              base="99%"
+            />
+          </Center>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 0.5,
+    backgroundColor: colors.white,
+    fontFamily: fonts.Signika.regular,
+  },
+  Maincontainer: {
+    flex: 1,
+    width: '100%',
+  },
+  text: {
+    fontFamily: fonts.Signika.medium,
+    color: colors.primary,
+    marginTop: '5%',
+  },
+});
