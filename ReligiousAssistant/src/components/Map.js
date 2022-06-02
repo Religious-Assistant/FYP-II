@@ -1,3 +1,8 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, Dimensions} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';

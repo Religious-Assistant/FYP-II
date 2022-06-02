@@ -10,24 +10,21 @@ import {
   Heading,
   Image,
   Center,
-  VStack,
-  Box,
-  ScrollView,
   TextArea,
+  Select,
+  CheckIcon,
 } from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import Entypo from 'react-native-vector-icons/Entypo';
-import timeICon from '../../../assets/images/rakah_ic.png';
+import timeICon from '../../../assets/images/announce_ic.png';
 import TextInput from '../../components/TextInput';
 import CustomButton from '../../components/CustomButton';
 
 export default function Announcements() {
-  
+  let [category, setCategory] = React.useState('');
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -43,11 +40,12 @@ export default function Announcements() {
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
               source={timeICon}
+              tintColor={colors.secondary}
               style={{
-                marginTop: '10%',
+                marginTop: '20%',
                 marginRight: '5%',
-                marginBottom: '5%',
-                height: 100,
+                marginBottom: '-2%',
+                height: 120,
                 width: 100,
               }}
               alt="icon .."
@@ -83,11 +81,46 @@ export default function Announcements() {
             <TextInput
               textTitle="Location"
               mt="5%"
-              type="password"
               icon={<Entypo name="location" />}
             />
+            <Select
+              _text={styles.text}
+              color={colors.white}
+              shadow={2}
+              selectedValue={category}
+              minWidth="100%"
+              mt={'3%'}
+              accessibilityLabel="Select Category"
+              placeholder="Select Category"
+              w={{
+                base: '90%',
+              }}
+              _selectedItem={{
+                bg: colors.secondary,
+                endIcon: <CheckIcon size="5" />,
+              }}
+              _light={{
+                bg: colors.tertiary,
+                _text: {color: colors.white},
+              }}
+              _dark={{
+                bg: colors.white,
+              }}
+              onValueChange={itemValue => {
+                setCategory(itemValue);
+                // props.onValueChange;
+              }}>
+              <Select.Item
+                shadow={2}
+                label="Eid Namaz"
+                value="eidNamaz"
+                color={'white'}
+              />
+              <Select.Item shadow={2} label="Other" value="other" />
+            </Select>
+
             <CustomButton
-              title="Add Mosque"
+              title="Make Announcement"
               variant="solid"
               mt="8%"
               color="white"

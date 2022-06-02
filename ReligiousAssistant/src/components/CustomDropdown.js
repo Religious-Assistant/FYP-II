@@ -20,8 +20,8 @@ export default function CustomDropdown(props) {
       shadow={2}
       selectedValue={religion}
       minWidth="50%"
-      accessibilityLabel={props.placeholder}
-      placeholder={props.placeholder}
+      accessibilityLabel="Choose Religion"
+      placeholder="Choose Religion"
       w={{
         base: props.base,
       }}
@@ -40,6 +40,7 @@ export default function CustomDropdown(props) {
         setReligion(itemValue);
         props.onValueChange;
       }}>
+        
       <Select.Item shadow={2} label="Islam" value="islam" color={'white'} />
       <Select.Item shadow={2} label="Hinduism" value="hinduism" />
     </Select>
