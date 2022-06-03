@@ -1,50 +1,29 @@
 const User = require("../models/userModel");
-const bcryptjs = require("bcryptjs"); //For password hashing
 const jwt = require("jsonwebtoken");
-const path = require("path");
 const fs = require("fs");
+const path=require('path')
 
-const { directoryPath, base_url } = require("./constants");
+const { directoryPath, base_url, defaultAvatar } = require("./constants");
+const bcrypt = require("bcrypt");
 
 const jwt_secret = process.env.JWT_KEY;
 
 const registerUser = async (req, res) => {
   console.log("Register API hit");
   try {
-    const { username, password, mobile, religion } = await req.body;
-    const securePassword = await encryptPassword(password);
-
-    const user = new User({
-      username: username,
-      password: securePassword,
-      mobile: mobile,
-      religion: religion,
-    });
-
-    //Check if user already exists
+    const { username } = await req.body;
     const duplicateUser = await User.findOne({ username: username });
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
-      const user_data = await user.save();
+      const img_url = base_url + defaultAvatar;
+      const user_data = await User.create({ ...req.body });
 
-      await fs.readdir(directoryPath, function (err, files) {
-        if (err) {
-          return console.log("Unable to scan directory: " + err);
-        }
-        files.forEach(function (file) {
-          if (file == "avatar.png") {
-            const img_url = base_url + file;
-            const response={
-                success:true,
-                data:user_data,
-                avatar:img_url
-            }
-            res.status(200).send(response);
-            return;
-          }
-        });
-      });
+      if (user_data) {
+        res.send({ success: true, data: user_data, avatar: img_url });
+        return;
+      }
+      res.send({ success: false });
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -54,30 +33,37 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   console.log("Login API hit");
   try {
-    const { username, password } = req.body || req.query || req.params;
+    const { username, password } = req.body;
     const user_data = await User.findOne({ username: username });
 
     if (user_data) {
-
-      const passwordMatch = await bcryptjs.compare(
-        password,
-        user_data.password
-      );
+      const passwordMatch = await bcrypt.compare(password, user_data.password);
 
       if (passwordMatch) {
         const token = await createToken(user_data.username);
-        const avatar= await getProfileImage(user_data.username);
-        const resultData = {
-          _id: user_data._id,
-          username: user_data.username,
-          password: user_data.password,
-          mobile: user_data.mobile,
-          religion: user_data.religion,
-          token: token,
-          avatar:avatar
-        };
-
-        res.send({ success: true, data: resultData });
+        if (user_data.avatar == defaultAvatar) {
+          const resultData = {
+            ...user_data._doc,
+            token: token,
+            avatar: base_url + defaultAvatar,
+          };
+          res.send({ success: true, data: resultData });
+        } else {
+          getProfileImage(user_data.username)
+            .then((avatar) => {
+              const resultData = {
+                ...user_data._doc,
+                token: token,
+                avatar: avatar,
+              };
+              res.send({ success: true, data: resultData });
+            })
+            .catch((error) => {
+              res
+                .status(200)
+                .send({ success: false, msg: "Could not load image" });
+            });
+        }
       } else {
         res
           .status(200)
@@ -124,17 +110,25 @@ const updateProfileImage = async (req, res) => {
   try {
     const image = req.files.avatar;
     const { username } = req.body;
-    console.log(image.name);
 
     const user = await User.findOne({ username });
     if (user) {
-      image.mv(path.resolve(__dirname, "public/avatars"), (error) => {
-        // if(!error){
-        //     const updatedData=await User.updateOne({username:username},{$set:{avatar:image.name}})
-        // }
-        // else{
-        //     res.send({success:false, msg:'Failed to upload image'})
-        // }
+        const imageName=username+'-'+(new Date().getTime())+".png"
+      image.mv(path.join(directoryPath,imageName),async (error) => {
+        if (!error) {
+          await User.updateOne(
+            { username: username },
+            { $set: { avatar: image.name } }
+          );
+
+          res.send({
+            success: true,
+            msg: "Updated profile image successfully",
+          });
+        } else {
+            console.log(error)
+          res.send({ success: false, msg: "Failed to upload image" });
+        }
       });
     } else {
       res.status(400).send({ success: false, msg: "No such user" });
@@ -144,21 +138,22 @@ const updateProfileImage = async (req, res) => {
   }
 };
 
-const getProfileImage=async(username)=>{
-    return new Promise((resolve, reject)=>{
-        fs.readdir(directoryPath, function (err, files) {
-            if (err) {
-              reject(err);
-            }
-            files.forEach(function (file) {
-                const splittedName=file.split('-')
-              if (splittedName[0]==username) {
-                    resolve(base_url + file); 
-              }
-            });
-          });
-    })     
-}
+const getProfileImage = async (username) => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(directoryPath, function (err, files) {
+      if (err) {
+        reject(err);
+      }
+      files.forEach(function (file) {
+        const splittedName = file.split("-");
+        if (splittedName[0] == username) {
+          resolve(base_url + file);
+        }
+      });
+      reject("Image Not found");
+    });
+  });
+};
 
 async function encryptPassword(password) {
   return await bcryptjs.hash(password, 5);

@@ -1,6 +1,7 @@
+const bcrypt = require('bcrypt');
 const mongoose=require('mongoose')
 
-const user=mongoose.Schema({
+const userSchema=mongoose.Schema({
     username:{
         type: String,
         required: true,
@@ -24,22 +25,28 @@ const user=mongoose.Schema({
     },
     avatar:{
         type: String,
+        default:'avatar.png'
     },
-    location:[
-        {
-            latitude:Number,
-            longitude:Number
+    location:{
+        type:{typr:String},
+        coordinates:[]
+    },
+    primaryMosque:{
+        type:String,
+        default:'None',
+    }
+})
+
+userSchema.pre('save',function(next){
+    const user=this;
+    bcrypt.hash(user.password,5,function(err, hash){
+        if(!err && hash){
+            user.password=hash;
+            next();
         }
-    ],
-    primaryMosque:String,
+    })
+})
 
-}, {timestamps: true})
+userSchema.index({location:'2dsphere'})
 
-//Can be used for notifications
-
-// user.post('save',(doc, next)=>{
-//     console.log('New document inserted')
-//     next();
-// })
-
-module.exports=mongoose.model('User', user)
+module.exports=mongoose.model('User', userSchema)

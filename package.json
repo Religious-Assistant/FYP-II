@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
@@ -21,6 +22,6 @@
     "mongoose": "^6.3.2",
     "nodemon": "^2.0.16",
     "randomstring": "^1.2.2",
-    "uninstall": "0.0.0"
+    "uninstall": "^0.0.0"
   }
 }
