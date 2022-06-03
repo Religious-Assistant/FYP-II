@@ -30,8 +30,10 @@ mongoose.connect(database_url).then(()=>{
 
 //routes
 const user_routes=require('./routes/userRoute');
+const tasbih_route = require('./routes/tasbihRoute')
 
 app.use('/api', user_routes)
+app.use('/api', tasbih_route)
 
 app.listen(port,()=>{
     console.log(`Server listening at port ${port}`)

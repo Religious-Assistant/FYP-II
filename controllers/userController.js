@@ -6,6 +6,8 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const User = require("../models/userModel");
+const Tasbih = require("../models/tasbihModel");
+
 const {
   directoryPath,
   base_url,
@@ -28,6 +30,7 @@ const registerUser = async (req, res) => {
       const user_data = await User.create({ ...req.body });
 
       if (user_data) {
+        await Tasbih.create({username:username, count:0})
         res.send({ success: true, data: user_data, avatar: img_url });
         return;
       }
