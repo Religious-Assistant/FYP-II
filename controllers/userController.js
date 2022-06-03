@@ -1,10 +1,14 @@
-const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path=require('path')
-
-const { directoryPath, base_url, defaultAvatar } = require("./constants");
 const bcrypt = require("bcrypt");
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
+
+const User = require("../models/userModel");
+const { directoryPath, base_url, defaultAvatar, D7_KEY, OTP_EXPIRY } = require("./constants");
+
 
 const jwt_secret = process.env.JWT_KEY;
 
@@ -83,20 +87,20 @@ const updatePassword = async (req, res) => {
   console.log("Update password API hit");
   try {
     const { username, password } = req.body;
-    console.log(username);
 
     const user = await User.findOne({ username });
     if (user) {
-      const newPassword = await encryptPassword(password);
-      const updatedData = await User.updateOne(
+       const securePassword=await hashPassword(password)
+       await User.updateOne(
         { username: username },
-        { $set: { password: newPassword } }
+        { $set: { password: securePassword } }
       );
+
       res.status(200).send({
         success: true,
         msg: "Password Updated Successfully!",
-        data: updatedData,
       });
+
     } else {
       res.status(400).send({ success: false, msg: "No such user" });
     }
@@ -138,6 +142,61 @@ const updateProfileImage = async (req, res) => {
   }
 };
 
+const updatePrimaryMosque=async(req, res)=>{
+    console.log("Add primary mosque API hit");
+    try {
+      const { username, primaryMosque } = req.body;
+  
+      const user = await User.findOne({ username });
+      if (user) {
+        await User.updateOne(
+            { username: username },
+            { $set: { primaryMosque: primaryMosque } }
+          );   
+          res.send({ success: true, msg: "Primary Mosque Updated" });  
+      } else {
+        res.status(400).send({ success: false, msg: "No such user" });
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    } 
+}
+
+const sendOTP=async(req, res)=>{
+    console.log("GET OTP Hit");
+    try {
+      const { username, mobile } = req.body; 
+      const user = await User.findOne({ username });
+      if (user) {
+       
+        fetch('https://d7networks.com/api/verifier/send',{
+            method: 'POST',
+            headers: {
+            'content-type': 'application/json',
+            Authorization: D7_KEY,
+        },
+        body: 
+        `
+        {
+            "expiry":${OTP_EXPIRY},
+            "message":"Dear ${username} your OTP code is {code}. Valid for 5 minutes",
+            "mobile":${mobile},
+            "sender_id":"R-Assistant"}
+        `
+        }).then(response=>response.json()).then(response=>{
+            console.log(response)
+            res.send({ success: true, msg: "OTP sent", data:response });
+        }).catch(error=>{
+            res.send({success:false,msg:'Could not sent OTP'})
+        })
+      } else {
+        res.status(400).send({ success: false, msg: "No such user" });
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    } 
+}
+
 const getProfileImage = async (username) => {
   return new Promise((resolve, reject) => {
     fs.readdir(directoryPath, function (err, files) {
@@ -155,17 +214,22 @@ const getProfileImage = async (username) => {
   });
 };
 
-async function encryptPassword(password) {
-  return await bcryptjs.hash(password, 5);
-}
 
 async function createToken(id) {
   return jwt.sign({ _id: id }, jwt_secret);
 }
+async function hashPassword(password){
+    const newPass=await bcrypt.hash(password,5)
+    return newPass;
+}
+
+
 
 module.exports = {
   registerUser,
   loginUser,
   updatePassword,
   updateProfileImage,
+  updatePrimaryMosque,
+  sendOTP
 };
