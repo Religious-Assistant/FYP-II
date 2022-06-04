@@ -263,6 +263,9 @@ const verifyOTPCode = async (req, res) => {
   }
 };
 
+const logout=async(req, res)=>{
+  
+}
 const getProfileImage = async (username) => {
   return new Promise((resolve, reject) => {
     fs.readdir(directoryPath, function (err, files) {
