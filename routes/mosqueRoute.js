@@ -1,17 +1,11 @@
 const express=require('express')
 const mosque_route=express()
-const user_controller=require('../controllers/userController')
 
+const mosque_controller=require('../controllers/mosqueController')
 const authMiddleWare=require('../middlewares/authMiddleWare')
 
 
-user_route.post('/registerUser',user_controller.registerUser)
-user_route.get('/loginUser',user_controller.loginUser)
-user_route.post('/updatePassword',authMiddleWare,user_controller.updatePassword)
+mosque_route.post('/addMosque',mosque_controller.addMosque)
+mosque_route.get('/getClosestMosques',mosque_controller.getClosestMosques)
 
-user_route.get('/authenticatedAPI',authMiddleWare, (req,res)=>{
-
-    res.status(200).send({success:true, msg:"Authenticated User"});
-})
-
-module.exports=user_route
+module.exports=mosque_route
