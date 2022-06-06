@@ -53,7 +53,12 @@ export default function RakahInfo() {
     ],
   };
   return (
-    <View style={{flex: 1, backgroundColor: colors.white}}>
+    <ScrollView
+    keyboardShouldPersistTaps="handled"
+    flex={1}
+    >
+      
+ <View style={{flex: 1, backgroundColor: colors.white}}>
         <View
           style={{
             flex: 0.17,
@@ -118,6 +123,8 @@ export default function RakahInfo() {
           <Accordian namazTime="Eid Namaz" rakatsInfo={rakats.fajr} />
         </View>
       </View>
+    </ScrollView>
+   
    
   );
 }

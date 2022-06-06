@@ -3,149 +3,216 @@
  * @version 1.0
  */
 
-import {View, Text} from 'react-native';
-import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View, FlatList} from 'react-native';
+
 import {
-  Heading,
-  Image,
+  Input,
+  Icon,
+  Fab,
+  Box,
   Center,
-  TextArea,
-  Select,
-  CheckIcon,
+  NativeBaseProvider,
+  Text,
+  Image,
 } from 'native-base';
 
 import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+import Ioicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
-import Entypo from 'react-native-vector-icons/Entypo';
-import timeICon from '../../../assets/images/announce_ic.png';
-import TextInput from '../../components/TextInput';
-import CustomButton from '../../components/CustomButton';
+import deleteIcon from '../../../assets/images/delete_ic.png';
 
-export default function Announcements() {
-  let [category, setCategory] = React.useState('');
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={{flex: 1, backgroundColor: colors.white}}>
-        <View
-          style={{
-            flex: 0.17,
-            backgroundColor: colors.primary,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            position: 'absolute',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-            <Image
-              source={timeICon}
-              tintColor={colors.secondary}
-              style={{
-                marginTop: '20%',
-                marginRight: '5%',
-                marginBottom: '-2%',
-                height: 120,
-                width: 100,
-              }}
-              alt="icon .."
-            />
-          </View>
-          <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-            <Heading color={colors.secondary} marginLeft="10%" marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>Make </Text>
-              <Heading color={colors.white}>
-                <Text style={{fontFamily: fonts.Signika.bold}}>
-                  Announcement
-                </Text>
-              </Heading>
-            </Heading>
-          </View>
-        </View>
-        <View style={{flex: 0.83}} width="95%">
-          <Center
-            width="88%"
-            space={2}
-            maxW="88%"
-            marginTop={'35%'}
-            marginLeft={'8%'}
-            marginBottom={'5%'}>
-            <TextArea
-              mt={'50%'}
-              color={colors.white}
-              bgColor={colors.tertiary}
-              placeholder="Statement"
-              w="100%"
-              maxW="400"
-            />
-            <TextInput
-              textTitle="Location"
-              mt="5%"
-              icon={<Entypo name="location" />}
-            />
-            <Select
-              _text={styles.text}
-              color={colors.white}
-              shadow={2}
-              selectedValue={category}
-              minWidth="100%"
-              mt={'3%'}
-              accessibilityLabel="Select Category"
-              placeholder="Select Category"
-              w={{
-                base: '90%',
-              }}
-              _selectedItem={{
-                bg: colors.secondary,
-                endIcon: <CheckIcon size="5" />,
-              }}
-              _light={{
-                bg: colors.tertiary,
-                _text: {color: colors.white},
-              }}
-              _dark={{
-                bg: colors.white,
-              }}
-              onValueChange={itemValue => {
-                setCategory(itemValue);
-                // props.onValueChange;
-              }}>
-              <Select.Item
-                shadow={2}
-                label="Eid Namaz"
-                value="eidNamaz"
-                color={'white'}
-              />
-              <Select.Item shadow={2} label="Other" value="other" />
-            </Select>
+export default class Announcements extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [
+        {
+          id: 3,
+          image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
+          name: 'March SoulLaComa',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: 'https://via.placeholder.com/100x100/FFB6C1/000000',
+        },
+        {
+          id: 2,
+          image: 'https://bootdey.com/img/Content/avatar/avatar6.png',
+          name: 'John DoeLink',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: 'https://via.placeholder.com/100x100/20B2AA/000000',
+        },
+        {
+          id: 4,
+          image: 'https://bootdey.com/img/Content/avatar/avatar2.png',
+          name: 'Finn DoRemiFaso',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: '',
+        },
+        {
+          id: 5,
+          image: 'https://bootdey.com/img/Content/avatar/avatar3.png',
+          name: 'Maria More More',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: '',
+        },
+        {
+          id: 1,
+          image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
+          name: 'Frank Odalthh',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: 'https://via.placeholder.com/100x100/7B68EE/000000',
+        },
+        {
+          id: 6,
+          image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
+          name: 'Clark June Boom!',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: '',
+        },
+        {
+          id: 7,
+          image: 'https://bootdey.com/img/Content/avatar/avatar5.png',
+          name: 'The googler',
+          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+          attachment: '',
+        },
+      ],
+    };
+  }
 
-            <CustomButton
-              title="Make Announcement"
-              variant="solid"
-              mt="8%"
-              color="white"
-              base="99%"
-            />
+  render() {
+    return (
+      <View style={styles.root}>
+        <FlatList
+          style={styles.root}
+          data={this.state.data}
+          extraData={this.state}
+          ItemSeparatorComponent={() => {
+            return <View style={styles.separator} />;
+          }}
+          keyExtractor={item => {
+            return item.id;
+          }}
+          renderItem={item => {
+            const Notification = item.item;
+            let mainContentStyle;
+            return (
+              <View style={styles.container}>
+                <Image
+                  source={{uri: Notification.image}}
+                  style={styles.avatar}
+                  alt="image.."
+                />
+                <View style={styles.content}>
+                  <View style={mainContentStyle}>
+                    <View style={styles.text}>
+                      <Text style={styles.name}>{Notification.name}</Text>
+                      <Image
+                        source={deleteIcon}
+                        style={{
+                          height: 22,
+                          width: 22,
+                        }}
+                        alt="icon .."
+                      />
+
+                      <Text>{Notification.text}</Text>
+                    </View>
+                    <Text style={styles.timeAgo}>2 hours ago</Text>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+        />
+        <NativeBaseProvider>
+          <Center flex={1} px="3">
+            <FabButton />
           </Center>
-        </View>
+        </NativeBaseProvider>
       </View>
-    </TouchableWithoutFeedback>
-  );
+    );
+  }
 }
 
+const FabButton = () => {
+  return (
+    <Box position="relative" w="100%" h={200}>
+      <Fab
+        bottom={46}
+        backgroundColor={colors.tertiary}
+        icon={
+          <Icon
+            color={colors.secondary}
+            as={<Octicons name="pencil" />}
+            size={5}
+          />
+        }
+        label={
+          <Text color="white" fontSize="sm">
+            Make announcement
+          </Text>
+        }
+        onPress={() => {
+          console.log('pressed');
+        }}
+      />
+    </Box>
+  );
+};
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
+  root: {
+    backgroundColor: '#FFFFFF',
   },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
+  container: {
+    padding: 16,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: '#FFFFFF',
+    alignItems: 'flex-start',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   text: {
-    fontFamily: fonts.Signika.medium,
-    color: colors.primary,
-    marginTop: '5%',
+    marginBottom: 5,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  content: {
+    flex: 1,
+    marginLeft: 16,
+    marginRight: 0,
+  },
+  mainContent: {
+    marginRight: 60,
+  },
+  img: {
+    height: 50,
+    width: 50,
+    margin: 0,
+  },
+  attachment: {
+    position: 'absolute',
+    right: 0,
+    height: 50,
+    width: 50,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+  },
+  timeAgo: {
+    fontSize: 12,
+    color: '#696969',
+  },
+  name: {
+    fontSize: 16,
+    color: colors.info,
   },
 });

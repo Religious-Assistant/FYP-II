@@ -15,13 +15,14 @@ import AddMosque from './src/screens/muslim_module/AddMosque';
 import Map from './src/components/Map'
 import Announcements from './src/screens/muslim_module/Announcements';
 import ConnectAsGuest from './src/screens/ConnectAsGuest';
+import MakeAnnouncement from './src/screens/muslim_module/MakeAnnouncement';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Announcements/>
+      <RootNavigator/>
     </NativeBaseProvider>
   );
 };
