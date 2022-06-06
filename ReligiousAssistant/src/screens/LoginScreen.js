@@ -4,6 +4,8 @@
  *
  */
 
+//https://www.asapdevelopers.com/build-a-react-native-login-app-with-node-js-backend/
+
 import React, {useEffect} from 'react';
 import {
   StyleSheet,
@@ -38,6 +40,10 @@ import {
   SIGNUP,
 } from '../navigation/constants';
 
+//Services
+import { loginUser } from '../services/apis/AuthService';
+
+
 const loginValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
   password: yup.string().min(8).required('Password is required'),
@@ -57,11 +63,22 @@ export default function LoginScreen({navigation}) {
   }
 
   function loginHandler(values) {
-    if (values.username.toLowerCase() === 'kinza') {
-      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
-    } else if (values.username.toLowerCase() === 'akash') {
-      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
-    }
+
+    loginUser(values).then(resp=>resp.json()).then(resp=>{
+
+      if(resp.success && resp.data.religion===1){
+        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+      }
+      else if(resp.success && resp.data.religion==0){
+        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+      }
+      else{
+        alert("Invalid credentials")
+      }
+    }).catch(error=>{
+      console.log(error)
+    })
+  
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
