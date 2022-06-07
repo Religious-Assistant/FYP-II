@@ -10,12 +10,7 @@ import {StatusBar} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
-import RakahInfo from './src/screens/muslim_module/RakahInfo';
-import AddMosque from './src/screens/muslim_module/AddMosque';
-import Map from './src/components/Map'
-import Announcements from './src/screens/muslim_module/Announcements';
-import ConnectAsGuest from './src/screens/ConnectAsGuest';
-import MakeAnnouncement from './src/screens/muslim_module/MakeAnnouncement';
+import LearnNamaz from './src/screens/muslim_module/LearnNamaz';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
