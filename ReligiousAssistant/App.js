@@ -11,13 +11,14 @@ import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 import LearnNamaz from './src/screens/muslim_module/LearnNamaz';
+import ApplyAsImam from './src/screens/muslim_module/ApplyAsImam';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RootNavigator/>
+      <ApplyAsImam/>
     </NativeBaseProvider>
   );
 };
