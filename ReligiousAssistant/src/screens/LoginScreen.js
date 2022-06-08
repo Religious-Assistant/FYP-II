@@ -41,8 +41,10 @@ import {
 } from '../navigation/constants';
 
 //Services
-import { loginUser } from '../services/apis/AuthService';
-
+// import { loginUser } from '../services/apis/AuthService';
+import {apiPOST} from '../services/apis/AuthService'
+import {useDispatch, useSelector} from 'react-redux'
+import { loginUser } from '../redux/slices/authSlice';
 
 const loginValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
@@ -50,13 +52,19 @@ const loginValidationSchema = yup.object().shape({
 });
 
 export default function LoginScreen({navigation}) {
+  
   const navigator = useNavigation();
+
+  const dispatch=useDispatch()
+  const token=useSelector(state=>state.user.token)
+  console.log('Token is: ', token)
 
   useEffect(() => {
     navigation.addListener('beforeRemove', e => {
       e.preventDefault();
     });
-  }, [navigation]);
+    
+  }, [navigation, token]);
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
@@ -64,20 +72,32 @@ export default function LoginScreen({navigation}) {
 
   function loginHandler(values) {
 
-    loginUser(values).then(resp=>resp.json()).then(resp=>{
+    dispatch(loginUser(values))
+    // apiPOST('loginUser',values).then(resp=>{
+    //   if(resp.success && resp.data.religion===1){
+    //     navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+    //   }
+    //   else if(resp.success && resp.data.religion==0){
+    //     navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+    //   }
+    //   else{
+    //     alert("Invalid credentials")
+    //   }
+    // })
 
-      if(resp.success && resp.data.religion===1){
-        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
-      }
-      else if(resp.success && resp.data.religion==0){
-        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
-      }
-      else{
-        alert("Invalid credentials")
-      }
-    }).catch(error=>{
-      console.log(error)
-    })
+    // loginUser(values).then(resp=>resp.json()).then(resp=>{
+    //   if(resp.success && resp.data.religion===1){
+    //     navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+    //   }
+    //   else if(resp.success && resp.data.religion==0){
+    //     navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+    //   }
+    //   else{
+    //     alert("Invalid credentials")
+    //   }
+    // }).catch(error=>{
+    //   console.log(error)
+    // })
   
   }
   return (

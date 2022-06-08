@@ -19,11 +19,13 @@ import {useNavigation} from '@react-navigation/native';
 import {LOGIN} from '../navigation/constants';
 
 const VerificationScreen = () => {
+
   const phoneNumber = '03313456766';
   const firstInput = useRef();
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
+  
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
 
   const navigator = useNavigation();

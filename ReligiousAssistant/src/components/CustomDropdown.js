@@ -40,7 +40,7 @@ export default function CustomDropdown(props) {
         setReligion(itemValue);
         props.onValueChange;
       }}>
-      <Select.Item shadow={2} label="Islam" value="islam" color={'white'} />
+      <Select.Item shadow={2} label="Islam" value="1" color={'white'} />
       <Select.Item shadow={2} label="Hinduism" value="hinduism" />
     </Select>
   );
