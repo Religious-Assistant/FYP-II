@@ -20,7 +20,7 @@ const App = () => {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RootNavigator/>
+      <Profile/>
     </NativeBaseProvider>
   );
 };

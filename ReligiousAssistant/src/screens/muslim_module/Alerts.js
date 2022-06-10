@@ -7,12 +7,6 @@ import React, {Component} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 
 import {
-  Input,
-  Icon,
-  Fab,
-  Box,
-  Center,
-  NativeBaseProvider,
   Text,
   Image,
 } from 'native-base';
