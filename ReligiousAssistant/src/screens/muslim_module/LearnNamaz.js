@@ -1,3 +1,7 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
 import React from 'react';
 import {
   View,

@@ -11,6 +11,7 @@ import {
   View,
   Dimensions,
 } from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 import CompassHeading from 'react-native-compass-heading';
 import Geolocation from '@react-native-community/geolocation';
 import colors from '../../theme/colors';
@@ -28,12 +29,13 @@ class QiblaDirection extends Component {
   componentDidMount() {
     this.getLocation();
     const degree_update_rate = 3;
-
+    let isMounted = true;
     CompassHeading.start(degree_update_rate, degree => {
       this.setState({compassHeading: degree});
     });
 
     return () => {
+      isMounted = false
       CompassHeading.stop();
     };
   }
@@ -68,8 +70,9 @@ class QiblaDirection extends Component {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
+            console.log(position.coords);
             const {latitude, longitude} = position.coords;
-            console.log(latitude, longitude);
+            
             this.calculate(latitude, longitude);
           },
           error => {
@@ -82,7 +85,7 @@ class QiblaDirection extends Component {
         console.log('Location permission not granted!');
       }
     } catch (err) {
-      console.log('Location permission not granted!');
+      console.log('Location permission not granted!',err);
     }
   };
 
@@ -98,8 +101,8 @@ class QiblaDirection extends Component {
               source={kompass}
               style={[
                 styles.image,
-                // {
-                //   transform: [
+                //  {
+                //    transform: [
                 //     {rotate: `${360 - this.state.compassHeading}deg`},
                 //   ],
                 // },
@@ -109,7 +112,7 @@ class QiblaDirection extends Component {
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  //transform: [{rotate: `${this.state.qiblad}deg`}],
+                 // transform: [{rotate: `${this.state.qiblad}deg`}],
                 }}>
                 <Image
                   source={kabahImg}

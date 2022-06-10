@@ -118,13 +118,13 @@ const styles = StyleSheet.create({
   itemInActive: {
     fontSize: 15,
     fontFamily: fonts.Signika.regular,
-    color: colors.white,
+    color: colors.black,
   },
   btnActive: {
     borderColor: colors.success.deep,
   },
   btnInActive: {
-    borderColor: colors.tertiary,
+    borderColor: colors.cover,
   },
   row: {
     flexDirection: 'row',
@@ -133,12 +133,12 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 18,
     alignItems: 'center',
-    backgroundColor: colors.primary,
+    backgroundColor: colors.tertiary,
   },
   childRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: colors.tertiary,
+    backgroundColor: colors.cover,
   },
   parentHr: {
     height: 1,
@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
   },
   childHr: {
     height: 1,
-    backgroundColor: colors.cover,
+    backgroundColor: colors.tertiary,
     width: '100%',
   },
   colorActive: {
-    borderColor: colors.success.deep,
+    borderColor: colors.tertiary,
   },
   colorInActive: {
-    borderColor: colors.tertiary,
+    borderColor: colors.primary,
   },
 });

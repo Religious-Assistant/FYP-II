@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet,View} from 'react-native';
 import {Heading} from 'native-base';
 import CalendarPicker from 'react-native-calendar-picker';
 

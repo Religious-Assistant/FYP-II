@@ -10,15 +10,17 @@ import {StatusBar} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
-import LearnNamaz from './src/screens/muslim_module/LearnNamaz';
-import ApplyAsImam from './src/screens/muslim_module/ApplyAsImam';
+import QiblaDirection from './src/screens/muslim_module/QiblaDirection';
+import MosqueConsensusNoti from './src/screens/muslim_module/MosqueConsensusNoti';
+import NewMosqueAddedNoti from './src/screens/muslim_module/NewMosqueAddedNoti';
+import Profile from './src/screens/muslim_module/Profile'
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ApplyAsImam/>
+      <RootNavigator/>
     </NativeBaseProvider>
   );
 };

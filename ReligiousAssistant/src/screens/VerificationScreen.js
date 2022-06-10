@@ -26,7 +26,10 @@ const VerificationScreen = () => {
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
-  const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+  const fifthInput = useRef();
+  const sixthInput = useRef();
+  
+  const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: '',5:'',6:''});
 
   const navigator=useNavigation()
   function verifyOTP(){
@@ -102,8 +105,37 @@ const VerificationScreen = () => {
                 maxLength={1}
                 ref={fourthInput}
                 onChangeText={text => {
+                  setOtp({...otp, 3: text});
+                  text
+                    ? fifthInput.current.focus()
+                    : thirdInput.current.focus();
+                }}
+              />
+            </View>
+            
+            <View style={styles.otpBox}>
+              <TextInput
+                style={styles.otpText}
+                keyboardType="number-pad"
+                maxLength={1}
+                ref={fifthInput}
+                onChangeText={text => {
+                  setOtp({...otp, 3: text});
+                  text
+                    ? sixthInput.current.focus()
+                    : fourthInput.current.focus();
+                }}
+              />
+            </View>
+            <View style={styles.otpBox}>
+              <TextInput
+                style={styles.otpText}
+                keyboardType="number-pad"
+                maxLength={1}
+                ref={sixthInput}
+                onChangeText={text => {
                   setOtp({...otp, 4: text});
-                  !text && thirdInput.current.focus();
+                  !text && fifthInput.current.focus();
                 }}
               />
             </View>
@@ -157,7 +189,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   otpContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: 5,
     marginBottom: 20,
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -167,7 +199,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.cover,
     backgroundColor: colors.tertiary,
-    borderWidth: 0.5,
+    borderWidth: 0.4,
+    margin:2,
   },
   otpText: {
     fontSize: 25,
