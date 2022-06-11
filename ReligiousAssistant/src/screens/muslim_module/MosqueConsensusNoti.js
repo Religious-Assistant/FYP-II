@@ -19,10 +19,28 @@ import {
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-import mosqueIcon from '../../../assets/images/closest_mosque_ic.png';
+import voteIcon from '../../../assets/images/vote_ic.png';
+
 import CustomButton from '../../components/CustomButton';
 
 export default function MosqueConsensusNoti() {
+  const mosqueInfo = [
+    {
+      key: 1,
+      label: 'Mosque Name',
+      info: 'Sukkur IBA Mosque',
+    },
+    {
+      key: 2,
+      label: 'Location',
+      info: 'Sukkur IBA Uni',
+    },
+    {
+      key: 3,
+      label: 'Added By',
+      info: 'Nadir Hussain',
+    },
+  ];
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -37,23 +55,24 @@ export default function MosqueConsensusNoti() {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={mosqueIcon}
+              source={voteIcon}
               style={{
                 marginTop: '10%',
                 marginRight: '5%',
                 marginBottom: '5%',
                 height: 80,
                 width: 80,
+                tintColor: colors.secondary,
               }}
               alt="icon .."
             />
           </View>
           <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
             <Heading color={colors.secondary} marginLeft="10%" marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>New Mosque </Text>
+              <Text style={{fontFamily: fonts.Signika.bold}}>Be the Part</Text>
               <Heading color={colors.white}>
                 <Text style={{fontFamily: fonts.Signika.bold}}>
-                  {'\n'}Information
+                  {'\n'}Cast Vote
                 </Text>
               </Heading>
             </Heading>
@@ -64,28 +83,23 @@ export default function MosqueConsensusNoti() {
             width="90%"
             space={2}
             maxW="90%"
-            marginTop={'35%'}
+            marginTop={'68%'}
             marginLeft={'8%'}
             marginBottom={'5%'}>
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'46%'}>
-              <HStack justifyContent="space-between">
-                <Text style={styles.label}>Mosque Name:</Text>
-                <Text style={styles.info}>Sukkur IBA Mosque</Text>
-              </HStack>
-            </VStack>
-
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
-              <HStack justifyContent="space-between">
-                <Text style={styles.label}>Location:</Text>
-                <Text style={styles.info}>Sukkur IBA Uni</Text>
-              </HStack>
-            </VStack>
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
-              <HStack justifyContent="space-between">
-                <Text style={styles.label}>Added By:</Text>
-                <Text style={styles.info}>Nadir Hussain</Text>
-              </HStack>
-            </VStack>
+            {mosqueInfo.map((mosque, index) => {
+              return (
+                <VStack
+                  space={3}
+                  divider={<Divider />}
+                  w="90%"
+                  marginTop={'10%'}>
+                  <HStack justifyContent="space-between">
+                    <Text style={styles.label}>{mosque.label}:</Text>
+                    <Text style={styles.info}>{mosque.info}</Text>
+                  </HStack>
+                </VStack>
+              );
+            })}
 
             <VStack space={3} divider={<Divider />} w="90%">
               <HStack justifyContent="space-between">

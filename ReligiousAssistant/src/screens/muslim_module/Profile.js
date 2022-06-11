@@ -11,15 +11,58 @@ import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
 import avatar from '../../../assets/images/avatar.png';
+
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Profile extends Component {
-  
   render() {
-    
+    const userInfo = [
+      {
+        id: 1,
+        label: 'User Name',
+        info: 'Kinza Shaikh',
+        icon: <EvilIcons name="user" />,
+        iconSize: '8',
+      },
+      {
+        id: 2,
+        label: 'Password',
+        info: 'Kinza123',
+        icon: <EvilIcons name="eye" />,
+        iconSize: '8',
+      },
+      {
+        id: 3,
+        label: 'Phone Number',
+        info: '0335339221',
+        icon: <AntDesign name="phone" />,
+        iconSize: '6',
+      },
+      {
+        id: 4,
+        label: 'Location',
+        info: 'Sukkur IBA',
+        icon: <Ionicons name="location-outline" />,
+        iconSize: '6',
+      },
+      {
+        id: 5,
+        label: 'Learn Namaz',
+        info: 'Level 2',
+        icon: <Ionicons name="game-controller-outline" />,
+        iconSize: '6',
+      },
+      {
+        id: 6,
+        label: 'Primary Mosque',
+        info: 'Sukkur IBA Mosque',
+        icon: <MaterialCommunityIcons name="mosque" />,
+        iconSize: '6',
+      },
+    ];
     return (
       <View style={styles.container}>
         <View style={styles.header}></View>
@@ -33,114 +76,27 @@ export default class Profile extends Component {
             maxWidth: '88%',
           }}>
           <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<EvilIcons name="user" />}
-                  size={8}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>User Name:</Text>
-              </View>
-              <Text style={styles.info}>Kinza Shaikh</Text>
-            </HStack>
-          
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<EvilIcons name="eye" />}
-                  size={8}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>Password:</Text>
-              </View>
-              <Text style={styles.info}>Kinza123</Text>
-            </HStack>
-
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<AntDesign name="phone" />}
-                  size={6}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>Phone Number:</Text>
-              </View>
-              <Text style={styles.info}>033539886</Text>
-            </HStack>
-
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<Ionicons name="location-outline" />}
-                  size={6}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>Location:</Text>
-              </View>
-              <Text style={styles.info}>Sukkur IBA</Text>
-            </HStack>
-
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<Ionicons name="game-controller-outline" />}
-                  size={6}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>Learn Namaz:</Text>
-              </View>
-              <Text style={styles.info}>Level 2</Text>
-            </HStack>
-
-            <HStack justifyContent="space-between">
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  as={<MaterialCommunityIcons name="mosque" />}
-                  size={6}
-                  ml="2%"
-                  color={colors.primary}
-                />
-                <Text style={styles.label}>Primary Mosque:</Text>
-              </View>
-              <Text style={styles.info}>Sukkur IBA Mosque</Text>
-            </HStack>
-
+            {userInfo.map((user, index) => {
+              return (
+                <HStack justifyContent="space-between">
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Icon
+                      as={user.icon}
+                      size={user.iconSize}
+                      ml="2%"
+                      mt="-1"
+                      color={colors.primary}
+                    />
+                    <Text style={styles.label}>{user.label}:</Text>
+                  </View>
+                  <Text style={styles.info}>{user.info}</Text>
+                </HStack>
+              );
+            })}
           </VStack>
         </View>
       </View>

@@ -13,6 +13,7 @@ import RootNavigator from './src/navigation/RootNavigator';
 import QiblaDirection from './src/screens/muslim_module/QiblaDirection';
 import MosqueConsensusNoti from './src/screens/muslim_module/MosqueConsensusNoti';
 import NewMosqueAddedNoti from './src/screens/muslim_module/NewMosqueAddedNoti';
+import Alerts from './src/screens/muslim_module/Alerts'
 import Profile from './src/screens/muslim_module/Profile'
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -20,7 +21,7 @@ const App = () => {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Profile/>
+      <MosqueConsensusNoti/>
     </NativeBaseProvider>
   );
 };
