@@ -145,7 +145,7 @@ function RegisterScreen() {
                         mt={"3%"}
                         selectedValue={values.religion}
                         minWidth="50%"
-                        accessibilityLabel="Select your favorite programming language"
+                        accessibilityLabel="Select your Religion"
                         placeholder="Select religion"
                         w={{
                           base: "98%",

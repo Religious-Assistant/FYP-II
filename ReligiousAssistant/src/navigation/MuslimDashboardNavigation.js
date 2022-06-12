@@ -13,6 +13,7 @@ import {
   AUTO_SILENT,
   FIND_MOSQUE,
   LEARN_NAMAZ,
+  MAKE_ANNOUNCEMENT_SCREEN,
   NAMAZ_PLAY_AREA,
   QIBLA_DIRECTION,
   RAKAH_INFO,
@@ -35,6 +36,7 @@ import TasbihCounter from '../screens/muslim_module/TasbihCounter';
 import AddMosque from '../screens/muslim_module/AddMosque';
 import AutoSilent from '../screens/muslim_module/AutoSilent';
 import NamazPlayArea from '../screens/muslim_module/NamazPlayArea';
+import MakeAnnouncement from '../screens/muslim_module/MakeAnnouncement';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -82,6 +84,12 @@ function MuslimDashboardNavigation() {
       <HomeStack.Screen
         name={ANNOUNCEMENTS}
         component={Announcements}
+        options={{title: 'Announcements'}}
+      />
+
+    <HomeStack.Screen
+        name={MAKE_ANNOUNCEMENT_SCREEN}
+        component={MakeAnnouncement}
         options={{title: 'Announcements'}}
       />
 

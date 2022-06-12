@@ -1,5 +1,5 @@
 /**
-* @author Kinza Kiran
+ * @author Kinza Kiran
  * @version 1.0
  */
 
@@ -20,6 +20,8 @@ import colors from '../../theme/colors';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import deleteIcon from '../../../assets/images/delete_ic.png';
+import { useNavigation } from '@react-navigation/native';
+import { MAKE_ANNOUNCEMENT_SCREEN } from '../../navigation/constants';
 
 export default class Announcements extends Component {
   constructor(props) {
@@ -135,6 +137,12 @@ export default class Announcements extends Component {
 }
 
 const FabButton = () => {
+
+  const navigator=useNavigation()
+
+  function launchMakeAnnouncementScreen(){
+    navigator.navigate(MAKE_ANNOUNCEMENT_SCREEN)
+  }
   return (
     <Box position="relative" w="100%" h={200}>
       <Fab
@@ -152,9 +160,7 @@ const FabButton = () => {
             Make announcement
           </Text>
         }
-        onPress={() => {
-          console.log('pressed');
-        }}
+        onPress={launchMakeAnnouncementScreen}
       />
     </Box>
   );

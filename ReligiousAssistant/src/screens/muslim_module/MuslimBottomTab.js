@@ -14,6 +14,7 @@ import FindMosque from './FindMosque';
 import fonts from '../../theme/fonts';
 import NamazTimings from './NamazTimings';
 import Home from './Home';
+import Alerts from './Alerts';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -39,6 +40,7 @@ const AddMosqueButton = ({children, onPress}) => {
     </TouchableOpacity>
   );
 };
+
 
 export default function MuslimBottomTab() {
   return (
@@ -96,7 +98,7 @@ export default function MuslimBottomTab() {
         />
         <BottomTab.Screen
           name="Notifications"
-          component={Notifications}
+          component={Alerts}
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
