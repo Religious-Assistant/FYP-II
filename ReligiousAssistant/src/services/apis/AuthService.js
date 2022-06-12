@@ -11,6 +11,7 @@ const apiPOST = async (api,body)=>{
          },
          body:JSON.stringify(body)
      })
+     
      return await res.json()
 }
  

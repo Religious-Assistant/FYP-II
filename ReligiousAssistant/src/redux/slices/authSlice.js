@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
     token:null,
-    loading:false,
+    isLoading:false,
     error:""
 }
 
@@ -25,17 +25,15 @@ export const loginUser = createAsyncThunk(
     }
 )
 
-export const storeToken = createAsyncThunk(
-    'storeToken',
+export const addToken = createAsyncThunk(
+    'addToken',
     async ()=>{
        const result =  await AsyncStorage.getItem('token') 
        return result  
     }
 )
 
-
-
-const authReducer = createSlice({
+const authSlice = createSlice({
     name:"user",
     initialState,
     reducers:{
@@ -46,7 +44,7 @@ const authReducer = createSlice({
     },
     extraReducers:{
         [registerUser.fulfilled]:(state,{payload:{error,message}})=>{
-          state.loading = false
+          state.isLoading = false
           if(error){
               state.error =error
               alert(error)
@@ -55,15 +53,42 @@ const authReducer = createSlice({
              alert(message)
           }
         },
-        [storeToken.fulfilled]:(state,action)=>{
+        [addToken.fulfilled]:(state,action)=>{
             state.token = action.payload
+        },
+        [addToken.rejected]:(state,action)=>{
+            state.isLoading=false
+            state.error='Could not load token'
+            state.token = null
+
+        },
+        [addToken.pending]:(state,action)=>{
+            state.isLoading=false
+            state.error='Loading Auth- token'
+        },
+
+        [registerUser.fulfilled]:(state,action)=>{
+            state.loading = false
+            state.error='Could not register'
         },
         [registerUser.pending]:(state,action)=>{
             state.loading = true
         },
+        [registerUser.rejected]:(state,action)=>{
+            state.loading = false
+            state.error='Could not register'
+        },
+        
         [loginUser.pending]:(state,action)=>{
             state.loading = true
         },
+        [loginUser.rejected]:(state,action)=>{
+            console.log("Comes")
+            state.error = true;
+            state.loading=false;
+            alert(state.error)
+        },
+        
         [loginUser.fulfilled]:(state,{payload:{error,data}})=>{
             state.loading = false
             if(error){
@@ -78,5 +103,10 @@ const authReducer = createSlice({
 
 })
 
-export const {logout}  = authReducer.actions
-export default authReducer.reducer
+export const {logout}  = authSlice.actions
+
+export const selectToken=(state)=>state.authSlice.token
+export const selectTokenIsLoading=(state)=>state.authSlice.token
+export const selectTokenHasError=(state)=>state.authSlice.token
+
+export default authSlice.reducer
