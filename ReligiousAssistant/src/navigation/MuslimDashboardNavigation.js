@@ -40,6 +40,7 @@ const HomeStack = createNativeStackNavigator();
 
 function MuslimDashboardNavigation() {
   return (
+
     <HomeStack.Navigator initialRouteName={REGISTERED_MUSLIM_HOME_STACK}>
       <HomeStack.Screen
         name={REGISTERED_MUSLIM_HOME_STACK}

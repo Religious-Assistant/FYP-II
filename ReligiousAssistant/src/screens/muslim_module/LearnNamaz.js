@@ -41,9 +41,11 @@ export default function LearnNamaz() {
 const RakahList = (props) => {
 
   const navigator=useNavigation()
-  function navigateToGame(){
+  function navigateToGame(item){
+    console.log(item)
     props.setModal(false)
-    navigator.navigate(NAMAZ_PLAY_AREA)
+    navigator.navigate(NAMAZ_PLAY_AREA,{namazInfo:item})
+    
   }
 
   //Should come from prop
@@ -67,7 +69,7 @@ const RakahList = (props) => {
       <FlatList data={data} keyboardDismissMode keyExtractor={item=>item.id} 
     renderItem={({
       item
-    }) =><Pressable onPress={navigateToGame}  >
+    }) =><Pressable onPress={()=>{navigateToGame(item)}}  >
             <Box borderBottomWidth="1" _dark={{
       borderColor: "gray.600"
     }} borderColor="coolGray.200" pl="4" pr="5" py="2">
