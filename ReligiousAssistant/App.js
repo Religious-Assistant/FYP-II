@@ -21,7 +21,7 @@ const App = () => {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <MosqueConsensusNoti/>
+      <RootNavigator/>
     </NativeBaseProvider>
   );
 };
