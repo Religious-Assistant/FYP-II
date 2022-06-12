@@ -17,6 +17,7 @@ import fonts from '../theme/fonts';
 import {SIGNUP} from '../navigation/constants';
 
 export default function ConnectAsGuest() {
+  const items = ["Islam", "Hinduism"];
   return (
     <View style={styles.flexRatio}>
       <ImageBackground
@@ -25,7 +26,8 @@ export default function ConnectAsGuest() {
         <Center w="100%" mt={'20%'}>
           <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
             <VStack mt="20%" space={3} _text={styles.text}>
-              <CustomDropdown mt="10%" />
+              <CustomDropdown 
+              mt="10%" />
             </VStack>
             <CustomButton
               title="Connect as guest"

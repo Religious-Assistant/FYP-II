@@ -3,58 +3,54 @@
  * @version 1.0
  */
 
-import React, {Component} from 'react';
-import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+
+import {View} from 'native-base';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Dimensions, ImageBackground} from 'react-native';
+import {Image, Center, Text} from 'native-base';
 
 import CompassHeading from 'react-native-compass-heading';
-import Geolocation from 'react-native-geolocation-service';
-import colors from '../../theme/colors';
-import {Center} from 'native-base';
-import image from '../../../assets/images/qibla_bg.png';
+
+import Geolocation from '@react-native-community/geolocation';
+import {PermissionsAndroid} from 'react-native';
+
 import kompass from '../../../assets/images/kompas.png';
-import kabahImg from '../../../assets/images/kakbah.png';
+import image from '../../../assets/images/qibla_bg.png';
+import kabahICon from '../../../assets/images/kabah_ic.png';
 
-class QiblaDirection extends Component {
-  state = {
-    compassHeading: 0,
-    qiblad: 0,
-  };
+import colors from '../../theme/colors';
 
-  componentDidMount() {
-    this.getLocation();
+const QiblaDirection = () => {
+  const [compassHeading, setCompassHeading] = useState(0);
+  const [qiblad, setQiblad] = useState(0);
+  useEffect(() => {
     const degree_update_rate = 3;
-
-    CompassHeading.start(degree_update_rate, degree => {
-      this.setState({compassHeading: degree});
+    getLocation();
+    CompassHeading.start(degree_update_rate, ({heading, accuracy}) => {
+      setCompassHeading(heading);
     });
 
     return () => {
       CompassHeading.stop();
     };
-  }
+  }, []);
 
-  calculate = (latitude, longitude) => {
+  function calculate(latitude, longitude) {
     const PI = Math.PI;
     let latk = (21.4225 * PI) / 180.0;
     let longk = (39.8264 * PI) / 180.0;
     let phi = (latitude * PI) / 180.0;
     let lambda = (longitude * PI) / 180.0;
-    let qiblad =
+    let qibladir =
       (180.0 / PI) *
       Math.atan2(
         Math.sin(longk - lambda),
         Math.cos(phi) * Math.tan(latk) -
           Math.sin(phi) * Math.cos(longk - lambda),
       );
-    this.setState({qiblad});
-    console.log({qiblad});
-  };
+    setQiblad(qibladir);
+    console.log(qibladir);
+  }
 
   getLocation = async () => {
     try {
@@ -71,74 +67,76 @@ class QiblaDirection extends Component {
           position => {
             const {latitude, longitude} = position.coords;
             console.log(latitude, longitude);
-            this.calculate(latitude, longitude);
+            calculate(latitude, longitude);
           },
           error => {
             // See error code charts below.
             console.log(error.code, error.message);
           },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          {enableHighAccuracy: false, timeout: 15000},
         );
       } else {
         console.log('Location permission not granted!');
       }
     } catch (err) {
-      console.log('Location permission not granted!');
+      console.log('Location permission not granted!', err);
     }
   };
-
-  render() {
-    return (
-      <View style={styles.Maincontainer}>
-        <ImageBackground
-          style={styles.imageBg}
-          resizeMode="stretch"
-          source={image}>
-          <Center w="100%" mt={'95'} h="95%" maxW="100%">
-            <ImageBackground
-              source={kompass}
-              style={[
-                styles.image,
-                {
-                  transform: [
-                    {rotate: `${360 - this.state.compassHeading}deg`},
-                  ],
-                },
-              ]}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transform: [{rotate: `${this.state.qiblad}deg`}],
-                }}>
+  return (
+    <View style={styles.Maincontainer}>
+      <ImageBackground
+        style={styles.imageBg}
+        resizeMode="stretch"
+        source={image}>
+        <Center w="100%" mt={'95'} h="95%" maxW="100%">
+          <ImageBackground
+            style={[
+              styles.image,
+              {transform: [{rotate: `${360 - compassHeading}deg`}]},
+            ]}
+            source={kompass}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                transform: [{rotate: `${qiblad}deg`}],
+              }}>
+              {qiblad ? (
                 <Image
-                  source={kabahImg}
+                  source={kabahICon}
+                  alt="alt"
+                  size={10}
                   style={{
-                    marginBottom: '52%',
+                    marginBottom: '87%',
                     resizeMode: 'contain',
                     flex: 0.7,
                     alignSelf: 'center',
-                    marginRight: '7.5%',
+                    marginRight: '-8%',
                   }}
                 />
-              </View>
-            </ImageBackground>
-          </Center>
-        </ImageBackground>
-      </View>
-    );
-  }
-}
-
-export default QiblaDirection;
+              ) : (
+                <View></View>
+              )}
+            </View>
+          </ImageBackground>
+        </Center>
+      </ImageBackground>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
+  image: {
+    width: '90%',
+    flex: 0.5,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
   Maincontainer: {
     flex: 1,
     width: '100%',
   },
-  image: {width: '90%', flex: 0.5, resizeMode: 'contain', alignSelf: 'center'},
   container: {backgroundColor: colors.cover, flex: 1},
   imageBg: {
     flex: 1,
@@ -154,3 +152,5 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 });
+
+export default QiblaDirection;

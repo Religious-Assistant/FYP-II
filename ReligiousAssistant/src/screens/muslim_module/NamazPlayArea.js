@@ -32,7 +32,7 @@ const NamazPlayArea = ({ route, navigation }) => {
   }
 
   function markAsComplete(){
-
+    
   }
 
   return (

@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontFamily: fonts.Signika.regular,
+    color:colors.primary
   },
   mainBox: {
     border: 1,

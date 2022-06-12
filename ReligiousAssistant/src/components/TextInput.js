@@ -15,9 +15,10 @@ export default function TextInput(props) {
   const mRight = props.mr ? props.mr : 0;
   const mLeft = props.ml ? props.ml : 0;
   const mTop = props.mt ? props.mt : 0;
-
+  const type = props.type ? props.type: "text";
   return (
     <Input
+      type={props.type}
       _text={styles.text}
       color={colors.white}
       bgColor={colors.tertiary}

@@ -7,7 +7,6 @@ import React from 'react';
 import {Button} from 'native-base';
 
 import fonts from '../theme/fonts';
-import colors from '../theme/colors';
 
 export default function CustomButton(props) {
   return (
@@ -16,6 +15,9 @@ export default function CustomButton(props) {
       disabled={props.disabled}
       onChangeText={props.onChangeText}
       isSecureText={true}
+      w={{
+        base: props.base,
+      }}
       _text={{
         fontSize: 'md',
         fontFamily: fonts.Signika.medium,

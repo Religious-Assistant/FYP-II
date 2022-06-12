@@ -1,5 +1,4 @@
-/**
- * @author Kinza
+/* @author Kinza Kiran
  * @version 1.0
  */
 

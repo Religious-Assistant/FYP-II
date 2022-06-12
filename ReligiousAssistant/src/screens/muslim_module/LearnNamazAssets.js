@@ -112,7 +112,6 @@ const getScene=(array,index)=>{
     return array[index];
 }
 
-
 module.exports={
     sunnah2,
     getScene
