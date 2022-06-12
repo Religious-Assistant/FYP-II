@@ -4,14 +4,31 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet,View} from 'react-native';
-import {Heading} from 'native-base';
+import {StyleSheet, View} from 'react-native';
+import moment from 'moment';
+import {
+  NativeBaseProvider,
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  Icon,
+  HStack,
+  Center,
+  Pressable,
+} from 'native-base';
+import {MaterialCommunityIcons, MaterialIcons} from 'react-native-vector-icons';
 import CalendarPicker from 'react-native-calendar-picker';
 
 import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
 
-import NamazAndFast from '../../components/NamazAndFast';
+import Namaz from '../../components/Namaz';
+import Fast from '../../components/Fast';
 
 export default class Accountability extends Component {
   constructor(props) {
@@ -30,6 +47,7 @@ export default class Accountability extends Component {
   render() {
     const {selectedStartDate} = this.state;
     const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+    const date = moment(selectedStartDate).format('DD-MM-YYYY');
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <View style={styles.headerContainer}>
@@ -39,18 +57,72 @@ export default class Accountability extends Component {
         </View>
         <View style={styles.container}>
           <CalendarPicker
+            previousTitle="Previous"
+            nextTitle="Next"
+            previousTitleStyle={{
+              color: colors.info,
+              fontFamily: fonts.Signika.bold,
+            }}
+            nextTitleStyle={{
+              color: colors.info,
+              fontFamily: fonts.Signika.bold,
+            }}
             onDateChange={this.onDateChange}
             selectedDayColor={colors.secondary}
             todayBackgroundColor={colors.primary}
             todayTextStyle={{color: 'white'}}
           />
         </View>
-        <NamazAndFast currDate={startDate} />
+        <Namaz selectedDate={date} />
+        {/* <Fast selectedDate={date}/>  */}
+        <FooterOptions />
       </View>
     );
   }
 }
-
+function FooterOptions() {
+  const [selected, setSelected] = React.useState(0);
+  return (
+    <Box
+      flex={1}
+      bg="white"
+      safeAreaTop
+      width="100%"
+      maxW="100%"
+      maxHeight={'10%'}
+      maxH={'8%'}
+      marginTop={'50%'}
+      alignSelf="center">
+      <Center flex={1}></Center>
+      <HStack bg={colors.primary} alignItems="center" safeAreaBottom shadow={5}>
+        <Pressable
+          cursor="pointer"
+          opacity={selected === 0 ? 1 : 0.5}
+          py="3"
+          flex={1}
+          onPress={() => setSelected(0)}>
+          <Center>
+            <Text color="white" fontSize="18" fontFamily={fonts.Signika.bold}>
+              Prayer
+            </Text>
+          </Center>
+        </Pressable>
+        <Pressable
+          cursor="pointer"
+          opacity={selected === 1 ? 1 : 0.5}
+          py="2"
+          flex={1}
+          onPress={() => setSelected(1)}>
+          <Center>
+            <Text color="white" fontSize="18" fontFamily={fonts.Signika.bold}>
+              Fast
+            </Text>
+          </Center>
+        </Pressable>
+      </HStack>
+    </Box>
+  );
+}
 const styles = StyleSheet.create({
   container: {
     flex: 0.5,

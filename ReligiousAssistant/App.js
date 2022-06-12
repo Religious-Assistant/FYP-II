@@ -15,13 +15,14 @@ import MosqueConsensusNoti from './src/screens/muslim_module/MosqueConsensusNoti
 import NewMosqueAddedNoti from './src/screens/muslim_module/NewMosqueAddedNoti';
 import Alerts from './src/screens/muslim_module/Alerts'
 import Profile from './src/screens/muslim_module/Profile'
+import Accountability from './src/screens/muslim_module/Accountability';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <RootNavigator/>
+      <Accountability/>
     </NativeBaseProvider>
   );
 };

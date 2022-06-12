@@ -7,7 +7,6 @@ import React from 'react';
 import {Button} from 'native-base';
 
 import fonts from '../theme/fonts';
-import colors from '../theme/colors';
 
 export default function CustomButton(props) {
   
