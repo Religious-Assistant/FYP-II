@@ -1,12 +1,11 @@
-/**
- * @author Kinza Kiran
+/* @author Kinza Kiran
  * @version 1.0
  */
 
 import {View, Text} from 'react-native';
 import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import {Heading, Image, Center, VStack, Box, ScrollView} from 'native-base';
+import {Heading, Image, Center} from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';

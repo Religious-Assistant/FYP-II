@@ -9,7 +9,6 @@ import {Button} from 'native-base';
 import fonts from '../theme/fonts';
 
 export default function CustomButton(props) {
-  
   return (
     <Button
       onPress={props.onPress}

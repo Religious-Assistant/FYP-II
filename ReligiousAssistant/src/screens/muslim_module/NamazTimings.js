@@ -12,7 +12,6 @@ import timeICon from '../../../assets/images/clock_ic.png';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-
 export default function NamazTimings() {
   const namazTimes = [
     {

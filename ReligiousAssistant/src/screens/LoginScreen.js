@@ -1,10 +1,12 @@
 /**
- * @author Kinza 
+ * @author Kinza
  * @version 1.0
- * 
+ *
  */
 
-import React , {useEffect}from 'react';
+//https://www.asapdevelopers.com/build-a-react-native-login-app-with-node-js-backend/
+
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -38,31 +40,65 @@ import {
   SIGNUP,
 } from '../navigation/constants';
 
+//Services
+// import { loginUser } from '../services/apis/AuthService';
+import {apiPOST} from '../services/apis/AuthService'
+import {useDispatch, useSelector} from 'react-redux'
+import { addToken, loginUser } from '../redux/slices/authSlice';
+
+// const loginValidationSchema = yup.object().shape({
+//   username: yup.string().required('username is required'),
+//   password: yup.string().min(8).required('Password is required'),
+// });
+
 const loginValidationSchema = yup.object().shape({
-  username: yup.string().required('username is required'),
-  password: yup.string().min(8).required('Password is required'),
+  username: yup.string(),
+  password: yup.string(),
 });
 
 export default function LoginScreen({navigation}) {
+  
   const navigator = useNavigation();
 
-  useEffect(()=>{
-    navigation.addListener('beforeRemove', (e) => {
+  const dispatch=useDispatch()
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-    })
-  },[navigation])
+    });
+
+    dispatch(addToken())
+    
+  }, [navigation]);
+
+  const token=useSelector(state=>state.user.token)
+  console.log('Token is: ', token)
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
   }
 
   function loginHandler(values) {
-    if((values.username).toLowerCase()==='kinza'){
-      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
-    }
-    else if((values.username).toLowerCase()==='akash'){
-      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
-    }
+
+    // const data=dispatch(loginUser(values))
+    // console.log(data)
+
+
+    // apiPOST('loginUser',values).then(resp=>{
+    //   if(resp.success && resp.data.religion===1){
+    //     navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+    //   }
+    //   else if(resp.success && resp.data.religion==0){
+    //     navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+    //   }
+    //   else{
+    //     alert("Invalid credentials")
+    //   }
+    // })
+
+    navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+    
+  
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -116,13 +152,12 @@ export default function LoginScreen({navigation}) {
                         error={errors.password}
                         errosTouched={touched.password}
                       />
-                      <View style={{flexDirection: 'row', marginTop:'2%'}}>
+                      <View style={{flexDirection: 'row', marginTop: '2%'}}>
                         <Checkbox
                           alignSelf="flex-start"
                           _text={styles.link}
                           value="info"
-                          colorScheme="info"
-                          >
+                          colorScheme="info">
                           Remember me
                         </Checkbox>
                         <Link _text={styles.link} alignSelf="flex-end" ml="19%">

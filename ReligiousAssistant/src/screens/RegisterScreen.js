@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {Center, VStack, FormControl, Button} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Select, CheckIcon} from 'native-base';
 
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -21,36 +22,44 @@ import fonts from '../theme/fonts';
 import TextInput from '../components/TextInput';
 import BottomText from '../components/BottomText';
 import PasswordInput from '../components/PasswordInput';
-import CustomDropdown from '../components/CustomDropdown';
 import CustomButton from '../components/CustomButton';
 import ErrorMessage from '../components/ErrorMessage';
 import image from '../../assets/images/signUp_bg.png';
 import {useNavigation} from '@react-navigation/native';
-import { ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION } from '../navigation/constants';
+import {ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION} from '../navigation/constants';
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
+
 const registerValidationSchema = yup.object().shape({
-  username: yup.string().required('username is required'),
-  password: yup.string().min(8).required('Password is required'),
+  username: yup.string(),
+  password: yup.string(),
   phoneNumber: yup
-    .string()
-    .required('Phone number is required')
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .min(11),
+    .string(),
+    religion: yup.number(),
 });
 
-function CheckRegister() {
+// const registerValidationSchema = yup.object().shape({
+//   username: yup.string().required('username is required'),
+//   password: yup.string().min(8).required('Password is required'),
+//   phoneNumber: yup
+//     .string()
+//     .required('Phone number is required')
+//     .matches(phoneRegExp, 'Phone number is not valid')
+//     .min(11),
+//     religion: yup.number().required('Religion is Required'),
+// });
+
+function RegisterScreen() {
   const navigator = useNavigation();
 
-
-  function signupHandler(values){
-    navigator.navigate(OTP_VERIFICATION);
+  function signupHandler(values) {
     console.log(values);
+    navigator.navigate(OTP_VERIFICATION);
   }
 
-  function enterAsGuest(){
-    navigator.navigate(ENTER_AS_GUEST)
-   }
+  function enterAsGuest() {
+    navigator.navigate(ENTER_AS_GUEST);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -63,7 +72,12 @@ function CheckRegister() {
             <VStack space={3} mt="12" maxW={'80%'} _text={styles.text} h="90%">
               <Formik
                 validationSchema={registerValidationSchema}
-                initialValues={{username: '', password: '', phoneNumber: ''}}
+                initialValues={{
+                  username: '',
+                  password: '',
+                  phoneNumber: '',
+                  religion: 1,
+                }}
                 onSubmit={values => {
                   signupHandler(values);
                 }}>
@@ -75,6 +89,7 @@ function CheckRegister() {
                   errors,
                   isValid,
                   touched,
+                  setFieldValue
                 }) => (
                   <>
                     <FormControl mt="30%">
@@ -124,7 +139,34 @@ function CheckRegister() {
                         errosTouched={touched.phoneNumber}
                       />
 
-                      <CustomDropdown mt="3%" base="98%" name="religion" />
+                      <Select
+                        _text={styles.text}
+                        color={colors.white}
+                        mt={"3%"}
+                        selectedValue={values.religion}
+                        minWidth="50%"
+                        accessibilityLabel="Select your Religion"
+                        placeholder="Select religion"
+                        w={{
+                          base: "98%",
+                        }}
+                        _selectedItem={{
+                          bg: colors.secondary,
+                          endIcon: <CheckIcon size="5" />,
+                        }}
+                        _light={{
+                          bg: colors.tertiary,
+                          _text: {color: colors.white},
+                        }}
+                        _dark={{
+                          bg: colors.white,
+                        }}
+                        onValueChange={(item)=>setFieldValue('religion',item)}
+                        >
+                        <Select.Item label="Islam" value={1} color={'white'} />
+                        <Select.Item label="Hinduism" value={0} color={'white'} />
+                      </Select>
+
                     </FormControl>
                     <CustomButton
                       title="Sign Up"
@@ -196,4 +238,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckRegister;
+export default RegisterScreen;

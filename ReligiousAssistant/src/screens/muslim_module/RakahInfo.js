@@ -6,14 +6,14 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Heading, Image, Center, VStack, Box, ScrollView} from 'native-base';
+import {Heading, Image, Center, ScrollView} from 'native-base';
+
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-
 import timeICon from '../../../assets/images/rakah_ic.png';
-
 import Accordian from '../../components/Accordian';
+
 
 export default function RakahInfo() {
   const rakats = {

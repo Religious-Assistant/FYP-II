@@ -48,6 +48,7 @@ export default function Namaz(props) {
     </View>
   );
 }
+
 function NamazTimes(props) {
   return (
     <View>

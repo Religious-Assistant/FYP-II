@@ -3,10 +3,12 @@
  * @version 1.0
  */
 
+
 import {View} from 'native-base';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Dimensions, ImageBackground} from 'react-native';
 import {Image, Center, Text} from 'native-base';
+
 import CompassHeading from 'react-native-compass-heading';
 
 import Geolocation from '@react-native-community/geolocation';

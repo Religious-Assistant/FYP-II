@@ -4,26 +4,28 @@
  */
 
 import 'react-native-gesture-handler';
-import React , {useEffect}from 'react';
+import React from 'react';
 import {StatusBar} from 'react-native';
 
 import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
-import QiblaDirection from './src/screens/muslim_module/QiblaDirection';
-import MosqueConsensusNoti from './src/screens/muslim_module/MosqueConsensusNoti';
-import NewMosqueAddedNoti from './src/screens/muslim_module/NewMosqueAddedNoti';
-import Alerts from './src/screens/muslim_module/Alerts'
-import Profile from './src/screens/muslim_module/Profile'
-import Accountability from './src/screens/muslim_module/Accountability';
+import store from './src/redux/store'
+import {Provider} from 'react-redux'
+
+const preloadedState = window.__PRELOADED_STATE__
+
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   
   return (
+    <Provider store={store} serverState={preloadedState}>
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <RootNavigator/>
     </NativeBaseProvider>
+    </Provider>
   );
 };
 

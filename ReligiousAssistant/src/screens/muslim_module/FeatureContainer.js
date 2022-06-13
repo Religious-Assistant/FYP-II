@@ -1,5 +1,9 @@
-import {View, Text, Center, Image, ScrollView} from 'native-base';
+/**
+ * @author Nadir
+ * @version 1.0
+ */
 
+import {View, Text, Center, Image, ScrollView} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
@@ -117,7 +121,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
-                    alt='Icon...'
+                    alt="Icon..."
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
@@ -147,7 +151,7 @@ export default function FeatureContainer() {
                       height: 50,
                       width: 50,
                     }}
-                    alt='Icon...'
+                    alt="Icon..."
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>

@@ -1,4 +1,5 @@
 /**
+
  * @author Kinza Kiran
  * @version 1.0
  */
@@ -13,8 +14,8 @@ import fonts from '../../theme/fonts';
 
 import tasbihIcon from '../../../assets/images/tasbih_ic.png';
 import tasbihImg from '../../../assets/images/tasbih_img.png';
-
 import CustomButton from '../../components/CustomButton';
+
 
 export default function TasbihCounter() {
   const [tasbihCount, setTasbihCount] = useState(0);

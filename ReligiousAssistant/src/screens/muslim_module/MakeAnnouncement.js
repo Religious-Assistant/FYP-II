@@ -14,8 +14,16 @@ import fonts from '../../theme/fonts';
 import timeICon from '../../../assets/images/announce_ic.png';
 import CustomButton from '../../components/CustomButton';
 
+import {Formik} from 'formik';
+import { ANNOUNCEMENT_CATEGORIES } from './UIConstants';
+
 export default function MakeAnnouncement() {
-  let [category, setCategory] = React.useState('');
+
+  function announce(values) {
+    console.log(values);
+
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -61,57 +69,86 @@ export default function MakeAnnouncement() {
             marginTop={'35%'}
             marginLeft={'8%'}
             marginBottom={'5%'}>
-            <TextArea
-              mt={'50%'}
-              color={colors.white}
-              bgColor={colors.tertiary}
-              placeholder="Statement"
-              w="100%"
-              maxW="400"
-            />
-            <Select
-              _text={styles.text}
-              color={colors.white}
-              shadow={2}
-              selectedValue={category}
-              minWidth="100%"
-              mt={'3%'}
-              accessibilityLabel="Select Category"
-              placeholder="Select Category"
-              w={{
-                base: '90%',
+            <Formik
+              initialValues={{
+                description: '',
+                category: ANNOUNCEMENT_CATEGORIES[1],
               }}
-              _selectedItem={{
-                bg: colors.secondary,
-                endIcon: <CheckIcon size="5" />,
-              }}
-              _light={{
-                bg: colors.tertiary,
-                _text: {color: colors.white},
-              }}
-              _dark={{
-                bg: colors.white,
-              }}
-              onValueChange={itemValue => {
-                setCategory(itemValue);
-                // props.onValueChange;
+              onSubmit={values => {
+                announce(values);
               }}>
-              <Select.Item
-                shadow={2}
-                label="Eid Namaz"
-                value="eidNamaz"
-                color={'white'}
-              />
-              <Select.Item shadow={2} label="Other" value="other" />
-            </Select>
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                setFieldValue,
+              }) => (
+                <>
+                  <TextArea
+                    name="description"
+                    onChangeText={handleChange('description')}
+                    onBlur={handleBlur('description')}
+                    value={values.description}
+                    mt={'30%'}
+                    height={'40%'}
+                    color={colors.white}
+                    bgColor={colors.tertiary}
+                    placeholder="Statement"
+                    w="100%"
+                    fontFamily={fonts.Signika.ligh}
+                    fontSize={'lg'}
+                    autoCorrect={true}
+                    maxLength={500}
+                    multiline={true}
+                  />
+
+                  <Select
+                    _text={styles.text}
+                    color={colors.white}
+                    mt={'3%'}
+                    selectedValue={values.category}
+                    accessibilityLabel="Select Category"
+                    placeholder="Select Announcement Category"
+                    w={{
+                      base: '98%',
+                    }}
+                    _selectedItem={{
+                      bg: colors.secondary,
+                      endIcon: <CheckIcon size="5" />,
+                    }}
+                    _light={{
+                      bg: colors.tertiary,
+                      _text: {color: colors.white},
+                    }}
+                    _dark={{
+                      bg: colors.white,
+                    }}
+                    onValueChange={item => setFieldValue('category', item)}>
+                    <Select.Item
+                      label="Eid Namaz"
+                      value={ANNOUNCEMENT_CATEGORIES[0]}
+                      color={'white'}
+                    />
+                    <Select.Item
+                      label="Other"
+                      value={ANNOUNCEMENT_CATEGORIES[1]}
+                      color={'white'}
+                    />
+                  </Select>
 
             <CustomButton
-              title="Make Announcement"
+              title="Announce Now"
               variant="solid"
               mt="8%"
+              onPress={handleSubmit}
               color="white"
               base="99%"
             />
+                            </>
+              )}
+            </Formik>
+
           </Center>
         </View>
       </View>

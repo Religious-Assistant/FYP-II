@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import { Select, CheckIcon} from 'native-base';
+import {Select, CheckIcon} from 'native-base';
 
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';
@@ -40,9 +40,8 @@ export default function CustomDropdown(props) {
         setReligion(itemValue);
         props.onValueChange;
       }}>
-        
-      <Select.Item shadow={2} label="Islam" value="islam" color={'white'} />
-      <Select.Item shadow={2} label="Hinduism" value="hinduism" />
+      <Select.Item shadow={2} label="Islam" value="1" color={'white'} />
+      <Select.Item shadow={2} label="Hinduism" value="2" color={'white'} />
     </Select>
   );
 }
