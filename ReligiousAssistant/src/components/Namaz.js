@@ -30,11 +30,11 @@ export default function Namaz(props) {
       </Box>
       <Button
         w={{
-          base: '29%',
+          base:"27%"
         }}
-        marginLeft="68%"
-        marginTop={'36%'}
-        marginBottom={'-5%'}
+        marginLeft="70%"
+        marginTop={"38%"}
+        marginBottom="-19%"
         _text={{
           fontSize: 'md',
           fontFamily: fonts.Signika.medium,
@@ -54,7 +54,7 @@ function NamazTimes(props) {
       <Box
         style={styles.subBox}
         _text={styles.text}
-        shadow={2}
+        shadow={3}
         p="1"
         px="3"
         pb="-1"
@@ -81,9 +81,9 @@ function NamazTimes(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.6,
+    flex: 0.3,
     backgroundColor: colors.white,
-    marginTop: '48%',
+    marginTop: '31%',
     fontFamily: fonts.Signika.regular,
   },
   text: {
@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
   },
   subBox: {
-    borderWidth: 3,
+    borderWidth: -2,
     borderColor: colors.white,
-    borderRadius: 4,
+    borderRadius: 6,
     backgroundColor: colors.white,
   },
   buttonStyle: {

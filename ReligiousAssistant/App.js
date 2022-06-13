@@ -18,11 +18,11 @@ import Profile from './src/screens/muslim_module/Profile'
 import Accountability from './src/screens/muslim_module/Accountability';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Accountability/>
+      <RootNavigator/>
     </NativeBaseProvider>
   );
 };

@@ -7,21 +7,13 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 import {
-  NativeBaseProvider,
   Box,
   Text,
   Heading,
-  VStack,
-  FormControl,
-  Input,
-  Link,
-  Button,
-  Icon,
   HStack,
   Center,
   Pressable,
 } from 'native-base';
-import {MaterialCommunityIcons, MaterialIcons} from 'react-native-vector-icons';
 import CalendarPicker from 'react-native-calendar-picker';
 
 import fonts from '../../theme/fonts';
@@ -35,19 +27,26 @@ export default class Accountability extends Component {
     super(props);
     this.state = {
       selectedStartDate: null,
+      selected: 0,
     };
     this.onDateChange = this.onDateChange.bind(this);
+    this.setSelectedFeature = this.setSelectedFeature.bind(this);
   }
 
   onDateChange(date) {
-    this.setState({
-      selectedStartDate: date,
-    });
+    this.setState({...this.state, selectedStartDate: date});
   }
+
+  setSelectedFeature(selectedFeature) {
+    console.log(selectedFeature + ' Val');
+    this.setState({selected: selectedFeature});
+  }
+
   render() {
     const {selectedStartDate} = this.state;
     const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     const date = moment(selectedStartDate).format('DD-MM-YYYY');
+
     return (
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <View style={styles.headerContainer}>
@@ -73,15 +72,24 @@ export default class Accountability extends Component {
             todayTextStyle={{color: 'white'}}
           />
         </View>
-        <Namaz selectedDate={date} />
-        {/* <Fast selectedDate={date}/>  */}
-        <FooterOptions />
+        {this.state.selected == 0 ? (
+          <Namaz selectedDate={date} />
+        ) : (
+          <Fast selectedDate={date} />
+        )}
+        <FooterOptions
+          setSelectedFeature={this.setSelectedFeature}
+          selected={this.state.selected}
+        />
       </View>
     );
   }
 }
-function FooterOptions() {
-  const [selected, setSelected] = React.useState(0);
+function FooterOptions(props) {
+
+  function setSelected(value) {
+    props.setSelectedFeature(value);
+  }
   return (
     <Box
       flex={1}
@@ -90,14 +98,15 @@ function FooterOptions() {
       width="100%"
       maxW="100%"
       maxHeight={'10%'}
-      maxH={'8%'}
+      maxH={'7%'}
+      backgroundColor={colors.black}
       marginTop={'50%'}
       alignSelf="center">
       <Center flex={1}></Center>
       <HStack bg={colors.primary} alignItems="center" safeAreaBottom shadow={5}>
         <Pressable
           cursor="pointer"
-          opacity={selected === 0 ? 1 : 0.5}
+          opacity={props.selected === 0 ? 1 : 0.5}
           py="3"
           flex={1}
           onPress={() => setSelected(0)}>
@@ -109,7 +118,7 @@ function FooterOptions() {
         </Pressable>
         <Pressable
           cursor="pointer"
-          opacity={selected === 1 ? 1 : 0.5}
+          opacity={props.selected === 1 ? 1 : 0.5}
           py="2"
           flex={1}
           onPress={() => setSelected(1)}>
