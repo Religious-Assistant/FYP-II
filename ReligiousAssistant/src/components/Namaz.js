@@ -11,7 +11,7 @@ import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 
 export default function Namaz(props) {
-  const namaz = ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'];
+  //const namaz = ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'];
   return (
     <View style={styles.container}>
       <Box
@@ -50,6 +50,7 @@ export default function Namaz(props) {
 }
 
 function NamazTimes(props) {
+  
   return (
     <View>
       <Box
