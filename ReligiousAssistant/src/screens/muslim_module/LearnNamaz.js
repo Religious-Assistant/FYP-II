@@ -175,6 +175,7 @@ export default function LearnNamaz() {
       />
     );
   };
+  
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   return (

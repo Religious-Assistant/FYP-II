@@ -23,7 +23,7 @@ export default function Header() {
             }}
             alt="Icon"></Image>
           <Text style={[styles.namazInfoText, {color: colors.white}]}>
-            12:45 PM
+            06:45 PM
           </Text>
         </View>
 

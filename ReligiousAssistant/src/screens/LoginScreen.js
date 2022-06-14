@@ -96,8 +96,8 @@ export default function LoginScreen({navigation}) {
     //   }
     // })
 
+    // navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);        
     navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
-    
   
   }
   return (

@@ -35,7 +35,8 @@ import {useNavigation} from '@react-navigation/native';
 import {AUTH_STACK} from '../../navigation/constants';
 
 export default function RegisteredMuslimDashboard() {
-  const [currentTab, setCurrentTab] = useState('Home');
+
+  const [currentTab, setCurrentTab] = useState('View Profile');
 
   // To get the curretn Status of menu ...
   const [showMenu, setShowMenu] = useState(false);
@@ -120,8 +121,6 @@ export default function RegisteredMuslimDashboard() {
           <View style={styles.appBar}>
             <TouchableOpacity
               onPress={() => {
-                // Do Actions Here....
-                // Scaling the view...
                 Animated.timing(scaleValue, {
                   toValue: showMenu ? 1 : 0.88,
                   duration: 200,
@@ -129,14 +128,12 @@ export default function RegisteredMuslimDashboard() {
                 }).start();
 
                 Animated.timing(offsetValue, {
-                  // YOur Random Value...
                   toValue: showMenu ? 0 : 230,
                   duration: 200,
                   useNativeDriver: true,
                 }).start();
 
                 Animated.timing(closeButtonOffset, {
-                  // YOur Random Value...
                   toValue: !showMenu ? -30 : 0,
                   duration: 200,
                   useNativeDriver: true,
@@ -155,10 +152,15 @@ export default function RegisteredMuslimDashboard() {
                 }}
                 alt={showMenu ? 'Close' : 'Open'}></Image>
             </TouchableOpacity>
-            <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
-              Home
-            </Text>
+            {/* <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
+              {currentTab}
+            </Text>   */}
           </View>
+                
+                <View style={{flex:0.5, backgroundColor:'red'}}>
+
+                </View>
+
         </Animated.View>
         <MuslimBottomTab />
       </Animated.View>
@@ -169,12 +171,14 @@ export default function RegisteredMuslimDashboard() {
 // For multiple Buttons...
 const TabButton = (currentTab, setCurrentTab, title, image) => {
   const navigator = useNavigation();
+  
   return (
     <TouchableOpacity
       onPress={() => {
         if (title == 'LogOut') {
           navigator.navigate(AUTH_STACK);
         } else {
+          // navigator.navigate()
           setCurrentTab(title);
         }
       }}>
