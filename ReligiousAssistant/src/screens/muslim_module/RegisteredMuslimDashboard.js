@@ -35,7 +35,6 @@ import {useNavigation} from '@react-navigation/native';
 import {AUTH_STACK} from '../../navigation/constants';
 
 export default function RegisteredMuslimDashboard() {
-
   const [currentTab, setCurrentTab] = useState('View Profile');
 
   // To get the curretn Status of menu ...
@@ -156,11 +155,6 @@ export default function RegisteredMuslimDashboard() {
               {currentTab}
             </Text>   */}
           </View>
-                
-                <View style={{flex:0.5, backgroundColor:'red'}}>
-
-                </View>
-
         </Animated.View>
         <MuslimBottomTab />
       </Animated.View>
@@ -171,7 +165,7 @@ export default function RegisteredMuslimDashboard() {
 // For multiple Buttons...
 const TabButton = (currentTab, setCurrentTab, title, image) => {
   const navigator = useNavigation();
-  
+
   return (
     <TouchableOpacity
       onPress={() => {

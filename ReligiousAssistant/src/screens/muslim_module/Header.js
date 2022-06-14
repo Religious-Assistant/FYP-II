@@ -40,9 +40,6 @@ export default function Header() {
             MAGHRIB
           </Text>
         </View>
-        {/* <Text style={styles.namazInfoHeading}>Now</Text> */}
-        {/* <Text style={[styles.namazInfoHeading]} mt={2}>Upcoming</Text>
-        <Text style={styles.namazInfoText}>ISHA</Text> */}
       </View>
 
       <View style={styles.subContainer2}>

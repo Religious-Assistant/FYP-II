@@ -3,12 +3,11 @@
  * @version 1.0
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Notifications from './Notifications';
 import Settings from './Settings';
 import FindMosque from './FindMosque';
 import fonts from '../../theme/fonts';
@@ -43,6 +42,7 @@ const AddMosqueButton = ({children, onPress}) => {
 
 
 export default function MuslimBottomTab() {
+    
   return (
     <>
       <BottomTab.Navigator
@@ -70,7 +70,8 @@ export default function MuslimBottomTab() {
             // tabBarLabel:'Home',
             headerShown: false,
             // tabBarVisible:isTabBarVisible()
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({focused}) => {
+              return(
               <View
                 style={{
                   alignItems: 'center',
@@ -93,7 +94,7 @@ export default function MuslimBottomTab() {
                   Home
                 </Text>
               </View>
-            ),
+            )},
           }}
         />
         <BottomTab.Screen
@@ -102,7 +103,8 @@ export default function MuslimBottomTab() {
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({focused}) => {
+              return(
               <View
                 style={{
                   alignItems: 'center',
@@ -125,7 +127,7 @@ export default function MuslimBottomTab() {
                   Alerts
                 </Text>
               </View>
-            ),
+            )},
           }}
         />
         <BottomTab.Screen
@@ -134,7 +136,8 @@ export default function MuslimBottomTab() {
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({focused}) => {
+              return(
               <Image
                 source={require('../../../assets/images/search_mosque_ic.png')}
                 resizeMode="contain"
@@ -143,7 +146,7 @@ export default function MuslimBottomTab() {
                   height: 30,
                   tintColor: '#fff',
                 }}></Image>
-            ),
+            )},
             tabBarButton: props => <AddMosqueButton {...props} />,
           }}
         />
@@ -154,7 +157,8 @@ export default function MuslimBottomTab() {
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({focused}) => {
+              return(
               <View
                 style={{
                   alignItems: 'center',
@@ -177,7 +181,7 @@ export default function MuslimBottomTab() {
                   Prayers
                 </Text>
               </View>
-            ),
+            )},
           }}
         />
         <BottomTab.Screen
@@ -186,7 +190,8 @@ export default function MuslimBottomTab() {
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
-            tabBarIcon: ({focused}) => (
+            tabBarIcon: ({focused}) => {
+            return(
               <View
                 style={{
                   alignItems: 'center',
@@ -209,7 +214,7 @@ export default function MuslimBottomTab() {
                   Settings
                 </Text>
               </View>
-            ),
+            )},
           }}
         />
       </BottomTab.Navigator>
