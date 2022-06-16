@@ -10,11 +10,8 @@ import {
   HStack,
   Text,
   Divider,
-  Icon,
   Box,
   Stack,
-  AspectRatio,
-  Center,
   Heading,
   Switch,
   ScrollView,
@@ -25,20 +22,18 @@ import fonts from '../../theme/fonts';
 
 import avatar from '../../../assets/images/avatar.png';
 
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import editIcon from '../../../assets/images/edit_ic.png';
 
 export default function Settings() {
   return (
-      <View style={styles.container}>
-        <View style={styles.header}></View>
-        <Image style={styles.avatar} source={avatar} />
-        <Text style={styles.username}>Kinza</Text>
-        <ScrollView keyboardShouldPersistTaps="handled" flex={1} maxHeight={'57%'}>
+    <View style={styles.container}>
+      <View style={styles.header}></View>
+      <Image style={styles.avatar} source={avatar} />
+      <Text style={styles.username}>Kinza</Text>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        flex={1}
+        maxHeight={'57%'}>
         <View
           style={{
             flex: 0.7,
@@ -46,9 +41,8 @@ export default function Settings() {
             marginLeft: '5%',
             width: '90%',
             maxWidth: '88%',
-            height:'90%',
-            maxHeight:'30%',
-           
+            height: '90%',
+            maxHeight: '30%',
           }}>
           <VStack space={3} divider={<Divider />} w="99%">
             {/* Password */}
@@ -205,7 +199,7 @@ export default function Settings() {
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
-                        marginLeft={"80%"}
+                        marginLeft={'80%'}
                       />
                     </HStack>
                   </HStack>
@@ -231,7 +225,7 @@ export default function Settings() {
                       ml="-1"
                       style={{fontFamily: fonts.Signika.bold}}
                       color={colors.primary}>
-                     Auto Silent Mode
+                      Auto Silent Mode
                     </Heading>
                     <Text
                       fontSize="xs"
@@ -245,7 +239,8 @@ export default function Settings() {
                     </Text>
                   </Stack>
                   <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
-                    After enabling Auto silent mode, your phone will automatically be silent when you will enter the mosque
+                    After enabling Auto silent mode, your phone will
+                    automatically be silent when you will enter the mosque
                   </Text>
                   <HStack
                     flexDirection={'row'}
@@ -256,7 +251,7 @@ export default function Settings() {
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
-                        marginLeft={"80%"}
+                        marginLeft={'80%'}
                       />
                     </HStack>
                   </HStack>
@@ -264,7 +259,6 @@ export default function Settings() {
               </Box>
             </Box>
 
-            
             {/* Accountability Notification */}
             <Box alignItems="center">
               <Box
@@ -273,7 +267,7 @@ export default function Settings() {
                 overflow="hidden"
                 borderColor={colors.cover}
                 borderWidth="1"
-                marginBottom={"3"}
+                marginBottom={'3'}
                 _light={{
                   backgroundColor: colors.cover,
                 }}>
@@ -284,12 +278,12 @@ export default function Settings() {
                       ml="-1"
                       style={{fontFamily: fonts.Signika.bold}}
                       color={colors.primary}>
-                     Accountability Notifications
+                      Accountability Notifications
                     </Heading>
-                    
                   </Stack>
                   <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
-                    After enabling Accountability notifications, you will get notification every day at 10 pm to keep track of your Namaz
+                    After enabling Accountability notifications, you will get
+                    notification every day at 10 pm to keep track of your Namaz
                   </Text>
                   <HStack
                     flexDirection={'row'}
@@ -300,20 +294,17 @@ export default function Settings() {
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
-                        marginLeft={"80%"}
+                        marginLeft={'80%'}
                       />
                     </HStack>
                   </HStack>
                 </Stack>
               </Box>
             </Box>
-         
           </VStack>
         </View>
-        
-        </ScrollView>
-      </View>
-    
+      </ScrollView>
+    </View>
   );
 }
 
