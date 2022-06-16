@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import {VStack, HStack, Text, Divider, Icon, Left, Right} from 'native-base';
+import {StyleSheet, View, Image} from 'react-native';
+import {VStack, HStack, Text, Divider, Icon} from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Profile() {
+
   const userInfo = [
     {
       id: 1,

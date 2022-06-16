@@ -28,6 +28,7 @@ export default function ApplyAsImam() {
         console.error(error);
       });
   }, []);
+  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>

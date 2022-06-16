@@ -7,18 +7,22 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {
+  ABOUT,
   ACCOUNTABILITY,
   ADD_MOSQUE,
   ANNOUNCEMENTS,
+  APPLY_AS_IMAM,
   AUTO_SILENT,
   FIND_MOSQUE,
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
+  MUSLIM_VIEW_PROFILE,
   NAMAZ_PLAY_AREA,
   QIBLA_DIRECTION,
   RAKAH_INFO,
   RECITE_QURAN,
   REGISTERED_MUSLIM_HOME_STACK,
+  SHARE_APP,
   TASBIH_COUNTER,
   VIEW_CALANDER,
 } from './constants';
@@ -37,6 +41,11 @@ import AddMosque from '../screens/muslim_module/AddMosque';
 import AutoSilent from '../screens/muslim_module/AutoSilent';
 import NamazPlayArea from '../screens/muslim_module/NamazPlayArea';
 import MakeAnnouncement from '../screens/muslim_module/MakeAnnouncement';
+
+import Profile from '../screens/muslim_module/Profile';
+import ApplyAsImam from '../screens/muslim_module/ApplyAsImam';
+import ShareApp from '../screens/common/ShareApp';
+import About from '../screens/common/About';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -119,6 +128,33 @@ function MuslimDashboardNavigation() {
         component={RakahInfo}
         options={{title: 'Rakah Info'}}
       />
+
+      {/* Define Drawer navigation */}
+      <HomeStack.Screen
+        name={MUSLIM_VIEW_PROFILE}
+        component={Profile}
+        options={{title: 'Profile'}}
+      />
+      
+      <HomeStack.Screen
+        name={APPLY_AS_IMAM}
+        component={ApplyAsImam}
+        options={{title: 'Apply As Imam'}}
+      />
+      
+      <HomeStack.Screen
+        name={SHARE_APP}
+        component={ShareApp}
+        options={{title: 'Share App'}}
+      />
+      
+      <HomeStack.Screen
+        name={ABOUT}
+        component={About}
+        options={{title: 'About'}}
+      />
+      
+
     </HomeStack.Navigator>
   );
 }

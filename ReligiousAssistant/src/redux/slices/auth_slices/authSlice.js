@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET} from '../../services/apis/AuthService'
+import {apiPOST, apiGET} from '../../../services/apis/AuthService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

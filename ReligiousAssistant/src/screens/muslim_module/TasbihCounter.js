@@ -18,9 +18,11 @@ import CustomButton from '../../components/CustomButton';
 
 
 export default function TasbihCounter() {
+  
   const [tasbihCount, setTasbihCount] = useState(0);
   const onPress = () => setTasbihCount(prevTasbihCount => prevTasbihCount + 1);
   const handleReset = () => setTasbihCount(0);
+
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
       <View
@@ -73,7 +75,7 @@ export default function TasbihCounter() {
             {tasbihCount}
           </Text>
         </Center>
-        <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress}>
           <Center>
             <Image
               size={230}
@@ -84,7 +86,6 @@ export default function TasbihCounter() {
             />
           </Center>
         </TouchableOpacity>
-
         <View
           style={{
             flexDirection: 'row',

@@ -10,7 +10,7 @@ import Header from './Header'
 import FeatureContainer from './FeatureContainer'
 
 import {useDispatch, useSelector} from 'react-redux'
-import { setTab } from '../../redux/slices/bottomNavSlice';
+import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function Home({navigation}) {
   

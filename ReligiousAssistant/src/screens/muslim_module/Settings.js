@@ -7,7 +7,7 @@ import {View, Text} from 'react-native';
 import React, { useEffect } from 'react';
 
 import {useDispatch, useSelector} from 'react-redux'
-import { setTab } from '../../redux/slices/bottomNavSlice';
+import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function Settings({navigation}) {
 

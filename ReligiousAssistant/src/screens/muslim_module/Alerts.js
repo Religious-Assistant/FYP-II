@@ -11,7 +11,23 @@ import {Text, Image} from 'native-base';
 import colors from '../../theme/colors';
 import muslimLogo from '../../../assets/images/MuslimLogo.png';
 
-export default function Alerts() {
+import {useDispatch, useSelector} from 'react-redux'
+import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
+
+export default function Alerts({navigation}) {
+
+
+  const dispatch=useDispatch()
+  //when tab is focused in MuslimBottomTab.js, this will be called 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+          dispatch(setTab('Alerts'))    
+    });
+
+    //unsubscribe on unmount
+    return unsubscribe;
+  }, [navigation]);
+
   const [state, setState] = useState({
     data: [
       {

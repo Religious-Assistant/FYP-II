@@ -44,7 +44,7 @@ import {
 // import { loginUser } from '../services/apis/AuthService';
 import {apiPOST} from '../services/apis/AuthService'
 import {useDispatch, useSelector} from 'react-redux'
-import { addToken, loginUser } from '../redux/slices/authSlice';
+import { addToken, loginUser } from '../redux/slices/auth_slices/authSlice';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),

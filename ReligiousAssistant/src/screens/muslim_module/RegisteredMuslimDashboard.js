@@ -32,11 +32,10 @@ import fonts from '../../theme/fonts';
 import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
-import {AUTH_STACK} from '../../navigation/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTab } from '../../redux/slices/bottomNavSlice';
-export default function RegisteredMuslimDashboard() {
+import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../navigation/constants';
+import {useSelector} from 'react-redux';
 
+export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
   const [showMenu, setShowMenu] = useState(false);
 
@@ -47,12 +46,11 @@ export default function RegisteredMuslimDashboard() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
-  const selectedTab=useSelector(state=>state.bottomNav.currentTab)
+  const selectedTab = useSelector(state => state.bottomNav.currentTab);
 
-  useEffect(()=>{
-    console.log(selectedTab)
-  },[selectedTab])
-
+  useEffect(() => {
+    console.log(selectedTab);
+  }, [selectedTab]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -124,50 +122,51 @@ export default function RegisteredMuslimDashboard() {
               },
             ],
           }}>
-                      {selectedTab=='Home'?
-          <View style={styles.appBar}>
-            <TouchableOpacity
-              onPress={() => {
-                Animated.timing(scaleValue, {
-                  toValue: showMenu ? 1 : 0.88,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+          {selectedTab == 'Home' ? (
+            <View style={styles.appBar}>
+              <TouchableOpacity
+                onPress={() => {
+                  Animated.timing(scaleValue, {
+                    toValue: showMenu ? 1 : 0.88,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                Animated.timing(offsetValue, {
-                  toValue: showMenu ? 0 : 230,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+                  Animated.timing(offsetValue, {
+                    toValue: showMenu ? 0 : 230,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                Animated.timing(closeButtonOffset, {
-                  toValue: !showMenu ? -30 : 0,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+                  Animated.timing(closeButtonOffset, {
+                    toValue: !showMenu ? -30 : 0,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                setShowMenu(!showMenu);
-              }}>
-                
-                              <Image
-                              source={showMenu ? close : menu}
-                              key={showMenu}
-                              style={{
-                                width: 20,
-                                height: 20,
-                                tintColor: colors.white,
-                                marginTop: showMenu ? 40 : 15,
-                                marginLeft: showMenu ? 10 : 10,
-                              }}
-                              alt={showMenu ? 'Close' : 'Open'}></Image>
-            </TouchableOpacity>
-            <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
-              {selectedTab}
-            </Text>
-          </View>
-          :<></>}
+                  setShowMenu(!showMenu);
+                }}>
+                <Image
+                  source={showMenu ? close : menu}
+                  key={showMenu}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: colors.white,
+                    marginTop: showMenu ? 40 : 15,
+                    marginLeft: showMenu ? 10 : 10,
+                  }}
+                  alt={showMenu ? 'Close' : 'Open'}></Image>
+              </TouchableOpacity>
+              <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
+                {selectedTab}
+              </Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </Animated.View>
-        <MuslimBottomTab  />
+        <MuslimBottomTab />
       </Animated.View>
     </SafeAreaView>
   );
@@ -175,16 +174,34 @@ export default function RegisteredMuslimDashboard() {
 
 // For multiple Buttons...
 const TabButton = (currentTab, setCurrentTab, title, image) => {
+
   const navigator = useNavigation();
 
   return (
     <TouchableOpacity
       onPress={() => {
-        if (title == 'LogOut') {
+        
+        title=title.toLowerCase()
+
+        if (title == 'logout') {
+          //Remove token from async storage
+
           navigator.navigate(AUTH_STACK);
-        } else {
-          // navigator.navigate()
-          setCurrentTab(title);
+        } else if(title=='view profile') {
+          navigator.navigate(MUSLIM_VIEW_PROFILE)
+          // setCurrentTab(title);
+        }
+        else if(title=='about') {
+          navigator.navigate(ABOUT)
+          // setCurrentTab(title);
+        }
+        else if(title=='apply as imam') {
+          navigator.navigate(APPLY_AS_IMAM)
+          // setCurrentTab(title);
+        }
+        else if(title=='share app') {
+          navigator.navigate(SHARE_APP)
+          // setCurrentTab(title);
         }
       }}>
       <View
