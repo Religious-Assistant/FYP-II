@@ -103,6 +103,7 @@ export default function NamazTimings() {
         {namazTimes.map((itm, index) => {
           return (
             <Box
+              key = {itm.key}
               p={-5}
               width="100%"
               bg={colors.cover}
