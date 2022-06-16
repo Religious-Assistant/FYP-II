@@ -8,13 +8,13 @@ const bottomNavSlice = createSlice({
     name:"bottomNav",
     initialState,
     reducers:{
-        switchTab:(state,action)=>{
-            console.log('Switch Tab Clicked')
-        }
+        setTab:(state,action)=>{
+            state.currentTab=action.payload
+        },
     },
 })
 
-export const {switchTab}  = bottomNavSlice.actions
+export const {setTab, getTab}  = bottomNavSlice.actions
 
 export const selectCurrentTab=(state)=>state.bottomNavSlice.currentTab
 export default bottomNavSlice.reducer

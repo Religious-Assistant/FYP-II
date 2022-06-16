@@ -98,7 +98,7 @@ export default function MuslimBottomTab() {
           }}
         />
         <BottomTab.Screen
-          name="Notifications"
+          name="Alerts"
           component={Alerts}
           options={{
             // tabBarLabel:'Home',

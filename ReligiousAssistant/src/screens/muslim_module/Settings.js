@@ -4,9 +4,26 @@
  */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-export default function Settings() {
+import {useDispatch, useSelector} from 'react-redux'
+import { setTab } from '../../redux/slices/bottomNavSlice';
+
+export default function Settings({navigation}) {
+
+  const dispatch=useDispatch()
+
+  //when tab is focused in MuslimBottomTab.js, this will be called 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+          dispatch(setTab('Settings'))    
+    });
+
+    //unsubscribe on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+
   return (
     <View>
       <Text>Settings</Text>

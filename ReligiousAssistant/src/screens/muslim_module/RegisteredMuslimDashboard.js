@@ -33,11 +33,11 @@ import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
 import {AUTH_STACK} from '../../navigation/constants';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setTab } from '../../redux/slices/bottomNavSlice';
 export default function RegisteredMuslimDashboard() {
-  const [currentTab, setCurrentTab] = useState('View Profile');
 
-  // To get the curretn Status of menu ...
+  const [currentTab, setCurrentTab] = useState('View Profile');
   const [showMenu, setShowMenu] = useState(false);
 
   // Animated Properties...
@@ -46,6 +46,13 @@ export default function RegisteredMuslimDashboard() {
   // Scale Intially must be One...
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
+
+  const selectedTab=useSelector(state=>state.bottomNav.currentTab)
+
+  useEffect(()=>{
+    console.log(selectedTab)
+  },[selectedTab])
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -117,6 +124,7 @@ export default function RegisteredMuslimDashboard() {
               },
             ],
           }}>
+                      {selectedTab=='Home'?
           <View style={styles.appBar}>
             <TouchableOpacity
               onPress={() => {
@@ -140,23 +148,26 @@ export default function RegisteredMuslimDashboard() {
 
                 setShowMenu(!showMenu);
               }}>
-              <Image
-                source={showMenu ? close : menu}
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: colors.white,
-                  marginTop: showMenu ? 40 : 15,
-                  marginLeft: showMenu ? 10 : 10,
-                }}
-                alt={showMenu ? 'Close' : 'Open'}></Image>
+                
+                              <Image
+                              source={showMenu ? close : menu}
+                              key={showMenu}
+                              style={{
+                                width: 20,
+                                height: 20,
+                                tintColor: colors.white,
+                                marginTop: showMenu ? 40 : 15,
+                                marginLeft: showMenu ? 10 : 10,
+                              }}
+                              alt={showMenu ? 'Close' : 'Open'}></Image>
             </TouchableOpacity>
-            {/* <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
-              {currentTab}
-            </Text>   */}
+            <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
+              {selectedTab}
+            </Text>
           </View>
+          :<></>}
         </Animated.View>
-        <MuslimBottomTab />
+        <MuslimBottomTab  />
       </Animated.View>
     </SafeAreaView>
   );
