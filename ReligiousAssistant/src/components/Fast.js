@@ -29,7 +29,7 @@ export default function Fast(props) {
             <Box
               style={styles.subBox}
               _text={styles.text}
-              shadow={2}
+              shadow={5}
               p="5"
               px="3"
               pb="7"
@@ -107,7 +107,7 @@ export default function Fast(props) {
           base: '29%',
         }}
         marginLeft="68%"
-        marginTop={'20%'}
+        marginTop={'19%'}
         marginBottom={'-5%'}
         _text={{
           fontSize: 'md',
@@ -122,74 +122,6 @@ export default function Fast(props) {
         }}>
         Save
       </Button>
-    </View>
-  );
-}
-function FastInfo(props) {
-  var date = new Date().getDate();
-  var month = new Date().getMonth() + 1;
-  var year = new Date().getFullYear();
-  const currDate = date + '-' + month + '-' + year;
-
-  const [keepFast, setKeepFast] = useState(0);
-  return (
-    <View>
-      <Box
-        style={styles.subBox}
-        _text={styles.text}
-        shadow={2}
-        p="5"
-        px="3"
-        pb="7"
-        mb={props.mb}
-        mt={props.mt}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Center
-            width="90%"
-            space={2}
-            maxW="90%"
-            marginLeft={'8%'}
-            marginBottom={'5%'}>
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
-              <HStack justifyContent="space-between">
-                <Text style={styles.text}>
-                  Have you kept fast on{' '}
-                  {props.date == 'Invalid date' ? currDate : props.date} ?
-                </Text>
-              </HStack>
-            </VStack>
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
-              <HStack justifyContent="space-between">
-                <Button
-                  title="Yes"
-                  variant="solid"
-                  color="white"
-                  w={{
-                    base: '40%',
-                  }}
-                  colorScheme="yellow">
-                  Yes
-                </Button>
-                <Button
-                  title="No"
-                  variant="solid"
-                  color="white"
-                  w={{
-                    base: '40%',
-                  }}
-                  colorScheme="yellow">
-                  No
-                </Button>
-              </HStack>
-            </VStack>
-          </Center>
-        </View>
-      </Box>
     </View>
   );
 }

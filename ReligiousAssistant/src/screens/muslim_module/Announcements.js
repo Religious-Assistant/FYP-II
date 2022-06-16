@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 
 import {
@@ -23,10 +23,8 @@ import deleteIcon from '../../../assets/images/delete_ic.png';
 import { useNavigation } from '@react-navigation/native';
 import { MAKE_ANNOUNCEMENT_SCREEN } from '../../navigation/constants';
 
-export default class Announcements extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+export default function Announcements(){
+    const [state,setState] = useState({
       data: [
         {
           id: 3,
@@ -78,16 +76,15 @@ export default class Announcements extends Component {
           attachment: '',
         },
       ],
-    };
-  }
+    })
+  
 
-  render() {
     return (
       <View style={styles.root}>
         <FlatList
           style={styles.root}
-          data={this.state.data}
-          extraData={this.state}
+          data={state.data}
+          extraData={state}
           ItemSeparatorComponent={() => {
             return <View style={styles.separator} />;
           }}
@@ -134,7 +131,7 @@ export default class Announcements extends Component {
       </View>
     );
   }
-}
+
 
 const FabButton = () => {
 

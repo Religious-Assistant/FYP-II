@@ -1,100 +1,9 @@
-// import {View, Text,  Pressable} from 'react-native';
-// import React, {useState, useEffect} from 'react';
-// import { Button, Center, Modal,Box, HStack, VStack, FlatList, Spacer } from 'native-base';
-// import { useNavigation } from '@react-navigation/native';
-// import { NAMAZ_PLAY_AREA } from '../../navigation/constants';
-
-// export default function LearnNamaz() {
-
-//   const [showModal, setShowModal] = useState(false);
-
-//   function setModal(state){
-//     setShowModal(state)
-//   }
-
-//   return (
-//     <View>
-//       <Text>LearnNamaz</Text>
-//       {/* <Button onPress={startNamaz}>Learn Namaz</Button> */}
-//     <Center>
-//       <Button onPress={() => setShowModal(true)}>Show Modal</Button>
-//       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-//         <Modal.Content maxWidth="400px">
-//           <Modal.CloseButton />
-//           <Modal.Header>Select Rakah to Learn</Modal.Header>
-//           <Modal.Body>
-//             <RakahList setModal={setModal}></RakahList>
-//           </Modal.Body>
-//         </Modal.Content>
-//       </Modal>
-//     </Center>
-//     </View>
-//   );
-// }
-
-
-// const RakahList = (props) => {
-
-//   const navigator=useNavigation()
-//   function navigateToGame(item){
-//     console.log(item)
-//     props.setModal(false)
-//     navigator.navigate(NAMAZ_PLAY_AREA,{namazInfo:item})
-    
-//   }
-
-//   //Should come from prop
-
-//   const data = [{
-//     namaz:'Fajr',
-//     id:1,
-//     rakah:'Sunnah',
-//     count:2,
-//   }, {
-//     namaz:'Fajr',
-//     id:2,
-//     rakah:'Farz',
-//     count:2,
-//   }];
-
-//   return <Box w={{
-//     base: "100%",
-//     md: "25%"
-//   }}>
-//       <FlatList data={data} keyboardDismissMode keyExtractor={item=>item.id} 
-//     renderItem={({
-//       item
-//     }) =><Pressable onPress={()=>{navigateToGame(item)}}  >
-//             <Box borderBottomWidth="1" _dark={{
-//       borderColor: "gray.600"
-//     }} borderColor="coolGray.200" pl="4" pr="5" py="2">
-//             <HStack space={3} justifyContent="space-between">
-            
-//               <VStack>
-//                 <Text _dark={{
-//             color: "warmGray.50"
-//           }} color="coolGray.800" bold>
-//                   {item.rakah}
-//                 </Text>
-//               </VStack>
-//               <Spacer />
-//               <Text fontSize="xs" _dark={{
-//           color: "warmGray.50"
-//         }} color="coolGray.800" alignSelf="flex-start">
-//                 {item.count}
-//               </Text>
-//             </HStack>
-//           </Box>
-//       </Pressable>
-//     } />
-//     </Box>;
-// };
-
 /* @author Kinza Kiran
-* @version 1.0
-*/
+ * @version 1.0
+ */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+
 import {
   View,
   StyleSheet,
@@ -103,12 +12,20 @@ import {
   Animated,
   Dimensions,
   Image,
+  Pressable,
 } from 'react-native';
-import {Heading} from 'native-base';
+import {
+  Heading,
+  Box,
+  FlatList,
+  VStack,
+  HStack,
+  Spacer,
+  Modal,
+} from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-
 
 import fajrImg from '../../../assets/images/fajr_game.jpg';
 import duhrImg from '../../../assets/images/duhr_game.png';
@@ -120,6 +37,10 @@ const {width, height} = Dimensions.get('window');
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+
+import {useNavigation} from '@react-navigation/native';
+import {NAMAZ_PLAY_AREA} from '../../navigation/constants';
+
 
 
 export default function LearnNamaz() {
@@ -175,8 +96,13 @@ export default function LearnNamaz() {
       />
     );
   };
-  
   const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  const [showModal, setShowModal] = useState(false);
+
+  function setModal(state) {
+    setShowModal(state);
+  }
 
   return (
     <SafeAreaView style={styles.MainContainer}>
@@ -250,43 +176,128 @@ export default function LearnNamaz() {
             extrapolate: 'clamp',
           });
           return (
-            <View style={{width: ITEM_SIZE}}>
-              <Animated.View
-                style={{
-                  marginHorizontal: SPACING,
-                  padding: SPACING * 2,
-                  alignItems: 'center',
-                  transform: [{translateY}],
-                  backgroundColor: colors.cover,
-                  borderRadius: 34,
-                }}>
-                <Image source={item.poster} style={styles.posterImage} />
-                <Text
-                  style={{
-                    fontSize: 26,
-                    color: colors.primary,
-                    fontFamily: fonts.Signika.bold,
-                  }}
-                  numberOfLines={1}>
-                  {item.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: colors.secondary,
-                    fontFamily: fonts.Signika.bold,
-                  }}
-                  numberOfLines={3}>
-                  {item.level}
-                </Text>
-              </Animated.View>
-            </View>
+            <>
+              <Pressable onPress={() => setShowModal(true)}>
+                <View style={{width: ITEM_SIZE}}>
+                  <Animated.View
+                    style={{
+                      marginHorizontal: SPACING,
+                      padding: SPACING * 2,
+                      alignItems: 'center',
+                      transform: [{translateY}],
+                      backgroundColor: colors.cover,
+                      borderRadius: 34,
+                    }}>
+                    <Image source={item.poster} style={styles.posterImage} />
+                    <Text
+                      style={{
+                        fontSize: 26,
+                        color: colors.primary,
+                        fontFamily: fonts.Signika.bold,
+                      }}
+                      numberOfLines={1}>
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: colors.secondary,
+                        fontFamily: fonts.Signika.bold,
+                      }}
+                      numberOfLines={3}>
+                      {item.level}
+                    </Text>
+                  </Animated.View>
+                </View>
+              </Pressable>
+
+              <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                <Modal.Content maxWidth="400px">
+                  <Modal.CloseButton />
+                  <Modal.Header>Select Rakah to Learn</Modal.Header>
+                  <Modal.Body>
+                    <RakahList setModal={setModal}></RakahList>
+                  </Modal.Body>
+                </Modal.Content>
+              </Modal>
+            </>
           );
         }}
       />
     </SafeAreaView>
   );
 }
+
+const RakahList = props => {
+  const navigator = useNavigation();
+  function navigateToGame(item) {
+    props.setModal(false);
+    navigator.navigate(NAMAZ_PLAY_AREA, {namazInfo: item});
+  }
+
+  //Should come from prop
+
+  const data = [
+    {
+      namaz: 'Fajr',
+      id: 1,
+      rakah: 'Sunnah',
+      count: 2,
+    },
+    {
+      namaz: 'Fajr',
+      id: 2,
+      rakah: 'Farz',
+      count: 2,
+    },
+  ];
+
+  return (
+    <Box
+      w={{
+        base: '100%',
+        md: '25%',
+      }}>
+      <FlatList
+        data={data}
+        keyboardDismissMode
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <Pressable
+            onPress={() => {
+              navigateToGame(item);
+            }}>
+            <Box
+              borderBottomWidth="1"
+              _dark={{
+                borderColor: 'gray.600',
+              }}
+              borderColor="coolGray.200"
+              pl="4"
+              pr="5"
+              py="2">
+              <HStack space={3} justifyContent="space-between">
+                <VStack>
+                  <Text style={styles.modalText}>
+                    {item.rakah}
+                  </Text>
+                </VStack>
+                <Spacer />
+                <Text
+                  style={styles.modalText}
+                  fontSize="xs"
+                  alignSelf="flex-start">
+                  {item.count}
+                </Text>
+              </HStack>
+            </Box>
+          </Pressable>
+        )}
+      />
+    </Box>
+  );
+};
+
 
 const styles = StyleSheet.create({
   MainContainer: {
@@ -299,6 +310,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
     marginRight: '45%',
     color: colors.white,
+  },
+  modalText:{
+    color:colors.black,
+    fontFamily:fonts.Signika.bold,
   },
 
   posterImage: {

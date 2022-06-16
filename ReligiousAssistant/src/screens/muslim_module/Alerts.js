@@ -3,103 +3,88 @@
  * @version 1.0
  */
 
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 
-import {
-  Text,
-  Image,
-} from 'native-base';
+import {Text, Image} from 'native-base';
 
 import colors from '../../theme/colors';
 import muslimLogo from '../../../assets/images/MuslimLogo.png';
 
+export default function Alerts() {
+  const [state, setState] = useState({
+    data: [
+      {
+        id: 3,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '2 hours ago',
+      },
+      {
+        id: 2,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '3 hours ago',
+      },
+      {
+        id: 4,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '1 day ago',
+      },
+      {
+        id: 5,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '2 days ago',
+      },
+      {
+        id: 1,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '3 days ago',
+      },
+      {
+        id: 6,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '5 days ago',
+      },
+      {
+        id: 7,
+        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
+        timeAgo: '1 month ago',
+      },
+    ],
+  });
 
-export default class Alerts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        {
-          id: 3,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"2 hours ago"
-        },
-        {
-          id: 2,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"3 hours ago"
-        },
-        {
-          id: 4,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"1 day ago"
-        },
-        {
-          id: 5,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"2 days ago"
-        },
-        {
-          id: 1,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"3 days ago"
-        },
-        {
-          id: 6,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"5 days ago"
-        },
-        {
-          id: 7,
-          text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-          timeAgo:"1 month ago"
-        },
-      ],
-    };
-  }
-
-  render() {
-    return (
-      <View style={styles.root}>
-        <FlatList
-          style={styles.root}
-          data={this.state.data}
-          extraData={this.state}
-          ItemSeparatorComponent={() => {
-            return <View style={styles.separator} />;
-          }}
-          keyExtractor={item => {
-            return item.id;
-          }}
-          renderItem={item => {
-            const Notification = item.item;
-            let mainContentStyle;
-            return (
-              <View style={styles.container}>
-                <Image
-                  source={muslimLogo}
-                  style={styles.avatar}
-                  alt="image.."
-                />
-                <View style={styles.content}>
-                  <View style={mainContentStyle}>
-                    <View style={styles.text}>
-                      <Text>{Notification.text}</Text>
-                    </View>
-                    <Text style={styles.timeAgo}>{Notification.timeAgo}</Text>
+  return (
+    <View style={styles.root}>
+      <FlatList
+        style={styles.root}
+        data={state.data}
+        extraData={state}
+        ItemSeparatorComponent={() => {
+          return <View style={styles.separator} />;
+        }}
+        keyExtractor={item => {
+          return item.id;
+        }}
+        renderItem={item => {
+          const Notification = item.item;
+          let mainContentStyle;
+          return (
+            <View style={styles.container}>
+              <Image source={muslimLogo} style={styles.avatar} alt="image.." />
+              <View style={styles.content}>
+                <View style={mainContentStyle}>
+                  <View style={styles.text}>
+                    <Text>{Notification.text}</Text>
                   </View>
+                  <Text style={styles.timeAgo}>{Notification.timeAgo}</Text>
                 </View>
               </View>
-            );
-          }}
-        />
-        
-      </View>
-    );
-  }
+            </View>
+          );
+        }}
+      />
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({
   root: {
