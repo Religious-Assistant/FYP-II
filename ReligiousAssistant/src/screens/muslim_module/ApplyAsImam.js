@@ -18,15 +18,17 @@ export default function ApplyAsImam() {
   const [serverData, setServerData] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-      .then(response => response.json())
-      .then(responseJson => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    
+    // fetch('https://aboutreact.herokuapp.com/demosearchables.php')
+    //   .then(response => response.json())
+    //   .then(responseJson => {
+    //     //Successful response from the API Call
+    //     setServerData(responseJson.results);
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+
   }, []);
   
   return (

@@ -28,14 +28,17 @@ import image from '../../assets/images/signUp_bg.png';
 import {useNavigation} from '@react-navigation/native';
 import {ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION} from '../navigation/constants';
 
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+// import {}
+
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 
 const registerValidationSchema = yup.object().shape({
   username: yup.string(),
   password: yup.string(),
-  phoneNumber: yup
-    .string(),
-    religion: yup.number(),
+  phoneNumber: yup.string(),
+  religion: yup.number(),
 });
 
 // const registerValidationSchema = yup.object().shape({
@@ -53,8 +56,10 @@ function RegisterScreen() {
   const navigator = useNavigation();
 
   function signupHandler(values) {
+    
     console.log(values);
-    navigator.navigate(OTP_VERIFICATION);
+
+    // navigator.navigate(OTP_VERIFICATION);
   }
 
   function enterAsGuest() {
@@ -89,7 +94,7 @@ function RegisterScreen() {
                   errors,
                   isValid,
                   touched,
-                  setFieldValue
+                  setFieldValue,
                 }) => (
                   <>
                     <FormControl mt="30%">
@@ -142,13 +147,13 @@ function RegisterScreen() {
                       <Select
                         _text={styles.text}
                         color={colors.white}
-                        mt={"3%"}
+                        mt={'3%'}
                         selectedValue={values.religion}
                         minWidth="50%"
                         accessibilityLabel="Select your Religion"
                         placeholder="Select religion"
                         w={{
-                          base: "98%",
+                          base: '98%',
                         }}
                         _selectedItem={{
                           bg: colors.secondary,
@@ -161,12 +166,14 @@ function RegisterScreen() {
                         _dark={{
                           bg: colors.white,
                         }}
-                        onValueChange={(item)=>setFieldValue('religion',item)}
-                        >
+                        onValueChange={item => setFieldValue('religion', item)}>
                         <Select.Item label="Islam" value={1} color={'white'} />
-                        <Select.Item label="Hinduism" value={0} color={'white'} />
+                        <Select.Item
+                          label="Hinduism"
+                          value={0}
+                          color={'white'}
+                        />
                       </Select>
-
                     </FormControl>
                     <CustomButton
                       title="Sign Up"

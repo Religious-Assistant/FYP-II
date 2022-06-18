@@ -33,7 +33,8 @@ import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
 import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../navigation/constants';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { logout } from '../../redux/slices/auth_slices/authSlice';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -175,6 +176,7 @@ export default function RegisteredMuslimDashboard() {
 // For multiple Buttons...
 const TabButton = (currentTab, setCurrentTab, title, image) => {
 
+  const dispatch=useDispatch()
   const navigator = useNavigation();
 
   return (
@@ -185,7 +187,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 
         if (title == 'logout') {
           //Remove token from async storage
-
+          dispatch(logout())
           navigator.navigate(AUTH_STACK);
         } else if(title=='view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE)

@@ -6,18 +6,40 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import bg_gif from '../../assets/images/splash.gif';
-import {LOGIN} from '../navigation/constants';
+import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK} from '../navigation/constants';
+import { getReligion, getToken, selectReligion, selectToken } from '../redux/slices/auth_slices/authSlice';
 
 function SplashScreeen() {
   const navigator = useNavigation();
 
+  const dispatch=useDispatch()
+  
+  const token=useSelector(selectToken)
+  const religion=useSelector(selectReligion)
+
+  console.log(`Token: ${token} \nReligion:${religion}`)
+
   useEffect(() => {
+
+    dispatch(getToken())
+    dispatch(getReligion())
+
     setTimeout(() => {
-      navigator.navigate(LOGIN);
+      if(religion==1 && token){
+        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+      }
+      else if(religion==0 && token){
+        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+      }
+      else{
+        navigator.navigate(LOGIN);
+      }
     }, 2000);
-  }, []);
+
+  }, [token, religion]);
 
   return (
     <ImageBackground

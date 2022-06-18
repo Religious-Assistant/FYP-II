@@ -4,12 +4,41 @@
  */
 
 import {View, Text, Image} from 'native-base';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet} from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import moment from 'moment'
+import moment_hijri from 'moment-hijri'
+
+// https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
+
+  let m = moment_hijri("1443/11/19", "iYYYY/iMM/iD"); // Parse a Hijri date.
+
+  const[currentTime,setCurrentTime]=useState(
+      {
+        time:moment().format('LTS'),
+        islamicDatem:  m.format("iYYYY/iM/iD"),
+        engDate:moment().format("D MMM, y")
+      }
+    )
+
+  useEffect(()=>{
+
+    const timerId=setInterval(()=>{
+      setCurrentTime(
+        {
+          time:moment().format('LTS'),
+          islamicDate:m.format("iYYYY/iM/iD"),
+          engDate:moment().format("D MMM, y")
+        }
+      )
+    },1000)
+    // return clearInterval(timerId)
+  },[])
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer1}>
@@ -22,8 +51,8 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={[styles.namazInfoText, {color: colors.white}]}>
-            06:45 PM
+          <Text style={[styles.namazInfoText, {color: colors.white}]}>   
+          {currentTime.time}
           </Text>
         </View>
 
@@ -52,7 +81,8 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={styles.dateInfo}>19 Ramdan, 1443</Text>
+            {/* 19 Ramdan, 1443 */}
+          <Text style={styles.dateInfo}>{currentTime.islamicDate}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>

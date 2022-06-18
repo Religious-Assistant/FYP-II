@@ -44,7 +44,7 @@ import {
 // import { loginUser } from '../services/apis/AuthService';
 import {apiPOST} from '../services/apis/AuthService'
 import {useDispatch, useSelector} from 'react-redux'
-import { addToken, loginUser } from '../redux/slices/auth_slices/authSlice';
+import { getToken, loginUser, selectHasError, selectIsLoading, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),
@@ -60,19 +60,19 @@ export default function LoginScreen({navigation}) {
   
   const navigator = useNavigation();
 
+  // const isLoading=useSelector(selectIsLoading)
+  // const hasError=useSelector(selectHasError)
+  // const userData=useSelector(selectUserData)
+
   const dispatch=useDispatch()
 
   useEffect(() => {
     navigation.addListener('beforeRemove', e => {
       e.preventDefault();
     });
-
-    dispatch(addToken())
     
   }, [navigation]);
 
-  const token=useSelector(state=>state.user.token)
-  console.log('Token is: ', token)
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
@@ -80,9 +80,8 @@ export default function LoginScreen({navigation}) {
 
   function loginHandler(values) {
 
-    // const data=dispatch(loginUser(values))
-    // console.log(data)
-
+    dispatch(loginUser(values))
+    
 
     // apiPOST('loginUser',values).then(resp=>{
     //   if(resp.success && resp.data.religion===1){
@@ -97,7 +96,7 @@ export default function LoginScreen({navigation}) {
     // })
 
     // navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);        
-    navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
+    // navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
   
   }
   return (
