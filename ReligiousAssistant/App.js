@@ -12,6 +12,9 @@ import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 import store from './src/redux/store'
 import {Provider} from 'react-redux'
+
+import Profile from './src/screens/muslim_module/Profile'
+
 const preloadedState = window.__PRELOADED_STATE__
 
 
@@ -22,7 +25,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-     <RootNavigator/>
+     <Profile/>
     </NativeBaseProvider>
     </Provider>
   );

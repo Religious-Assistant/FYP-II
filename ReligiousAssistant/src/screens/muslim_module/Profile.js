@@ -5,7 +5,8 @@
 
 import React from 'react';
 import {StyleSheet, View, Image} from 'react-native';
-import {VStack, HStack, Text, Divider, Icon} from 'native-base';
+import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
+import CustomButton from '../../components/CustomButton';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -57,7 +58,7 @@ export default function Profile() {
     {
       id: 6,
       label: 'Primary Mosque',
-      info: 'Sukkur IBA Mosque',
+      info: 'Sukkur IBA',
       icon: <MaterialCommunityIcons name="mosque" />,
       iconSize: '6',
     },
@@ -66,38 +67,71 @@ export default function Profile() {
     <View style={styles.container}>
       <View style={styles.header}></View>
       <Image style={styles.avatar} source={avatar} />
-      <View
-        style={{
-          flex: 0.7,
-          marginTop: 70,
-          marginLeft: '5%',
-          width: '90%',
-          maxWidth: '88%',
-        }}>
-        <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-          {userInfo.map((user, index) => {
-            return (
-              <HStack justifyContent="space-between" key={user.id}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Icon
-                    as={user.icon}
-                    size={user.iconSize}
-                    ml="2%"
-                    mt="-1"
-                    color={colors.primary}
-                  />
-                  <Text style={styles.label}>{user.label}:</Text>
-                </View>
-                <Text style={styles.info}>{user.info}</Text>
-              </HStack>
-            );
-          })}
-        </VStack>
-      </View>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        flex={1}
+        marginTop={'15%'}>
+        <View
+          style={{
+            flex: 0.7,
+            marginTop: '2%',
+            marginLeft: '5%',
+            width: '90%',
+            maxWidth: '88%',
+          }}>
+          <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
+            {userInfo.map((user, index) => {
+              return (
+                <HStack
+                  justifyContent="space-between"
+                  key={user.id}
+                  flexWrap="wrap">
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Icon
+                      as={user.icon}
+                      size={user.iconSize}
+                      ml="2%"
+                      mt="-1"
+                      color={colors.primary}
+                    />
+                    <Text style={styles.label}>{user.label}:</Text>
+                  </View>
+                  <Text style={styles.info}>{user.info}</Text>
+                </HStack>
+              );
+            })}
+            <HStack justifyContent="space-between">
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Icon
+                  as={<AntDesign name="user" />}
+                  size={6}
+                  ml="2%"
+                  mt="-1"
+                  color={colors.primary}
+                />
+                <Text style={styles.label}>Apply As Imam:</Text>
+              </View>
+              <CustomButton
+                title="Apply"
+                variant="solid"
+                color="white"
+                base="40%"
+                onPress={() => {
+                  console.log('Apply As Imam');
+                }}
+              />
+            </HStack>
+          </VStack>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -138,6 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
     color: colors.tertiary,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
 });
