@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const AuthStack = createNativeStackNavigator();
+
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import {
@@ -18,6 +18,8 @@ import {
 import ConnectAsGuest from '../screens/ConnectAsGuest';
 import VerificationScreen from '../screens/VerificationScreen';
 import SplashScreeen from '../screens/SplashScreeen';
+
+const AuthStack = createNativeStackNavigator();
 
 function AuthStackNavigation() {
   return (
