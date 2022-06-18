@@ -25,8 +25,14 @@ import {
   RAKAH_INFO,
 } from '../../navigation/constants';
 
+//Redux
+import { useSelector } from 'react-redux';
+import { selectToken } from '../../redux/slices/auth_slices/authSlice';
+
 export default function FeatureContainer() {
   const navigator = useNavigation();
+
+  const token=useSelector(selectToken)
 
   const featureArray1 = [
     {
@@ -52,11 +58,12 @@ export default function FeatureContainer() {
       image: require('../../../assets/images/learn_namaz_ic.png'),
       screen: LEARN_NAMAZ,
     },
+    token?
     {
       title: 'Accountability',
       image: require('../../../assets/images/accountability_ic.png'),
       screen: ACCOUNTABILITY,
-    },
+    }:undefined,
     {
       title: 'Announcements',
       image: require('../../../assets/images/announcement_ic.png'),
@@ -65,16 +72,12 @@ export default function FeatureContainer() {
   ];
 
   const featureArray3 = [
-    {
-      title: 'Auto Silent',
-      image: require('../../../assets/images/auto_silent_ic.png'),
-      screen: AUTO_SILENT,
-    },
+    token?
     {
       title: 'Add Mosque',
       image: require('../../../assets/images/add_ic.png'),
       screen: ADD_MOSQUE,
-    },
+    }:undefined,
     {
       title: 'View Calander',
       image: require('../../../assets/images/islamic_calander_ic.png'),
@@ -138,8 +141,10 @@ export default function FeatureContainer() {
             marginTop: -20,
           }}>
           {featureArray2.map((item, index) => {
-            return (
-              <TouchableOpacity
+            return (<>
+              {
+                item?
+                <TouchableOpacity
                 key={item.title}
                 onPress={() => {
                   navigator.navigate(item.screen);
@@ -156,6 +161,10 @@ export default function FeatureContainer() {
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
               </TouchableOpacity>
+                :<></>
+              }
+            </>
+
             );
           })}
         </View>
@@ -167,7 +176,8 @@ export default function FeatureContainer() {
         <ScrollView showsHorizontalScrollIndicator horizontal mt={1}>
           {featureArray3.map((item, index) => {
             return (
-              <TouchableOpacity
+              <>
+              {item?<TouchableOpacity
                 key={item.title}
                 onPress={() => {
                   navigator.navigate(item.screen);
@@ -184,6 +194,8 @@ export default function FeatureContainer() {
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </MoreFeaturesCard>
               </TouchableOpacity>
+                :<></>}
+                </>
             );
           })}
         </ScrollView>

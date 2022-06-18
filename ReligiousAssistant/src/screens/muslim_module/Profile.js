@@ -139,5 +139,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
     color: colors.tertiary,
+    flexWrap: 'wrap'
   },
 });

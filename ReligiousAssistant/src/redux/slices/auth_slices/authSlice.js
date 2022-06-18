@@ -7,7 +7,7 @@ const initialState = {
     token:null,
     userData:null,
     religion:null,
-    isLoading:false,
+    isLoading:true,
     hasError:false,
 
 }
@@ -108,19 +108,25 @@ const authSlice = createSlice({
         },
         
         [loginUser.pending]:(state,action)=>{
-            console.log('Login Pending')
             state.isLoading = true
             state.hasError=false
         },
         [loginUser.rejected]:(state,action)=>{
-            console.log('Login  Rejected')
             state.hasError = true;
             state.isLoading=false;
         },
         
         [loginUser.fulfilled]:(state,action)=>{
+            
+            const {msg, success}=action.payload
+            if(!success){            
+                state.hasError=true
+                alert(msg)
+                return
+            }
+
             const {token, religion}=action.payload.data
-            state.isLoading = false
+            state.isLoading = false            
             state.hasError=false
             state.token = token
             AsyncStorage.setItem('token',token)

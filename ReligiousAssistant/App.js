@@ -13,6 +13,7 @@ import RootNavigator from './src/navigation/RootNavigator';
 import store from './src/redux/store'
 import {Provider} from 'react-redux'
 import Profile from './src/screens/muslim_module/Profile';
+import Settings from './src/screens/muslim_module/Settings';
 const preloadedState = window.__PRELOADED_STATE__
 
 

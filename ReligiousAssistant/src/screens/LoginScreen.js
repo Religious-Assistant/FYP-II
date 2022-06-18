@@ -59,11 +59,6 @@ const loginValidationSchema = yup.object().shape({
 export default function LoginScreen({navigation}) {
   
   const navigator = useNavigation();
-
-  // const isLoading=useSelector(selectIsLoading)
-  // const hasError=useSelector(selectHasError)
-  // const userData=useSelector(selectUserData)
-
   const dispatch=useDispatch()
 
   useEffect(() => {
@@ -79,25 +74,7 @@ export default function LoginScreen({navigation}) {
   }
 
   function loginHandler(values) {
-
     dispatch(loginUser(values))
-    
-
-    // apiPOST('loginUser',values).then(resp=>{
-    //   if(resp.success && resp.data.religion===1){
-    //     navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
-    //   }
-    //   else if(resp.success && resp.data.religion==0){
-    //     navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
-    //   }
-    //   else{
-    //     alert("Invalid credentials")
-    //   }
-    // })
-
-    // navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);        
-    // navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);        
-  
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

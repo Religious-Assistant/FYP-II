@@ -10,10 +10,14 @@ import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import moment from 'moment'
 import moment_hijri from 'moment-hijri'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectHasError, selectIsLoading, selectToken } from '../../redux/slices/auth_slices/authSlice';
 
 // https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
+
+  const token=useSelector(selectToken)
 
   let m = moment_hijri("1443/11/19", "iYYYY/iMM/iD"); // Parse a Hijri date.
 
@@ -37,11 +41,11 @@ export default function Header() {
       )
     },1000)
     // return clearInterval(timerId)
-  },[])
+  },[token])
 
   return (
-    <View style={styles.container}>
-      <View style={styles.subContainer1}>
+      <View  style={styles.container}>
+      <View style={[styles.subContainer1, {flex:token?0.4:0.6}]}>
         <View style={styles.infoContainer}>
           <Image
             source={require('../../../assets/images/time_ic.png')}
@@ -94,20 +98,22 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={styles.dateInfo}>19 April, 2022</Text>
+          <Text style={styles.dateInfo}>{moment().format("MMMM Do, YYYY")}</Text>
         </View>
 
-        <View style={styles.infoContainer} mt={2}>
-          <Image
-            source={require('../../../assets/images/location_ic.png')}
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: 'white',
-            }}
-            alt="Icon"></Image>
-          <Text style={styles.dateInfo}>Sukkur Sindh, Pakistan</Text>
-        </View>
+            {
+              token?<View style={styles.infoContainer} mt={2}>
+              <Image
+                source={require('../../../assets/images/location_ic.png')}
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: 'white',
+                }}
+                alt="Icon"></Image>
+              <Text style={styles.dateInfo}>Sukkur Sindh, Pakistan</Text>
+            </View>:<></>
+            }
       </View>
     </View>
   );

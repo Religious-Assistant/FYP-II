@@ -35,6 +35,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import { logout } from '../../redux/slices/auth_slices/authSlice';
+import { selectCurrentTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -47,10 +48,10 @@ export default function RegisteredMuslimDashboard() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
-  const selectedTab = useSelector(state => state.bottomNav.currentTab);
-
+  const selectedTab = useSelector(selectCurrentTab);
+  
   useEffect(() => {
-    console.log(selectedTab);
+    // console.log(selectedTab);
   }, [selectedTab]);
 
   return (

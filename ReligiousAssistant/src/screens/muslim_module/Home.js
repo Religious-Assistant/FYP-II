@@ -14,6 +14,7 @@ import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function Home({navigation}) {
   
+
   const dispatch=useDispatch()
   //when tab is focused in MuslimBottomTab.js, this will be called 
   React.useEffect(() => {
@@ -26,7 +27,7 @@ export default function Home({navigation}) {
   }, [navigation]);
 
   return (
-    <View style={{flex:1, backgroundColor:colors.primary}}>
+    <View style={{flex:1, backgroundColor:colors.primary}}>      
       <Header />
       <FeatureContainer/>
     </View>

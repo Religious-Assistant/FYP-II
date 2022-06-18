@@ -6,18 +6,35 @@
 import React from 'react';
 import {ImageBackground, Dimensions, View} from 'react-native';
 import {StyleSheet} from 'react-native';
-import {Center, Box, VStack} from 'native-base';
+import {Center, Box, VStack, FormControl} from 'native-base';
+import {Select, CheckIcon} from 'native-base';
+import {Formik} from 'formik';
 
 import CustomButton from '../components/CustomButton';
 import BottomText from '../components/BottomText';
-import CustomDropdown from '../components/CustomDropdown';
 
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
-import {SIGNUP} from '../navigation/constants';
+
+import {REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../navigation/constants';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ConnectAsGuest() {
-  const items = ["Islam", "Hinduism"];
+
+  const navigator=useNavigation()
+
+  function connectAsGuestHandler(values) {
+
+    const {religion}=values
+
+    if(religion==1){
+      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+    }
+    else{
+      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+    }
+  }
+
   return (
     <View style={styles.flexRatio}>
       <ImageBackground
@@ -25,16 +42,59 @@ export default function ConnectAsGuest() {
         source={require('../../assets/images/connectAsGuest_bg.png')}>
         <Center w="100%" mt={'20%'}>
           <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
-            <VStack mt="20%" space={3} _text={styles.text}>
-              <CustomDropdown 
-              mt="10%" />
-            </VStack>
-            <CustomButton
-              title="Connect as guest"
-              variant="solid"
-              mt="5%"
-              color={colors.white}
-            />
+            <Formik
+              initialValues={{
+                religion: 1,
+              }}
+              onSubmit={values => {
+                connectAsGuestHandler(values);
+              }}>
+              {({handleSubmit, values, setFieldValue}) => (
+                <>
+                  <VStack mt="20%" space={3} _text={styles.text}>
+                    <FormControl>
+                      <Select
+                        _text={styles.text}
+                        color={colors.white}
+                        mt={'3%'}
+                        selectedValue={values.religion}
+                        minWidth="50%"
+                        accessibilityLabel="Select your Religion"
+                        placeholder="Select religion"
+                        w={{
+                          base: '98%',
+                        }}
+                        _selectedItem={{
+                          bg: colors.secondary,
+                          endIcon: <CheckIcon size="5" />,
+                        }}
+                        _light={{
+                          bg: colors.tertiary,
+                          _text: {color: colors.white},
+                        }}
+                        _dark={{
+                          bg: colors.white,
+                        }}
+                        onValueChange={item => setFieldValue('religion', item)}>
+                        <Select.Item label="Islam" value={1} color={'white'} />
+                        <Select.Item
+                          label="Hinduism"
+                          value={0}
+                          color={'white'}
+                        />
+                      </Select>
+                    </FormControl>
+                  </VStack>
+                  <CustomButton
+                    title="Connect as guest"
+                    variant="solid"
+                    mt="5%"
+                    onPress={handleSubmit}
+                    color={colors.white}
+                  />
+                </>
+              )}
+            </Formik>
             <BottomText
               text="Do you want to register?"
               goTo="Sign up"

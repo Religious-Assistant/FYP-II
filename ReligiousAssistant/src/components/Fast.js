@@ -20,9 +20,10 @@ export default function Fast(props) {
     <View style={styles.container}>
       <Box
         style={styles.mainBox}
-        marginTop={'2%'}
+        marginTop={'5%'}
         marginLeft={'2%'}
         maxW="96%"
+       
         maxH={'100%'}>
         <VStack space="1.5" divider={<Divider />}>
           <View>
@@ -51,7 +52,7 @@ export default function Fast(props) {
                     space={3}
                     divider={<Divider />}
                     w="90%"
-                    marginTop={'10%'}>
+                    marginTop={'12%'}>
                     <HStack justifyContent="space-between">
                       <Text style={styles.text}>
                         Have you kept fast on{' '}
@@ -107,7 +108,7 @@ export default function Fast(props) {
           base: '29%',
         }}
         marginLeft="68%"
-        marginTop={'19%'}
+        marginTop={'22%'}
         marginBottom={'-5%'}
         _text={{
           fontSize: 'md',
@@ -128,7 +129,7 @@ export default function Fast(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.6,
+    flex: 0.4,
     backgroundColor: colors.white,
     marginTop: '48%',
     fontFamily: fonts.Signika.regular,

@@ -14,7 +14,8 @@ const bottomNavSlice = createSlice({
     },
 })
 
-export const {setTab, getTab}  = bottomNavSlice.actions
+export const {setTab}  = bottomNavSlice.actions
 
-export const selectCurrentTab=(state)=>state.bottomNavSlice.currentTab
+export const selectCurrentTab=(state)=>state.bottomNav.currentTab
+
 export default bottomNavSlice.reducer
