@@ -5,7 +5,10 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import {Heading, Image, Center} from 'native-base';
+import {Heading, Image, Center, FormControl} from 'native-base';
+
+import {Formik} from 'formik';
+import * as yup from 'yup';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -16,6 +19,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import timeICon from '../../../assets/images/rakah_ic.png';
 import TextInput from '../../components/TextInput';
 import CustomButton from '../../components/CustomButton';
+
+const addMosqueValidationSchema = yup.object().shape({
+  mosqueName: yup.string(),
+  location: yup.string(),
+});
 
 export default function AddMosque() {
   return (
@@ -36,7 +44,7 @@ export default function AddMosque() {
               style={{
                 marginTop: '10%',
                 marginRight: '5%',
-                marginBottom:'5%',
+                marginBottom: '5%',
                 height: 100,
                 width: 100,
               }}
@@ -60,22 +68,25 @@ export default function AddMosque() {
             marginTop={'35%'}
             marginLeft={'8%'}
             marginBottom={'5%'}>
-            <TextInput
-              textTitle="Enter Mosque Name"
-              mt="50%"
-              icon={<MaterialCommunityIcons name="mosque" />}
-            />
-            <TextInput
-              textTitle="Location"
-              mt="5%"
-              icon={<Entypo name="location" />}
-            />
-            <CustomButton title="Add Mosque"
-                      variant="solid"
-                      mt="8%"
-                      color="white"
-                      base="99%"
-                />
+            <FormControl mt={'12%'}>
+              <TextInput
+                textTitle="Enter Mosque Name"
+                mt="50%"
+                icon={<MaterialCommunityIcons name="mosque" />}
+              />
+              <TextInput
+                textTitle="Location"
+                mt="5%"
+                icon={<Entypo name="location" />}
+              />
+              <CustomButton
+                title="Add Mosque"
+                variant="solid"
+                mt="8%"
+                color="white"
+                base="99%"
+              />
+            </FormControl>
           </Center>
         </View>
       </View>
