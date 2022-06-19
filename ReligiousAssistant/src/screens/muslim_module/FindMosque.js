@@ -5,17 +5,25 @@
 
 import React from 'react';
 import {
-  ImageBackground,
   StyleSheet,
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {Center, VStack, Input, Icon} from 'native-base';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+  Center,
+  VStack,
+  Input,
+  Icon,
+  View,
+  Image,
+  Heading,
+  ScrollView,
+  Text,
+} from 'native-base';
 
 import Ioicons from 'react-native-vector-icons/Ionicons';
-import image from '../../../assets/images/findMosque_bg.png';
+import mosqueICon from '../../../assets/images/Logo-muslim.png';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -25,52 +33,92 @@ import CustomBox from '../../components/CustomBox';
 export default function FindMosque() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.Maincontainer}>
-        <ImageBackground style={styles.imageBg} source={image}>
-          <Center w="110%" mt={'-30%'} ml="-1%" h="95%" maxW="110%">
-            <VStack width="80%" space={2} maxW="80%">
-              <Input
-                placeholder="search"
-                _text={styles.text}
-                color={colors.white}
-                bgColor={colors.tertiary}
-                borderRadius="20"
-                py="2"
-                px="2"
-                borderWidth="0"
-                InputLeftElement={
-                  <Icon
-                    as={<Ioicons name="search" />}
-                    size={5}
-                    ml="2%"
-                    color={colors.white}
-                  />
-                }
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        backgroundColor={colors.white}
+        flex={1}>
+        <View style={{flex: 1, backgroundColor: colors.white}}>
+          <View
+            style={{
+              flex: 0.17,
+              backgroundColor: colors.primary,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              position: 'absolute',
+              alignItems: 'center',
+            }}>
+            <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+              <Image
+                source={mosqueICon}
+                style={{
+                  marginTop: '10%',
+                  marginRight: '-5%',
+                  marginBottom: '5%',
+                  height: 100,
+                  width: 100,
+                }}
+                alt="icon .."
               />
-              <CustomBox
-                mt={'20%'}
-                text="Sukkur IBA masjid"
-                distance="2.3 km"
-                ml="20%"
-              />
+            </View>
+            <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+              <Heading
+                color={colors.secondary}
+                marginLeft="10%"
+                marginTop={'5%'}>
+                <Text style={{fontFamily: fonts.Signika.bold}}>Find </Text>
+                <Heading color={colors.white}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>Mosque</Text>
+                </Heading>
+              </Heading>
+            </View>
+          </View>
+          <View style={{flex: 0.83}} width="95%" marginTop={'90%'}>
+            <Center w="110%" mt={'-30%'} ml="-3%" h="95%" maxW="110%">
+              <VStack width="80%" space={2} maxW="80%">
+                <Input
+                  placeholder="search"
+                  _text={styles.text}
+                  color={colors.white}
+                  bgColor={colors.tertiary}
+                  borderRadius="20"
+                  py="2"
+                  px="2"
+                  borderWidth="0"
+                  InputLeftElement={
+                    <Icon
+                      as={<Ioicons name="search" />}
+                      size={5}
+                      ml="2%"
+                      color={colors.white}
+                    />
+                  }
+                />
 
-              <CustomBox
-                mt={'2%'}
-                text="Allah Wali Masjid"
-                distance="2.3 km"
-                ml="22%"
-              />
+                <CustomBox
+                  mt={'20%'}
+                  text="Sukkur IBA masjid"
+                  distance="2.3 km"
+                  ml="20%"
+                />
 
-              <CustomBox
-                mt={'2%'}
-                text="Makrani Masjid Sukkur"
-                distance="2.3 km"
-                ml="6%"
-              />
-            </VStack>
-          </Center>
-        </ImageBackground>
-      </SafeAreaView>
+                <CustomBox
+                  mt={'2%'}
+                  text="Allah Wali Masjid"
+                  distance="2.3 km"
+                  ml="20%"
+                />
+
+                <CustomBox
+                  mt={'2%'}
+                  text="Makrani Masjid Sukkur"
+                  distance="2.3 km"
+                  ml="20%"
+                />
+              </VStack>
+            </Center>
+          </View>
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

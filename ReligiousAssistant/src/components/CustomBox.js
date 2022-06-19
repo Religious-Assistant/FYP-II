@@ -33,7 +33,12 @@ export default function CustomBox(props) {
       shadow={2}
       mt={props.mt}
       ref={myRef}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+        }}>
         <Image
           source={mosqueIcon}
           style={{
@@ -43,33 +48,36 @@ export default function CustomBox(props) {
           alt="icon .."
         />
         <Text style={styles.textMosque}>{props.text}</Text>
-        <Text
-          style={{
-            fontFamily: fonts.Signika.medium,
-            color: colors.black,
-            marginTop: '5%',
-            marginLeft: props.ml,
-          }}>
-          {props.distance}
-        </Text>
-        <Button
-          style={{
-            height: 20,
-            width: 70,
-            marginLeft: '-20%',
-            marginTop: '-3%',
-          }}
-          variant="ghost">
-          <Image
-            source={directionIcon}
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text
             style={{
-              height: 50,
-              width: 42,
-              tintColor: colors.primary,
+              fontFamily: fonts.Signika.medium,
+              color: colors.black,
+              marginTop: '5%',
+              marginLeft: props.ml,
+            }}>
+            {props.distance}
+          </Text>
+          <Button
+            style={{
+              height: 20,
+              width: 70,
+
+              marginLeft: '45%',
+              marginTop: '5%',
             }}
-            alt="icon .."
-          />
-        </Button>
+            variant="ghost">
+            <Image
+              source={directionIcon}
+              style={{
+                height: 50,
+                width: 42,
+                tintColor: colors.primary,
+              }}
+              alt="icon .."
+            />
+          </Button>
+        </View>
       </View>
     </Box>
   );
@@ -84,8 +92,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.medium,
     color: colors.black,
     marginTop: '5%',
-    marginLeft: '5%',
     fontSize: 20,
+    flexWrap: 'wrap',
   },
   text: {
     fontFamily: fonts.Signika.medium,
