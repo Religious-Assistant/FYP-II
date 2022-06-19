@@ -37,7 +37,7 @@ export default function Settings() {
         <View
           style={{
             flex: 0.7,
-            marginTop: 50,
+            marginTop: 35,
             marginLeft: '6%',
             width: '90%',
             maxWidth: '88%',
