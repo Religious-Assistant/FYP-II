@@ -40,11 +40,10 @@ import {
   SIGNUP,
 } from '../navigation/constants';
 
-//Services
-// import { loginUser } from '../services/apis/AuthService';
-import {apiPOST} from '../services/apis/AuthService'
+
+//Redux
 import {useDispatch, useSelector} from 'react-redux'
-import { getToken, loginUser, selectHasError, selectIsLoading, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
+import { loginUser } from '../redux/slices/auth_slices/authSlice';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),

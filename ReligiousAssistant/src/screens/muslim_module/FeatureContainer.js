@@ -18,7 +18,6 @@ import {
   LEARN_NAMAZ,
   ACCOUNTABILITY,
   ANNOUNCEMENTS,
-  AUTO_SILENT,
   ADD_MOSQUE,
   TASBIH_COUNTER,
   QIBLA_DIRECTION,
@@ -63,7 +62,13 @@ export default function FeatureContainer() {
       title: 'Accountability',
       image: require('../../../assets/images/accountability_ic.png'),
       screen: ACCOUNTABILITY,
-    }:undefined,
+    }:
+    {
+      title: 'Announcements',
+      image: require('../../../assets/images/announcement_ic.png'),
+      screen: ANNOUNCEMENTS,
+    }
+    ,
     {
       title: 'Announcements',
       image: require('../../../assets/images/announcement_ic.png'),
