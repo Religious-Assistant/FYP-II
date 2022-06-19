@@ -75,7 +75,7 @@ export default function Profile() {
           style={{
             flex: 0.7,
             marginTop: '2%',
-            marginLeft: '5%',
+            marginLeft: '7%',
             width: '90%',
             maxWidth: '88%',
           }}>
