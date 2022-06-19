@@ -38,7 +38,7 @@ export default function Settings() {
           style={{
             flex: 0.7,
             marginTop: 50,
-            marginLeft: '5%',
+            marginLeft: '6%',
             width: '90%',
             maxWidth: '88%',
             height: '90%',

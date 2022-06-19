@@ -10,23 +10,21 @@ import {StatusBar} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
-import store from './src/redux/store'
-import {Provider} from 'react-redux'
+import store from './src/redux/store';
+import {Provider} from 'react-redux';
+import AddTemple from './src/screens/hindu_module/AddTemple';
 
-import Profile from './src/screens/muslim_module/Profile'
-
-const preloadedState = window.__PRELOADED_STATE__
-
+const preloadedState = window.__PRELOADED_STATE__;
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  
+
   return (
     <Provider store={store} serverState={preloadedState}>
-    <NativeBaseProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-     <Profile/>
-    </NativeBaseProvider>
+      <NativeBaseProvider>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <AddTemple />
+      </NativeBaseProvider>
     </Provider>
   );
 };
