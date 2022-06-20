@@ -30,6 +30,7 @@ import {ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION} from '../navigation/constants';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../redux/slices/auth_slices/authSlice';
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
@@ -37,14 +38,14 @@ const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 const registerValidationSchema = yup.object().shape({
   username: yup.string(),
   password: yup.string(),
-  phoneNumber: yup.string(),
+  mobile: yup.string(),
   religion: yup.number(),
 });
 
 // const registerValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),
 //   password: yup.string().min(8).required('Password is required'),
-//   phoneNumber: yup
+//   mobile: yup
 //     .string()
 //     .required('Phone number is required')
 //     .matches(phoneRegExp, 'Phone number is not valid')
@@ -53,12 +54,13 @@ const registerValidationSchema = yup.object().shape({
 // });
 
 function RegisterScreen() {
+  
   const navigator = useNavigation();
+  const dispatch=useDispatch()
 
   function signupHandler(values) {
     
-    console.log(values);
-
+    dispatch(registerUser(values))  
     // navigator.navigate(OTP_VERIFICATION);
   }
 
@@ -80,7 +82,7 @@ function RegisterScreen() {
                 initialValues={{
                   username: '',
                   password: '',
-                  phoneNumber: '',
+                  mobile: '',
                   religion: 1,
                 }}
                 onSubmit={values => {
@@ -130,18 +132,18 @@ function RegisterScreen() {
                       />
                       <TextInput
                         textTitle="Enter Phone No"
-                        name="phoneNumber"
+                        name="mobile"
                         icon={<FontAwesome name="phone" />}
-                        onChangeText={handleChange('phoneNumber')}
-                        onBlur={handleBlur('phoneNumber')}
-                        value={values.phoneNumber}
-                        isInValid={errors.phoneNumber && touched.phoneNumber}
+                        onChangeText={handleChange('mobile')}
+                        onBlur={handleBlur('mobile')}
+                        value={values.mobile}
+                        isInValid={errors.mobile && touched.mobile}
                         mt="6%"
                         base="99%"
                       />
                       <ErrorMessage
-                        error={errors.phoneNumber}
-                        errosTouched={touched.phoneNumber}
+                        error={errors.mobile}
+                        errosTouched={touched.mobile}
                       />
 
                       <Select

@@ -29,8 +29,8 @@ import { useSelector } from 'react-redux';
 import { selectToken } from '../../redux/slices/auth_slices/authSlice';
 
 export default function FeatureContainer() {
-  const navigator = useNavigation();
 
+  const navigator = useNavigation();
   const token=useSelector(selectToken)
 
   const featureArray1 = [
@@ -69,10 +69,14 @@ export default function FeatureContainer() {
       screen: ANNOUNCEMENTS,
     }
     ,
-    {
+    token?{
       title: 'Announcements',
       image: require('../../../assets/images/announcement_ic.png'),
       screen: ANNOUNCEMENTS,
+    }:{
+      title: 'Rakah Info',
+      image: require('../../../assets/images/info_ic.png'),
+      screen: RAKAH_INFO,
     },
   ];
 
@@ -93,11 +97,11 @@ export default function FeatureContainer() {
       image: require('../../../assets/images/tasbih_ic.png'),
       screen: TASBIH_COUNTER,
     },
-    {
+    token?{
       title: 'Rakah Info',
       image: require('../../../assets/images/info_ic.png'),
       screen: RAKAH_INFO,
-    },
+    }:undefined,
   ];
 
   return (
@@ -116,7 +120,9 @@ export default function FeatureContainer() {
             marginTop: 10,
           }}>
           {featureArray1.map((item, index) => {
-            return (
+            return (<>
+              {
+                item?            
               <TouchableOpacity
                 key={item.title}
                 onPress={() => {
@@ -133,7 +139,8 @@ export default function FeatureContainer() {
                   />
                   <Text style={styles.cardTitle}>{item.title}</Text>
                 </FeatureCard>
-              </TouchableOpacity>
+              </TouchableOpacity>:<></>
+          }</>
             );
           })}
         </View>

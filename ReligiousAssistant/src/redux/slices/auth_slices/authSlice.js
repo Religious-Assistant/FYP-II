@@ -90,12 +90,12 @@ const authSlice = createSlice({
             state.hasError=false
         },
 
-        [registerUser.fulfilled]:(state,payload)=>{
-            console.log(payload)
-
+        [registerUser.fulfilled]:(state,action)=>{
             state.isLoading = false
             state.hasError=false
-            // state.userData=
+            console.log(action.payload)
+            // state.userData=action.payload
+            
 
         },
         [registerUser.pending]:(state,action)=>{
