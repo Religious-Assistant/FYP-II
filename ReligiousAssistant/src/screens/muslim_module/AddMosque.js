@@ -16,8 +16,18 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import timeICon from '../../../assets/images/rakah_ic.png';
 import TextInput from '../../components/TextInput';
 import CustomButton from '../../components/CustomButton';
+import { useNavigation } from '@react-navigation/native';
+
+import Map from '../../components/Map';
+import { GOOGLE_MAP } from '../../navigation/constants';
 
 export default function AddMosque() {
+
+  const navigator=useNavigation()
+
+  function openMap(){
+    navigator.navigate(GOOGLE_MAP)
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -65,11 +75,17 @@ export default function AddMosque() {
               mt="50%"
               icon={<MaterialCommunityIcons name="mosque" />}
             />
-            <TextInput
-              textTitle="Location"
-              mt="5%"
-              icon={<Entypo name="location" />}
-            />
+            
+            <CustomButton title="Select Location"
+                      variant="outline"
+                      mt="8%"
+                      color={colors.primary}
+                      base="99%"
+                      colorscheme="lightBlue.900"
+                      onPress={()=>{
+                        openMap()
+                      }}
+                />
             <CustomButton title="Add Mosque"
                       variant="solid"
                       mt="8%"

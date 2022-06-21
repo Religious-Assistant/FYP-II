@@ -44,6 +44,9 @@ const NamazPlayArea = ({ route, navigation }) => {
         <Text style={styles.namazText}>
           {scene.text}
         </Text>
+        <Text style={styles.namazText}>
+          {scene.step}
+        </Text>
       </View>
       <View style={styles.playArea}>
         <Image

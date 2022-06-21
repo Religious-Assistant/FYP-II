@@ -9,6 +9,8 @@ import {Button} from 'native-base';
 import fonts from '../theme/fonts';
 
 export default function CustomButton(props) {
+ // console.log(props.colorscheme)
+  const colorscheme = props.colorscheme? props.colorscheme:"yellow"
   return (
     <Button
       onPress={props.onPress}
@@ -24,7 +26,7 @@ export default function CustomButton(props) {
         color: props.color,
       }}
       mt={props.mt}
-      colorScheme="yellow"
+      colorScheme={colorscheme}
       variant={props.variant}>
       {props.title}
     </Button>

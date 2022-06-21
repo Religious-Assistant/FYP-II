@@ -235,7 +235,7 @@ const RakahList = props => {
     navigator.navigate(NAMAZ_PLAY_AREA, {namazInfo: item});
   }
 
-  //Should come from prop
+//Should come from prop
 
   const data = [
     {
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: ITEM_SIZE * 1.2,
     resizeMode: 'cover',
-    borderRadius: 24,
+    borderRadius: 0,
     margin: 0,
     marginBottom: 10,
   },

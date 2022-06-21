@@ -31,6 +31,7 @@ const MUSLIM_VIEW_PROFILE='MUSLIM_VIEW_PROFILE'
 const APPLY_AS_IMAM='APPLY_AS_IMAM'
 const SHARE_APP='SHARE_APP'
 const ABOUT='ABOUT'
+const GOOGLE_MAP='GOOGLE_MAP'
 
 //Registered Hindu
 const REGISTERED_HINDU_HOME_STACK = 'REGISTERED_HINDU_HOME';
@@ -78,7 +79,8 @@ export {
   MUSLIM_VIEW_PROFILE,
   APPLY_AS_IMAM,
   ABOUT,
-  SHARE_APP
+  SHARE_APP,
+  GOOGLE_MAP
 };
 
 //Registered Hindu user navigation constants
