@@ -15,6 +15,7 @@ import {Provider} from 'react-redux';
 
 import Profile from './src/screens/hindu_module/Profile'
 import AnnouncementNoti from './src/screens/muslim_module/AnnouncementNoti';
+import Settings from './src/screens/muslim_module/Settings';
 
 const preloadedState = window.__PRELOADED_STATE__;
 
@@ -25,7 +26,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <AnnouncementNoti/>
+        <RootNavigator/>
       </NativeBaseProvider>
     </Provider>
   );
