@@ -22,21 +22,21 @@ export default function Profile() {
     {
       id: 1,
       label: 'User Name',
-      info: 'Kinza Shaikh',
+      info: 'Akash Kumar',
       icon: <EvilIcons name="user" />,
       iconSize: '8',
     },
     {
       id: 2,
       label: 'Password',
-      info: 'Kinza123',
+      info: 'akash12',
       icon: <EvilIcons name="eye" />,
       iconSize: '8',
     },
     {
       id: 3,
       label: 'Phone Number',
-      info: '0335339221',
+      info: '0331234556',
       icon: <AntDesign name="phone" />,
       iconSize: '6',
     },
@@ -50,7 +50,7 @@ export default function Profile() {
     {
       id: 5,
       label: 'Primary Temple',
-      info: 'Abc Temple',
+      info: 'Temple 1',
       icon: <MaterialCommunityIcons name="mosque" />,
       iconSize: '6',
     },
