@@ -43,7 +43,7 @@ export default function AnnouncementNoti() {
                     size="md"
                     ml="-1"
                     _text={{fontFamily: fonts.Signika.bold}}>
-                    Nadir Hussain
+                    Suresh Kumar
                   </Heading>
                   <Text
                     fontSize="xs"
@@ -53,7 +53,7 @@ export default function AnnouncementNoti() {
                     _text={{fontFamily: fonts.Signika.medium}}
                     ml="-0.5"
                     mt="-1">
-                    Eid Namaz
+                    Funeral Activity
                   </Text>
                 </Stack>
                 <Text style={{fontFamily: fonts.Signika.medium}}>
