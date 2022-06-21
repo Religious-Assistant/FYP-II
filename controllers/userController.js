@@ -20,6 +20,7 @@ const jwt_secret = process.env.JWT_KEY;
 
 const registerUser = async (req, res) => {
   console.log("Register API hit");
+
   try {
     const { username } = await req.body;
     const duplicateUser = await User.findOne({ username: username });
@@ -30,10 +31,14 @@ const registerUser = async (req, res) => {
       const user_data = await User.create({ ...req.body });
 
       if (user_data) {
-        await Tasbih.create({username:username, count:0})
+        //Create a Tasbih for each Muslim user, check religion
+        if(user_data.religion==1){
+          await Tasbih.create({username:username, count:0})
+        }
+
         res.send({ success: true, data: user_data, avatar: img_url });
         return;
-      }
+      }      
       res.send({ success: false });
     }
   } catch (error) {
@@ -42,10 +47,11 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+  
   console.log("Login API hit");
   try {
     const { username, password } = req.body;
-    const user_data = await User.findOne({ username: username });
+    const user_data = await User.findOne({ username: username, verified:true });
 
     if (user_data) {
       const passwordMatch = await bcrypt.compare(password, user_data.password);

@@ -31,10 +31,6 @@ const userSchema=mongoose.Schema({
         type:{typr:String},
         coordinates:[]
     },
-    primaryMosque:{
-        type:String,
-        default:'None',
-    }
 })
 
 userSchema.pre('save',function(next){
