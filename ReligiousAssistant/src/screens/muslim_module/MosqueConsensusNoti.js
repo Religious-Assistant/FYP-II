@@ -29,7 +29,7 @@ export default function MosqueConsensusNoti() {
     {
       key: 1,
       label: 'Mosque Name',
-      info: 'Sukkur IBA Mosque',
+      info: 'Sukkur IBA',
     },
     {
       key: 2,
@@ -48,7 +48,7 @@ export default function MosqueConsensusNoti() {
         keyboardShouldPersistTaps="handled"
         flex={1}
         backgroundColor={colors.white}>
-        <View style={{flex: 1, backgroundColor: colors.white}}>
+        <View style={styles.maincontainer}>
           <View
             style={{
               flex: 0.17,
@@ -104,7 +104,7 @@ export default function MosqueConsensusNoti() {
                     divider={<Divider />}
                     w="90%"
                     marginTop={'10%'}>
-                    <HStack justifyContent="space-between">
+                    <HStack justifyContent="space-between" flexWrap={'wrap'}>
                       <Text style={styles.label}>{mosque.label}:</Text>
                       <Text style={styles.info}>{mosque.info}</Text>
                     </HStack>
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     fontFamily: fonts.Signika.regular,
   },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
+  maincontainer: {
+  flex: 1, 
+  backgroundColor: colors.white
   },
   text: {
     fontFamily: fonts.Signika.medium,
