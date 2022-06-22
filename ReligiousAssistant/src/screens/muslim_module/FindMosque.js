@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -19,10 +19,57 @@ import image from '../../../assets/images/findMosque_bg.png';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-
 import CustomBox from '../../components/CustomBox';
 
+//Redux
+
+import {useSelector, useDispatch} from 'react-redux'
+import { getClosestMosques } from '../../redux/slices/muslim_module_slices/mosqueSlice';
+
+
 export default function FindMosque() {
+
+  
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+
+    getLocation()
+    
+    dispatch(getClosestMosques())
+  },[dispatch])
+
+  getLocation = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Geolocation Permission',
+          message: "App needs access to your phone's location.",
+        },
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          position => {
+            const {latitude, longitude} = position.coords;
+            console.log(latitude, longitude);
+            calculate(latitude, longitude);
+          },
+          error => {
+            // See error code charts below.
+            console.log(error.code, error.message);
+          },
+          {enableHighAccuracy: false, timeout: 15000},
+        );
+      } else {
+        console.log('Location permission not granted!');
+      }
+    } catch (err) {
+      console.log('Location permission not granted!', err);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.Maincontainer}>

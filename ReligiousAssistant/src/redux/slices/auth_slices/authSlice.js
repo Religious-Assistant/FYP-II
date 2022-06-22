@@ -4,7 +4,7 @@ import {apiPOST, apiGET} from '../../../services/apis/AuthService'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-    token:null,
+    token:[null],
     userData:null,
     religion:null,
     isLoading:true,
@@ -93,8 +93,7 @@ const authSlice = createSlice({
         [registerUser.fulfilled]:(state,action)=>{
             state.isLoading = false
             state.hasError=false
-            console.log(action.payload)
-            // state.userData=action.payload
+            state.userData=action.payload
             
 
         },
@@ -118,6 +117,7 @@ const authSlice = createSlice({
         
         [loginUser.fulfilled]:(state,action)=>{
             
+            state.userData=action.payload.data
             const {msg, success}=action.payload
             if(!success){            
                 state.hasError=true

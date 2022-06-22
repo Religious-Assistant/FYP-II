@@ -71,9 +71,7 @@ export default function MuslimBottomTab() {
           name="Home"
           component={Home}
           options={{
-            // tabBarLabel:'Home',
             headerShown: false,
-            // tabBarVisible:isTabBarVisible()
             tabBarIcon: ({focused}) => {
               return(
               <View
