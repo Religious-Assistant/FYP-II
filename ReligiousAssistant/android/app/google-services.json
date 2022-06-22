@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "133065468692",
+    "project_id": "religious-assistant",
+    "storage_bucket": "religious-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133065468692:android:bcbfbb4b851a61d6d13001",
+        "android_client_info": {
+          "package_name": "com.religiousassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133065468692-0d7fmo95403ngb0cemailop4k0mtfakl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnknNaNTHuLn2QHQ95Xjqby7ohvBKs8pU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133065468692-0d7fmo95403ngb0cemailop4k0mtfakl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

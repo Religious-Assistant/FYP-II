@@ -4,7 +4,7 @@ import {apiPOST, apiGET} from '../../../services/apis/AuthService'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-    token:[null],
+    token:null,
     userData:null,
     religion:null,
     isLoading:true,

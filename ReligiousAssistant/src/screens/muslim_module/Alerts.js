@@ -14,7 +14,50 @@ import muslimLogo from '../../../assets/images/MuslimLogo.png';
 import {useDispatch, useSelector} from 'react-redux'
 import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
+//Notifee
+
+import notifee from '@notifee/react-native';
+import messaging from '@react-native-firebase/messaging';
+
+async function onAppBootstrap() {
+  // Register the device with FCM
+  await messaging()
+    .registerDeviceForRemoteMessages()
+    .catch(err => {
+      console.log('err ' + err);
+    });
+
+  // Get the token
+  const token = await messaging().getToken();
+  console.log('token is from here ' + token + ' to here ');
+
+  // Save the token
+  // await postToApi('/users/1234/tokens', {token});
+}
+
+async function onMessageReceived(message) {
+  console.log('message recieved');
+  const data = await JSON.parse(message.data.notification);
+  console.log(data);
+  const channelId = await notifee.createChannel({
+    id: '123',
+    name: 'Default Channel',
+  });
+  notifee.displayNotification({
+    body: data['body'],
+    title: data['title'],
+    android: {
+      channelId,
+      smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+    },
+  });
+}
+messaging().onMessage(onMessageReceived);
+messaging().setBackgroundMessageHandler(onMessageReceived);
+
+
 export default function Alerts({navigation}) {
+
 
 
   const dispatch=useDispatch()
