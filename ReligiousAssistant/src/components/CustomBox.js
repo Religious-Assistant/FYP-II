@@ -30,7 +30,6 @@ export default function CustomBox(props) {
       width="100%"
       bg={colors.cover}
       p="3"
-      shadow={2}
       mt={props.mt}
       ref={myRef}>
       <View
@@ -48,13 +47,14 @@ export default function CustomBox(props) {
           alt="icon .."
         />
         <Text style={styles.textMosque}>{props.text}</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <Text
             style={{
               fontFamily: fonts.Signika.medium,
               color: colors.black,
               marginTop: '5%',
               marginLeft: props.ml,
+              fontSize:16
             }}>
             {props.distance}
           </Text>
@@ -66,7 +66,9 @@ export default function CustomBox(props) {
               marginLeft: '45%',
               marginTop: '5%',
             }}
-            variant="ghost">
+            variant="ghost"
+            onPress={props.onPress}
+            >
             <Image
               source={directionIcon}
               style={{

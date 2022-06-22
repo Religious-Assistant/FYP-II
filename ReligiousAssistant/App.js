@@ -1,7 +1,7 @@
 /**
- * @author Nadir Hussain
- * @version 1.0
- */
+* @author Nadir Hussain
+* @version 1.0
+*/
 
 import 'react-native-gesture-handler';
 import React from 'react';

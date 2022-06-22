@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -28,25 +28,32 @@ import mosqueICon from '../../../assets/images/Logo-muslim.png';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import CustomBox from '../../components/CustomBox';
+import {PermissionsAndroid} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 
 //Redux
 
 import {useSelector, useDispatch} from 'react-redux'
-import { getClosestMosques } from '../../redux/slices/muslim_module_slices/mosqueSlice';
+import { getClosestMosques, selectClosestMosques } from '../../redux/slices/muslim_module_slices/mosqueSlice';
+import { useNavigation } from '@react-navigation/native';
+import { GOOGLE_MAP_DIRECTIONS } from '../../navigation/constants';
 
 
 export default function FindMosque() {
 
   
   const dispatch=useDispatch()
+  const navigator=useNavigation()
+
+  const closesMosques=useSelector(selectClosestMosques)
+
+  const[sourceCoordinates,setSourceCoordinates]=useState()
 
   useEffect(()=>{
 
     getLocation()
-    
-    dispatch(getClosestMosques())
-  },[dispatch])
-
+  },[])
+  
   getLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -60,13 +67,11 @@ export default function FindMosque() {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-            const {latitude, longitude} = position.coords;
-            console.log(latitude, longitude);
-            calculate(latitude, longitude);
+            dispatch(getClosestMosques(position.coords))
+            setSourceCoordinates(position.coords)
           },
           error => {
-            // See error code charts below.
-            console.log(error.code, error.message);
+            alert(`Error while seeking Permission. ${error.code}`)
           },
           {enableHighAccuracy: false, timeout: 15000},
         );
@@ -77,6 +82,19 @@ export default function FindMosque() {
       console.log('Location permission not granted!', err);
     }
   };
+
+  function getDirections(destinationCoordinates){
+    
+    if(destinationCoordinates){
+
+      navigator.navigate(GOOGLE_MAP_DIRECTIONS,{
+        destinationCoordinates
+      })
+    }
+    else{
+      alert('Error while fetching current or desination location')
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -140,27 +158,19 @@ export default function FindMosque() {
                     />
                   }
                 />
+                {closesMosques?closesMosques.map((mosque,index)=>{
 
-                <CustomBox
-                  mt={'20%'}
-                  text="Sukkur IBA masjid"
-                  distance="2.3 km"
-                  ml="20%"
+                  return(
+                    <CustomBox
+                    mt={'10%'}
+                    text={mosque.mosqueName}
+                    distance={mosque.dist.calculated/1000+" KM "}
+                    ml="20%"
+                    onPress={()=>{getDirections(mosque.location.coordinates)}}
                 />
-
-                <CustomBox
-                  mt={'2%'}
-                  text="Allah Wali Masjid"
-                  distance="2.3 km"
-                  ml="20%"
-                />
-
-                <CustomBox
-                  mt={'2%'}
-                  text="Makrani Masjid Sukkur"
-                  distance="2.3 km"
-                  ml="20%"
-                />
+                  )
+                }):<></>}
+                
               </VStack>
             </Center>
           </View>

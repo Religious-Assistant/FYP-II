@@ -15,6 +15,7 @@ import {
   AUTO_SILENT,
   FIND_MOSQUE,
   GOOGLE_MAP,
+  GOOGLE_MAP_DIRECTIONS,
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
   MUSLIM_VIEW_PROFILE,
@@ -48,6 +49,7 @@ import ApplyAsImam from '../screens/muslim_module/ApplyAsImam';
 import ShareApp from '../screens/common/ShareApp';
 import About from '../screens/common/About';
 import Map from '../components/Map';
+import MapDirection from '../components/MapDirection';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -160,6 +162,11 @@ function MuslimDashboardNavigation() {
         name={GOOGLE_MAP}
         component={Map}
         options={{title: 'Google Map'}}
+      />
+      <HomeStack.Screen
+        name={GOOGLE_MAP_DIRECTIONS}
+        component={MapDirection}
+        options={{title: 'Get Directions'}}
       />
 
     </HomeStack.Navigator>
