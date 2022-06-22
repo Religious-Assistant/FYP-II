@@ -2,7 +2,7 @@ const Mosque=require('../models/mosqueModel')
 const User=require('../models/userModel')
 
 const getAllMosques=async(req, res)=>{
-
+    console.log('Find All Mosques API hit')
     try{
         const allMosques=await Mosque.find({})
         if(allMosques){
@@ -21,7 +21,9 @@ const getAllMosques=async(req, res)=>{
 const getClosestMosques=async(req, res)=>{
 
     console.log('Find closest Mosques API hit')
+    
     const {longitude, latitude}=req.body
+
     try{
 
         const nearMosques=await Mosque.aggregate([
@@ -36,7 +38,8 @@ const getClosestMosques=async(req, res)=>{
                     distanceField:'dist.calculated',
                     spherical:true,
                 }
-            }
+            },
+            { $match: { verified:true } }
         ])
 
         res.status(200).send({msg:'Here are closest Mosques',success:true, data:nearMosques})
@@ -78,7 +81,6 @@ const getUnverifiedMosquesAroundUser=async(req, res)=>{
 const addMosque=async(req, res)=>{
 
     console.log("Add Mosque API hit")
-    console.log(req.body)
     const{latitude,longitude,mosqueName,addedBy}=req.body
 
     try{
