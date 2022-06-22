@@ -9,7 +9,8 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import colors from '../theme/colors';
-import {Button, View} from 'native-base';
+
+import { View} from 'native-base';
 import CustomButton from './CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { ADD_MOSQUE } from '../navigation/constants';
@@ -19,7 +20,6 @@ const Map = () => {
   const [reg, setReg] = useState();
 
   const navigator=useNavigation()
-
   Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const Map = () => {
           setReg({address: addressComponent});
           console.log(addressComponent);
         })
+
         .catch(error => console.warn(error));
     }).catch(err => {
       console.log(err);
@@ -115,6 +116,5 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height - 60,
   },
 });
-
 
 export default Map;

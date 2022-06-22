@@ -13,7 +13,7 @@ import fonts from '../../theme/fonts';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Entypo from 'react-native-vector-icons/Entypo';
-import timeICon from '../../../assets/images/rakah_ic.png';
+import mosqueICon from '../../../assets/images/rakah_ic.png';
 import TextInput from '../../components/TextInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
@@ -78,11 +78,11 @@ export default function AddMosque({route,navigation}) {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={timeICon}
+              source={mosqueICon}
               style={{
                 marginTop: '10%',
                 marginRight: '5%',
-                marginBottom:'5%',
+                marginBottom: '5%',
                 height: 100,
                 width: 100,
               }}
@@ -138,6 +138,7 @@ export default function AddMosque({route,navigation}) {
                       base="99%"
                       onPress={addMosque}
                 />
+
           </Center>
         </View>
       </View>

@@ -109,6 +109,7 @@ export default function LoginScreen({navigation}) {
                         onBlur={handleBlur('username')}
                         value={values.username}
                         isInValid={errors.username && touched.username}
+                        base="78%"
                       />
                       <ErrorMessage
                         error={errors.username}
@@ -122,19 +123,14 @@ export default function LoginScreen({navigation}) {
                         value={values.password}
                         isInValid={errors.password && touched.password}
                         mt={'5%'}
+                        base="78%"
                       />
                       <ErrorMessage
                         error={errors.password}
                         errosTouched={touched.password}
                       />
-                      <View style={{flexDirection: 'row', marginTop: '2%'}}>
-                        <Checkbox
-                          alignSelf="flex-start"
-                          _text={styles.link}
-                          value="info"
-                          colorScheme="info">
-                          Remember me
-                        </Checkbox>
+                      <View style={{marginTop: '2%'}}>
+                        
                         <Link _text={styles.link} alignSelf="flex-end" ml="19%">
                           Forgot Password?
                         </Link>

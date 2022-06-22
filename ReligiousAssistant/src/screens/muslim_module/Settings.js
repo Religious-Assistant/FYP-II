@@ -4,13 +4,12 @@
  */
 
 
-import {View, Text} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {StyleSheet, View, Text, Image, TouchableHighlight} from 'react-native';
 
-import {StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {
   VStack,
   HStack,
@@ -19,7 +18,11 @@ import {
   Stack,
   Heading,
   Switch,
+  Modal,
   ScrollView,
+  FormControl,
+  Input,
+  Button,
 } from 'native-base';
 
 import colors from '../../theme/colors';
@@ -42,6 +45,18 @@ export default function Settings({navigation}) {
     return unsubscribe;
   }, [navigation]);
 
+  const [placement, setPlacement] = useState(undefined);
+  const [openPassModal, setOpenPassModal] = useState(false);
+  const [openPrimaryModal, setPrimaryModal] = useState(false);
+
+  const openPasswordModal = placement => {
+    setOpenPassModal(true);
+    setPlacement(placement);
+  };
+  const openPrimaryMosqModal = placement => {
+    setPrimaryModal(true);
+    setPlacement(placement);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
@@ -54,8 +69,8 @@ export default function Settings({navigation}) {
         <View
           style={{
             flex: 0.7,
-            marginTop: 50,
-            marginLeft: '5%',
+            marginTop: 35,
+            marginLeft: '6%',
             width: '90%',
             maxWidth: '88%',
             height: '90%',
@@ -98,9 +113,7 @@ export default function Settings({navigation}) {
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
-                      onPress={() => {
-                        console.log('password');
-                      }}>
+                      onPress={() => openPasswordModal('center')}>
                       <Image
                         marginLeft="6%"
                         source={editIcon}
@@ -153,9 +166,7 @@ export default function Settings({navigation}) {
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
-                      onPress={() => {
-                        console.log('password');
-                      }}>
+                      onPress={() => openPrimaryMosqModal('center')}>
                       <Image
                         marginLeft="6%"
                         source={editIcon}
@@ -319,6 +330,92 @@ export default function Settings({navigation}) {
               </Box>
             </Box>
           </VStack>
+          {/*         
+        Password Modal */}
+          <Modal
+            isOpen={openPassModal}
+            onClose={() => setOpenPassModal(false)}
+            safeAreaTop={true}>
+            <Modal.Content maxWidth="350" {...styles[placement]}>
+              <Modal.CloseButton />
+              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
+                Change Password
+              </Modal.Header>
+              <Modal.Body>
+                <FormControl>
+                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
+                    New Password
+                  </FormControl.Label>
+                  <Input type="password" />
+                </FormControl>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    _text={{fontFamily: fonts.Signika.regular}}
+                    variant="ghost"
+                    colorScheme="blueGray"
+                    onPress={() => {
+                      setOpenPassModal(false);
+                    }}>
+                    Cancel
+                  </Button>
+                  <Button
+                    _text={{fontFamily: fonts.Signika.regular}}
+                    color={colors.white}
+                    colorScheme="yellow"
+                    onPress={() => {
+                      setOpenPassModal(false);
+                    }}>
+                    Save
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
+          {/* 
+          Primary Mosque Modal */}
+          <Modal
+            isOpen={openPrimaryModal}
+            onClose={() => setPrimaryModal(false)}
+            safeAreaTop={true}>
+            <Modal.Content maxWidth="350" {...styles[placement]}>
+              <Modal.CloseButton />
+              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
+                Change Primary Mosque
+              </Modal.Header>
+              <Modal.Body>
+                <FormControl>
+                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
+                    New Primary Mosque
+                  </FormControl.Label>
+                  <Input />
+                </FormControl>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    _text={{fontFamily: fonts.Signika.regular}}
+                    variant="ghost"
+                    colorScheme="blueGray"
+                    onPress={() => {
+                      setPrimaryModal(false);
+                    }}>
+                    Cancel
+                  </Button>
+                  <Button
+                    _text={{fontFamily: fonts.Signika.regular}}
+                    color={colors.white}
+                    colorScheme="yellow"
+                    onPress={() => {
+                      setPrimaryModal(false);
+                    }}>
+                    Save
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
         </View>
       </ScrollView>
     </View>

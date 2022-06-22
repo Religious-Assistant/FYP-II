@@ -20,26 +20,31 @@ import {
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-import voteIcon from '../../../assets/images/vote_ic.png';
+import templeIcon from '../../../assets/images/newTemple_ic.png';
 
 import CustomButton from '../../components/CustomButton';
 
-export default function MosqueConsensusNoti() {
-  const mosqueInfo = [
+export default function NewTempleAddedNoti() {
+  const templeInfo = [
     {
       key: 1,
-      label: 'Mosque Name',
-      info: 'Sukkur IBA',
+      label: 'Temple Name',
+      info: 'Temple 1',
     },
     {
       key: 2,
       label: 'Location',
-      info: 'Sukkur IBA Uni',
+      info: 'Sukkur',
     },
     {
       key: 3,
       label: 'Added By',
-      info: 'Nadir Hussain',
+      info: 'Akash Kumar',
+    },
+    {
+      key: 4,
+      label: 'Distance from you',
+      info: '3km',
     },
   ];
   return (
@@ -48,7 +53,7 @@ export default function MosqueConsensusNoti() {
         keyboardShouldPersistTaps="handled"
         flex={1}
         backgroundColor={colors.white}>
-        <View style={styles.maincontainer}>
+        <View style={{flex: 1, backgroundColor: colors.white}}>
           <View
             style={{
               flex: 0.17,
@@ -60,14 +65,13 @@ export default function MosqueConsensusNoti() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={voteIcon}
+                source={templeIcon}
                 style={{
                   marginTop: '10%',
                   marginRight: '5%',
                   marginBottom: '5%',
                   height: 80,
                   width: 80,
-                  tintColor: colors.secondary,
                 }}
                 alt="icon .."
               />
@@ -78,73 +82,47 @@ export default function MosqueConsensusNoti() {
                 marginLeft="10%"
                 marginTop={'5%'}>
                 <Text style={{fontFamily: fonts.Signika.bold}}>
-                  Be the Part
+                  New Temple{' '}
                 </Text>
                 <Heading color={colors.white}>
                   <Text style={{fontFamily: fonts.Signika.bold}}>
-                    {'\n'}Cast Vote
+                    {'\n'}Information
                   </Text>
                 </Heading>
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.83}} width="95%" alignItems="center">
+          <View style={{flex: 0.8}} width="95%" maxW="80%" alignItems="center">
             <Center
               width="90%"
               space={2}
               maxW="90%"
               marginTop={'68%'}
-              marginLeft={'5%'}
+              marginLeft={'6%'}
               marginBottom={'5%'}>
-              {mosqueInfo.map((mosque, index) => {
+              {templeInfo.map((temple, index) => {
                 return (
                   <VStack
-                    key={mosque.key}
                     space={3}
+                    key={temple.key}
                     divider={<Divider />}
                     w="90%"
                     marginTop={'10%'}>
                     <HStack justifyContent="space-between" flexWrap={'wrap'}>
-                      <Text style={styles.label}>{mosque.label}:</Text>
-                      <Text style={styles.info}>{mosque.info}</Text>
+                      <Text style={styles.label}>{temple.label}:</Text>
+                      <Text style={styles.info}>{temple.info}</Text>
                     </HStack>
                   </VStack>
                 );
               })}
 
-              <VStack space={3} divider={<Divider />} w="90%">
-                <HStack justifyContent="space-between">
-                  <Text
-                    style={{
-                      fontFamily: fonts.Signika.medium,
-                      fontSize: 14,
-                      color: colors.muted,
-                      marginTop: '10%',
-                    }}>
-                    Do you think the above information is correct? Should we add
-                    Sukkur IBA mosque?
-                  </Text>
-                </HStack>
-              </VStack>
               <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
                 <HStack justifyContent="space-between">
                   <CustomButton
-                    title="Yes"
+                    title="Set as Primary Temple"
                     variant="solid"
                     color="white"
-                    base="40%"
-                    onPress={() => {
-                      console.log('Yes');
-                    }}
-                  />
-                  <CustomButton
-                    title="No"
-                    variant="solid"
-                    color="white"
-                    base="40%"
-                    onPress={() => {
-                      console.log('No');
-                    }}
+                    base="100%"
                   />
                 </HStack>
               </VStack>
@@ -162,9 +140,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     fontFamily: fonts.Signika.regular,
   },
-  maincontainer: {
-  flex: 1, 
-  backgroundColor: colors.white
+  Maincontainer: {
+    flex: 1,
+    width: '100%',
   },
   text: {
     fontFamily: fonts.Signika.medium,

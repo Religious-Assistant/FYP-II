@@ -24,22 +24,17 @@ import voteIcon from '../../../assets/images/vote_ic.png';
 
 import CustomButton from '../../components/CustomButton';
 
-export default function MosqueConsensusNoti() {
+export default function ImamConsensusNoti() {
   const mosqueInfo = [
     {
       key: 1,
-      label: 'Mosque Name',
-      info: 'Sukkur IBA',
+      label: 'Imam Name',
+      info: 'Nadir Hussain',
     },
     {
       key: 2,
-      label: 'Location',
-      info: 'Sukkur IBA Uni',
-    },
-    {
-      key: 3,
-      label: 'Added By',
-      info: 'Nadir Hussain',
+      label: 'Mosque',
+      info: 'Sukkur IBA Mosque',
     },
   ];
   return (
@@ -48,7 +43,7 @@ export default function MosqueConsensusNoti() {
         keyboardShouldPersistTaps="handled"
         flex={1}
         backgroundColor={colors.white}>
-        <View style={styles.maincontainer}>
+        <View style={{flex: 1, backgroundColor: colors.white}}>
           <View
             style={{
               flex: 0.17,
@@ -72,6 +67,7 @@ export default function MosqueConsensusNoti() {
                 alt="icon .."
               />
             </View>
+
             <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
               <Heading
                 color={colors.secondary}
@@ -93,7 +89,7 @@ export default function MosqueConsensusNoti() {
               width="90%"
               space={2}
               maxW="90%"
-              marginTop={'68%'}
+              marginTop={'75%'}
               marginLeft={'5%'}
               marginBottom={'5%'}>
               {mosqueInfo.map((mosque, index) => {
@@ -104,7 +100,7 @@ export default function MosqueConsensusNoti() {
                     divider={<Divider />}
                     w="90%"
                     marginTop={'10%'}>
-                    <HStack justifyContent="space-between" flexWrap={'wrap'}>
+                    <HStack justifyContent="space-between">
                       <Text style={styles.label}>{mosque.label}:</Text>
                       <Text style={styles.info}>{mosque.info}</Text>
                     </HStack>
@@ -121,8 +117,8 @@ export default function MosqueConsensusNoti() {
                       color: colors.muted,
                       marginTop: '10%',
                     }}>
-                    Do you think the above information is correct? Should we add
-                    Sukkur IBA mosque?
+                    Do you think the above information is correct? Is Nadir
+                    Hussain Imam of Sukkur IBA Mosque?
                   </Text>
                 </HStack>
               </VStack>
@@ -162,9 +158,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     fontFamily: fonts.Signika.regular,
   },
-  maincontainer: {
-  flex: 1, 
-  backgroundColor: colors.white
+  Maincontainer: {
+    flex: 1,
+    width: '100%',
   },
   text: {
     fontFamily: fonts.Signika.medium,

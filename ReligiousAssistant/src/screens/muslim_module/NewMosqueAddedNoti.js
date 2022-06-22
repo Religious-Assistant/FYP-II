@@ -14,6 +14,7 @@ import {
   VStack,
   HStack,
   Divider,
+  ScrollView
 } from 'native-base';
 
 import colors from '../../theme/colors';
@@ -28,7 +29,7 @@ export default function NewMosqueAddedNoti() {
     {
       key: 1,
       label: 'Mosque Name',
-      info: 'Sukkur IBA Mosque',
+      info: 'Sukkur Iba',
     },
     {
       key: 2,
@@ -48,6 +49,10 @@ export default function NewMosqueAddedNoti() {
   ];
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        flex={1}
+        backgroundColor={colors.white}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <View
           style={{
@@ -88,16 +93,17 @@ export default function NewMosqueAddedNoti() {
             space={2}
             maxW="90%"
             marginTop={'68%'}
-            marginLeft={'8%'}
+            marginLeft={'5%'}
             marginBottom={'5%'}>
             {mosqueInfo.map((mosque, index) => {
               return (
                 <VStack
+                key={mosque.key}
                   space={3}
                   divider={<Divider />}
                   w="90%"
                   marginTop={'10%'}>
-                  <HStack justifyContent="space-between">
+                  <HStack justifyContent="space-between" flexWrap={'wrap'}>
                     <Text style={styles.label}>{mosque.label}:</Text>
                     <Text style={styles.info}>{mosque.info}</Text>
                   </HStack>
@@ -118,6 +124,7 @@ export default function NewMosqueAddedNoti() {
           </Center>
         </View>
       </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
