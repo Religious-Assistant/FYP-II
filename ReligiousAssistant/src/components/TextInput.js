@@ -43,7 +43,7 @@ export default function TextInput(props) {
 const styles = StyleSheet.create({
   text: {
     fontWeight: '900',
-    fontFamily: fonts.Signika.medium,
+    fontFamily: fonts.Signika.regular,
     color: colors.white,
   },
 });
