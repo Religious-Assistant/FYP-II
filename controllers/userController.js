@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) =>import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const User = require("../models/userModel");
 const Tasbih = require("../models/tasbihModel");
