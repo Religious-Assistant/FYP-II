@@ -15,7 +15,7 @@ import NamazTimings from './NamazTimings';
 import Home from './Home';
 import Alerts from './Alerts';
 import { useSelector } from 'react-redux';
-import { selectToken } from '../../redux/slices/auth_slices/authSlice';
+// import { selectToken } from '../../redux/slices/auth_slices/authSlice';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -45,7 +45,7 @@ const AddMosqueButton = ({children, onPress}) => {
 
 export default function MuslimBottomTab() {
   
-  const token=useSelector(selectToken) 
+  // const token=useSelector(selectToken) 
 
   return (
     <>
@@ -100,7 +100,7 @@ export default function MuslimBottomTab() {
           }}
         />
         {
-          token?        <BottomTab.Screen
+          <BottomTab.Screen
           name="Alerts"
           component={Alerts}
           options={{
@@ -132,7 +132,7 @@ export default function MuslimBottomTab() {
               </View>
             )},
           }}
-        />:<></>
+        />
         }
 
         <BottomTab.Screen
@@ -152,7 +152,7 @@ export default function MuslimBottomTab() {
                   tintColor: '#fff',
                 }}></Image>
             )},
-            tabBarButton:  props =>(<>{token?<AddMosqueButton {...props} />:<></>}</>),
+            tabBarButton:  props =>(<AddMosqueButton {...props} />),
           }}
         />
 

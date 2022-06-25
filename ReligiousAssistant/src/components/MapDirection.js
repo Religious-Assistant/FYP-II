@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import MapView, {Callout, Circle, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import { Image } from 'react-native';
+
+
+import MapView, { Marker} from 'react-native-maps';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import colors from '../theme/colors';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_MAPS_APIKEY } from './componentsConstants';
 
-import { Image } from 'react-native';
 
 import MosqueIc from '../../assets/images/mosque_pin.png'
+import colors from '../theme/colors';
 
 export default function MapDirection({route,navigation}){
 

@@ -15,7 +15,7 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Center, VStack, FormControl, Link, Button, Checkbox} from 'native-base';
+import {Center, VStack, FormControl, Link, Button, Text} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {Formik} from 'formik';
@@ -35,6 +35,7 @@ import image from '../../assets/images/login_bg.png';
 import {useNavigation} from '@react-navigation/native';
 import {
   ENTER_AS_GUEST,
+  LOGIN,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
   SIGNUP,
@@ -42,8 +43,10 @@ import {
 
 
 //Redux
-import {useDispatch, useSelector} from 'react-redux'
-import { loginUser } from '../redux/slices/auth_slices/authSlice';
+import {useDispatch} from 'react-redux'
+import { loginUser, selectIsLoading } from '../redux/slices/auth_slices/authSlice';
+import { useSelector } from 'react-redux';
+import Loader from './common/Loader';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),
@@ -58,13 +61,15 @@ const loginValidationSchema = yup.object().shape({
 export default function LoginScreen({navigation}) {
   
   const navigator = useNavigation();
-  const dispatch=useDispatch()
+  const isLoading=useSelector(selectIsLoading)
 
+  const dispatch=useDispatch()
   useEffect(() => {
     navigation.addListener('beforeRemove', e => {
       e.preventDefault();
     });
     
+
   }, [navigation]);
 
 
@@ -82,6 +87,9 @@ export default function LoginScreen({navigation}) {
           style={styles.image}
           resizeMode="stretch"
           source={image}>
+            {
+              isLoading?<Loader />:
+            
           <Center w="100%" mt={'10%'} h="95%" maxW="100%">
             <VStack space={3} mt="50%">
               <Formik
@@ -164,7 +172,7 @@ export default function LoginScreen({navigation}) {
                 mt="8%"
               />
             </VStack>
-          </Center>
+          </Center>}
         </ImageBackground>
       </SafeAreaView>
     </TouchableWithoutFeedback>
