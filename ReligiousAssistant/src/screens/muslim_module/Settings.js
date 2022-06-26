@@ -31,6 +31,7 @@ import fonts from '../../theme/fonts';
 import avatar from '../../../assets/images/avatar.png';
 
 import editIcon from '../../../assets/images/edit_ic.png';
+import { isSearchBarAvailableForCurrentPlatform } from 'react-native-screens';
 export default function Settings({navigation}) {
 
   const dispatch=useDispatch()
@@ -234,6 +235,9 @@ export default function Settings({navigation}) {
                         onTrackColor="lime.300"
                         size="lg"
                         marginLeft={'80%'}
+                        onPress={()=>{
+                          console.log("hi")
+                        }}
                       />
                     </HStack>
                   </HStack>
