@@ -27,6 +27,7 @@ export default function MakeAnnouncement() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
+        {/* header */}
         <View
           style={{
             flex: 0.17,
@@ -85,6 +86,7 @@ export default function MakeAnnouncement() {
                 setFieldValue,
               }) => (
                 <>
+                {/* Statement */}
                   <TextArea
                     name="description"
                     onChangeText={handleChange('description')}
@@ -102,7 +104,7 @@ export default function MakeAnnouncement() {
                     maxLength={500}
                     multiline={true}
                   />
-
+                  {/* Announcement Category */}
                   <Select
                     _text={styles.text}
                     color={colors.white}
@@ -136,7 +138,7 @@ export default function MakeAnnouncement() {
                       color={'white'}
                     />
                   </Select>
-
+            {/* button */}
             <CustomButton
               title="Announce Now"
               variant="solid"

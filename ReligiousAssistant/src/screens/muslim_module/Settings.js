@@ -49,10 +49,12 @@ export default function Settings({navigation}) {
   const [openPassModal, setOpenPassModal] = useState(false);
   const [openPrimaryModal, setPrimaryModal] = useState(false);
 
+  //for password
   const openPasswordModal = placement => {
     setOpenPassModal(true);
     setPlacement(placement);
   };
+  //for primary mosque
   const openPrimaryMosqModal = placement => {
     setPrimaryModal(true);
     setPlacement(placement);
@@ -92,6 +94,7 @@ export default function Settings({navigation}) {
                 _light={{
                   backgroundColor: colors.cover,
                 }}>
+                  {/* Password */}
                 <Stack p="4" space={3}>
                   <Stack space={2}>
                     <Heading
@@ -110,6 +113,7 @@ export default function Settings({navigation}) {
                     space={4}
                     justifyContent="space-between">
                     <HStack></HStack>
+                    {/* Edit Password */}
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
@@ -163,6 +167,7 @@ export default function Settings({navigation}) {
                     space={4}
                     justifyContent="space-between">
                     <HStack></HStack>
+                    {/* Edit Primary Mosque */}
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
@@ -222,6 +227,7 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                      {/* switch for Namaz Notification */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"
@@ -274,6 +280,7 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                        {/* switch for Auto Silent mode */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"
@@ -317,6 +324,7 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                        {/* switch for Accountability Notification */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"

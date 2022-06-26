@@ -34,6 +34,7 @@ export default function ApplyAsImam() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
+        {/* header */}
         <View
           style={{
             flex: 0.17,
@@ -68,6 +69,7 @@ export default function ApplyAsImam() {
         <View
           style={{flex: 0.83, marginTop: '70%', marginLeft: '5%'}}
           width="90%">
+            {/* dropdown to select mosque */}
           <SearchableDropdown
             maxW="90%"
             width="100"
@@ -102,6 +104,7 @@ export default function ApplyAsImam() {
             resetValue={false}
             underlineColorAndroid="transparent"
           />
+          {/* button */}
           <CustomButton
             title="Apply As Imaam"
             variant="solid"

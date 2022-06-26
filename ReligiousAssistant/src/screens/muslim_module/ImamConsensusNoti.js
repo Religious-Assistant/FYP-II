@@ -44,6 +44,7 @@ export default function ImamConsensusNoti() {
         flex={1}
         backgroundColor={colors.white}>
         <View style={{flex: 1, backgroundColor: colors.white}}>
+          {/* header */}
           <View
             style={{
               flex: 0.17,
@@ -101,7 +102,9 @@ export default function ImamConsensusNoti() {
                     w="90%"
                     marginTop={'10%'}>
                     <HStack justifyContent="space-between">
+                      {/* label such as mosque name */}
                       <Text style={styles.label}>{mosque.label}:</Text>
+                      {/* mosque information such as sukkur IBA mosque */}
                       <Text style={styles.info}>{mosque.info}</Text>
                     </HStack>
                   </VStack>
@@ -110,6 +113,7 @@ export default function ImamConsensusNoti() {
 
               <VStack space={3} divider={<Divider />} w="90%">
                 <HStack justifyContent="space-between">
+                  {/* text for consensue */}
                   <Text
                     style={{
                       fontFamily: fonts.Signika.medium,
@@ -124,6 +128,7 @@ export default function ImamConsensusNoti() {
               </VStack>
               <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
                 <HStack justifyContent="space-between">
+                  {/* Yes or No buttons */}
                   <CustomButton
                     title="Yes"
                     variant="solid"

@@ -17,6 +17,7 @@ export default function AnnouncementNoti() {
       keyboardShouldPersistTaps="handled"
       flex={1}
       backgroundColor={colors.white}>
+      {/* Main view */}
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <Center
           width="90%"
@@ -37,14 +38,17 @@ export default function AnnouncementNoti() {
               _light={{
                 backgroundColor: colors.cover,
               }}>
+              {/* Announcement Information */}
               <Stack p="10" space={3}>
                 <Stack space={2}>
+                  {/* Announced by */}
                   <Heading
                     size="md"
                     ml="-1"
                     _text={{fontFamily: fonts.Signika.bold}}>
                     Nadir Hussain
                   </Heading>
+                  {/* Category */}
                   <Text
                     fontSize="xs"
                     _light={{
@@ -56,6 +60,7 @@ export default function AnnouncementNoti() {
                     Eid Namaz
                   </Text>
                 </Stack>
+                {/* Announcement (content) */}
                 <Text style={{fontFamily: fonts.Signika.medium}}>
                   Bengaluru (also called Bangalore) is the center of India's
                   high-tech industry. The city is also known for its parks and
@@ -68,6 +73,7 @@ export default function AnnouncementNoti() {
                   space={4}
                   justifyContent="space-between">
                   <HStack alignItems="center">
+                    {/* timeAgo */}
                     <Text
                       color={colors.muted}
                       style={{fontFamily: fonts.Signika.regular}}

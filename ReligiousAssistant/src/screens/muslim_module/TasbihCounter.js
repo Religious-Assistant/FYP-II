@@ -25,6 +25,7 @@ export default function TasbihCounter() {
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
+      {/* Header */}
       <View
         style={{
           flex: 0.17,
@@ -65,6 +66,7 @@ export default function TasbihCounter() {
           marginTop={'15%'}
           marginLeft={'5%'}
           marginBottom={'5%'}>
+          {/* Counter For Tasbih */}
           <Text
             style={{
               fontFamily: fonts.Signika.bold,
@@ -75,6 +77,7 @@ export default function TasbihCounter() {
             {tasbihCount}
           </Text>
         </Center>
+        {/* Center Image */}
       <TouchableOpacity onPress={onPress}>
           <Center>
             <Image
@@ -93,7 +96,9 @@ export default function TasbihCounter() {
             marginLeft: '3%',
             marginTop: '8%',
           }}>
+          {/* Reset Button */}
           <CustomButton onPress={handleReset} base="45%" title="Reset" />
+          {/* Save Button */}
           <CustomButton base="45%" title="Save" />
         </View>
       </View>
