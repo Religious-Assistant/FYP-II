@@ -40,55 +40,55 @@ app.use('/api', tasbih_routes)
 app.use('/api', mosque_routes)
 
 
-//Test API for Notification
-app.get('/api/getNotf',async(req, res)=>{
+// //Test API for Notification
+// app.get('/api/getNotf',async(req, res)=>{
 
-    await sendMessage()
-    res.send("Sent Successfully")
-})
-
-
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://religious-assistant.firebaseio.com",
-});
+//     await sendMessage()
+//     res.send("Sent Successfully")
+// })
 
 
-async function sendMessage() {
-    // Fetch the tokens from an external datastore (e.g. database)
-    const tokens = [
-            "drLOQki8T_m-V42iW_JOgM:APA91bHhAihIeUNjY-aE5UmnYctszX9G-uDU1ZJd0ocMvmO31bypic6m2g1i1-UQUNj3dXnRmR6eCPvSkfp4GVSjh7XdkXJTc7c_nm1sg_U56XtkCg3udynVS4E7XpRakKTRWzvBogsU"
-    ];
+
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount),
+//     databaseURL: "https://religious-assistant.firebaseio.com",
+// });
+
+
+// async function sendMessage() {
+//     // Fetch the tokens from an external datastore (e.g. database)
+//     const tokens = [
+//             "drLOQki8T_m-V42iW_JOgM:APA91bHhAihIeUNjY-aE5UmnYctszX9G-uDU1ZJd0ocMvmO31bypic6m2g1i1-UQUNj3dXnRmR6eCPvSkfp4GVSjh7XdkXJTc7c_nm1sg_U56XtkCg3udynVS4E7XpRakKTRWzvBogsU"
+//     ];
   
-    // Send a message to devices with the registered tokens
-    await admin
-      .messaging()
-      .sendMulticast({
-        tokens,
-        data: {
-          notification: JSON.stringify({
-            body: "My first ever Push-Notification :)",
-            title: "Religious Assistant",
-            //   android: {
-            //     channelId: "default",
-            //     smallIcon: "ic_launcher",
-            //     // actions: [
-            //     //   {
-            //     //     title: "Mark as Read",
-            //     //     pressAction: {
-            //     //       id: "read",
-            //     //     },
-            //     //   },
-            //     // ],
-            //   },
-          }),
-        },
-      })
-      .then((response) => {
-        console.log(response.successCount + " messages were sent successfully");
-      });
-  }
+//     // Send a message to devices with the registered tokens
+//     await admin
+//       .messaging()
+//       .sendMulticast({
+//         tokens,
+//         data: {
+//           notification: JSON.stringify({
+//             body: "My first ever Push-Notification :)",
+//             title: "Religious Assistant",
+//             //   android: {
+//             //     channelId: "default",
+//             //     smallIcon: "ic_launcher",
+//             //     // actions: [
+//             //     //   {
+//             //     //     title: "Mark as Read",
+//             //     //     pressAction: {
+//             //     //       id: "read",
+//             //     //     },
+//             //     //   },
+//             //     // ],
+//             //   },
+//           }),
+//         },
+//       })
+//       .then((response) => {
+//         console.log(response.successCount + " messages were sent successfully");
+//       });
+//   }
 
 app.listen(port,()=>{
     console.log(`Server listening at port ${port}`)
