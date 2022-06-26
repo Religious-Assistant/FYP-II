@@ -34,10 +34,19 @@ mongoose.connect(database_url).then(()=>{
 const user_routes=require('./routes/userRoute');
 const tasbih_routes = require('./routes/tasbihRoute')
 const mosque_routes=require('./routes/mosqueRoute')
+const announcement_route=require('./routes/announcementRoute')
+const namaz_accountability_route=require('./routes/namazAccountabilityRoute')
+const fast_accountability_route=require('./routes/fastAccountabilityRoute')
+const learn_namaz_route=require('./routes/learnNamazRoute')
+
 
 app.use('/api', user_routes)
 app.use('/api', tasbih_routes)
 app.use('/api', mosque_routes)
+app.use('/api', announcement_route)
+app.use('/api', namaz_accountability_route)
+app.use('/api', fast_accountability_route)
+app.use('/api', learn_namaz_route)
 
 
 // //Test API for Notification

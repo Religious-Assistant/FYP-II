@@ -31,6 +31,10 @@ const userSchema=mongoose.Schema({
         type:{typr:String},
         coordinates:[]
     },
+    deviceToken:{
+        type:String,
+        required:true   //Get device token and store here for Notifications
+    }
 })
 
 userSchema.pre('save',function(next){

@@ -185,7 +185,7 @@ const namazInfoSchema=mongoose.Schema({
             default:4
         },
     },
-    eidNamaz:{
+    eid:{
         totalRakah:{
             type:Number,
             default:2
@@ -194,17 +194,17 @@ const namazInfoSchema=mongoose.Schema({
             type:Number,
             default:0
         },
-        sunnah:{
+        sunnah:{            //Sunnah al mu'akaddah, according to Imam Malik
             type:Number,
-            default:6
+            default:2
         },
         nafl:{
             type:Number,
-            default:4
+            default:0
         },
         vitr:{
             type:Number,
-            default:3
+            default:0
         },
         takbirs:{      //Takbirs
             type:Number,
