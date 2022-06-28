@@ -5,8 +5,8 @@ const learn_namaz_route=express()
 const authMiddleWare=require('../middlewares/authMiddleWare')
 
 
-learn_namaz_route.get('/get-progress',getProgress)
-learn_namaz_route.post('/update-progress',updateProgress)
+learn_namaz_route.get('/get-learn-namaz-progress',authMiddleWare,getProgress)
+learn_namaz_route.post('/update-learn-namaz-progress',authMiddleWare,updateProgress)
 
 
 module.exports=learn_namaz_route

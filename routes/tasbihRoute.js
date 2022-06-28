@@ -4,6 +4,6 @@ const tasbihController=require('../controllers/tasbihController')
 
 const authMiddleWare=require('../middlewares/authMiddleWare')
 
-tasbih_route.post('/updateTasbih',authMiddleWare,tasbihController.updateTasbih)
+tasbih_route.post('/update-tasbih',authMiddleWare,tasbihController.updateTasbih)
 
 module.exports=tasbih_route

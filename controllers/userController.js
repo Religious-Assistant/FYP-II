@@ -6,6 +6,7 @@ const fetch = (...args) =>import("node-fetch").then(({ default: fetch }) => fetc
 
 const User = require("../models/userModel");
 const Tasbih = require("../models/tasbihModel");
+const DeviceToken = require("../models/deviceTokenModel");
 
 const {
   directoryPath,
@@ -49,7 +50,7 @@ const loginUser = async (req, res) => {
   
   console.log("Login API hit");
   try {
-    const { username, password } = req.body;
+    const { username, password, deviceToken } = req.body;
     const user_data = await User.findOne({ username: username, verified:true });
 
     if (user_data) {
@@ -63,7 +64,14 @@ const loginUser = async (req, res) => {
             token: token,
             avatar: base_url + defaultAvatar,
           };
-          res.send({ success: true, data: resultData });
+          const deviceToken=DeviceToken.create({...req.body})
+
+          if(deviceToken){
+            res.send({ success: true, data: resultData, msg:'Logged in Successfully' });
+          }
+          else{
+            res.status(200).send({ success: false, msg: "Could not get Device token for Notifications" });
+          } 
         } else {
           getProfileImage(user_data.username)
             .then((avatar) => {
@@ -267,6 +275,8 @@ const getProfileImage = async (username) => {
     });
   });
 };
+
+//Must get username and device token
 
 async function createToken(id) {
   return jwt.sign({ _id: id }, jwt_secret);
