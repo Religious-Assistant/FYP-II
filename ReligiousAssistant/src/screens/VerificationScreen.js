@@ -112,18 +112,7 @@ const VerificationScreen = () => {
                 />
               </View>
             </View>
-{/* <<<<<<< HEAD
-            <CustomButton
-              title="Verify"
-              variant="solid"
-              color="white"
-              onPress={verifyOTP}
-            />
-          </VStack>
-        </Center>
-      </View>
-======= */}
-
+            
           <CustomButton title="Verify" variant="solid" color="white" onPress={verifyOTP} />
         </VStack>
       </Center>
