@@ -14,6 +14,8 @@ import store from './src/redux/store'
 import {Provider} from 'react-redux'
 import About from './src/screens/muslim_module/About';
 import SetNewPassword from './src/screens/SetNewPassword';
+import Settings from './src/screens/muslim_module/Settings';
+
 
 const preloadedState = window.__PRELOADED_STATE__;
 
@@ -24,7 +26,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
     <NativeBaseProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <SetNewPassword/>
+        <Settings/>
     </NativeBaseProvider>
     </Provider>
   );
