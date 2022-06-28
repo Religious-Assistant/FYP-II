@@ -45,15 +45,15 @@ import {
 import {useDispatch, useSelector} from 'react-redux'
 import { loginUser } from '../redux/slices/auth_slices/authSlice';
 
-// const loginValidationSchema = yup.object().shape({
-//   username: yup.string().required('username is required'),
-//   password: yup.string().min(8).required('Password is required'),
-// });
-
 const loginValidationSchema = yup.object().shape({
-  username: yup.string(),
-  password: yup.string(),
+  username: yup.string().required('username is required'),
+  password: yup.string().min(8).required('Password is required'),
 });
+
+// const loginValidationSchema = yup.object().shape({
+//   username: yup.string(),
+//   password: yup.string(),
+// });
 
 export default function LoginScreen({navigation}) {
   
