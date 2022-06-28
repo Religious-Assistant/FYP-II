@@ -21,7 +21,7 @@ function SplashScreeen() {
   const token=useSelector(selectToken)
   const religion=useSelector(selectReligion)
 
-  console.log(`Token ${token} Religion ${religion}`)
+  console.log(`User Token: ${token}  \nUser Religion: ${religion}`)
 
   useEffect(() => {
 
@@ -32,6 +32,7 @@ function SplashScreeen() {
     setTimeout(() => {
       
     if(religion==1 && token){
+      
       navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
     }
     else if(religion==0 && token){
@@ -41,6 +42,7 @@ function SplashScreeen() {
       navigator.navigate(LOGIN)
     }
     }, 2000);
+
 
   }, [token, religion]);
 

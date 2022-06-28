@@ -2,9 +2,9 @@ import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiGET} from '../../../services/apis/AuthService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login_user, register_user } from '../../endpoints';
 
 const initialState = {
-    deviceToken:null,
     userData:null,
     token:null,
     religion:null,
@@ -15,7 +15,7 @@ const initialState = {
 export const registerUser = createAsyncThunk(
     'registerUser',
     async (body)=>{
-       const result =  await apiPOST('registerUser',body)
+       const result =  await apiPOST(register_user,body)
        return result  
     }
 )
@@ -23,15 +23,8 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
     'loginUser',
     async (body)=>{
-       const result =  await apiPOST('loginUser',body)
-       return result  
-    }
-)
-
-export const storeDeviceTokenIntoDB = createAsyncThunk(
-    'storeDeviceTokenIntoDB',
-    async (body)=>{
-       const result =  await apiPOST('storeDeviceTokenIntoDB',body)
+        console.log(body)
+       const result =  await apiPOST(login_user,body)
        return result  
     }
 )
@@ -184,27 +177,27 @@ const authSlice = createSlice({
             }
           },
 
-        [storeDeviceTokenIntoDB.fulfilled]:(state,action)=>{
-            state.isLoading = false
-            state.hasError=false
-            state.deviceToken=action.payload.data.deviceToken
+        // [storeDeviceTokenIntoDB.fulfilled]:(state,action)=>{
+        //     state.isLoading = false
+        //     state.hasError=false
+        //     state.deviceToken=action.payload.data.deviceToken
 
-        },
-        [storeDeviceTokenIntoDB.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
-        },
-        [storeDeviceTokenIntoDB.rejected]:(state,action)=>{
-            state.hasError=true
-            state.isLoading=false
-        },
+        // },
+        // [storeDeviceTokenIntoDB.pending]:(state,action)=>{
+        //     state.isLoading = true
+        //     state.hasError=false
+        // },
+        // [storeDeviceTokenIntoDB.rejected]:(state,action)=>{
+        //     state.hasError=true
+        //     state.isLoading=false
+        // },
     }
 })
 
 export const {logout}  = authSlice.actions
 
 export const selectToken=(state)=>state.user.token
-export const selectDeviceToken=(state)=>state.user.deviceToken
+// export const selectDeviceToken=(state)=>state.user.deviceToken
 export const selectReligion=(state)=>state.user.religion
 export const selectIsLoading=(state)=>state.user.isLoading
 export const selectHasError=(state)=>state.user.hasError

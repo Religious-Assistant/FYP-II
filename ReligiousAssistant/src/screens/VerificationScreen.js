@@ -33,9 +33,10 @@ const VerificationScreen = () => {
 
   const navigator = useNavigation();
 
-  // function verifyOTP() {
-  //   navigator.navigate(LOGIN);
-  // }
+  function verifyOTP() {
+    //Verify OTP here
+    navigator.navigate(LOGIN);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -122,61 +123,7 @@ const VerificationScreen = () => {
         </Center>
       </View>
 ======= */}
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={thirdInput}
-                onChangeText={text => {
-                  setOtp({...otp, 3: text});
-                  text
-                    ? fourthInput.current.focus()
-                    : secondInput.current.focus();
-                }}
-              />
-            </View>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={fourthInput}
-                onChangeText={text => {
-                  setOtp({...otp, 3: text});
-                  text
-                    ? fifthInput.current.focus()
-                    : thirdInput.current.focus();
-                }}
-              />
-            </View>
-            
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={fifthInput}
-                onChangeText={text => {
-                  setOtp({...otp, 3: text});
-                  text
-                    ? sixthInput.current.focus()
-                    : fourthInput.current.focus();
-                }}
-              />
-            </View>
-            <View style={styles.otpBox}>
-              <TextInput
-                style={styles.otpText}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={sixthInput}
-                onChangeText={text => {
-                  setOtp({...otp, 4: text});
-                  !text && fifthInput.current.focus();
-                }}
-              />
-            </View>
+
           <CustomButton title="Verify" variant="solid" color="white" onPress={verifyOTP} />
         </VStack>
       </Center>

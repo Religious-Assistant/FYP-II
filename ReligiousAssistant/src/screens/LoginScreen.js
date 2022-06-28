@@ -47,6 +47,7 @@ import {useDispatch} from 'react-redux'
 import { loginUser, selectIsLoading } from '../redux/slices/auth_slices/authSlice';
 import { useSelector } from 'react-redux';
 import Loader from './common/Loader';
+import getDeviceToken from '../../getDeviceToken';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),
@@ -67,9 +68,7 @@ export default function LoginScreen({navigation}) {
   useEffect(() => {
     navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-    });
-    
-
+    });    
   }, [navigation]);
 
 
@@ -78,7 +77,13 @@ export default function LoginScreen({navigation}) {
   }
 
   function loginHandler(values) {
-    dispatch(loginUser(values))
+
+    async function registerDevice(){
+      const deviceToken=await getDeviceToken()
+      console.log('Device token is ', deviceToken)
+      dispatch(loginUser(values))
+    }
+    registerDevice()
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -88,7 +93,7 @@ export default function LoginScreen({navigation}) {
           resizeMode="stretch"
           source={image}>
             {
-              isLoading?<Loader />:
+              isLoading?<Loader msg="Verifying Login Details..."/>:
             
           <Center w="100%" mt={'10%'} h="95%" maxW="100%">
             <VStack space={3} mt="50%">

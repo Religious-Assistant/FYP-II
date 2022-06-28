@@ -20,30 +20,31 @@ import {
   storeDeviceTokenIntoDB,
 } from './src/redux/slices/auth_slices/authSlice';
 import {useSelector} from 'react-redux';
+import getDeviceToken from './getDeviceToken';
 
-//Notifee
-import notifee from '@notifee/react-native';
-import messaging from '@react-native-firebase/messaging';
+// //Notifee
+// import notifee from '@notifee/react-native';
+// import messaging from '@react-native-firebase/messaging';
 
-async function onMessageReceived(message) {
-  const data = await JSON.parse(message.data.notification);
-  console.log(data);
-  const channelId = await notifee.createChannel({
-    id: '123',
-    name: 'Default Channel',
-  });
-  notifee.displayNotification({
-    body: data['body'],
-    title: data['title'],
-    android: {
-      channelId,
-      smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
-    },
-  });
-}
+// async function onMessageReceived(message) {
+//   const data = await JSON.parse(message.data.notification);
+//   console.log(data);
+//   const channelId = await notifee.createChannel({
+//     id: '123',
+//     name: 'Default Channel',
+//   });
+//   notifee.displayNotification({
+//     body: data['body'],
+//     title: data['title'],
+//     android: {
+//       channelId,
+//       smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+//     },
+//   });
+// }
 
-messaging().onMessage(onMessageReceived);
-messaging().setBackgroundMessageHandler(onMessageReceived);
+// messaging().onMessage(onMessageReceived);
+// messaging().setBackgroundMessageHandler(onMessageReceived);
 
 const EntryPoint = () => {
 
@@ -52,23 +53,11 @@ const EntryPoint = () => {
 
   useEffect(() => {
 
-    async function registerDevice() {
-      await messaging()
-        .registerDeviceForRemoteMessages()
-        .catch(err => {
-          console.log('err ' + err);
-        });
-
-      const token = await messaging().getToken();
-      console.log('Device Token: ' + token);
-
-      // console.log(userData);
-      // if (userData) {
-      //   console.log('LOgged  in user: ', userData);
-      //   // dispatch(storeDeviceTokenIntoDB())
-      // }
-    }
-    registerDevice();
+    // async function getToken(){
+    //   const token=await getDeviceToken()
+    //   console.log('Device Token: ' + token);
+    // }
+    // getToken()
     return undefined;
 
   }, []);

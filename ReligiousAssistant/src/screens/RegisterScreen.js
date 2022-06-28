@@ -60,8 +60,8 @@ function RegisterScreen() {
 
   function signupHandler(values) {
     
-    dispatch(registerUser(values))  
-    // navigator.navigate(OTP_VERIFICATION);
+    // dispatch(registerUser(values))  
+    navigator.navigate(OTP_VERIFICATION);
   }
 
   function enterAsGuest() {
