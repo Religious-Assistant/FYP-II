@@ -67,6 +67,7 @@ export default function NamazTimings({navigation}) {
   ];
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
+      {/* Header */}
       <View
         style={{
           flex: 0.17,
@@ -105,6 +106,7 @@ export default function NamazTimings({navigation}) {
           marginTop={'5%'}
           marginLeft={'5%'}
           marginBottom={'5%'}>
+            {/* Namaz timings of a mosque */}
           <Text
             style={{
               fontFamily: fonts.Signika.bold,
@@ -137,10 +139,12 @@ export default function NamazTimings({navigation}) {
                   }}
                   alt="icon .."
                 />
+                {/* Start time of prayer */}
                 <View style={{flexDirection: 'column'}}>
                   <Text style={styles.text}>Start time</Text>
                   <Text style={styles.startTime}>{itm.startTime}</Text>
                 </View>
+                {/* Emd time of prayer */}
                 <View style={{flexDirection: 'column'}}>
                   <Text style={styles.text}>End time</Text>
                   <Text style={styles.endTime}>{itm.endTime}</Text>

@@ -34,6 +34,12 @@ const get_closest_mosques='get-closest-mosques'
 const get_unverified_mosques_around_user='get-unverified-mosques-aroundUser'
 const add_mosque='add-mosque'
 
+//Temples
+const get_all_temples='get-all-temples'
+const get_closest_temples='get-closest-temples'
+const get_unverified_temples_around_user='get-unverified-temples-around-user'
+const add_temple='add-temple'
+
 //Learn Namaz
 const get_learn_namaz_progress='get-learn-namaz-progress'
 const update_learn_namaz_progress='update-learn-namaz-progress'
@@ -43,7 +49,7 @@ const become_imam='become-imam'
 
 //Announcements
 const make_announcement='make-announcement'
-const delete_announcement='delete-announcemen'
+const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
 
 export {
@@ -73,5 +79,9 @@ export {
     become_imam,
     make_announcement,
     delete_announcement,
-    get_announcements
+    get_announcements,
+    get_all_temples,
+    get_closest_temples,
+    get_unverified_temples_around_user,
+    add_temple
 }

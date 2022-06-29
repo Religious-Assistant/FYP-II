@@ -168,7 +168,6 @@ function MuslimDashboardNavigation() {
         component={MapDirection}
         options={{title: 'Get Directions'}}
       />
-
     </HomeStack.Navigator>
   );
 }

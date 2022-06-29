@@ -3,13 +3,19 @@
  * @version 1.0
  */
 
+import React, {useState} from 'react';
 
-import React, { useState } from 'react';
-
-import {useDispatch} from 'react-redux'
-import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
-import {StyleSheet, View, Text, Image, TouchableHighlight} from 'react-native';
-
+import {useDispatch} from 'react-redux';
+import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import {
   VStack,
   HStack,
@@ -31,36 +37,98 @@ import fonts from '../../theme/fonts';
 import avatar from '../../../assets/images/avatar.png';
 
 import editIcon from '../../../assets/images/edit_ic.png';
+import cameraIcon from '../../../assets/images/camera_ic.png';
+import galleryIcon from '../../../assets/images/gallery_ic.png';
+import edit from '../../../assets/images/edit.png';
+import {isSearchBarAvailableForCurrentPlatform} from 'react-native-screens';
 export default function Settings({navigation}) {
+  const dispatch = useDispatch();
 
-  const dispatch=useDispatch()
-
-  //when tab is focused in MuslimBottomTab.js, this will be called 
+  //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-          dispatch(setTab('Settings'))    
-    });
-
+    // const unsubscribe = navigation.addListener('focus', () => {
+    //       dispatch(setTab('Settings'))
+    // });
     //unsubscribe on unmount
-    return unsubscribe;
+    //return unsubscribe;
   }, [navigation]);
+
+  const [image, setImage] = useState(avatar);
 
   const [placement, setPlacement] = useState(undefined);
   const [openPassModal, setOpenPassModal] = useState(false);
   const [openPrimaryModal, setPrimaryModal] = useState(false);
-
+  const [openImgModal, setImageModal] = useState(false);
+  //for password
   const openPasswordModal = placement => {
     setOpenPassModal(true);
     setPlacement(placement);
   };
+  //for primary mosque
   const openPrimaryMosqModal = placement => {
     setPrimaryModal(true);
     setPlacement(placement);
   };
+
+  //For gallery
+  const openImageModal = placement => {
+    setImageModal(true);
+    setPlacement(placement);
+  };
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    })
+      .then(image => {
+        const obj = {uri: image.path};
+        // console.log(obj);
+        setImage(obj);
+        setImageModal(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    })
+      .then(image => {
+        const obj = {uri: image.path};
+        // console.log(obj);
+        setImage(obj);
+        setImageModal(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
-      <Image style={styles.avatar} source={avatar} />
+      <TouchableOpacity
+        activeOpacity={0.98}
+        onPress={() => openImageModal('bottom')}>
+        <Image style={styles.avatar} source={image} />
+        <Image
+          marginLeft="55%"
+          marginTop="5%"
+          source={edit}
+          style={{
+            height: 45,
+            width: 45,
+            tintColor: colors.primary,
+          }}
+          alt="icon .."
+        />
+      </TouchableOpacity>
       <Text style={styles.username}>Kinza</Text>
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -92,6 +160,7 @@ export default function Settings({navigation}) {
                 _light={{
                   backgroundColor: colors.cover,
                 }}>
+                {/* Password */}
                 <Stack p="4" space={3}>
                   <Stack space={2}>
                     <Heading
@@ -110,6 +179,7 @@ export default function Settings({navigation}) {
                     space={4}
                     justifyContent="space-between">
                     <HStack></HStack>
+                    {/* Edit Password */}
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
@@ -163,6 +233,7 @@ export default function Settings({navigation}) {
                     space={4}
                     justifyContent="space-between">
                     <HStack></HStack>
+                    {/* Edit Primary Mosque */}
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
@@ -206,9 +277,8 @@ export default function Settings({navigation}) {
                     <Text
                       fontSize="xs"
                       fontFamily={fonts.Signika.medium}
-                      _light={{
-                        color: colors.info,
-                      }}
+                      style={styles.info}
+                      
                       ml="-0.5"
                       mt="-1">
                       w.r.t Primary Mosque
@@ -222,12 +292,16 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                    {/* switch for Namaz Notification */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
                         marginLeft={'80%'}
+                        onPress={() => {
+                          console.log('hi');
+                        }}
                       />
                     </HStack>
                   </HStack>
@@ -274,6 +348,7 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                    {/* switch for Auto Silent mode */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"
@@ -317,6 +392,7 @@ export default function Settings({navigation}) {
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
+                    {/* switch for Accountability Notification */}
                     <HStack>
                       <Switch
                         offTrackColor="rose.300"
@@ -416,6 +492,78 @@ export default function Settings({navigation}) {
               </Modal.Footer>
             </Modal.Content>
           </Modal>
+
+          {/* Image Modal */}
+          <Modal
+            isOpen={openImgModal}
+            size="lg"
+            onClose={() => setImageModal(false)}
+            safeAreaTop={true}>
+            <Modal.Content
+              maxWidth="350"
+              style={{
+                marginBottom: 0,
+                marginTop: 'auto',
+              }}>
+              <Modal.CloseButton />
+              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
+                Upload Photo
+              </Modal.Header>
+              <Modal.Body>
+                <View
+                  marginTop="2%"
+                  marginBottom="2%"
+                  style={{
+                    justifyContent: 'space-evenly',
+                    flexDirection: 'row',
+                  }}>
+                  <View>
+                    <TouchableOpacity
+                      activeOpacity={0.98}
+                      onPress={takePhotoFromCamera}>
+                      <Image
+                        marginTop="5%"
+                        source={cameraIcon}
+                        style={{
+                          height: 55,
+                          width: 55,
+                        }}
+                        alt="icon .."
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.text}>Camera</Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      activeOpacity={0.98}
+                      onPress={choosePhotoFromLibrary}>
+                      <Image
+                        marginTop="5%"
+                        source={galleryIcon}
+                        style={{
+                          height: 55,
+                          width: 55,
+                        }}
+                        alt="icon .."
+                      />
+                    </TouchableOpacity>
+                    <Text style={styles.text}>Gallery</Text>
+                  </View>
+                </View>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  _text={{fontFamily: fonts.Signika.regular}}
+                  color={colors.white}
+                  colorScheme="yellow"
+                  onPress={() => {
+                    setImageModal(false);
+                  }}>
+                  Cancel
+                </Button>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
         </View>
       </ScrollView>
     </View>
@@ -440,12 +588,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 50,
+    marginTop: -50,
   },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,
     marginTop: '5%',
+    fontSize: 17,
   },
   label: {
     fontFamily: fonts.Signika.regular,
@@ -457,13 +606,13 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
     fontSize: 20,
     padding: 5,
-    color: colors.tertiary,
+    color: colors.info,
     flexWrap: 'wrap',
   },
   username: {
     fontFamily: fonts.Signika.bold,
     fontSize: 30,
-    marginTop: '20%',
+    marginTop: '5%',
     marginLeft: '38%',
     padding: 8,
     color: colors.primary,

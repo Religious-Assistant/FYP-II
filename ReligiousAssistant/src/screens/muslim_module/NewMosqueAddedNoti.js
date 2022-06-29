@@ -54,6 +54,7 @@ export default function NewMosqueAddedNoti() {
         flex={1}
         backgroundColor={colors.white}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
+        {/* Header */}
         <View
           style={{
             flex: 0.17,
@@ -104,7 +105,9 @@ export default function NewMosqueAddedNoti() {
                   w="90%"
                   marginTop={'10%'}>
                   <HStack justifyContent="space-between" flexWrap={'wrap'}>
+                    {/* label */}
                     <Text style={styles.label}>{mosque.label}:</Text>
+                    {/* Mosque Information */}
                     <Text style={styles.info}>{mosque.info}</Text>
                   </HStack>
                 </VStack>
@@ -113,6 +116,7 @@ export default function NewMosqueAddedNoti() {
 
             <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
               <HStack justifyContent="space-between">
+                {/* Button */}
                 <CustomButton
                   title="Set as Primary Mosque"
                   variant="solid"

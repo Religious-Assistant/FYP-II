@@ -33,10 +33,11 @@ export default function Alerts({navigation}) {
     return unsubscribe;
   }, [navigation]);
 
+  
   const [state, setState] = useState({
     data: [
       {
-        id: 3,
+        id: 1,
         text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
         timeAgo: '2 hours ago',
       },
@@ -46,17 +47,17 @@ export default function Alerts({navigation}) {
         timeAgo: '3 hours ago',
       },
       {
-        id: 4,
+        id: 3,
         text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
         timeAgo: '1 day ago',
       },
       {
-        id: 5,
+        id: 4,
         text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
         timeAgo: '2 days ago',
       },
       {
-        id: 1,
+        id: 5,
         text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
         timeAgo: '3 days ago',
       },
@@ -74,11 +75,14 @@ export default function Alerts({navigation}) {
   });
 
   return (
+    //Main container
     <View style={styles.root}>
+      {/* Flatlist to show the Notifications  */}
       <FlatList
         style={styles.root}
         data={state.data}
         extraData={state}
+        // separator
         ItemSeparatorComponent={() => {
           return <View style={styles.separator} />;
         }}
@@ -89,8 +93,11 @@ export default function Alerts({navigation}) {
           const Notification = item.item;
           let mainContentStyle;
           return (
+            //View Started
             <View style={styles.container}>
+              {/* Muslim logo Image */}
               <Image source={muslimLogo} style={styles.avatar} alt="image.." />
+              {/* View that shows main content of notification and time ago */}
               <View style={styles.content}>
                 <View style={mainContentStyle}>
                   <View style={styles.text}>
@@ -141,12 +148,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     margin: 0,
-  },
-  attachment: {
-    position: 'absolute',
-    right: 0,
-    height: 50,
-    width: 50,
   },
   separator: {
     height: 1,

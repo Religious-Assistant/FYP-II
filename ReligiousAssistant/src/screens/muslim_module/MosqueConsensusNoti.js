@@ -49,6 +49,7 @@ export default function MosqueConsensusNoti() {
         flex={1}
         backgroundColor={colors.white}>
         <View style={styles.maincontainer}>
+          {/* Header */}
           <View
             style={{
               flex: 0.17,
@@ -105,7 +106,9 @@ export default function MosqueConsensusNoti() {
                     w="90%"
                     marginTop={'10%'}>
                     <HStack justifyContent="space-between" flexWrap={'wrap'}>
+                      {/* label */}
                       <Text style={styles.label}>{mosque.label}:</Text>
+                      {/* mosque information */}
                       <Text style={styles.info}>{mosque.info}</Text>
                     </HStack>
                   </VStack>
@@ -114,6 +117,7 @@ export default function MosqueConsensusNoti() {
 
               <VStack space={3} divider={<Divider />} w="90%">
                 <HStack justifyContent="space-between">
+                  {/* consensus Text */}
                   <Text
                     style={{
                       fontFamily: fonts.Signika.medium,
@@ -128,6 +132,7 @@ export default function MosqueConsensusNoti() {
               </VStack>
               <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
                 <HStack justifyContent="space-between">
+                  {/* Yes or No button */}
                   <CustomButton
                     title="Yes"
                     variant="solid"

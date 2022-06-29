@@ -92,6 +92,7 @@ export default function Profile() {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
+                      {/* Icon */}
                     <Icon
                       as={user.icon}
                       size={user.iconSize}
@@ -99,8 +100,10 @@ export default function Profile() {
                       mt="-1"
                       color={colors.primary}
                     />
+                    {/* label */}
                     <Text style={styles.label}>{user.label}:</Text>
                   </View>
+                  {/* user information */}
                   <Text style={styles.info}>{user.info}</Text>
                 </HStack>
               );
@@ -120,6 +123,7 @@ export default function Profile() {
                 />
                 <Text style={styles.label}>Apply As Imam:</Text>
               </View>
+              {/* button to apply as Imaam */}
               <CustomButton
                 title="Apply"
                 variant="solid"

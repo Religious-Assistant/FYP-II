@@ -34,7 +34,7 @@ const QiblaDirection = () => {
       CompassHeading.stop();
     };
   }, []);
-
+  // Calculation of Qibla Direction
   function calculate(latitude, longitude) {
     const PI = Math.PI;
     let latk = (21.4225 * PI) / 180.0;
@@ -51,7 +51,7 @@ const QiblaDirection = () => {
     setQiblad(qibladir);
     console.log(qibladir);
   }
-
+  // getting user's current location using geolocation
   getLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -89,6 +89,7 @@ const QiblaDirection = () => {
         resizeMode="stretch"
         source={image}>
         <Center w="100%" mt={'95'} h="95%" maxW="100%">
+          {/* Compass */}
           <ImageBackground
             style={[
               styles.image,
@@ -102,6 +103,7 @@ const QiblaDirection = () => {
                 justifyContent: 'center',
                 transform: [{rotate: `${qiblad}deg`}],
               }}>
+              {/* Arrow that points to Qibla Direction */}
               {qiblad ? (
                 <Image
                   source={kabahICon}

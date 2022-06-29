@@ -81,6 +81,7 @@ export default function Announcements(){
 
     return (
       <View style={styles.root}>
+        {/* Announcements Notifications */}
         <FlatList
           style={styles.root}
           data={state.data}
@@ -104,7 +105,9 @@ export default function Announcements(){
                 <View style={styles.content}>
                   <View style={mainContentStyle}>
                     <View style={styles.text}>
+                      {/* name */}
                       <Text style={styles.name}>{Notification.name}</Text>
+                      {/* delete */}
                       <Image
                         source={deleteIcon}
                         style={{
@@ -113,9 +116,10 @@ export default function Announcements(){
                         }}
                         alt="icon .."
                       />
-
+                      {/* Announcement text */}
                       <Text>{Notification.text}</Text>
                     </View>
+                    {/* timeAgo */}
                     <Text style={styles.timeAgo}>2 hours ago</Text>
                   </View>
                 </View>

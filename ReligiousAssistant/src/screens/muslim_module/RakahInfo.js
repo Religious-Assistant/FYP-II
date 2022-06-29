@@ -11,11 +11,12 @@ import {Heading, Image, Center, ScrollView} from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import timeICon from '../../../assets/images/rakah_ic.png';
+import rakahICon from '../../../assets/images/rakah_ic.png';
 import Accordian from '../../components/Accordian';
 
 
 export default function RakahInfo() {
+  // static information about namaz rakats
   const rakats = {
     fajr: [
       {key: 1, rakatName: 'Sunnat', rakats: '2', value: false},
@@ -59,6 +60,7 @@ export default function RakahInfo() {
     >
       
  <View style={{flex: 1, backgroundColor: colors.white}}>
+  {/* Header */}
         <View
           style={{
             flex: 0.17,
@@ -68,7 +70,7 @@ export default function RakahInfo() {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={timeICon}
+              source={rakahICon}
               style={{
                 marginTop: '12%',
                 marginRight: '5%',
@@ -112,7 +114,7 @@ export default function RakahInfo() {
               Rakats Information
             </Text>
           </Center>
-
+          {/* Custom Accordian to show the rakats information */}
           <Accordian namazTime="Fajr" rakatsInfo={rakats.fajr} />
           <Accordian namazTime="Duhr" rakatsInfo={rakats.duhr} />
           <Accordian namazTime="Asr" rakatsInfo={rakats.asr} />
