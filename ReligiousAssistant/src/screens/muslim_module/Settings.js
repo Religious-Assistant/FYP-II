@@ -6,7 +6,6 @@
 import React, {useState} from 'react';
 
 import {useDispatch} from 'react-redux';
-import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 import {
   StyleSheet,
   View,
@@ -29,6 +28,8 @@ import {
   FormControl,
   Input,
   Button,
+  Actionsheet,
+  useDisclose,
 } from 'native-base';
 
 import colors from '../../theme/colors';
@@ -40,7 +41,7 @@ import editIcon from '../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../assets/images/gallery_ic.png';
 import edit from '../../../assets/images/edit.png';
-import {isSearchBarAvailableForCurrentPlatform} from 'react-native-screens';
+
 export default function Settings({navigation}) {
   const dispatch = useDispatch();
 
@@ -53,12 +54,13 @@ export default function Settings({navigation}) {
     //return unsubscribe;
   }, [navigation]);
 
+  const {isOpen, onOpen, onClose} = useDisclose();
+
   const [image, setImage] = useState(avatar);
 
   const [placement, setPlacement] = useState(undefined);
   const [openPassModal, setOpenPassModal] = useState(false);
   const [openPrimaryModal, setPrimaryModal] = useState(false);
-  const [openImgModal, setImageModal] = useState(false);
   //for password
   const openPasswordModal = placement => {
     setOpenPassModal(true);
@@ -70,12 +72,7 @@ export default function Settings({navigation}) {
     setPlacement(placement);
   };
 
-  //For gallery
-  const openImageModal = placement => {
-    setImageModal(true);
-    setPlacement(placement);
-  };
-
+  //Take user's profile from Camera
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera({
       compressImageMaxWidth: 300,
@@ -87,12 +84,14 @@ export default function Settings({navigation}) {
         const obj = {uri: image.path};
         // console.log(obj);
         setImage(obj);
-        setImageModal(false);
+        onClose;
       })
       .catch(err => {
         console.log(err);
       });
   };
+
+  //take user's profile from Gallery
   const choosePhotoFromLibrary = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -104,7 +103,7 @@ export default function Settings({navigation}) {
         const obj = {uri: image.path};
         // console.log(obj);
         setImage(obj);
-        setImageModal(false);
+        onClose;
       })
       .catch(err => {
         console.log(err);
@@ -113,9 +112,7 @@ export default function Settings({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
-      <TouchableOpacity
-        activeOpacity={0.98}
-        onPress={() => openImageModal('bottom')}>
+      <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
         <Image style={styles.avatar} source={image} />
         <Image
           marginLeft="55%"
@@ -166,12 +163,12 @@ export default function Settings({navigation}) {
                     <Heading
                       size="md"
                       ml="-1"
-                      style={{fontFamily: fonts.Signika.bold}}
+                      style={styles.label}
                       color={colors.primary}>
                       Password
                     </Heading>
                   </Stack>
-                  <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
+                  <Text fontWeight="400" style={styles.text}>
                     KinzaShaikh123
                   </Text>
                   <HStack
@@ -225,7 +222,7 @@ export default function Settings({navigation}) {
                       Primary Mosque
                     </Heading>
                   </Stack>
-                  <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
+                  <Text fontWeight="400" style={styles.text}>
                     Sukkur IBA Mosque
                   </Text>
                   <HStack
@@ -274,17 +271,14 @@ export default function Settings({navigation}) {
                       color={colors.primary}>
                       Namaz Notifications
                     </Heading>
-                    <Text
-                      fontSize="xs"
-                      fontFamily={fonts.Signika.medium}
-                      style={styles.info}
-                      
-                      ml="-0.5"
-                      mt="-1">
+
+                    <Text style={styles.info} mt="-1">
                       w.r.t Primary Mosque
                     </Text>
                   </Stack>
-                  <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
+                  <Text
+                    fontWeight="400"
+                    style={{fontFamily: fonts.Signika.regular}}>
                     After enabling namaz notifications, you will be able to get
                     notification about each prayer
                   </Text>
@@ -329,18 +323,13 @@ export default function Settings({navigation}) {
                       color={colors.primary}>
                       Auto Silent Mode
                     </Heading>
-                    <Text
-                      fontSize="xs"
-                      fontFamily={fonts.Signika.medium}
-                      _light={{
-                        color: colors.info,
-                      }}
-                      ml="-0.5"
-                      mt="-1">
+                    <Text style={styles.info} mt="-1">
                       w.r.t Primary Mosque
                     </Text>
                   </Stack>
-                  <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
+                  <Text
+                    fontWeight="400"
+                    style={{fontFamily: fonts.Signika.regular}}>
                     After enabling Auto silent mode, your phone will
                     automatically be silent when you will enter the mosque
                   </Text>
@@ -384,7 +373,9 @@ export default function Settings({navigation}) {
                       Accountability Notifications
                     </Heading>
                   </Stack>
-                  <Text fontWeight="400" fontFamily={fonts.Signika.medium}>
+                  <Text
+                    fontWeight="400"
+                    style={{fontFamily: fonts.Signika.regular}}>
                     After enabling Accountability notifications, you will get
                     notification every day at 10 pm to keep track of your Namaz
                   </Text>
@@ -493,77 +484,72 @@ export default function Settings({navigation}) {
             </Modal.Content>
           </Modal>
 
-          {/* Image Modal */}
-          <Modal
-            isOpen={openImgModal}
-            size="lg"
-            onClose={() => setImageModal(false)}
-            safeAreaTop={true}>
-            <Modal.Content
-              maxWidth="350"
-              style={{
-                marginBottom: 0,
-                marginTop: 'auto',
-              }}>
-              <Modal.CloseButton />
-              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
-                Upload Photo
-              </Modal.Header>
-              <Modal.Body>
-                <View
-                  marginTop="2%"
-                  marginBottom="2%"
+          {/* Image ActionSheet */}
+
+          <Actionsheet isOpen={isOpen} onClose={onClose} hideDragIndicator>
+            <Actionsheet.Content>
+              <Box w="100%" h={60} px={4} justifyContent="center">
+                <Text
                   style={{
-                    justifyContent: 'space-evenly',
-                    flexDirection: 'row',
+                    color: colors.primary,
+                    fontSize: 20,
+                    fontFamily: fonts.Signika.bold,
                   }}>
-                  <View>
-                    <TouchableOpacity
-                      activeOpacity={0.98}
-                      onPress={takePhotoFromCamera}>
-                      <Image
-                        marginTop="5%"
-                        source={cameraIcon}
-                        style={{
-                          height: 55,
-                          width: 55,
-                        }}
-                        alt="icon .."
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.text}>Camera</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      activeOpacity={0.98}
-                      onPress={choosePhotoFromLibrary}>
-                      <Image
-                        marginTop="5%"
-                        source={galleryIcon}
-                        style={{
-                          height: 55,
-                          width: 55,
-                        }}
-                        alt="icon .."
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.text}>Gallery</Text>
-                  </View>
+                  Upload Photo
+                </Text>
+              </Box>
+              <View
+                marginTop="2%"
+                marginBottom="5%"
+                style={{
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                }}>
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.98}
+                    onPress={takePhotoFromCamera}>
+                    <Image
+                      marginTop="3%"
+                      marginRight="29%"
+                      source={cameraIcon}
+                      style={{
+                        height: 55,
+                        width: 55,
+                      }}
+                      alt="icon .."
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.text}>Camera</Text>
                 </View>
-              </Modal.Body>
-              <Modal.Footer>
+                <View>
+                  <TouchableOpacity
+                    activeOpacity={0.98}
+                    onPress={choosePhotoFromLibrary}>
+                    <Image
+                      marginTop="6%"
+                      source={galleryIcon}
+                      style={{
+                        height: 55,
+                        width: 55,
+                      }}
+                      alt="icon .."
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.text}>Gallery</Text>
+                </View>
+              </View>
+              <Actionsheet.Footer>
                 <Button
+                  onPress={onClose}
                   _text={{fontFamily: fonts.Signika.regular}}
                   color={colors.white}
-                  colorScheme="yellow"
-                  onPress={() => {
-                    setImageModal(false);
-                  }}>
+                  colorScheme="yellow">
                   Cancel
                 </Button>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
+              </Actionsheet.Footer>
+            </Actionsheet.Content>
+          </Actionsheet>
         </View>
       </ScrollView>
     </View>
@@ -591,10 +577,11 @@ const styles = StyleSheet.create({
     marginTop: -50,
   },
   text: {
-    fontFamily: fonts.Signika.medium,
-    color: colors.primary,
-    marginTop: '5%',
+    fontFamily: fonts.Signika.regular,
     fontSize: 17,
+    padding: 5,
+    color: colors.tertiary,
+    flexWrap: 'wrap',
   },
   label: {
     fontFamily: fonts.Signika.regular,
@@ -604,7 +591,8 @@ const styles = StyleSheet.create({
   },
   info: {
     fontFamily: fonts.Signika.regular,
-    fontSize: 20,
+    fontSize: 16,
+    marginLeft: '-1%',
     padding: 5,
     color: colors.info,
     flexWrap: 'wrap',
