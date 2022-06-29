@@ -11,7 +11,9 @@ import Geocoder from 'react-native-geocoding';
 import colors from '../theme/colors';
 
 import { View} from 'native-base';
+
 import CustomButton from './CustomButton';
+
 import { useNavigation } from '@react-navigation/native';
 import { ADD_MOSQUE } from '../navigation/constants';
 

@@ -19,6 +19,7 @@ import CustomButton from '../components/CustomButton';
 import {VStack, Center} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { LOGIN } from '../navigation/constants';
+
 const VerificationScreen = () => {
 
   const phoneNumber = '03313456766';

@@ -14,7 +14,12 @@ import muslimLogo from '../../../assets/images/MuslimLogo.png';
 import {useDispatch, useSelector} from 'react-redux'
 import { setTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 
+//Notifee
+
+
+
 export default function Alerts({navigation}) {
+
 
 
   const dispatch=useDispatch()

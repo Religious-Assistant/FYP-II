@@ -15,7 +15,7 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Center, VStack, FormControl, Link, Button, Checkbox} from 'native-base';
+import {Center, VStack, FormControl, Link, Button, Text} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {Formik} from 'formik';
@@ -35,6 +35,7 @@ import image from '../../assets/images/login_bg.png';
 import {useNavigation} from '@react-navigation/native';
 import {
   ENTER_AS_GUEST,
+  LOGIN,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
   SIGNUP,
@@ -42,29 +43,32 @@ import {
 
 
 //Redux
-import {useDispatch, useSelector} from 'react-redux'
-import { loginUser } from '../redux/slices/auth_slices/authSlice';
-
-const loginValidationSchema = yup.object().shape({
-  username: yup.string().required('username is required'),
-  password: yup.string().min(8).required('Password is required'),
-});
+import {useDispatch} from 'react-redux'
+import { loginUser, selectIsLoading } from '../redux/slices/auth_slices/authSlice';
+import { useSelector } from 'react-redux';
+import Loader from './common/Loader';
+import getDeviceToken from '../../getDeviceToken';
 
 // const loginValidationSchema = yup.object().shape({
-//   username: yup.string(),
-//   password: yup.string(),
+//   username: yup.string().required('username is required'),
+//   password: yup.string().min(8).required('Password is required'),
 // });
+
+const loginValidationSchema = yup.object().shape({
+  username: yup.string(),
+  password: yup.string(),
+});
 
 export default function LoginScreen({navigation}) {
   
   const navigator = useNavigation();
-  const dispatch=useDispatch()
+  const isLoading=useSelector(selectIsLoading)
 
+  const dispatch=useDispatch()
   useEffect(() => {
     navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-    });
-    
+    });    
   }, [navigation]);
 
 
@@ -73,7 +77,13 @@ export default function LoginScreen({navigation}) {
   }
 
   function loginHandler(values) {
-    dispatch(loginUser(values))
+
+    async function registerDevice(){
+      const deviceToken=await getDeviceToken()
+      console.log('Device token is ', deviceToken)
+      dispatch(loginUser(values))
+    }
+    registerDevice()
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -82,6 +92,9 @@ export default function LoginScreen({navigation}) {
           style={styles.image}
           resizeMode="stretch"
           source={image}>
+            {
+              isLoading?<Loader msg="Verifying Login Details..."/>:
+            
           <Center w="100%" mt={'10%'} h="95%" maxW="100%">
             <VStack space={3} mt="50%">
               <Formik
@@ -164,7 +177,7 @@ export default function LoginScreen({navigation}) {
                 mt="8%"
               />
             </VStack>
-          </Center>
+          </Center>}
         </ImageBackground>
       </SafeAreaView>
     </TouchableWithoutFeedback>

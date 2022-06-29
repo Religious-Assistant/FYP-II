@@ -271,7 +271,17 @@ export default function Settings({navigation}) {
                       color={colors.primary}>
                       Namaz Notifications
                     </Heading>
+<<<<<<< HEAD
                     <Text style={styles.info} mt="-1">
+=======
+                    <Text
+                      fontSize="xs"
+                      fontFamily={fonts.Signika.medium}
+                      style={styles.info}
+                      
+                      ml="-0.5"
+                      mt="-1">
+>>>>>>> 31da210d90dc25e10159f38e2e0ccf32beb5a325
                       w.r.t Primary Mosque
                     </Text>
                   </Stack>

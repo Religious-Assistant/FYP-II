@@ -1,42 +1,43 @@
 import React, {useState, useEffect} from 'react';
-import MapView, {Callout, Circle, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import { Image } from 'react-native';
+
+
+import MapView, { Marker} from 'react-native-maps';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import colors from '../theme/colors';
 import MapViewDirections from 'react-native-maps-directions';
+import { GOOGLE_MAPS_APIKEY } from './componentsConstants';
 
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE';
+import MosqueIc from '../../assets/images/mosque_pin.png'
+import colors from '../theme/colors';
 
-export default function MapDirection(){
+export default function MapDirection({route,navigation}){
+
   const [position, setPosition] = useState();
   const [reg,setReg] = useState();
   
-  const [cord1,setCord1] = useState();
-  const [cord2,setCord2]= useState();
+  const [sourceCoordinates,setSourceCoordinates] = useState();
+  const [destinationCoordinates,setDestinationCoordinates]= useState({
+    latitude: route.params.destinationCoordinates[1],
+    longitude: route.params.destinationCoordinates[0],
+    latitudeDelta: 0.0421,
+    longitudeDelta: 0.0421,
+  });
   
-  const myApiKey = "AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE";
   useEffect(() => {
     Geolocation.getCurrentPosition((pos) => {
       const crd = pos.coords;
-      //console.log(pos)
       setPosition({
         latitude: crd.latitude,
         longitude: crd.longitude,
         latitudeDelta: 0.0421,
         longitudeDelta: 0.0421,
       });
-      setCord1({
+      setSourceCoordinates({
         latitude: crd.latitude,
         longitude: crd.longitude,
-        latitudeDelta: 0.0421,
-        longitudeDelta: 0.0421,
-      })
-      
-      setCord2({
-        latitude: crd.latitude+0.005,
-        longitude: crd.longitude+0.005,
-        latitudeDelta: 0.0421,
+        latitudeDelta: 0.922,
         longitudeDelta: 0.0421,
       })
     }).catch((err) => {
@@ -50,34 +51,39 @@ export default function MapDirection(){
         position?
         <MapView
         style={styles.map}
-        initialRegion={position}>
+        initialRegion={position}
+        showsUserLocation={true}
+        zoomEnabled={true}
+        zoomControlEnabled={true}
+        >
         <MapViewDirections
-          origin={cord1}
-          destination={cord2}
+          origin={sourceCoordinates}
+          destination={destinationCoordinates}
           apikey={GOOGLE_MAPS_APIKEY} // insert your API Key here
-          strokeWidth={3}
-          strokeColor={colors.secondary}
+          strokeWidth={4}
+          strokeColor='red'
           //extra
           optimizeWaypoints={true}
         />
-        {cord1 ? <Marker coordinate={cord1} 
+        {sourceCoordinates ? <Marker coordinate={sourceCoordinates} 
         pinColor="red"
         />:<Text>Detecting</Text>}
-        <Marker coordinate={cord2} 
-        pinColor="green"
-        draggable={true}
+        <Marker coordinate={destinationCoordinates}
+        // image={} 
+        pinColor={colors.success.deep}
         onDragStart={e => {
           console.log('Drag start', e.nativeEvent.coordinate);
         }}
         onDragEnd={e => {
           console.log('Drag End', e.nativeEvent.coordinate);
-          setCord2({
+          setDestinationCoordinates({
             latitude: e.nativeEvent.coordinate.latitude,
             longitude: e.nativeEvent.coordinate.longitude,
           });
         }}
-        
-        />
+        >
+            <Image source={MosqueIc} style={{width:48,height:48}}></Image>
+        </Marker>
       </MapView>:<Text>Loading</Text>}
     </View>
   );
@@ -92,6 +98,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height-60,
   },
 });

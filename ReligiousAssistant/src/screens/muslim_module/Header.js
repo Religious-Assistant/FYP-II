@@ -11,13 +11,13 @@ import fonts from '../../theme/fonts';
 import moment from 'moment'
 import moment_hijri from 'moment-hijri'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHasError, selectIsLoading, selectToken } from '../../redux/slices/auth_slices/authSlice';
+import { selectHasError, selectIsLoading, selectUserData } from '../../redux/slices/auth_slices/authSlice';
 
 // https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
 
-  const token=useSelector(selectToken)
+  const token=useSelector(selectUserData)
 
   let m = moment_hijri("1443/11/19", "iYYYY/iMM/iD"); // Parse a Hijri date.
 
@@ -41,7 +41,7 @@ export default function Header() {
       )
     },1000)
     // return clearInterval(timerId)
-  },[token])
+  },[])
 
   return (
       <View  style={styles.container}>

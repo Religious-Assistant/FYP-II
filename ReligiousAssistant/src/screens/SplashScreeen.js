@@ -10,34 +10,39 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import bg_gif from '../../assets/images/splash.gif';
 import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK} from '../navigation/constants';
-import { getReligion, getToken, selectReligion, selectToken } from '../redux/slices/auth_slices/authSlice';
+import { getReligion, getToken, getUserData, selectReligion, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
 
 function SplashScreeen() {
+
   const navigator = useNavigation();
 
   const dispatch=useDispatch()
-  
+
   const token=useSelector(selectToken)
   const religion=useSelector(selectReligion)
 
-  console.log(`Token: ${token} \nReligion:${religion}`)
+  console.log(`User Token: ${token}  \nUser Religion: ${religion}`)
 
   useEffect(() => {
 
     dispatch(getToken())
     dispatch(getReligion())
+    dispatch(getUserData())
 
     setTimeout(() => {
-      if(religion==1 && token){
-        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
-      }
-      else if(religion==0 && token){
-        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
-      }
-      else{
-        navigator.navigate(LOGIN);
-      }
+      
+    if(religion==1 && token){
+      
+      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+    }
+    else if(religion==0 && token){
+      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+    }
+    else{
+      navigator.navigate(LOGIN)
+    }
     }, 2000);
+
 
   }, [token, religion]);
 
