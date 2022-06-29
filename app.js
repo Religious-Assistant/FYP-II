@@ -34,6 +34,7 @@ mongoose.connect(database_url).then(()=>{
 const user_routes=require('./routes/userRoute');
 const tasbih_routes = require('./routes/tasbihRoute')
 const mosque_routes=require('./routes/mosqueRoute')
+const temple_routes=require('./routes/templeRoute')
 const announcement_route=require('./routes/announcementRoute')
 const namaz_accountability_route=require('./routes/namazAccountabilityRoute')
 const fast_accountability_route=require('./routes/fastAccountabilityRoute')
@@ -44,6 +45,7 @@ const recite_quran_route=require('./routes/reciteQuranRoute')
 app.use('/api', user_routes)
 app.use('/api', tasbih_routes)
 app.use('/api', mosque_routes)
+app.use('/api', temple_routes)
 app.use('/api', announcement_route)
 app.use('/api', namaz_accountability_route)
 app.use('/api', fast_accountability_route)
@@ -101,6 +103,4 @@ app.use('/api', recite_quran_route)
 //       });
 //   }
 
-app.listen(port,()=>{
-    console.log(`Server listening at port ${port}`)
-})
+module.exports=app;
