@@ -85,18 +85,18 @@ export default function About() {
                 <Text style={{fontFamily: fonts.Signika.bold}}>About </Text>
                 <Heading color={colors.white}>
                   <Text style={{fontFamily: fonts.Signika.bold}}>
-                    {'\n'}Religious Assistant
+                    {'\n'}Developers
                   </Text>
                 </Heading>
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.83}} width="95%" alignItems="center">
+          <View style={{flex: 0.83,}} width="95%" alignItems="center">
             <Center
               width="90%"
               space={2}
               maxW="90%"
-              marginTop={'61%'}
+              marginTop={'50%'}
               marginLeft={'3%'}
               marginBottom={'5%'}>
               <Heading ml={'-44%'}>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   subText: {
-    fontFamily: fonts.Signika.bold,
+    fontFamily: fonts.Signika.medium,
     fontSize: 15,
     padding: 5,
     color: colors.tertiary,

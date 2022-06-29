@@ -42,7 +42,7 @@ import cameraIcon from '../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../assets/images/gallery_ic.png';
 import edit from '../../../assets/images/edit.png';
 
-export default function Settings({navigation}) {
+export default function Settings({navigation}){
   const dispatch = useDispatch();
 
   //when tab is focused in MuslimBottomTab.js, this will be called
@@ -271,17 +271,9 @@ export default function Settings({navigation}) {
                       color={colors.primary}>
                       Namaz Notifications
                     </Heading>
-<<<<<<< HEAD
+
+
                     <Text style={styles.info} mt="-1">
-=======
-                    <Text
-                      fontSize="xs"
-                      fontFamily={fonts.Signika.medium}
-                      style={styles.info}
-                      
-                      ml="-0.5"
-                      mt="-1">
->>>>>>> 31da210d90dc25e10159f38e2e0ccf32beb5a325
                       w.r.t Primary Mosque
                     </Text>
                   </Stack>
