@@ -9,6 +9,7 @@ import announcementReducer from './slices/muslim_module_slices/announcementSlice
 import tasbihReducer from './slices/muslim_module_slices/tasbihSlice'
 import quranRecitationReducer from './slices/muslim_module_slices/quranRecitationSlice'
 import namazAccountabilityReducer from './slices/muslim_module_slices/namazAccountability'
+import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccountability';
 const store = configureStore({
   reducer: {
     user:authReducer,  
@@ -17,7 +18,8 @@ const store = configureStore({
     announcement: announcementReducer,
     tasbih: tasbihReducer,
     quranRecitation: quranRecitationReducer,
-    namazAccountability: namazAccountabilityReducer
+    namazAccountability: namazAccountabilityReducer,
+    fastAccountability: fastAccountabilityReducer
   },
 })
 
