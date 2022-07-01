@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -27,15 +27,13 @@ import ErrorMessage from '../components/ErrorMessage';
 import image from '../../assets/images/setPassword_bg.png';
 import { useNavigation } from '@react-navigation/native';
 import { LOGIN } from '../navigation/constants';
-import { useDispatch } from 'react-redux';
-import { updatePassword } from '../redux/slices/auth_slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgotPassword, getUserData, selectUserData, updatePassword } from '../redux/slices/auth_slices/authSlice';
+import TextInput from '../components/TextInput';
+import Ioicons from 'react-native-vector-icons/Ionicons';
 
 const loginValidationSchema = yup.object().shape({
   newPassword: yup.string().min(8).required('Password is required'),
-  confirmPassword: yup
-    .string()
-    .required('Password is required')
-    .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 });
 
 export default function SetNewPassword() {
@@ -43,13 +41,15 @@ export default function SetNewPassword() {
   const navigator=useNavigation()
   const dispatch=useDispatch()
 
+
   function backToLogin(){
     navigator.navigate(LOGIN)
   }
 
   function resetPassword(values){
 
-    dispatch(updatePassword({newPassword:values.newPassword, username:'nadir'}))
+    console.log(values)
+    dispatch(forgotPassword(values))
   }
 
   return (
@@ -63,7 +63,7 @@ export default function SetNewPassword() {
             <VStack space={3} mt="25%">
               <Formik
                 validationSchema={loginValidationSchema}
-                initialValues={{newPassword: '', confirmPassword: ''}}
+                initialValues={{username:'',newPassword: ''}}
                 onSubmit={values => {
                   resetPassword(values)
                 }}>
@@ -78,6 +78,16 @@ export default function SetNewPassword() {
                 }) => (
                   <>
                     <FormControl mt="5%">
+                    <TextInput
+                        textTitle="Username"
+                        name="username"
+                        onChangeText={handleChange('username')}
+                        onBlur={handleBlur('username')}
+                        value={values.username}
+                        mt={'5%'}
+                        icon={<Ioicons name="person-sharp" />}
+                        base="78%"
+                      />
                       <PasswordInput
                         textTitle="Enter New Password"
                         name="newPassword"
@@ -91,22 +101,6 @@ export default function SetNewPassword() {
                       <ErrorMessage
                         error={errors.newPassword}
                         errosTouched={touched.newPassword}
-                      />
-                      <PasswordInput
-                        textTitle="Confirm Password"
-                        name="confirmPassword"
-                        onChangeText={handleChange('confirmPassword')}
-                        onBlur={handleBlur('confirmPassword')}
-                        value={values.confirmPassword}
-                        isInValid={
-                          errors.confirmPassword && touched.confirmPassword
-                        }
-                        mt={'5%'}
-                        base="78%"
-                      />
-                      <ErrorMessage
-                        error={errors.confirmPassword}
-                        errosTouched={touched.confirmPassword}
                       />
                     </FormControl>
                     <CustomButton

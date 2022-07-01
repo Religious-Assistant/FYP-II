@@ -2,7 +2,7 @@ import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiGET, apiPATCH} from '../../../services/apis/AuthService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { login_user, register_user, update_password } from '../../endpoints';
+import { forgot_password, login_user, register_user, update_password } from '../../endpoints';
 
 const initialState = {
     userData:null,
@@ -31,11 +31,20 @@ export const loginUser = createAsyncThunk(
 export const updatePassword = createAsyncThunk(
     'updatePassword',
     async (body)=>{
+
        const result =  await apiPATCH(update_password,body)
        return result  
     }
 )
 
+export const forgotPassword = createAsyncThunk(
+    'forgotPassword',
+    async (body)=>{
+        console.log(`Forgot Pass ${body}`)
+       const result =  await apiPATCH(forgot_password,body)
+       return result  
+    }
+)
 
 export const getUserData = createAsyncThunk(
     'getUserData',
@@ -157,6 +166,19 @@ const authSlice = createSlice({
             state.hasError=false
         },
         [updatePassword.rejected]:(state,action)=>{
+            state.hasError=true
+            state.isLoading=false
+        },
+
+        [forgotPassword.fulfilled]:(state,action)=>{
+            state.isLoading = false
+            state.hasError=false
+        },
+        [forgotPassword.pending]:(state,action)=>{
+            state.isLoading = true
+            state.hasError=false
+        },
+        [forgotPassword.rejected]:(state,action)=>{
             state.hasError=true
             state.isLoading=false
         },
