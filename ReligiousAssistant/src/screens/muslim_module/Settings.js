@@ -271,8 +271,6 @@ export default function Settings({navigation}){
                       color={colors.primary}>
                       Namaz Notifications
                     </Heading>
-
-
                     <Text style={styles.info} mt="-1">
                       w.r.t Primary Mosque
                     </Text>
