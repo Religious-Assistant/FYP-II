@@ -39,9 +39,9 @@ const tasbihSlice = createSlice({
 })
 
 
-export const selectAnnouncements =(state)=> state.tasbih.tasbihCounter
-export const selectIsLoading=(state)=>state.announcement.isLoading
-export const selectHasError=(state)=>state.announcement.hasError
+export const selectTasbih =(state)=> state.tasbih.tasbihCounter
+export const selectIsLoading=(state)=>state.tasbih.isLoading
+export const selectHasError=(state)=>state.tasbih.hasError
 
 
 export default tasbihSlice.reducer

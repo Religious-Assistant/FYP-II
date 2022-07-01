@@ -7,13 +7,15 @@ import bottomNavReducer from './slices/muslim_module_slices/bottomNavSlice';
 import mosqueReducer from './slices/muslim_module_slices/mosqueSlice'
 import announcementReducer from './slices/muslim_module_slices/announcementSlice'
 import tasbihReducer from './slices/muslim_module_slices/tasbihSlice'
+import quranRecitationReducer from './slices/muslim_module_slices/quranRecitationSlice'
 const store = configureStore({
   reducer: {
     user:authReducer,  
     mosque:mosqueReducer,
     bottomNav:bottomNavReducer,
     announcement: announcementReducer,
-    tasbih: tasbihReducer
+    tasbih: tasbihReducer,
+    quranRecitation: quranRecitationReducer
   },
 })
 
