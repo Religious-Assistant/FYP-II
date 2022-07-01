@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import bg_gif from '../../assets/images/splash.gif';
 import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK} from '../navigation/constants';
-import { getReligion, getToken, getUserData, selectReligion, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
+import { getReligion, getToken, getUserData, logout, selectReligion, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
 
 
 //Logout user if token is expired in AsyncStorage
@@ -36,11 +36,26 @@ function SplashScreeen() {
     setTimeout(() => {
       
     if(religion==1 && token){
-      
-      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+
+      //Check if token is expired, then logout user
+      const decodedToken=jwtDecode(token)
+      if(decodedToken.exp < Date.now() / 1000){
+          dispatch(logout())
+      }
+      else{
+        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
+      }
     }
     else if(religion==0 && token){
-      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+      
+      //Check if token is expired, then logout user
+      const decodedToken=jwtDecode(token)
+      if(decodedToken.exp < Date.now() / 1000){
+          dispatch(logout())
+      }
+      else{
+        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+      }
     }
     else{
       navigator.navigate(LOGIN)

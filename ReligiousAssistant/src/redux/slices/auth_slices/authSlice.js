@@ -132,7 +132,7 @@ const authSlice = createSlice({
 
         },
         [getReligion.pending]:(state,action)=>{
-            state.isLoading=false
+            state.isLoading=true
             state.hasError=false
         },
         [registerUser.fulfilled]:(state,action)=>{
@@ -175,6 +175,7 @@ const authSlice = createSlice({
             const {msg, success}=action.payload
             if(!success){            
                 state.hasError=true
+                state.isLoading=false
                 alert(msg)
                 return
             }
