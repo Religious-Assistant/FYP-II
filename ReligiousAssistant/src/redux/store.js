@@ -11,6 +11,8 @@ import quranRecitationReducer from './slices/muslim_module_slices/quranRecitatio
 import namazAccountabilityReducer from './slices/muslim_module_slices/namazAccountability'
 import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccountability';
 import muslimUserPrefReducer from './slices/muslim_module_slices/muslimUserPreferencesSlice';
+import templeReducer from './slices/muslim_module_slices/templeSlice';
+import learnNamazReducer from './slices/muslim_module_slices/learnNamazSlice';
 const store = configureStore({
   reducer: {
     user:authReducer,  
@@ -21,7 +23,9 @@ const store = configureStore({
     quranRecitation: quranRecitationReducer,
     namazAccountability: namazAccountabilityReducer,
     fastAccountability: fastAccountabilityReducer,
-    muslimUserPref: muslimUserPrefReducer
+    muslimUserPref: muslimUserPrefReducer,
+    temple: templeReducer,
+    learnNamaz: learnNamazReducer
   },
 })
 

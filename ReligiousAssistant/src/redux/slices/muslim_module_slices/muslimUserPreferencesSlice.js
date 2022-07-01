@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiGET, apiPATCH} from '../../../services/apis/AuthService'
+import {apiPATCH} from '../../../services/apis/AuthService'
 import {update_auto_silent_settings,update_primary_mosque,} from '../../endpoints';
 
 
