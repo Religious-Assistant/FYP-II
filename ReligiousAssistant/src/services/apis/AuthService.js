@@ -25,4 +25,45 @@ const apiGET = async (api)=>{
      return await res.json()
 }
 
-export {apiPOST, apiGET}
+const apiPUT = async (api,body)=>{
+    const res =  await fetch(`${BASE_URL}/${api}`,{ 
+         method:"PUT",
+         headers:{
+             'Accept': 'application/json',
+             "Content-Type":"application/json",
+             "Authorization":await AsyncStorage.getItem('token')
+         },
+         body:JSON.stringify(body)
+     })
+     
+     return await res.json()
+}
+
+const apiPATCH = async (api,body)=>{
+    const res =  await fetch(`${BASE_URL}/${api}`,{ 
+         method:"PATCH",
+         headers:{
+             'Accept': 'application/json',
+             "Content-Type":"application/json",
+             "Authorization":await AsyncStorage.getItem('token')
+         },
+         body:JSON.stringify(body)
+     })     
+     return await res.json()
+}
+
+const apiDELETE = async (api,body)=>{
+    const res =  await fetch(`${BASE_URL}/${api}`,{ 
+         method:"DELETE",
+         headers:{
+             'Accept': 'application/json',
+             "Content-Type":"application/json",
+             "Authorization":await AsyncStorage.getItem('token')
+         },
+         body:JSON.stringify(body)
+     })
+     
+     return await res.json()
+}
+
+export {apiPOST, apiGET, apiPATCH, apiDELETE, apiPUT}

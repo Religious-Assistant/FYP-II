@@ -42,16 +42,17 @@ import cameraIcon from '../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../assets/images/gallery_ic.png';
 import edit from '../../../assets/images/edit.png';
 
+import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice'
 export default function Settings({navigation}) {
   const dispatch = useDispatch();
 
   //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
-    // const unsubscribe = navigation.addListener('focus', () => {
-    //       dispatch(setTab('Settings'))
-    // });
-    //unsubscribe on unmount
-    //return unsubscribe;
+    const unsubscribe = navigation.addListener('focus', () => {
+          dispatch(setTab('Settings'))
+    });
+    // unsubscribe on unmount
+    return unsubscribe;
   }, [navigation]);
 
   const {isOpen, onOpen, onClose} = useDisclose();
@@ -111,7 +112,11 @@ export default function Settings({navigation}) {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>
+            Set Your Preferences
+        </Text>
+      </View>
       <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
         <Image style={styles.avatar} source={image} />
         <Image
@@ -564,6 +569,13 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.primary,
     height: 110,
+  },
+  headerText:{
+    fontFamily:fonts.Signika.bold,
+    textAlign:'center',
+    marginTop:16,
+    fontSize:24,
+    color:colors.secondary
   },
   avatar: {
     width: 130,

@@ -38,6 +38,7 @@ import {
   LOGIN,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
+  SET_NEW_PASSWORD,
   SIGNUP,
 } from '../navigation/constants';
 
@@ -80,11 +81,15 @@ export default function LoginScreen({navigation}) {
 
     async function registerDevice(){
       const deviceToken=await getDeviceToken()
-      console.log('Device token is ', deviceToken)
-      dispatch(loginUser(values))
+      dispatch(loginUser({...values,deviceToken}))
     }
     registerDevice()
   }
+
+  function gotoSetNewPasswordScreen(){
+    navigator.navigate(SET_NEW_PASSWORD)
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -144,10 +149,11 @@ export default function LoginScreen({navigation}) {
                       />
                       <View style={{marginTop: '2%'}}>
                         
-                        <Link _text={styles.link} alignSelf="flex-end" ml="19%">
+                        <Link _text={styles.link} alignSelf="flex-end" ml="19%"  onPress={gotoSetNewPasswordScreen}>
                           Forgot Password?
                         </Link>
                       </View>
+
                     </FormControl>
                     <CustomButton
                       title="Login"

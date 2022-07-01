@@ -12,12 +12,14 @@ import {
   ENTER_AS_GUEST,
   LOGIN,
   OTP_VERIFICATION,
+  SET_NEW_PASSWORD,
   SIGNUP,
   SPLASH_SCREEN,
 } from './constants';
 import ConnectAsGuest from '../screens/ConnectAsGuest';
 import VerificationScreen from '../screens/VerificationScreen';
 import SplashScreeen from '../screens/SplashScreeen';
+import SetNewPassword from '../screens/SetNewPassword';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -47,6 +49,11 @@ function AuthStackNavigation() {
       <AuthStack.Screen
         name={OTP_VERIFICATION}
         component={VerificationScreen}
+        options={{headerShown: false}}
+      />
+      <AuthStack.Screen
+        name={SET_NEW_PASSWORD}
+        component={SetNewPassword}
         options={{headerShown: false}}
       />
     </AuthStack.Navigator>

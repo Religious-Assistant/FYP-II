@@ -22,6 +22,7 @@ import {
 import {useSelector} from 'react-redux';
 import getDeviceToken from './getDeviceToken';
 
+
 // //Notifee
 // import notifee from '@notifee/react-native';
 // import messaging from '@react-native-firebase/messaging';
@@ -52,6 +53,7 @@ const EntryPoint = () => {
   // const userData = useSelector(selectUserData);
 
   useEffect(() => {
+
 
     // async function getToken(){
     //   const token=await getDeviceToken()

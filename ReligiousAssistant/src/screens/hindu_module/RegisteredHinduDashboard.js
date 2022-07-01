@@ -30,6 +30,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { AUTH_STACK } from '../../navigation/constants';
 import HinduBottomTab from './HinduBottomTab';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/slices/auth_slices/authSlice';
 
 export default function RegisteredHinduDashboard() {
   const [currentTab, setCurrentTab] = useState("Home");
@@ -170,10 +172,13 @@ export default function RegisteredHinduDashboard() {
 const TabButton = (currentTab, setCurrentTab, title, image) => {
 
   const navigator=useNavigation()
+  const dispatch=useDispatch()
   return (
 
     <TouchableOpacity onPress={() => {
       if (title == "LogOut") {
+        
+        dispatch(logout())
         navigator.navigate(AUTH_STACK)
       } else {
         setCurrentTab(title)

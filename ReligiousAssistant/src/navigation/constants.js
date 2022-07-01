@@ -8,7 +8,7 @@ const LOGIN = 'LOGIN';
 const SIGNUP = 'SIGNUP';
 const ENTER_AS_GUEST = 'ENTER_AS_GUEST';
 const SPLASH_SCREEN = 'SPLASH_SCREEN';
-
+const SET_NEW_PASSWORD='SET_NEW_PASSWORD'
 
 //Registered Muslim
 const REGISTERED_MUSLIM_HOME_STACK = 'REGISTERED_MUSLIM_HOME';
@@ -58,6 +58,7 @@ export {
   ENTER_AS_GUEST,
   OTP_VERIFICATION,
   SPLASH_SCREEN,
+  SET_NEW_PASSWORD
 };
 
 //Registered Muslim navigation constants

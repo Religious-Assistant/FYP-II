@@ -1,8 +1,8 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET} from '../../../services/apis/AuthService'
+import {apiPOST, apiGET, apiPATCH} from '../../../services/apis/AuthService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { login_user, register_user } from '../../endpoints';
+import { login_user, register_user, update_password } from '../../endpoints';
 
 const initialState = {
     userData:null,
@@ -23,11 +23,19 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
     'loginUser',
     async (body)=>{
-        console.log(body)
        const result =  await apiPOST(login_user,body)
        return result  
     }
 )
+
+export const updatePassword = createAsyncThunk(
+    'updatePassword',
+    async (body)=>{
+       const result =  await apiPATCH(update_password,body)
+       return result  
+    }
+)
+
 
 export const getUserData = createAsyncThunk(
     'getUserData',
@@ -80,6 +88,7 @@ const authSlice = createSlice({
             AsyncStorage.removeItem('token')
         }
     },
+    
     extraReducers:{
 
         [getUserData.fulfilled]:(state,action)=>{
@@ -139,6 +148,19 @@ const authSlice = createSlice({
             state.isLoading=false
         },
         
+        [updatePassword.fulfilled]:(state,action)=>{
+            state.isLoading = false
+            state.hasError=false
+        },
+        [updatePassword.pending]:(state,action)=>{
+            state.isLoading = true
+            state.hasError=false
+        },
+        [updatePassword.rejected]:(state,action)=>{
+            state.hasError=true
+            state.isLoading=false
+        },
+
         [loginUser.pending]:(state,action)=>{
             state.isLoading = true
             state.hasError=false
@@ -161,7 +183,7 @@ const authSlice = createSlice({
             state.hasError=false
             state.userData=action.payload.data
             
-            console.log('LOGIN',action.payload.data)
+            console.log('LOGIN TOKEN',action.payload.data.token)
             const {token, religion}=action.payload.data
             state.token=token
             state.religion=religion+''
@@ -194,7 +216,7 @@ const authSlice = createSlice({
     }
 })
 
-export const {logout}  = authSlice.actions
+export const {logout}  = authSlice.actions 
 
 export const selectToken=(state)=>state.user.token
 // export const selectDeviceToken=(state)=>state.user.deviceToken

@@ -12,6 +12,10 @@ import bg_gif from '../../assets/images/splash.gif';
 import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK} from '../navigation/constants';
 import { getReligion, getToken, getUserData, selectReligion, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
 
+
+//Logout user if token is expired in AsyncStorage
+import jwtDecode from 'jwt-decode';
+
 function SplashScreeen() {
 
   const navigator = useNavigation();
@@ -41,6 +45,10 @@ function SplashScreeen() {
     else{
       navigator.navigate(LOGIN)
     }
+
+    
+    //  const decodedToken=jwtDecode(token)
+    //   console.log(`Decoded token is: ${decodedToken}`)
     }, 2000);
 
 

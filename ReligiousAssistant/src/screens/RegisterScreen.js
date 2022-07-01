@@ -35,23 +35,23 @@ import { registerUser } from '../redux/slices/auth_slices/authSlice';
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 
-const registerValidationSchema = yup.object().shape({
-  username: yup.string(),
-  password: yup.string(),
-  mobile: yup.string(),
-  religion: yup.number(),
-});
-
 // const registerValidationSchema = yup.object().shape({
-//   username: yup.string().required('username is required'),
-//   password: yup.string().min(8).required('Password is required'),
-//   mobile: yup
-//     .string()
-//     .required('Phone number is required')
-//     .matches(phoneRegExp, 'Phone number is not valid')
-//     .min(11),
-//     religion: yup.number().required('Religion is Required'),
+//   username: yup.string(),
+//   password: yup.string(),
+//   mobile: yup.string(),
+//   religion: yup.number(),
 // });
+
+const registerValidationSchema = yup.object().shape({
+  username: yup.string().required('username is required'),
+  password: yup.string().min(8).required('Password is required'),
+  mobile: yup
+    .string()
+    .required('Phone number is required')
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(11),
+    religion: yup.number().required('Religion is Required'),
+});
 
 function RegisterScreen() {
   
@@ -60,7 +60,7 @@ function RegisterScreen() {
 
   function signupHandler(values) {
     
-    // dispatch(registerUser(values))  
+    dispatch(registerUser(values))  
     navigator.navigate(OTP_VERIFICATION);
   }
 

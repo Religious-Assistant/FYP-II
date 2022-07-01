@@ -25,6 +25,10 @@ import CustomButton from '../components/CustomButton';
 import PasswordInput from '../components/PasswordInput';
 import ErrorMessage from '../components/ErrorMessage';
 import image from '../../assets/images/setPassword_bg.png';
+import { useNavigation } from '@react-navigation/native';
+import { LOGIN } from '../navigation/constants';
+import { useDispatch } from 'react-redux';
+import { updatePassword } from '../redux/slices/auth_slices/authSlice';
 
 const loginValidationSchema = yup.object().shape({
   newPassword: yup.string().min(8).required('Password is required'),
@@ -35,6 +39,19 @@ const loginValidationSchema = yup.object().shape({
 });
 
 export default function SetNewPassword() {
+
+  const navigator=useNavigation()
+  const dispatch=useDispatch()
+
+  function backToLogin(){
+    navigator.navigate(LOGIN)
+  }
+
+  function resetPassword(values){
+
+    dispatch(updatePassword({newPassword:values.newPassword, username:'nadir'}))
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -48,7 +65,7 @@ export default function SetNewPassword() {
                 validationSchema={loginValidationSchema}
                 initialValues={{newPassword: '', confirmPassword: ''}}
                 onSubmit={values => {
-                  console.log(values);
+                  resetPassword(values)
                 }}>
                 {({
                   handleChange,
@@ -98,6 +115,14 @@ export default function SetNewPassword() {
                       mt="8%"
                       color="white"
                       onPress={handleSubmit}
+                      disabled={!isValid}
+                    />
+                    <CustomButton
+                      title="Back to Login Password"
+                      variant="solid"
+                      mt="8%"
+                      color="white"
+                      onPress={backToLogin}
                       disabled={!isValid}
                     />
                   </>
