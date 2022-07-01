@@ -45,7 +45,7 @@ const learnNamazSlice = createSlice({
             state.isLoading=true
             state.hasError=false
         },
-        [getClosestTemples.fulfilled]:(state,action)=>{
+        [getLearnNamazProgress.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isPending=false
             state.closestTemples = action.payload.data

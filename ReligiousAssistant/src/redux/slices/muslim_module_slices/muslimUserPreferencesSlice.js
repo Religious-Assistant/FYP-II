@@ -2,6 +2,10 @@ import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPATCH} from '../../../services/apis/AuthService'
 import {update_auto_silent_settings,update_primary_mosque,} from '../../endpoints';
 
+const initialState = {
+    isLoading:true,
+    hasError:false,
+}
 
 export const updatePrimaryMosque = createAsyncThunk(
     'updatePrimaryMosque',
@@ -21,6 +25,7 @@ export const updateAutoSilentSettings = createAsyncThunk(
 
 const muslimUserPrefSlice = createSlice({
     name:"muslimUserPref",
+    initialState,
     reducers:{},
     extraReducers:{
         [updatePrimaryMosque.fulfilled]:(state,action)=>{
@@ -51,7 +56,6 @@ const muslimUserPrefSlice = createSlice({
     }
 })
 
-// export const selectmuslimUserPref =(state)=> state.fastAccountability.accountability
 export const selectIsLoading=(state)=>state.muslimUserPref.isLoading
 export const selectHasError=(state)=>state.muslimUserPref.hasError
 
