@@ -3,19 +3,15 @@
  * @version 1.0
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {useDispatch} from 'react-redux';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
+
 import ImagePicker from 'react-native-image-crop-picker';
 import {
+  Image,
+  Text,
+  View,
   VStack,
   HStack,
   Divider,
@@ -24,54 +20,80 @@ import {
   Heading,
   Switch,
   Modal,
-  ScrollView,
   FormControl,
   Input,
   Button,
   Actionsheet,
   useDisclose,
+  ScrollView,
+  FlatList
 } from 'native-base';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
+//theme
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-
-import avatar from '../../../assets/images/avatar.png';
-
 import editIcon from '../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../assets/images/gallery_ic.png';
 import edit from '../../../assets/images/edit.png';
 
-import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice'
+//Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {
+  getUserData,
+  selectIsLoading,
+  selectUserData,
+} from '../../redux/slices/auth_slices/authSlice';
+import Loader from '../common/Loader';
+import { IP } from '../../services/apis/ServiceConstants';
+import { selectHasUpdatedAutosilentSetting, selectHasUpdatedNamazAccountabilityNotificationSettings, selectHasUpdatedNamazNotificationsSettings, updateAutoSilentSetting, updateNamazAccountabilityNotificationsSetting, updateNamazNotificationSettings } from '../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+
 export default function Settings({navigation}) {
-  const dispatch = useDispatch();
+
+  //Modal
+  const {isOpen, onOpen, onClose} = useDisclose();
+  const [avatar, setAvatar] = useState({image:`http://${IP}:5000/avatars/avatar.png`, key:1});
+
+  const [open, setOpen] = useState(false);
+  const [isPasswordModal, setIspasswordModal] = useState(false);
+  const [modalHeader, setModalHeader] = useState('');
+
+  function closeModal() {
+    setOpen(false);
+  }
+
+  function openeModal(header, passwordModalFlag) {
+    setOpen(true);
+    setModalHeader(header);
+    setIspasswordModal(passwordModalFlag);
+  }
 
   //when tab is focused in MuslimBottomTab.js, this will be called
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-          dispatch(setTab('Settings'))
+      dispatch(setTab('Settings'));
     });
     // unsubscribe on unmount
     return unsubscribe;
   }, [navigation]);
 
-  const {isOpen, onOpen, onClose} = useDisclose();
+  const dispatch = useDispatch();
+  const user=useSelector(selectUserData)
+  const isLoading=useSelector(selectIsLoading)
+  const hasUpdatedAutoSilentSettings=useSelector(selectHasUpdatedAutosilentSetting)
+  const hasUpdatedNamazAccountabilityNotificationsSetting=useSelector(selectHasUpdatedNamazAccountabilityNotificationSettings)
+  const hasUpdatedNamazNotificationsSetting=useSelector(selectHasUpdatedNamazNotificationsSettings)
+  
+  useEffect(()=>{
+    dispatch(getUserData()) 
+    console.log('User ',user.preferences.accountabilityNotifications)
+    if(user.avatar){
+      setAvatar({image:user.avatar, key:0})
+    }
+  },[dispatch])
 
-  const [image, setImage] = useState(avatar);
-
-  const [placement, setPlacement] = useState(undefined);
-  const [openPassModal, setOpenPassModal] = useState(false);
-  const [openPrimaryModal, setPrimaryModal] = useState(false);
-  //for password
-  const openPasswordModal = placement => {
-    setOpenPassModal(true);
-    setPlacement(placement);
-  };
-  //for primary mosque
-  const openPrimaryMosqModal = placement => {
-    setPrimaryModal(true);
-    setPlacement(placement);
-  };
 
   //Take user's profile from Camera
   const takePhotoFromCamera = () => {
@@ -110,15 +132,55 @@ export default function Settings({navigation}) {
         console.log(err);
       });
   };
+
+  function updateAccountabilityNotificarions(state){
+      dispatch(updateNamazAccountabilityNotificationsSetting({username:user.username,state:state}))
+    
+      if(hasUpdatedNamazAccountabilityNotificationsSetting){
+        alert(`Updated Accountability Settings`)
+      }
+  }
+
+  function updateAutoSilent(state){
+    dispatch(updateAutoSilentSetting({username:user.username,state:state}))
+    
+    if(hasUpdatedAutoSilentSettings){
+      alert(`Updated Auto-Silent Settings`)
+    }
+  }
+
+  function updateNamazNotification(state){
+    dispatch(updateNamazNotificationSettings({username:user.username,state:state}))
+    if(hasUpdatedNamazNotificationsSetting){
+        alert(`Updated Namaz Notification Settings`)
+    }
+  }
+
+  function updatePrimaryMosqueSetting(item){
+    console.log('\n\n\n------------------------------------------\nHiiiiii\n-----------------------------\n\n\n')
+  }
+
+  //Rough Data
+  const [serverData, setServerData] = React.useState([]);
+
+  useEffect(()=>{
+    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
+    .then(response => response.json())
+    .then(responseJson => {
+      //Successful response from the API Call
+      setServerData(responseJson.results);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  },[])
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>
-            Set Your Preferences
-        </Text>
+        <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
       <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
-        <Image style={styles.avatar} source={image} />
+        <Image style={styles.avatar} source={{uri:avatar.image}} alt='Loading image ..'/>
         <Image
           marginLeft="55%"
           marginTop="5%"
@@ -133,9 +195,12 @@ export default function Settings({navigation}) {
       </TouchableOpacity>
       <Text style={styles.username}>Kinza</Text>
       <ScrollView
+      
         keyboardShouldPersistTaps="handled"
         flex={1}
-        maxHeight={'57%'}>
+        maxHeight={'57%'}
+        
+        >
         <View
           style={{
             flex: 0.7,
@@ -174,18 +239,19 @@ export default function Settings({navigation}) {
                     </Heading>
                   </Stack>
                   <Text fontWeight="400" style={styles.text}>
-                    KinzaShaikh123
+                    Old Password is Hashed and can't be displayed here.
                   </Text>
                   <HStack
                     flexDirection={'row'}
                     space={4}
                     justifyContent="space-between">
                     <HStack></HStack>
+
                     {/* Edit Password */}
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
-                      onPress={() => openPasswordModal('center')}>
+                      onPress={() => openeModal('Change Password', true)}>
                       <Image
                         marginLeft="6%"
                         source={editIcon}
@@ -228,7 +294,7 @@ export default function Settings({navigation}) {
                     </Heading>
                   </Stack>
                   <Text fontWeight="400" style={styles.text}>
-                    Sukkur IBA Mosque
+                    {user.preferences.primaryMosque}
                   </Text>
                   <HStack
                     flexDirection={'row'}
@@ -239,7 +305,9 @@ export default function Settings({navigation}) {
                     <TouchableHighlight
                       activeOpacity={0.8}
                       underlayColor={colors.cover}
-                      onPress={() => openPrimaryMosqModal('center')}>
+                      onPress={() =>
+                        openeModal('Change Primary Mosque', false)
+                      }>
                       <Image
                         marginLeft="6%"
                         source={editIcon}
@@ -298,9 +366,10 @@ export default function Settings({navigation}) {
                         onTrackColor="lime.300"
                         size="lg"
                         marginLeft={'80%'}
-                        onPress={() => {
-                          console.log('hi');
+                        onValueChange={(value)=>{
+                          updateNamazNotification(value)
                         }}
+                        defaultIsChecked={user.preferences.namazNotifications}
                       />
                     </HStack>
                   </HStack>
@@ -348,6 +417,11 @@ export default function Settings({navigation}) {
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
+                        onValueChange={(value)=>{
+                          updateAutoSilent(value)
+                        }}
+
+                        defaultIsChecked={user.preferences.phoneSilent}
                         marginLeft={'80%'}
                       />
                     </HStack>
@@ -394,6 +468,10 @@ export default function Settings({navigation}) {
                         offTrackColor="rose.300"
                         onTrackColor="lime.300"
                         size="lg"
+                        onValueChange={(value)=>{
+                          updateAccountabilityNotificarions(value)
+                        }}
+                        defaultIsChecked={user.preferences.accountabilityNotifications}
                         marginLeft={'80%'}
                       />
                     </HStack>
@@ -402,92 +480,52 @@ export default function Settings({navigation}) {
               </Box>
             </Box>
           </VStack>
-          {/*         
-        Password Modal */}
-          <Modal
-            isOpen={openPassModal}
-            onClose={() => setOpenPassModal(false)}
-            safeAreaTop={true}>
-            <Modal.Content maxWidth="350" {...styles[placement]}>
-              <Modal.CloseButton />
-              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
-                Change Password
-              </Modal.Header>
-              <Modal.Body>
-                <FormControl>
-                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
-                    New Password
-                  </FormControl.Label>
-                  <Input type="password" />
-                </FormControl>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button.Group space={2}>
-                  <Button
-                    _text={{fontFamily: fonts.Signika.regular}}
-                    variant="ghost"
-                    colorScheme="blueGray"
-                    onPress={() => {
-                      setOpenPassModal(false);
-                    }}>
-                    Cancel
-                  </Button>
-                  <Button
-                    _text={{fontFamily: fonts.Signika.regular}}
-                    color={colors.white}
-                    colorScheme="yellow"
-                    onPress={() => {
-                      setOpenPassModal(false);
-                    }}>
-                    Save
-                  </Button>
-                </Button.Group>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
-          {/* 
-          Primary Mosque Modal */}
-          <Modal
-            isOpen={openPrimaryModal}
-            onClose={() => setPrimaryModal(false)}
-            safeAreaTop={true}>
-            <Modal.Content maxWidth="350" {...styles[placement]}>
-              <Modal.CloseButton />
-              <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
-                Change Primary Mosque
-              </Modal.Header>
-              <Modal.Body>
-                <FormControl>
-                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
-                    New Primary Mosque
-                  </FormControl.Label>
-                  <Input />
-                </FormControl>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button.Group space={2}>
-                  <Button
-                    _text={{fontFamily: fonts.Signika.regular}}
-                    variant="ghost"
-                    colorScheme="blueGray"
-                    onPress={() => {
-                      setPrimaryModal(false);
-                    }}>
-                    Cancel
-                  </Button>
-                  <Button
-                    _text={{fontFamily: fonts.Signika.regular}}
-                    color={colors.white}
-                    colorScheme="yellow"
-                    onPress={() => {
-                      setPrimaryModal(false);
-                    }}>
-                    Save
-                  </Button>
-                </Button.Group>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
+
+          {/* Modals */}
+          <CommonModal
+            open={open}
+            closeModal={closeModal}
+            headerText={modalHeader}>
+            {isPasswordModal ? (
+              <FormControl>
+                <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
+                  New Password
+                </FormControl.Label>
+                <Input type="password" />
+              </FormControl>
+            ) : (
+              <SearchableDropdown
+            onTextChange={text => console.log(text)}
+            onItemSelect={item => {
+              console.log('Item')
+              // updatePrimaryMosqueSetting(item)
+            }}
+            
+            setSort
+            containerStyle={{padding: 5}}
+            textInputStyle={{
+              padding: 5,
+              borderWidth: 1,
+              fontFamily: fonts.Signika.medium,
+            }}
+            itemStyle={{
+              padding: 10,
+              marginTop: 2,
+              backgroundColor: colors.cover,
+              borderColor: '#bbb',
+            }}
+            itemTextStyle={{
+              color: colors.black,
+              fontFamily: fonts.Signika.medium,
+            }}
+            itemsContainerStyle={{
+              maxHeight: '100%',
+            }}
+            items={serverData}
+            placeholder="Select Mosque"
+          />
+            )}
+          </CommonModal>
 
           {/* Image ActionSheet */}
 
@@ -561,6 +599,46 @@ export default function Settings({navigation}) {
   );
 }
 
+const CommonModal = props => {
+  const {open, headerText} = props;
+
+  function closeModal() {
+    props.closeModal();
+  }
+
+  return (
+    <Modal isOpen={open} onClose={closeModal} safeAreaTop={true}>
+      <Modal.Content maxWidth="350" {...styles['center']}>
+        <Modal.CloseButton />
+        <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
+          {headerText}
+        </Modal.Header>
+        <Modal.Body>{
+            props.children
+        }</Modal.Body>
+        <Modal.Footer>
+          <Button.Group space={2}>
+            <Button
+              _text={{fontFamily: fonts.Signika.regular}}
+              variant="ghost"
+              colorScheme="blueGray"
+              onPress={closeModal}>
+              Cancel
+            </Button>
+            <Button
+              _text={{fontFamily: fonts.Signika.regular}}
+              color={colors.white}
+              colorScheme="yellow"
+              onPress={closeModal}>
+              Save
+            </Button>
+          </Button.Group>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -570,18 +648,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     height: 110,
   },
-  headerText:{
-    fontFamily:fonts.Signika.bold,
-    textAlign:'center',
-    marginTop:16,
-    fontSize:24,
-    color:colors.secondary
+  headerText: {
+    fontFamily: fonts.Signika.bold,
+    textAlign: 'center',
+    marginTop: 30,
+    fontSize: 20,
+    color: colors.secondary,
   },
   avatar: {
     width: 130,
     height: 130,
-    borderRadius: 63,
-    borderWidth: 4,
+    borderRadius: 65,
+    borderWidth: 1,
     borderColor: 'white',
     marginBottom: 10,
     alignSelf: 'center',

@@ -1,8 +1,8 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET, apiPATCH} from '../../../services/apis/AuthService'
+import {apiPOST, apiPATCH} from '../../../services/apis/AuthService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { forgot_password, login_user, register_user, update_password } from '../../endpoints';
+import { forgot_password, login_user, register_user } from '../../endpoints';
 
 const initialState = {
     userData:null,
@@ -11,7 +11,6 @@ const initialState = {
     isLoading:true,
     hasError:false,
     hasRecoveredForgetPassword:false,
-    hasUpdatedPassword:false,
 }
 
 export const registerUser = createAsyncThunk(
@@ -26,15 +25,6 @@ export const loginUser = createAsyncThunk(
     'loginUser',
     async (body)=>{
        const result =  await apiPOST(login_user,body)
-       return result  
-    }
-)
-
-export const updatePassword = createAsyncThunk(
-    'updatePassword',
-    async (body)=>{
-
-       const result =  await apiPATCH(update_password,body)
        return result  
     }
 )
@@ -158,20 +148,6 @@ const authSlice = createSlice({
             state.hasError=true
             state.isLoading=false
         },
-        
-        [updatePassword.fulfilled]:(state,action)=>{
-            state.isLoading = false
-            state.hasError=false
-        },
-        [updatePassword.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
-        },
-        [updatePassword.rejected]:(state,action)=>{
-            state.hasError=true
-            state.isLoading=false
-        },
-
         [forgotPassword.fulfilled]:(state,action)=>{
             state.isLoading = false
             state.hasError=false
@@ -226,21 +202,6 @@ const authSlice = createSlice({
                 console.log('ERROR while storing user details in async storage', e)
             }
           },
-
-        // [storeDeviceTokenIntoDB.fulfilled]:(state,action)=>{
-        //     state.isLoading = false
-        //     state.hasError=false
-        //     state.deviceToken=action.payload.data.deviceToken
-
-        // },
-        // [storeDeviceTokenIntoDB.pending]:(state,action)=>{
-        //     state.isLoading = true
-        //     state.hasError=false
-        // },
-        // [storeDeviceTokenIntoDB.rejected]:(state,action)=>{
-        //     state.hasError=true
-        //     state.isLoading=false
-        // },
     }
 })
 

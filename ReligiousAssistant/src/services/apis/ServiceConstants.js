@@ -1,3 +1,4 @@
-const BASE_URL=`http://192.168.15.52:5000/api/`
+const IP=`10.102.140.37`
+const BASE_URL=`http://${IP}:5000/api/`
 
-module.exports={BASE_URL}
+module.exports={BASE_URL, IP}

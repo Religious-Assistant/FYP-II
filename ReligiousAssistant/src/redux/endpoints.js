@@ -1,7 +1,6 @@
 //User
 const register_user='register-user'
 const login_user='login-user'
-const update_password='update-password'
 const forgot_password='forgot-password'
 const update_profile_image='update-profile-image'
 const update_location='update-location'
@@ -27,7 +26,12 @@ const get_fast_accountability='get-fast-accountability'
 
 //Muslim User preferences
 const update_primary_mosque='update-primary-mosque'
-const update_auto_silent_settings='update-auto-silent-settings'
+const update_auto_silent_settings='update-auto-silent-setting'
+const update_namaz_notifications_setting='update-namaz-notifications-setting'
+const update_accountability_notifications_setting='update-accountability-notifications-setting'
+const update_password='update-password'
+
+// const update_auto_silent_settings='update-auto-silent-settings'
 
 //Mosques
 const get_all_mosques='get-all-mosques'
@@ -85,5 +89,7 @@ export {
     get_all_temples,
     get_closest_temples,
     get_unverified_temples_around_user,
-    add_temple
+    add_temple,
+    update_namaz_notifications_setting,
+    update_accountability_notifications_setting
 }
