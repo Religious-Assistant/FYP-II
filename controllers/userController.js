@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -73,14 +72,9 @@ const loginUser = async (req, res) => {
             avatar: base_url + defaultAvatar,
             preferences:userPreferences
           };
-          const devToken=await DeviceToken.findOneAndUpdate({username:username}, {username,deviceToken},{upsert:true})
-
-          if(devToken){
-            res.send({ success: true, data: resultData, msg:'Logged in Successfully' });
-          }
-          else{
-            res.status(200).send({ success: false, msg: "Could not get Device token for Notifications" });
-          } 
+          await DeviceToken.findOneAndUpdate({username:username}, {username,deviceToken},{upsert:true})
+          res.send({ success: true, data: resultData, msg:'Logged in Successfully' });
+          
         } else {
           getProfileImage(user_data.username)
             .then((avatar) => {

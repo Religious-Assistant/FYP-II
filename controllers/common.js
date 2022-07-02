@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const jwt_secret = process.env.JWT_KEY;
 const {
