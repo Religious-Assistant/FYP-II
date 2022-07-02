@@ -28,9 +28,10 @@ import image from '../../assets/images/setPassword_bg.png';
 import { useNavigation } from '@react-navigation/native';
 import { LOGIN } from '../navigation/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { forgotPassword, getUserData, selectUserData, updatePassword } from '../redux/slices/auth_slices/authSlice';
+import { forgotPassword, getUserData, selectHasRecoveredForgetPassword, selectIsLoading, selectUserData, updatePassword } from '../redux/slices/auth_slices/authSlice';
 import TextInput from '../components/TextInput';
 import Ioicons from 'react-native-vector-icons/Ionicons';
+import Loader from './common/Loader';
 
 const loginValidationSchema = yup.object().shape({
   newPassword: yup.string().min(8).required('Password is required'),
@@ -40,16 +41,19 @@ export default function SetNewPassword() {
 
   const navigator=useNavigation()
   const dispatch=useDispatch()
-
+  const isLoading=useSelector(selectIsLoading)
+  const recovered=useSelector(selectHasRecoveredForgetPassword)
 
   function backToLogin(){
     navigator.navigate(LOGIN)
   }
 
   function resetPassword(values){
-
-    console.log(values)
     dispatch(forgotPassword(values))
+    console.log(recovered)
+    if(recovered){
+      navigator.navigate(LOGIN)
+    }
   }
 
   return (
@@ -59,6 +63,9 @@ export default function SetNewPassword() {
           style={styles.image}
           resizeMode="stretch"
           source={image}>
+            {
+              isLoading?<Loader msg="Updating Password" />:
+            
           <Center w="100%" h="95%" maxW="100%">
             <VStack space={3} mt="25%">
               <Formik
@@ -124,6 +131,7 @@ export default function SetNewPassword() {
               </Formik>
             </VStack>
           </Center>
+          }
         </ImageBackground>
       </SafeAreaView>
     </TouchableWithoutFeedback>

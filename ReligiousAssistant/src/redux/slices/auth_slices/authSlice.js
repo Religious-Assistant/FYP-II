@@ -10,6 +10,8 @@ const initialState = {
     religion:null,
     isLoading:true,
     hasError:false,
+    hasRecoveredForgetPassword:false,
+    hasUpdatedPassword:false,
 }
 
 export const registerUser = createAsyncThunk(
@@ -173,14 +175,17 @@ const authSlice = createSlice({
         [forgotPassword.fulfilled]:(state,action)=>{
             state.isLoading = false
             state.hasError=false
+            state.hasRecoveredForgetPassword=true
         },
         [forgotPassword.pending]:(state,action)=>{
             state.isLoading = true
             state.hasError=false
+            state.hasRecoveredForgetPassword=false
         },
         [forgotPassword.rejected]:(state,action)=>{
             state.hasError=true
             state.isLoading=false
+            state.hasRecoveredForgetPassword=false
         },
 
         [loginUser.pending]:(state,action)=>{
@@ -246,6 +251,7 @@ export const selectToken=(state)=>state.user.token
 export const selectReligion=(state)=>state.user.religion
 export const selectIsLoading=(state)=>state.user.isLoading
 export const selectHasError=(state)=>state.user.hasError
+export const selectHasRecoveredForgetPassword=(state)=>state.user.hasRecoveredForgetPassword
 export const selectUserData=(state)=>state.user.userData
 
 export default authSlice.reducer

@@ -2,7 +2,7 @@
 const register_user='register-user'
 const login_user='login-user'
 const update_password='update-password'
-const forgot_password='update-password'
+const forgot_password='forgot-password'
 const update_profile_image='update-profile-image'
 const update_location='update-location'
 const get_otp_code='get-OTP-code'
