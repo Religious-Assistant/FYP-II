@@ -20,11 +20,41 @@ const updatePrimaryMosque = async (req, res) => {
   }
 };
 
-const updateAutoSilentSettings=async(req, res)=>{
+const updateNamazNotificationsSetting= async (req, res) => {
+  console.log("updateNamazNotificationsSetting API hit");
+  try {
+    const { username, state } = req.body;
+    console.log(`User: ${username} Tru/False: ${state}`)
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
-}
+
+
+const updateAccountabilityNotificationsSetting= async (req, res) => {
+  console.log("updateNamazNotificationsSetting API hit");
+  try {
+    const { username, state } = req.body;
+
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const updateAutoSilentSettings= async (req, res) => {
+  console.log("updateAutoSilentSettings API hit");
+  try {
+    const { username, state } = req.body;
+
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
 module.exports={
     updatePrimaryMosque,
-    updateAutoSilentSettings
+    updateAutoSilentSettings,
+    updateAccountabilityNotificationsSetting,
+    updateNamazNotificationsSetting
 }

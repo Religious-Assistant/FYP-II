@@ -4,9 +4,14 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const fetch = (...args) =>import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
+//Models
 const User = require("../models/userModel");
 const Tasbih = require("../models/tasbihModel");
 const DeviceToken = require("../models/deviceTokenModel");
+const MuslimPreference=require("../models/muslimUserPreferencesModel")
+
+//common functions
+const {hashPassword, createToken}=require('./common')
 
 const {
   directoryPath,
@@ -15,8 +20,6 @@ const {
   D7_KEY,
   OTP_EXPIRY,
 } = require("./constants");
-
-const jwt_secret = process.env.JWT_KEY;
 
 const registerUser = async (req, res) => {
   console.log("Register API hit");
@@ -33,7 +36,9 @@ const registerUser = async (req, res) => {
       if (user_data) {
         //Create a Tasbih for each Muslim user, check religion
         if(user_data.religion==1){
+
           await Tasbih.create({username:username, count:0})
+          await MuslimPreference.create({username:username})
         }
 
         res.send({ success: true, data: user_data, avatar: img_url });
@@ -51,6 +56,7 @@ const loginUser = async (req, res) => {
   console.log("Login API hit");
   try {
     const { username, password, deviceToken } = req.body;
+    
     const user_data = await User.findOne({ username: username, verified:true });
 
     if (user_data) {
@@ -58,15 +64,18 @@ const loginUser = async (req, res) => {
 
       if (passwordMatch) {
         const token = await createToken(user_data.username);
+        const userPreferences= await MuslimPreference.findOne({username:username})
+
         if (user_data.avatar == defaultAvatar) {
           const resultData = {
             ...user_data._doc,
             token: token,
             avatar: base_url + defaultAvatar,
+            preferences:userPreferences
           };
-          const deviceToken=DeviceToken.create({...req.body})
+          const devToken=await DeviceToken.findOneAndUpdate({username:username}, {username,deviceToken},{upsert:true})
 
-          if(deviceToken){
+          if(devToken){
             res.send({ success: true, data: resultData, msg:'Logged in Successfully' });
           }
           else{
@@ -103,14 +112,14 @@ const loginUser = async (req, res) => {
   }
 };
 
-const updatePassword = async (req, res) => {
-  console.log("Update password API hit");
+const forgotPassword=async (req, res) => {
+  console.log("Forgot password API hit");
   try {
-    const { username, password } = req.body;
+    const { username, newPassword } = req.body;
 
     const user = await User.findOne({ username });
     if (user) {
-      const securePassword = await hashPassword(password);
+      const securePassword = await hashPassword(newPassword);
       await User.updateOne(
         { username: username },
         { $set: { password: securePassword } }
@@ -161,35 +170,6 @@ const updateProfileImage = async (req, res) => {
   }
 };
 
-const updateLocation = async (req, res) => {
-  console.log("Update Location API hit");
-  try {
-    const { username, longitude, latitude } = req.body;
-    const user = await User.findOne({ username });
-    if (user) {
-      if (latitude && longitude) {
-        await User.updateOne(
-          { username: username },
-          {
-            $set: {
-              location: {
-                type: "Point",
-                coordinates: [parseFloat(longitude), parseFloat(latitude)],
-              },
-            },
-          }
-        );
-        res.send({ success: true, msg: "Location Updated" });
-      } else {
-        res.send({ success: false, msg: "Location required" });
-      }
-    } else {
-      res.status(400).send({ success: false, msg: "No such user" });
-    }
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
 
 const sendOTPCode = async (req, res) => {
   console.log("GET OTP Hit");
@@ -256,9 +236,6 @@ const verifyOTPCode = async (req, res) => {
   }
 };
 
-const logout=async(req, res)=>{
-  
-}
 const getProfileImage = async (username) => {
   return new Promise((resolve, reject) => {
     fs.readdir(directoryPath, function (err, files) {
@@ -276,23 +253,39 @@ const getProfileImage = async (username) => {
   });
 };
 
-//Must get username and device token
+const updatePassword = async (req, res) => {
+  console.log("Update password API hit");
+  try {
+    const { username, newPassword } = req.body;
 
-async function createToken(id) {
-  return jwt.sign({ _id: id }, jwt_secret);
-}
-async function hashPassword(password) {
-  const newPass = await bcrypt.hash(password, 5);
-  return newPass;
-}
+    const user = await User.findOne({ username });
+    if (user) {
+      const securePassword = await hashPassword(newPassword);
+      await User.updateOne(
+        { username: username },
+        { $set: { password: securePassword } }
+      );
+
+      res.status(200).send({
+        success: true,
+        msg: "Password Updated Successfully!",
+      });
+    } else {
+      res.status(400).send({ success: false, msg: "No such user" });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
 
 module.exports = {
   registerUser,
   loginUser,
-  updatePassword,
+  forgotPassword,
   updateProfileImage,
   sendOTPCode,
   verifyOTPCode,
-  updateLocation,
-  logout
+  updatePassword
 };

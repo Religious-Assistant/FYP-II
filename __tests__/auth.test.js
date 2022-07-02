@@ -23,9 +23,7 @@ describe('User Routes Testing',()=>{
             mobile:'03001112223',
             religion:1
         }
-        await request(app).post('/api/register-user').send(user).then().catch(error=>{
-            console.log(error)
-        });
+        await request(app).post('/api/register-user').send(user)
             
     })
 })
