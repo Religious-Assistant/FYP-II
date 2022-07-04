@@ -22,6 +22,7 @@ import {
 import {useSelector} from 'react-redux';
 import getDeviceToken from './getDeviceToken';
 import Duas from './src/screens/muslim_module/Duas';
+import AllahNames from './src/screens/muslim_module/AllahNames';
 
 // //Notifee
 // import notifee from '@notifee/react-native';
@@ -74,7 +75,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Duas/>
+        <AllahNames/>
       </NativeBaseProvider>
     </Provider>
   );
