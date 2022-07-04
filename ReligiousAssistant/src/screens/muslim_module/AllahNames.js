@@ -6,12 +6,9 @@ import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {
   VStack,
-  Center,
   Divider,
   Box,
-  Stack,
   Heading,
-  ScrollView,
   FlatList,
 } from 'native-base';
 
@@ -24,8 +21,8 @@ export default function AllahNames({navigation}) {
   const namesOfAllah = [
     {
       key: 1,
-      name: 'ٱلْرَّحْمَـانُ',
-      meaning: 'The Most or Entirely Merciful',
+      name: 'ٱلْمَلِكُ',
+      meaning: 'The King and Owner of Dominion'  
     },
     {
       key: 2,
@@ -34,24 +31,86 @@ export default function AllahNames({navigation}) {
     },
     {
       key: 3,
-      name: 'ٱلْمَلِكُ',
-      meaning: 'The King and Owner of Dominion',
+      name: 'ٱلْرَّحْمَـانُ',
+      meaning: 'The Most or Entirely Merciful',
     },
     {
       key: 4,
-      name: '',
-      meaning: '',
+      name: 'ٱلْمُؤْمِنُ',
+      meaning: 'The One Who gives Emaan and Security',
     },
     {
       key: 5,
-      name: '',
-      meaning: '',
+      name: 'ٱلْسَّلَامُ',
+      meaning: 'The Perfection and Giver of Peace',
     },
     {
       key: 6,
-      name: '',
-      meaning: '',
+      name: 'ٱلْقُدُّوسُ',
+      meaning: 'The Absolutely Pure',
     },
+    {
+      key: 7,
+      name: 'ٱلْجَبَّارُ',
+      meaning: 'The Compeller, The Restorer',  
+    },
+    {
+      key: 8,
+      name: 'ٱلْعَزِيزُ',
+      meaning: 'The All Mighty',
+    },
+    {
+      key: 9,
+      name: 'ٱلْمُهَيْمِنُ',
+      meaning: 'The Guardian, The Witness, The Overseer',
+    },
+    {
+      key: 10,
+      name: 'ٱلْبَارِئُ',
+      meaning: 'The Originator',
+    },
+    {
+      key: 11,
+      name: 'ٱلْخَالِقُ',
+      meaning: 'The Creator, The Maker',
+    },
+    {
+      key: 12,
+      name: 'ٱلْمُتَكَبِّرُ',
+      meaning: 'The Supreme, The Majestic',
+    },
+    {
+      key: 13,
+      name: 'ٱلْقَهَّارُ',
+      meaning: 'The Subduer, The Ever-Dominating',
+    
+    },
+    {
+      key: 14,
+      name: 'ٱلْغَفَّارُ',
+      meaning: 'The All- and Oft-Forgiving',
+    },
+    {
+      key: 15,
+      name: 'ٱلْمُصَوِّرُ',
+      meaning: 'The Fashioner',
+    },
+    {
+      key: 16,
+      name: 'ٱلْفَتَّاحُ',
+      meaning: 'The Opener, The Judge',
+    },
+    {
+      key: 17,
+      name: 'ٱلْرَّزَّاقُ',
+      meaning: 'The Provider',
+    },
+    {
+      key: 18,
+      name: 'ٱلْوَهَّابُ',
+      meaning: 'The Giver of Gifts',
+    },
+    
   ];
   return (
     <View style={styles.container}>
@@ -75,14 +134,16 @@ export default function AllahNames({navigation}) {
         numColumns={3}
         data={namesOfAllah}
         keyExtractor={(itm, index) => index.toString()}
-        renderItem={itm => (
+        renderItem={({
+          item
+        }) =>
           <View
             style={{
               marginTop: '4%',
-              width: '30%',
-              margin: '1%',
-              padding: 8,
-              //borderWidth: 0.75,
+              width: '32%',
+              margin: '0.5%',
+              padding: 5,
+              maxHeight:'70%',
               alignItems: 'center',
             }}>
             <Box
@@ -91,26 +152,29 @@ export default function AllahNames({navigation}) {
               overflow="hidden"
               borderColor={colors.cover}
               borderWidth="1"
+              width={'110%'}
               _light={{
                 backgroundColor: colors.cover,
               }}>
-              <VStack space="2" divider={<Divider />}>
+              <VStack space="2" divider={<Divider />} height={'170'} >
                 <Box px="5" p={'2'}>
                   <Heading
-                    size="md"
-                    ml="-1"
                     style={styles.label}
                     color={colors.primary}>
-                    Name
+                    {item.name}
                   </Heading>
                 </Box>
                 <Box px="4" pb="4">
-                  Meaning
+                  <Text style={styles.info}>
+                  {item.meaning}
+                  </Text>
+                  
                 </Box>
               </VStack>
             </Box>
           </View>
-        )}></FlatList>
+  
+        }></FlatList>
     </View>
   );
 }
@@ -126,25 +190,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
-  ayat: {
-    fontFamily: fonts.Signika.regular,
-    fontSize: 18,
-    padding: 5,
-    color: colors.primary,
-    flexWrap: 'wrap',
-  },
   label: {
     fontFamily: fonts.Signika.regular,
-    fontSize: 20,
-    padding: 5,
-    color: colors.tertiary,
+    fontSize: 26,
+    color: colors.primary,
   },
   info: {
     fontFamily: fonts.Signika.regular,
     fontSize: 16,
     marginLeft: '-1%',
-    padding: 5,
-    color: colors.info,
+    color: colors.success.deep,
     flexWrap: 'wrap',
   },
   heading: {
