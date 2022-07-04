@@ -110,7 +110,173 @@ export default function AllahNames({navigation}) {
       name: 'ٱلْوَهَّابُ',
       meaning: 'The Giver of Gifts',
     },
-    
+    {
+      key: 19,
+      name: 'ٱلْبَاسِطُ',
+      meaning: 'The Extender',
+    },
+    {
+      key: 20,
+      name: 'ٱلْقَابِضُ',
+      meaning: 'The Withholder',
+    },
+    {
+      key: 21,
+      name: 'ٱلْعَلِيمُ',
+      meaning: 'The All-Knowing, The Omniscient',
+    },
+    {
+      key: 22,
+      name: 'ٱلْمُعِزُّ',
+      meaning: 'The Honourer, The Bestower',
+    },
+    {
+      key: 23,
+      name: 'ٱلْرَّافِعُ',
+      meaning: 'The Exalter, The Elevator',
+    },
+    {
+      key: 24,
+      name: 'ٱلْخَافِضُ',
+      meaning: 'The Reducer, The Abaser',
+    },
+    {
+      key: 25,
+      name: 'ٱلْبَصِيرُ',
+      meaning: 'The All-Seeing',
+    },
+    {
+      key: 26,
+      name: 'ٱلْسَّمِيعُ',
+      meaning: 'The All-Hearing',
+    },
+    {
+      key: 27,
+      name: 'ٱلْمُذِلُّ',
+      meaning: 'The Dishonourer, The Humiliator',
+    },
+    {
+      key: 28,
+      name: 'ٱلْلَّطِيفُ',
+      meaning: 'The Subtle One, The Most Gentle',
+    },
+    {
+      key: 29,
+      name: 'ٱلْعَدْلُ',
+      meaning: 'The Utterly Just',
+    },
+    {
+      key: 30,
+      name: 'ٱلْحَكَمُ',
+      meaning: 'The Judge, The Giver of Justice',
+    },
+    {
+      key: 31,
+      name: 'ٱلْعَظِيمُ',
+      meaning: 'The Magnificent, The Supreme',
+    },
+    {
+      key: 32,
+      name: 'ٱلْحَلِيمُ',
+      meaning: 'The Most Forbearing',
+    },
+    {
+      key: 33,
+      name: 'ٱلْخَبِيرُ',
+      meaning: 'The Acquainted, the All-Aware',
+    },
+    {
+      key: 34,
+      name: 'ٱلْعَلِيُّ',
+      meaning: 'The Most High, The Exalted',
+    },
+    {
+      key: 35,
+      name: 'ٱلْشَّكُورُ',
+      meaning: 'The Most Appreciative',
+    },
+    {
+      key: 36,
+      name: 'ٱلْغَفُورُ',
+      meaning: 'The Forgiving, The Exceedingly Forgiving',
+    },
+    {
+      key: 37,
+      name: 'ٱلْمُقِيتُ',
+      meaning: 'The Sustainer',
+    }
+    ,
+    {
+      key: 38,
+      name: 'ٱلْحَفِيظُ',
+      meaning: 'The Preserver, The All Protecting',
+    },
+    {
+      key: 39,
+      name: 'ٱلْكَبِيرُ',
+      meaning: 'The Greatest, The Most Grand',
+    },
+    {
+      key: 40,
+      name: 'ٱلْكَرِيمُ',
+      meaning: 'The Most Generous, The Most Esteemed',
+    }
+    ,
+    {
+      key: 41,
+      name: 'ٱلْجَلِيلُ',
+      meaning: 'The Majestic',
+    },
+    {
+      key: 42,
+      name: 'ٱلْحَسِيبُ',
+      meaning: 'The Reckoner, The Sufficient',
+    },
+    {
+      key: 43,
+      name: 'ٱلْوَاسِعُ',
+      meaning: '	The All-Encompassing, the Boundless',
+    },
+    {
+      key: 44,
+      name: 'ٱلْمُجِيبُ',
+      meaning: 'The Responsive One',
+    },
+    {
+      key: 45,
+      name: 'ٱلْرَّقِيبُ',
+      meaning: 'The Watchful',
+    },
+    {
+      key: 46,
+      name: 'ٱلْمَجِيدُ',
+      meaning: 'The Glorious, The Most Honorable',
+    },
+    {
+      key: 47,
+      name: 'ٱلْوَدُودُ',
+      meaning: 'The Most Loving',
+    },
+    {
+      key: 48,
+      name: 'ٱلْحَكِيمُ',
+      meaning: 'The All-Wise',
+    },
+    {
+      key: 49,
+      name: 'ٱلْحَقُّ',
+      meaning: 'The Absolute Truth',
+    },
+    {
+      key: 50,
+      name: 'ٱلْشَّهِيدُ',
+      meaning: 'The All- and Ever Witnessing',
+    },
+    {
+      key:51,
+      name:'ٱلْبَاعِثُ',
+      meaning:'The Resurrector, The Raiser of the Dead'
+    }
   ];
   return (
     <View style={styles.container}>
@@ -139,7 +305,7 @@ export default function AllahNames({navigation}) {
         }) =>
           <View
             style={{
-              marginTop: '4%',
+              marginTop: '3%',
               width: '32%',
               margin: '0.5%',
               padding: 5,
@@ -193,12 +359,15 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.Signika.regular,
     fontSize: 26,
+    marginTop:'8%',
+    padding: 2,
     color: colors.primary,
   },
   info: {
     fontFamily: fonts.Signika.regular,
     fontSize: 16,
     marginLeft: '-1%',
+    //padding: 5,
     color: colors.success.deep,
     flexWrap: 'wrap',
   },
