@@ -7,7 +7,7 @@
 import {View, Text} from 'react-native';
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Heading, Image, Center} from 'native-base';
+import {Image, Center} from 'native-base';
 
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -15,6 +15,7 @@ import fonts from '../../theme/fonts';
 import tasbihIcon from '../../../assets/images/tasbih_ic.png';
 import tasbihImg from '../../../assets/images/tasbih_img.png';
 import CustomButton from '../../components/CustomButton';
+import Header from '../../components/Header';
 
 
 export default function TasbihCounter() {
@@ -26,38 +27,17 @@ export default function TasbihCounter() {
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
       {/* Header */}
-      <View
-        style={{
-          flex: 0.17,
-          backgroundColor: colors.primary,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-          <Image
-            source={tasbihIcon}
-            style={{
-              marginTop: '12%',
-              marginRight: '5%',
-              height: 100,
-              width: 100,
-            }}
-            alt="icon .."
-          />
-        </View>
-        <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-          <Heading color={colors.secondary} marginLeft="10%" marginTop={'7%'}>
-            <Text style={{fontFamily: fonts.Signika.bold}}>
-              Remember your Lord and{' '}
-            </Text>
-            <Heading color={colors.white}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>
-                He will remember you
-              </Text>
-            </Heading>
-          </Heading>
-        </View>
-      </View>
+      <Header
+          image={tasbihIcon}
+          title1="Remember your Lord and"
+          title2="He will remember you"
+          title1Size={20}
+          title1Color={colors.secondary}
+          title2Color={colors.white}
+          title2Size={20}
+          title1Family={fonts.Signika.bold}
+          title2Family={fonts.Signika.medium}
+        />
       <View style={{flex: 0.83}} width="95%">
         <Center
           width="85%"
