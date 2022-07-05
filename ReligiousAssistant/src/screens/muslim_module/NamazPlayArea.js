@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../theme/colors';
 
 //import all learn_namaz images
-import {sunnah2, farz2, farz4,sunnah4, nafl2} from './LearnNamazAssets';
+import {sunnah2, farz2, farz4,sunnah4, nafl2, farz3} from './LearnNamazAssets';
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
@@ -41,6 +41,9 @@ const NamazPlayArea = ({ route, navigation }) => {
   }
   else if(namazInfo.rakatName=="Nafl" && namazInfo.rakats==2){
     namaz=nafl2
+  }
+  else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==3){
+    namaz=farz3
   }
     
     return namaz;

@@ -1164,5 +1164,6 @@ module.exports = {
   farz4,
   sunnah4,
   nafl2,
+  farz3,
   getScene,
 };

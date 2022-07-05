@@ -78,16 +78,21 @@ export default function LearnNamaz() {
       poster: asrImg,
       level: 'Level 3',
       rakahs: [
-        {key: 3, rakatName: 'Sunnat', rakats: '4'},
-        {key: 4, rakatName: 'Farz', rakats: '4'},
+        {key: 7, rakatName: 'Sunnat', rakats: '4'},
+        {key: 8, rakatName: 'Farz', rakats: '4'},
       ]
     },
-    // {
-    //   id: 5,
-    //   name: 'Maghrib',
-    //   poster: maghribImg,
-    //   level: 'Level 4',
-    // },
+    {
+      id: 5,
+      name: 'Maghrib',
+      poster: maghribImg,
+      level: 'Level 4',
+      rakahs: [
+        {key: 9, rakatName: 'Farz', rakats: '3'},
+        {key: 10, rakatName: 'Sunnat', rakats: '2'},
+        {key: 11, rakatName: 'Nafl', rakats: '2'},
+      ]
+    },
     // {
     //   id: 6,
     //   name: 'Isha',
