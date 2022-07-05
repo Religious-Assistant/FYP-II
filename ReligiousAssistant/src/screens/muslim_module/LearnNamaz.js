@@ -72,12 +72,16 @@ export default function LearnNamaz() {
       ],
 
     },
-    // {
-    //   id: 4,
-    //   name: 'Asr',
-    //   poster: asrImg,
-    //   level: 'Level 3',
-    // },
+    {
+      id: 4,
+      name: 'Asr',
+      poster: asrImg,
+      level: 'Level 3',
+      rakahs: [
+        {key: 3, rakatName: 'Sunnat', rakats: '4'},
+        {key: 4, rakatName: 'Farz', rakats: '4'},
+      ]
+    },
     // {
     //   id: 5,
     //   name: 'Maghrib',
