@@ -31,6 +31,7 @@ export default function TasbihCounter() {
           image={tasbihIcon}
           title1="Remember your Lord and"
           title2="He will remember you"
+          height={0.2}
           title1Size={20}
           title1Color={colors.secondary}
           title2Color={colors.white}

@@ -11,12 +11,12 @@ import fonts from '../theme/fonts'
 import colors from '../theme/colors'
 
 const Header = (props) => {
-    const{title1, title2, image, title1Size, title2Size, title1Family, title2Family, title1Color, title2Color}=props
+    const{title1, title2, height,image, title1Size, title2Size, title1Family, title2Family, title1Color, title2Color}=props
 
     return (
         <View
         style={{
-          flex: 0.17,
+          flex: height,
           backgroundColor: colors.primary,
           flexDirection: 'row',
           justifyContent: 'space-between',
