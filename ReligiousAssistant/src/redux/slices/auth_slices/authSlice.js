@@ -8,7 +8,13 @@ const initialState = {
     userData:null,
     token:null,
     religion:null,
-    isLoading:true,
+    isLoadingLogin:false,
+    isLoadingRegister:false,
+    isLoadingGetUserData:false,
+    isLoadingGetToken:false,
+    isLoadingGetReligion:false,
+    isLoadingForgotPassword:false,
+
     hasError:false,
     hasRecoveredForgetPassword:false,
 }
@@ -42,7 +48,9 @@ export const getUserData = createAsyncThunk(
     'getUserData',
     async ()=>{
         try{
+            
             const result =  await AsyncStorage.getItem('user') 
+            console.log('RESULT',result)
             return result!=null?JSON.parse(result):null  
         }catch(e){
             console.log('ERROR while Retrieving user data from Async Storage', e)
@@ -94,96 +102,96 @@ const authSlice = createSlice({
 
         [getUserData.fulfilled]:(state,action)=>{
             state.hasError=false
-            state.isPending=false
+            state.isLoadingGetUserData=false
+            console.log(`DATA `, action.payload)
             state.userData = action.payload
         },
         [getUserData.rejected]:(state,action)=>{
-            state.isLoading=false
+            state.isLoadingGetUserData=false
             state.hasError=true
 
         },
         [getUserData.pending]:(state,action)=>{
-            state.isLoading=false
+            state.isLoadingGetUserData=true
             state.hasError=false
         },
 
         [getToken.fulfilled]:(state,action)=>{
             state.hasError=false
-            state.isPending=false
+            state.isLoadingGetToken=false
             state.token = action.payload
         },
         [getToken.rejected]:(state,action)=>{
-            state.isLoading=false
+            state.isLoadingGetToken=false
             state.hasError=true
 
         },
         [getToken.pending]:(state,action)=>{
-            state.isLoading=false
+            state.isLoadingGetToken=true
             state.hasError=false
         },
 
         [getReligion.fulfilled]:(state,action)=>{
             state.hasError=false
-            state.isPending=false
+            state.isLoadingGetReligion=false
             state.religion = action.payload
         },
         [getReligion.rejected]:(state,action)=>{
-            state.isLoading=false
+            state.isLoadingGetReligion=false
             state.hasError=true
 
         },
         [getReligion.pending]:(state,action)=>{
-            state.isLoading=true
+            state.isLoadingGetReligion=true
             state.hasError=false
         },
         [registerUser.fulfilled]:(state,action)=>{
-            state.isLoading = false
+            state.isLoadingRegister = false
             state.hasError=false
         },
         [registerUser.pending]:(state,action)=>{
-            state.isLoading = true
+            state.isLoadingRegister = true
             state.hasError=false
         },
         [registerUser.rejected]:(state,action)=>{
             state.hasError=true
-            state.isLoading=false
+            state.isLoadingRegister=false
         },
         [forgotPassword.fulfilled]:(state,action)=>{
-            state.isLoading = false
+            state.isLoadingForgotPassword = false
             state.hasError=false
             state.hasRecoveredForgetPassword=true
         },
         [forgotPassword.pending]:(state,action)=>{
-            state.isLoading = true
+            state.isLoadingForgotPassword = true
             state.hasError=false
             state.hasRecoveredForgetPassword=false
         },
         [forgotPassword.rejected]:(state,action)=>{
             state.hasError=true
-            state.isLoading=false
+            state.isLoadingForgotPassword=false
             state.hasRecoveredForgetPassword=false
         },
 
         [loginUser.pending]:(state,action)=>{
-            state.isLoading = true
+            state.isLoadingLogin = true
             state.hasError=false
         },
         [loginUser.rejected]:(state,action)=>{
             state.hasError = true;
-            state.isLoading=false;
+            state.isLoadingLogin=false;
         },
         
         [loginUser.fulfilled]:(state,action)=>{
 
             const {msg, success}=action.payload
+            state.isLoadingLogin=false
             if(!success){            
                 state.hasError=true
-                state.isLoading=false
                 alert(msg)
                 return
             }
 
-            state.isLoading = false            
             state.hasError=false
             state.userData=action.payload.data
             
@@ -192,6 +200,7 @@ const authSlice = createSlice({
             state.token=token
             state.religion=religion+''
 
+            console.log('LOG DATA', state.userData)
             try{
                 const user=JSON.stringify(action.payload.data)
                 AsyncStorage.setItem('user',user)
@@ -210,7 +219,14 @@ export const {logout}  = authSlice.actions
 export const selectToken=(state)=>state.user.token
 // export const selectDeviceToken=(state)=>state.user.deviceToken
 export const selectReligion=(state)=>state.user.religion
-export const selectIsLoading=(state)=>state.user.isLoading
+
+export const selectIsLoadingLogin=(state)=>state.user.isLoadingLogin
+export const selectIsLoadingRegister=(state)=>state.user.isLoadingRegister
+export const selectIsLoadingGetUserData=(state)=>state.user.isLoadingGetUserData
+export const selectIsLoadingGetToken=(state)=>state.user.isLoadingGetToken
+export const selectIsLoadingGetReligion=(state)=>state.user.isLoadingGetReligion
+export const selectIsLoadingForgotPassword=(state)=>state.user.isLoadingForgotPassword
+
 export const selectHasError=(state)=>state.user.hasError
 export const selectHasRecoveredForgetPassword=(state)=>state.user.hasRecoveredForgetPassword
 export const selectUserData=(state)=>state.user.userData

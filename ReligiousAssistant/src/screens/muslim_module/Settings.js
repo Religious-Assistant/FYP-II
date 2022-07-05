@@ -43,9 +43,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setTab} from '../../redux/slices/muslim_module_slices/bottomNavSlice';
 import {
   getUserData,
-  selectIsLoading,
+  selectIsLoadingGetUserData,
   selectUserData,
 } from '../../redux/slices/auth_slices/authSlice';
+
 import Loader from '../common/Loader';
 import { IP } from '../../services/apis/ServiceConstants';
 import { selectHasUpdatedAutosilentSetting, selectHasUpdatedNamazAccountabilityNotificationSettings, selectHasUpdatedNamazNotificationsSettings, updateAutoSilentSetting, updateNamazAccountabilityNotificationsSetting, updateNamazNotificationSettings } from '../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
@@ -70,30 +71,26 @@ export default function Settings({navigation}) {
     setIspasswordModal(passwordModalFlag);
   }
 
+  const dispatch = useDispatch();
+  const user=useSelector(selectUserData)
+  const isLoadingGetUserData=useSelector(selectIsLoadingGetUserData)
+  const hasUpdatedAutoSilentSettings=useSelector(selectHasUpdatedAutosilentSetting)
+  const hasUpdatedNamazAccountabilityNotificationsSetting=useSelector(selectHasUpdatedNamazAccountabilityNotificationSettings)
+  const hasUpdatedNamazNotificationsSetting=useSelector(selectHasUpdatedNamazNotificationsSettings)
+
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
+    dispatch(getUserData()) 
+    if(user.avatar){
+      setAvatar({image:user.avatar, key:0})
+    }
+
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Settings'));
     });
     // unsubscribe on unmount
     return unsubscribe;
-  }, [navigation]);
-
-  const dispatch = useDispatch();
-  const user=useSelector(selectUserData)
-  const isLoading=useSelector(selectIsLoading)
-  const hasUpdatedAutoSilentSettings=useSelector(selectHasUpdatedAutosilentSetting)
-  const hasUpdatedNamazAccountabilityNotificationsSetting=useSelector(selectHasUpdatedNamazAccountabilityNotificationSettings)
-  const hasUpdatedNamazNotificationsSetting=useSelector(selectHasUpdatedNamazNotificationsSettings)
-  
-  useEffect(()=>{
-    dispatch(getUserData()) 
-    console.log('User ',user.preferences.accountabilityNotifications)
-    if(user.avatar){
-      setAvatar({image:user.avatar, key:0})
-    }
-  },[dispatch])
-
+  }, [navigation, dispatch]);  
 
   //Take user's profile from Camera
   const takePhotoFromCamera = () => {
@@ -105,8 +102,8 @@ export default function Settings({navigation}) {
     })
       .then(image => {
         const obj = {uri: image.path};
-        // console.log(obj);
-        setImage(obj);
+        console.log(obj)
+        // setAvatar({image:obj, key:0})
         onClose;
       })
       .catch(err => {
@@ -125,7 +122,8 @@ export default function Settings({navigation}) {
       .then(image => {
         const obj = {uri: image.path};
         // console.log(obj);
-        setImage(obj);
+        setAvatar({image:obj.uri,key:2})
+        // setImage(obj);
         onClose;
       })
       .catch(err => {
@@ -157,28 +155,21 @@ export default function Settings({navigation}) {
   }
 
   function updatePrimaryMosqueSetting(item){
-    console.log('\n\n\n------------------------------------------\nHiiiiii\n-----------------------------\n\n\n')
+
   }
 
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
 
-  useEffect(()=>{
-    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-    .then(response => response.json())
-    .then(responseJson => {
-      //Successful response from the API Call
-      setServerData(responseJson.results);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  },[])
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
+      {
+        isLoadingGetUserData?<Loader msg='Loading ...' />:
+      
+        <>
       <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
         <Image style={styles.avatar} source={{uri:avatar.image}} alt='Loading image ..'/>
         <Image
@@ -193,7 +184,7 @@ export default function Settings({navigation}) {
           alt="icon .."
         />
       </TouchableOpacity>
-      <Text style={styles.username}>Kinza</Text>
+      <Text style={styles.username}>{user.username}</Text>
       <ScrollView
       
         keyboardShouldPersistTaps="handled"
@@ -588,13 +579,14 @@ export default function Settings({navigation}) {
                   _text={{fontFamily: fonts.Signika.regular}}
                   color={colors.white}
                   colorScheme="yellow">
-                  Cancel
+                  Exit
                 </Button>
               </Actionsheet.Footer>
             </Actionsheet.Content>
           </Actionsheet>
         </View>
       </ScrollView>
+      </>}
     </View>
   );
 }

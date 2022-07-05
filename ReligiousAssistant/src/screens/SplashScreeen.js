@@ -19,7 +19,6 @@ import jwtDecode from 'jwt-decode';
 function SplashScreeen() {
 
   const navigator = useNavigation();
-
   const dispatch=useDispatch()
 
   const token=useSelector(selectToken)
@@ -31,7 +30,7 @@ function SplashScreeen() {
 
     dispatch(getToken())
     dispatch(getReligion())
-    dispatch(getUserData())
+    // dispatch(getUserData())
 
     setTimeout(() => {
       
@@ -61,10 +60,7 @@ function SplashScreeen() {
       navigator.navigate(LOGIN)
     }
 
-    
-    //  const decodedToken=jwtDecode(token)
-    //   console.log(`Decoded token is: ${decodedToken}`)
-    }, 2000);
+  }, 2000);
 
 
   }, [token, religion]);
