@@ -1,121 +1,72 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 
 const initialState = {
-    allMosques:null,
-    closestMosques:null,
-    newMosque:null,
-    unerifiedMosques:null,
-    isLoading:true,
+    surahs:null,
+    parahs:null,
+    isLoadingSurahs:true,
+    isLoadingParahs:true,
     hasError:false,
 }
 
-export const getAllMosques = createAsyncThunk(
-    'getAllMosques',
+export const getSurahs = createAsyncThunk(
+    'getSurahs',
     async ()=>{
-       const result =  await apiGET('getAllMosques')
-       return result  
+        const surahs=await fetch('http://api.alquran.cloud/v1/surah')
+        const data=await surahs.json()
+        return data
     }
 )
 
-export const getClosestMosques = createAsyncThunk(
-    'getClosestMosques',
-    async (location)=>{
-       const result =  await apiPOST('getClosestMosques',location)   //Location object with latitude and longitude
-       return result  
+export const getParahs = createAsyncThunk(
+    'getParahs',
+    async ()=>{
+        const parahs=await fetch('http://api.alquran.cloud/v1/surah')
+        const data=await parahs.json()
+        return data
     }
 )
 
-
-export const getUnverifiedMosquesAroundUser = createAsyncThunk(
-    'getUnverifiedMosquesAroundUser',
-    async (location)=>{
-       const result =  await apiPOST('getUnverifiedMosquesAroundUser',location)   //Location object with latitude and longitude
-       return result  
-    }
-)
-
-export const addMosque = createAsyncThunk(
-    'addMosque',
-    async (body)=>{
-       const result =  await apiPOST('addMosque',body)   //body with required info
-       return result  
-    }
-)
-
-
-const mosqueSlice = createSlice({
-    name:"mosque",
+const reciteQuranSlice = createSlice({
+    name:"quranrecitation",
     initialState,
     reducers:{},
     extraReducers:{
-        [getAllMosques.fulfilled]:(state,action)=>{
+        [getSurahs.fulfilled]:(state,action)=>{
             state.hasError=false
-            state.isPending=false
-            state.allMosques = action.payload.data
+            state.isLoadingSurahs=false
+            state.surahs = action.payload.data            
+        },
+        [getSurahs.rejected]:(state,action)=>{
+            state.isLoadingSurahs=false
+            state.hasError=true
+
+        },
+        [getSurahs.pending]:(state,action)=>{
+            state.isLoadingSurahs=true
+            state.hasError=false
+        },
+        [getParahs.fulfilled]:(state,action)=>{
+            state.hasError=false
+            state.isLoadingParahs=false
+            state.parahs = action.payload.data
             
         },
-        [getAllMosques.rejected]:(state,action)=>{
-            state.isLoading=false
+        [getParahs.rejected]:(state,action)=>{
+            state.isLoadingParahs=false
             state.hasError=true
 
         },
-        [getAllMosques.pending]:(state,action)=>{
-            state.isLoading=true
+        [getParahs.pending]:(state,action)=>{
+            state.isLoadingParahs=true
             state.hasError=false
         },
-        [getClosestMosques.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isPending=false
-            state.closestMosques = action.payload.data
-            
-        },
-        [getClosestMosques.rejected]:(state,action)=>{
-            state.isLoading=false
-            state.hasError=true
-
-        },
-        [getClosestMosques.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
-        },
-
-        [getUnverifiedMosquesAroundUser.fulfilled]:(state,action)=>{
-            state.isLoading = false
-            state.hasError=false
-            state.unerifiedMosques=action.payload.data
-        },
-        [getUnverifiedMosquesAroundUser.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
-        },
-        [getUnverifiedMosquesAroundUser.rejected]:(state,action)=>{
-            state.hasError=true
-            state.isLoading=false
-        },
-        
-        [addMosque.fulfilled]:(state,action)=>{
-            state.hasError = false;
-            state.isLoading=false;
-            state.newMosque=action.payload.data
-
-        },
-        [addMosque.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
-        },
-        [addMosque.rejected]:(state,action)=>{
-            state.hasError = true;
-            state.isLoading=false;
-        },
-
     }
 })
 
-export const selectAllMosques=(state)=>state.mosque.allMosques
-export const selectClosestMosques=(state)=>state.mosque.closestMosques
-export const selectUnverifiedMosques=(state)=>state.mosque.unerifiedMosques
-export const selectNewAddedMosque=(state)=>state.mosque.newMosque
-export const selectIsLoading=(state)=>state.mosque.isLoading
-export const selectHasError=(state)=>state.mosque.hasError
+export const selectSurahs=(state)=>state.quranrecitation.surahs
+export const selectParahs=(state)=>state.quranrecitation.parahs
+export const selectIsLoadingSurahs=(state)=>state.quranrecitation.isLoadingSurahs
+export const selectIsLoadingParahs=(state)=>state.quranrecitation.isLoadingParahs
+export const selectHasError=(state)=>state.quranrecitation.hasError
 
-export default mosqueSlice.reducer
+export default reciteQuranSlice.reducer

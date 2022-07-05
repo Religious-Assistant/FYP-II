@@ -6,6 +6,7 @@ import authReducer from './slices/auth_slices/authSlice'
 import bottomNavReducer from './slices/muslim_module_slices/bottomNavSlice';
 import mosqueReducer from './slices/muslim_module_slices/mosqueSlice'
 import muslimPreferencesReducer from './slices/muslim_module_slices/muslimPreferencesSlice';
+import quranrecitationReducer from './slices/muslim_module_slices/reciteQuranSlice'
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     mosque:mosqueReducer,
     bottomNav:bottomNavReducer,
     muslimpreferences:muslimPreferencesReducer,
+    quranrecitation:quranrecitationReducer
   },
 })
 

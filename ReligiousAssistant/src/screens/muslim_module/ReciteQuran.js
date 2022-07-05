@@ -1,7 +1,13 @@
-import React from 'react';
-import {StyleSheet, useWindowDimensions, StatusBar, Dimensions, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  useWindowDimensions,
+  StatusBar,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {Box, Text, View, Center, FlatList} from 'native-base'
+import {Box, Text, View, Center, FlatList} from 'native-base';
 import Animated from 'react-native-reanimated';
 
 //Theme
@@ -12,12 +18,19 @@ import colors from '../../theme/colors';
 
 //Navigation
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getSurahs,
+  selectIsLoadingSurahs,
+  selectSurahs,
+} from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
+import Loader from '../common/Loader';
 
 //Redux
 
 const ReciteQuran = () => {
   return (
-    <View style={{flex:1}}>
+    <View style={{flex: 1}}>
       <Header
         title1="Recite Quran"
         title2="Quran then becomes a witness for one on the Day of Judgment"
@@ -31,7 +44,7 @@ const ReciteQuran = () => {
         height={0.2}
       />
 
-      <View style={{backgroundColor:colors.white, flex:0.8}}>
+      <View style={{backgroundColor: colors.white, flex: 0.8}}>
         <Tab />
       </View>
     </View>
@@ -39,85 +52,32 @@ const ReciteQuran = () => {
 };
 
 const SurahRoute = () => {
+  const surahs = useSelector(selectSurahs);
+  const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
+  const dispatch = useDispatch();
 
-  const surahs=[
-    {
-      number:1,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:2,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:3,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:4,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:5,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:6,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:7,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:8,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-    {
-      number:9,
-      arabicName:'Surah Fateha',
-      englishName:'Al-Hamd',
-      surahName:'Al Hamd',
-      numberOfAyahs:20
-    },
-  ]
+  useEffect(() => {
+    if (!surahs) {
+      dispatch(getSurahs());
+    } else {
+      console.log(surahs);
+    }
+  }, [dispatch]);
   return (
     <>
-    <FlatList data={surahs} renderItem={(
-      {item, index
-      })=>{
-      return(
-        <>
-          <SurahCard surah={item} key={index} />
-        </>
-      )
-    }}>
-
-    </FlatList>
+      {isLoadingSurahs ? (
+        <Loader msg="Loading Surahs .." />
+      ) : (
+        <FlatList
+          data={surahs}
+          renderItem={({item, index}) => {
+            return (
+              <>
+                <SurahCard surah={item} key={index} />
+              </>
+            );
+          }}></FlatList>
+      )}
     </>
   );
 };
@@ -151,7 +111,7 @@ function Tab() {
     {key: 'third', title: 'TRANSLATION'},
   ]);
 
-  const initialLayout=useWindowDimensions()
+  const initialLayout = useWindowDimensions();
 
   return (
     <TabView
@@ -162,31 +122,30 @@ function Tab() {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{width: initialLayout.width}}
-      renderTabBar={props=>{
-        return(
+      renderTabBar={props => {
+        return (
           <TabBar
-          {...props}
-          indicatorStyle={{backgroundColor: colors.secondary}}
-          style={{
-            backgroundColor: colors.white,
-          }}
-          activeColor={colors.secondary}
-          inactiveColor={colors.primary}
-          labelStyle={{fontFamily: fonts.Signika.medium}}
-        />
-        )
+            {...props}
+            indicatorStyle={{backgroundColor: colors.secondary}}
+            style={{
+              backgroundColor: colors.white,
+            }}
+            activeColor={colors.secondary}
+            inactiveColor={colors.primary}
+            labelStyle={{fontFamily: fonts.Signika.medium}}
+          />
+        );
       }}
       style={{
         marginTop: StatusBar.currentHeight,
       }}
-      
     />
   );
 }
 
 const SurahCard = ({surah}) => {
   return (
-    <View style={styles.surahCardContainer} >
+    <View style={styles.surahCardContainer}>
       <View style={{flex: 0.1}}>
         <Text style={styles.surahNumber}>{surah.number}.</Text>
       </View>
@@ -197,7 +156,7 @@ const SurahCard = ({surah}) => {
         </View>
       </View>
       <View style={{flex: 0.4}}>
-        <Text style={styles.surahNameArabic}>{surah.arabicName}</Text>
+        <Text style={styles.surahNameArabic}>{surah.name}</Text>
       </View>
     </View>
   );
@@ -206,7 +165,6 @@ const SurahCard = ({surah}) => {
 export default ReciteQuran;
 
 const styles = StyleSheet.create({
-
   surahCardContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -214,7 +172,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginTop: 8,
     backgroundColor: colors.white,
-    elevation:0.4,
+    elevation: 0.4,
   },
   surahNumber: {
     color: colors.black,
