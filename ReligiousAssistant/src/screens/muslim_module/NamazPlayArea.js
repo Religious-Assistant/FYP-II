@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../theme/colors';
 
 //import all learn_namaz images
-import {sunnah2} from './LearnNamazAssets';
+import {sunnah2, farz2, farz4,sunnah4} from './LearnNamazAssets';
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
@@ -14,16 +14,29 @@ import {TouchableHighlight} from 'react-native';
 const NamazPlayArea = ({ route, navigation }) => {
   const { namazInfo } = route.params;
 
-  const [scene, setScene] = useState(getScene(sunnah2, 0));
+  const namaz=checkRakat(namazInfo);
+  const [scene, setScene] = useState(getScene(namaz, 0));
   const[progress,setProgress]=useState(1)
 
   async function renderNextScene() {
-    if (scene.step < sunnah2.length) {
-      setScene(getScene(sunnah2, scene.step));
+    if (scene.step < namaz.length) {
+      setScene(getScene(namaz, scene.step));
       setProgress(prev=>prev+1)
     }
   }
 
+  function checkRakat(namazInfo){
+    let namaz;
+    if(namazInfo.rakatName=="Sunnat" && namazInfo.rakats==2){
+      namaz=sunnah2
+   }
+    else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==2){
+      namaz=farz2
+     }
+    
+    return namaz;
+    
+  }
   async function renderPreviousScsne() {
     if (scene.step > 1) {
       setScene(getScene(sunnah2, scene.step - 2));
@@ -44,9 +57,9 @@ const NamazPlayArea = ({ route, navigation }) => {
         <Text style={styles.namazText}>
           {scene.text}
         </Text>
-        <Text style={styles.namazText}>
+        {/* <Text style={styles.namazText}>
           {scene.step}
-        </Text>
+        </Text> */}
       </View>
       <View style={styles.playArea}>
         <Image

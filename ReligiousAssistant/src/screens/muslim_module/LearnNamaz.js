@@ -54,35 +54,44 @@ export default function LearnNamaz() {
       name: 'Fajr',
       poster: fajrImg,
       level: 'Level 1',
+      rakahs: [
+        {key: 1, rakatName: 'Sunnat', rakats: '2'},
+        {key: 2, rakatName: 'Farz', rakats: '2'},
+      ],
     },
     {
       id: 3,
       name: 'Duhr',
       poster: duhrImg,
       level: 'Level 2',
+      rakahs: [
+        {key: 3, rakatName: 'Sunnat', rakats: '4'},
+        {key: 4, rakatName: 'Farz', rakats: '4'},
+      ],
+
     },
-    {
-      id: 4,
-      name: 'Asr',
-      poster: asrImg,
-      level: 'Level 3',
-    },
-    {
-      id: 5,
-      name: 'Maghrib',
-      poster: maghribImg,
-      level: 'Level 4',
-    },
-    {
-      id: 6,
-      name: 'Isha',
-      poster: ishaImg,
-      level: 'Level 5',
-    },
-    {
-      id: 7,
-      name: 'EmptyRight',
-    },
+    // {
+    //   id: 4,
+    //   name: 'Asr',
+    //   poster: asrImg,
+    //   level: 'Level 3',
+    // },
+    // {
+    //   id: 5,
+    //   name: 'Maghrib',
+    //   poster: maghribImg,
+    //   level: 'Level 4',
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Isha',
+    //   poster: ishaImg,
+    //   level: 'Level 5',
+    // },
+    // {
+    //   id: 7,
+    //   name: 'EmptyRight',
+    // },
   ];
 
   const Separator = () => {
@@ -98,10 +107,16 @@ export default function LearnNamaz() {
   };
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const [showModal, setShowModal] = useState(false);
+  const [state, setState] = useState({showModal:false, rakahs:[]});
 
-  function setModal(state) {
-    setShowModal(state);
+  function setModal(modalState) {
+    setState({...state,showModal:modalState,});
+  }
+
+  function detectPress(modalState, rakats){
+    
+    setState({showModal:modalState,rakahs:rakats})
+
   }
 
   return (
@@ -175,9 +190,12 @@ export default function LearnNamaz() {
             outputRange: [0, -50, 0],
             extrapolate: 'clamp',
           });
+         // console.log(item.rakahs)
           return (
             <>
-              <Pressable onPress={() => setShowModal(true)}>
+              <Pressable onPress={() => {
+                detectPress(true, item.rakahs)
+              }}>
                 <View style={{width: ITEM_SIZE}}>
                   <Animated.View
                     style={{
@@ -211,12 +229,12 @@ export default function LearnNamaz() {
                 </View>
               </Pressable>
 
-              <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+              <Modal isOpen={state.showModal} onClose={() => setState({...state, showModal:false})}>
                 <Modal.Content maxWidth="400px">
                   <Modal.CloseButton />
                   <Modal.Header>Select Rakah to Learn</Modal.Header>
                   <Modal.Body>
-                    <RakahList setModal={setModal}></RakahList>
+                    <RakahList setModal={setModal} rakahs={state.rakahs}></RakahList>
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
@@ -229,6 +247,9 @@ export default function LearnNamaz() {
 }
 
 const RakahList = props => {
+
+  const {rakahs}=props
+  // console.log(rakahs)
   const navigator = useNavigation();
   function navigateToGame(item) {
     props.setModal(false);
@@ -237,20 +258,6 @@ const RakahList = props => {
 
 //Should come from prop
 
-  const data = [
-    {
-      namaz: 'Fajr',
-      id: 1,
-      rakah: 'Sunnah',
-      count: 2,
-    },
-    {
-      namaz: 'Fajr',
-      id: 2,
-      rakah: 'Farz',
-      count: 2,
-    },
-  ];
 
   return (
     <Box
@@ -259,7 +266,7 @@ const RakahList = props => {
         md: '25%',
       }}>
       <FlatList
-        data={data}
+        data={rakahs}
         keyboardDismissMode
         keyExtractor={item => item.id}
         renderItem={({item}) => (
@@ -279,7 +286,7 @@ const RakahList = props => {
               <HStack space={3} justifyContent="space-between">
                 <VStack>
                   <Text style={styles.modalText}>
-                    {item.rakah}
+                    {item.rakatName}
                   </Text>
                 </VStack>
                 <Spacer />
@@ -287,7 +294,7 @@ const RakahList = props => {
                   style={styles.modalText}
                   fontSize="xs"
                   alignSelf="flex-start">
-                  {item.count}
+                  {item.rakats}
                 </Text>
               </HStack>
             </Box>
