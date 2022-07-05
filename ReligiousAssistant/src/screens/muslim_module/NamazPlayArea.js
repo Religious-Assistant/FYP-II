@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../theme/colors';
 
 //import all learn_namaz images
-import {sunnah2, farz2, farz4,sunnah4} from './LearnNamazAssets';
+import {sunnah2, farz2, farz4,sunnah4, nafl2} from './LearnNamazAssets';
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
@@ -30,16 +30,25 @@ const NamazPlayArea = ({ route, navigation }) => {
     if(namazInfo.rakatName=="Sunnat" && namazInfo.rakats==2){
       namaz=sunnah2
    }
-    else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==2){
+   else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==2){
       namaz=farz2
-     }
+  }
+  else if(namazInfo.rakatName=="Sunnat" && namazInfo.rakats==4){
+    namaz=sunnah4
+  }
+  else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==4){
+    namaz=farz4
+  }
+  else if(namazInfo.rakatName=="Nafl" && namazInfo.rakats==2){
+    namaz=nafl2
+  }
     
     return namaz;
     
   }
   async function renderPreviousScsne() {
     if (scene.step > 1) {
-      setScene(getScene(sunnah2, scene.step - 2));
+      setScene(getScene(namaz, scene.step - 2));
       setProgress(prev=>prev-1)
     }
   }
@@ -68,7 +77,7 @@ const NamazPlayArea = ({ route, navigation }) => {
           resizeMethod="resize"
           style={{width: 420, height: 420}}
           alt="Could not load step"></Image>
-      <Progress max={sunnah2.length} value={progress} borderRadius={0} style={{backgroundColor:colors.cover}} colorScheme="emerald"/>
+      <Progress max={namaz.length} value={progress} borderRadius={0} style={{backgroundColor:colors.cover}} colorScheme="emerald"/>
       </View>
 
 

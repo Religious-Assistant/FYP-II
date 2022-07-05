@@ -67,6 +67,8 @@ export default function LearnNamaz() {
       rakahs: [
         {key: 3, rakatName: 'Sunnat', rakats: '4'},
         {key: 4, rakatName: 'Farz', rakats: '4'},
+        {key: 5, rakatName: 'Sunnat', rakats: '2'},
+        {key: 6, rakatName: 'Nafl', rakats: '2'},
       ],
 
     },
