@@ -21,6 +21,7 @@ import {
   MUSLIM_VIEW_PROFILE,
   NAMAZ_PLAY_AREA,
   QIBLA_DIRECTION,
+  QURAN_RECITATION_AREA,
   RAKAH_INFO,
   RECITE_QURAN,
   REGISTERED_MUSLIM_HOME_STACK,
@@ -50,6 +51,7 @@ import ShareApp from '../screens/common/ShareApp';
 import About from '../screens/common/About';
 import Map from '../components/Map';
 import MapDirection from '../components/MapDirection';
+import QuranRecitationArea from '../screens/muslim_module/QuranRecitationArea';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -66,6 +68,11 @@ function MuslimDashboardNavigation() {
         name={RECITE_QURAN}
         component={ReciteQuran}
         options={{title: 'Recite Quran'}}
+      />
+      <HomeStack.Screen
+        name={QURAN_RECITATION_AREA}
+        component={QuranRecitationArea}
+        options={{title: 'Recitation'}}
       />
       <HomeStack.Screen
         name={FIND_MOSQUE}

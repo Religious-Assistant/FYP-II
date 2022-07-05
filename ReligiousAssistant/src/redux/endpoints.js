@@ -12,8 +12,10 @@ const update_tasbih='update-tasbih'
 
 //Quran Recitation
 const get_recitation_stats='get-recitation-stats'
-const save_recitation_progress='save-recitation-progress'
-const save_last_read='save-last-read'
+const mark_surah_as_read='mark-surah-as-read'
+const mark_parah_as_read='mark-parah-as-read'
+const update_last_read_surah='update-last-read-surah'
+const update_last_read_parah='update-last-read-surah'
 
 //Namaz Accountability
 
@@ -68,8 +70,10 @@ export {
     verify_otp_code,
     update_tasbih,
     get_recitation_stats,
-    save_recitation_progress,
-    save_last_read,
+    mark_surah_as_read,
+    mark_parah_as_read,
+    update_last_read_surah,
+    update_last_read_parah,
     get_namaz_accountability,
     update_namaz_accountability,
     update_fast_accountability,

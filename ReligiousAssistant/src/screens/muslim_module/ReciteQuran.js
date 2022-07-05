@@ -3,12 +3,11 @@ import {
   StyleSheet,
   useWindowDimensions,
   StatusBar,
-  Dimensions,
-  Pressable,
+  TouchableWithoutFeedback,
+  TouchableOpacity
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {Box, Text, View, Center, FlatList} from 'native-base';
-import Animated from 'react-native-reanimated';
+import {Text, View, Center, FlatList} from 'native-base';
 
 //Theme
 import Header from '../../components/Header';
@@ -25,6 +24,7 @@ import {
   selectSurahs,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
 import Loader from '../common/Loader';
+import { QURAN_RECITATION_AREA } from '../../navigation/constants';
 
 //Redux
 
@@ -55,14 +55,16 @@ const SurahRoute = () => {
   const surahs = useSelector(selectSurahs);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const dispatch = useDispatch();
-
+  const navigator=useNavigation()
   useEffect(() => {
     if (!surahs) {
       dispatch(getSurahs());
-    } else {
-      console.log(surahs);
-    }
+    } 
   }, [dispatch]);
+
+  function renderRecitationScreen(item){
+    navigator.navigate(QURAN_RECITATION_AREA, {surah: item});
+  }
   return (
     <>
       {isLoadingSurahs ? (
@@ -72,9 +74,11 @@ const SurahRoute = () => {
           data={surahs}
           renderItem={({item, index}) => {
             return (
-              <>
-                <SurahCard surah={item} key={index} />
-              </>
+              <TouchableOpacity onPress={()=>{
+                renderRecitationScreen(item)
+              }}>
+                <SurahCard surah={item} key={index}/>
+              </TouchableOpacity>
             );
           }}></FlatList>
       )}
