@@ -17,7 +17,8 @@ import tasbihImg from '../../../assets/images/tasbih_img.png';
 import CustomButton from '../../components/CustomButton';
 import {useSelector, useDispatch} from 'react-redux'
 
-import { selectTasbih, updateTasbih } from '../../redux/slices/muslim_module_slices/tasbihSlice';
+import { selectTasbih, updateCount, updateTasbih } from '../../redux/slices/muslim_module_slices/tasbihSlice';
+import { selectUserData } from '../../redux/slices/auth_slices/authSlice';
 
 export default function TasbihCounter() {
   
@@ -25,14 +26,15 @@ export default function TasbihCounter() {
  // const navigator=useNavigation()
 
   const tasbih=useSelector(selectTasbih)
+  const userData= useSelector(selectUserData)
 
   
-  const [count, setCount] = useState(0);
-  const onPress = () => setCount(prevCount => prevCount + 1);
-  const handleReset = () => setCount(0);
+  // const [count, setCount] = useState(0);
+  const onPress = () => dispatch(updateCount(tasbih+1));
+  const handleReset = () => dispatch(updateCount(0));
 
 
-  const saveTasbih = ()=> dispatch(updateTasbih(count));
+  const saveTasbih = ()=> dispatch(updateTasbih({username: userData.username,count: tasbih}));
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -85,7 +87,7 @@ export default function TasbihCounter() {
               marginLeft: '8%',
               fontSize: 70,
             }}>
-            {count}
+            {tasbih}
           </Text>
         </Center>
         {/* Center Image */}

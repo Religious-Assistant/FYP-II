@@ -1,10 +1,10 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPATCH} from '../../../services/apis/AuthService'
+import {apiPATCH, apiPOST} from '../../../services/apis/AuthService'
 import {update_tasbih} from '../../endpoints';
 
 
 const initialState = {
-    count:null,
+    count:0,
     isLoading:true,
     hasError:false,
 }
@@ -12,19 +12,29 @@ const initialState = {
 export const updateTasbih = createAsyncThunk(
     'updateTasbih',
     async(body)=>{
-        const result =  await apiPATCH(update_tasbih,body)
+        const result =  await apiPOST(update_tasbih,body)
+      if(result.success){
+        return body.count
+      }else {
         return result
+      }
     }
 )
 
 const tasbihSlice = createSlice({
     name:"tasbih",
     initialState,
-    reducers:{},
+    reducers:{
+        updateCount:(state,action)=>{
+            state.count=action.payload
+        }
+    },
     extraReducers:{
         [updateTasbih.fulfilled]:(state,action)=>{
             state.hasError = false
             state.isLoading = false
+            state.count=action.payload
+            
         },
         [updateTasbih.pending]:(state,action)=>{
             state.isLoading=true
@@ -38,6 +48,7 @@ const tasbihSlice = createSlice({
     }
 })
 
+export const {updateCount} = tasbihSlice.actions;
 
 export const selectTasbih =(state)=> state.tasbih.count
 export const selectIsLoading=(state)=>state.tasbih.isLoading
