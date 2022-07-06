@@ -4,7 +4,7 @@ import {
   useWindowDimensions,
   StatusBar,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Text, View, Center, FlatList} from 'native-base';
@@ -24,7 +24,7 @@ import {
   selectSurahs,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
 import Loader from '../common/Loader';
-import { QURAN_RECITATION_AREA } from '../../navigation/constants';
+import {QURAN_RECITATION_AREA, SURAH_RECITATION_AREA} from '../../navigation/constants';
 
 //Redux
 
@@ -55,16 +55,17 @@ const SurahRoute = () => {
   const surahs = useSelector(selectSurahs);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const dispatch = useDispatch();
-  const navigator=useNavigation()
+  const navigator = useNavigation();
   useEffect(() => {
     if (!surahs) {
       dispatch(getSurahs());
-    } 
+    }
   }, [dispatch]);
 
-  function renderRecitationScreen(item){
-    navigator.navigate(QURAN_RECITATION_AREA, {surah: item});
+  function renderRecitationScreen(item) {
+    navigator.navigate(SURAH_RECITATION_AREA, {surah: item});
   }
+  
   return (
     <>
       {isLoadingSurahs ? (
@@ -74,10 +75,11 @@ const SurahRoute = () => {
           data={surahs}
           renderItem={({item, index}) => {
             return (
-              <TouchableOpacity onPress={()=>{
-                renderRecitationScreen(item)
-              }}>
-                <SurahCard surah={item} key={index}/>
+              <TouchableOpacity
+                onPress={() => {
+                  renderRecitationScreen(item);
+                }}>
+                <SurahCard surah={item} key={index} />
               </TouchableOpacity>
             );
           }}></FlatList>
@@ -93,7 +95,7 @@ const ParahRoute = () => {
     </Center>
   );
 };
-const TranslationsRoute = () => {
+const StatsRoute = () => {
   return (
     <Center flex={1} my="4">
       This is Tab 3
@@ -104,7 +106,7 @@ const TranslationsRoute = () => {
 const renderScene = SceneMap({
   first: SurahRoute,
   second: ParahRoute,
-  third: TranslationsRoute,
+  third: StatsRoute,
 });
 
 function Tab() {
@@ -112,7 +114,7 @@ function Tab() {
   const [routes] = React.useState([
     {key: 'first', title: 'BY SURAH'},
     {key: 'second', title: 'BY PARAH'},
-    {key: 'third', title: 'TRANSLATION'},
+    {key: 'third', title: 'My PROGRESS'},
   ]);
 
   const initialLayout = useWindowDimensions();

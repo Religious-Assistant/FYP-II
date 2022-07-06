@@ -13,9 +13,13 @@ const update_tasbih='update-tasbih'
 //Quran Recitation
 const get_recitation_stats='get-recitation-stats'
 const mark_surah_as_read='mark-surah-as-read'
+const mark_surah_as_unread='mark-surah-as-unread'
 const mark_parah_as_read='mark-parah-as-read'
+const mark_parah_as_unread='mark-parah-as-unread'
 const update_last_read_surah='update-last-read-surah'
 const update_last_read_parah='update-last-read-surah'
+const check_surah_is_read='check-surah-is-read'
+const check_parah_is_read='check-parah-is-read'
 
 //Namaz Accountability
 
@@ -71,9 +75,13 @@ export {
     update_tasbih,
     get_recitation_stats,
     mark_surah_as_read,
+    mark_surah_as_unread,
     mark_parah_as_read,
+    mark_parah_as_unread,
     update_last_read_surah,
     update_last_read_parah,
+    check_surah_is_read,
+    check_parah_is_read,
     get_namaz_accountability,
     update_namaz_accountability,
     update_fast_accountability,

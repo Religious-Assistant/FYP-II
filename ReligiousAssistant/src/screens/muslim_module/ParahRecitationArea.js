@@ -19,7 +19,7 @@ import last_read_ic from '../../../assets/images/last_read_ic.png';
 import Header from '../../components/Header';
 import CustomButton from '../../components/CustomButton';
 
-const QuranRecitationArea = ({route, navigation}) => {
+const ParahRecitationArea = ({route, navigation}) => {
   const {surah} = route.params;
   const dispatch = useDispatch();
   const surahByNumber = useSelector(selectSurahByNumber);
@@ -32,7 +32,6 @@ const QuranRecitationArea = ({route, navigation}) => {
 
   function markSurahAsComplete(surahNumber){
 
-
     //Send this to Redux
 
     dispatch(markSurahAsRead({surahNumber}))
@@ -41,7 +40,7 @@ const QuranRecitationArea = ({route, navigation}) => {
   return (
     <View style={{backgroundColor: colors.white}}>
       {isLoadingSurahByNumber || isLoadingMarkSurahAsRead ? (
-        <Loader msg={`Loading Surah ${surah.englishName} ...`} />
+        <Loader msg={`Getting it done for you.. ${surah.englishName} ...`} />
       ) : (
         <>
         <View style={styles.surahActionContainer}>
@@ -112,7 +111,7 @@ const AyahCard = props => {
     </View>
   );
 };
-export default QuranRecitationArea;
+export default ParahRecitationArea;
 
 const styles = StyleSheet.create({
   ayahCardContainer: {
