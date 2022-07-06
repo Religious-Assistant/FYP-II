@@ -46,7 +46,7 @@ const reciteQuranSchema = mongoose.Schema({
     },
   },
   parahLastRead: {
-    verserNumber: {
+    verseNumber: {
       default: 0,
       type: Number,
     },
