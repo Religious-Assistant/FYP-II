@@ -41,8 +41,6 @@ const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 import {useNavigation} from '@react-navigation/native';
 import {NAMAZ_PLAY_AREA} from '../../navigation/constants';
 
-
-
 export default function LearnNamaz() {
   const NAMAZ_TIMES = [
     {
@@ -70,7 +68,6 @@ export default function LearnNamaz() {
         {key: 5, rakatName: 'Sunnat', rakats: '2'},
         {key: 6, rakatName: 'Nafl', rakats: '2'},
       ],
-
     },
     {
       id: 4,
@@ -80,7 +77,7 @@ export default function LearnNamaz() {
       rakahs: [
         {key: 7, rakatName: 'Sunnat', rakats: '4'},
         {key: 8, rakatName: 'Farz', rakats: '4'},
-      ]
+      ],
     },
     {
       id: 5,
@@ -91,18 +88,26 @@ export default function LearnNamaz() {
         {key: 9, rakatName: 'Farz', rakats: '3'},
         {key: 10, rakatName: 'Sunnat', rakats: '2'},
         {key: 11, rakatName: 'Nafl', rakats: '2'},
-      ]
+      ],
     },
-    // {
-    //   id: 6,
-    //   name: 'Isha',
-    //   poster: ishaImg,
-    //   level: 'Level 5',
-    // },
-    // {
-    //   id: 7,
-    //   name: 'EmptyRight',
-    // },
+    {
+      id: 6,
+      name: 'Isha',
+      poster: ishaImg,
+      level: 'Level 5',
+      rakahs: [
+        {key: 12, rakatName: 'Sunnat', rakats: '4'},
+        {key: 13, rakatName: 'Farz', rakats: '4'},
+        {key: 14, rakatName: 'Sunnat', rakats: '2'},
+        {key: 15, rakatName: 'Nafl', rakats: '2'},
+        {key: 16, rakatName: 'Witr', rakats: '3'},
+        {key: 17, rakatName: 'Nafl', rakats: '2'},
+      ],
+    },
+    {
+      id: 7,
+      name: 'EmptyRight',
+    },
   ];
 
   const Separator = () => {
@@ -118,16 +123,14 @@ export default function LearnNamaz() {
   };
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const [state, setState] = useState({showModal:false, rakahs:[]});
+  const [state, setState] = useState({showModal: false, rakahs: []});
 
   function setModal(modalState) {
-    setState({...state,showModal:modalState,});
+    setState({...state, showModal: modalState});
   }
 
-  function detectPress(modalState, rakats){
-    
-    setState({showModal:modalState,rakahs:rakats})
-
+  function detectPress(modalState, rakats) {
+    setState({showModal: modalState, rakahs: rakats});
   }
 
   return (
@@ -201,12 +204,13 @@ export default function LearnNamaz() {
             outputRange: [0, -50, 0],
             extrapolate: 'clamp',
           });
-         // console.log(item.rakahs)
+          // console.log(item.rakahs)
           return (
             <>
-              <Pressable onPress={() => {
-                detectPress(true, item.rakahs)
-              }}>
+              <Pressable
+                onPress={() => {
+                  detectPress(true, item.rakahs);
+                }}>
                 <View style={{width: ITEM_SIZE}}>
                   <Animated.View
                     style={{
@@ -240,12 +244,16 @@ export default function LearnNamaz() {
                 </View>
               </Pressable>
 
-              <Modal isOpen={state.showModal} onClose={() => setState({...state, showModal:false})}>
+              <Modal
+                isOpen={state.showModal}
+                onClose={() => setState({...state, showModal: false})}>
                 <Modal.Content maxWidth="400px">
                   <Modal.CloseButton />
                   <Modal.Header>Select Rakah to Learn</Modal.Header>
                   <Modal.Body>
-                    <RakahList setModal={setModal} rakahs={state.rakahs}></RakahList>
+                    <RakahList
+                      setModal={setModal}
+                      rakahs={state.rakahs}></RakahList>
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
@@ -258,8 +266,7 @@ export default function LearnNamaz() {
 }
 
 const RakahList = props => {
-
-  const {rakahs}=props
+  const {rakahs} = props;
   // console.log(rakahs)
   const navigator = useNavigation();
   function navigateToGame(item) {
@@ -267,8 +274,7 @@ const RakahList = props => {
     navigator.navigate(NAMAZ_PLAY_AREA, {namazInfo: item});
   }
 
-//Should come from prop
-
+  //Should come from prop
 
   return (
     <Box
@@ -296,9 +302,7 @@ const RakahList = props => {
               py="2">
               <HStack space={3} justifyContent="space-between">
                 <VStack>
-                  <Text style={styles.modalText}>
-                    {item.rakatName}
-                  </Text>
+                  <Text style={styles.modalText}>{item.rakatName}</Text>
                 </VStack>
                 <Spacer />
                 <Text
@@ -316,7 +320,6 @@ const RakahList = props => {
   );
 };
 
-
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
@@ -329,9 +332,9 @@ const styles = StyleSheet.create({
     marginRight: '45%',
     color: colors.white,
   },
-  modalText:{
-    color:colors.black,
-    fontFamily:fonts.Signika.bold,
+  modalText: {
+    color: colors.black,
+    fontFamily: fonts.Signika.bold,
   },
 
   posterImage: {

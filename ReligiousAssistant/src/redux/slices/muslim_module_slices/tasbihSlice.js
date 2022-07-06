@@ -4,7 +4,7 @@ import {update_tasbih} from '../../endpoints';
 
 
 const initialState = {
-    tasbihCounter:null,
+    count:null,
     isLoading:true,
     hasError:false,
 }
@@ -39,7 +39,7 @@ const tasbihSlice = createSlice({
 })
 
 
-export const selectTasbih =(state)=> state.tasbih.tasbihCounter
+export const selectTasbih =(state)=> state.tasbih.count
 export const selectIsLoading=(state)=>state.tasbih.isLoading
 export const selectHasError=(state)=>state.tasbih.hasError
 

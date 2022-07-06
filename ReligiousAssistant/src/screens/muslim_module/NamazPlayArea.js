@@ -1,74 +1,72 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Image, View, Text, Center, Box,Progress} from 'native-base';
-import {StyleSheet, Animated} from 'react-native';
+import {Button, Image, View, Text,Progress} from 'native-base';
+import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../theme/colors';
 
 //import all learn_namaz images
-import {sunnah2, farz2, farz4,sunnah4, nafl2, farz3} from './LearnNamazAssets';
+import {
+  sunnah2,
+  farz2,
+  farz4,
+  sunnah4,
+  nafl2,
+  farz3,
+  witr3,
+} from './LearnNamazAssets';
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
 
-const NamazPlayArea = ({ route, navigation }) => {
-  const { namazInfo } = route.params;
+const NamazPlayArea = ({route, navigation}) => {
+  const {namazInfo} = route.params;
 
-  const namaz=checkRakat(namazInfo);
+  const namaz = checkRakat(namazInfo);
   const [scene, setScene] = useState(getScene(namaz, 0));
-  const[progress,setProgress]=useState(1)
+  const [progress, setProgress] = useState(1);
 
   async function renderNextScene() {
     if (scene.step < namaz.length) {
       setScene(getScene(namaz, scene.step));
-      setProgress(prev=>prev+1)
+      setProgress(prev => prev + 1);
     }
   }
 
-  function checkRakat(namazInfo){
+  function checkRakat(namazInfo) {
     let namaz;
-    if(namazInfo.rakatName=="Sunnat" && namazInfo.rakats==2){
-      namaz=sunnah2
-   }
-   else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==2){
-      namaz=farz2
-  }
-  else if(namazInfo.rakatName=="Sunnat" && namazInfo.rakats==4){
-    namaz=sunnah4
-  }
-  else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==4){
-    namaz=farz4
-  }
-  else if(namazInfo.rakatName=="Nafl" && namazInfo.rakats==2){
-    namaz=nafl2
-  }
-  else if(namazInfo.rakatName=="Farz" && namazInfo.rakats==3){
-    namaz=farz3
-  }
-    
+    if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
+      namaz = sunnah2;
+    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 2) {
+      namaz = farz2;
+    } else if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 4) {
+      namaz = sunnah4;
+    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 4) {
+      namaz = farz4;
+    } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
+      namaz = nafl2;
+    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 3) {
+      namaz = farz3;
+    } else if (namazInfo.rakatName == 'Witr' && namazInfo.rakats == 3) {
+      namaz = witr3;
+    }
+
     return namaz;
-    
   }
   async function renderPreviousScsne() {
     if (scene.step > 1) {
       setScene(getScene(namaz, scene.step - 2));
-      setProgress(prev=>prev-1)
+      setProgress(prev => prev - 1);
     }
   }
 
-  function markAsComplete(){
-    
-  }
+  function markAsComplete() {}
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>  
-        <Text style={styles.infoText}>
-          {scene.desc}
-        </Text>
-        <Text style={styles.namazText}>
-          {scene.text}
-        </Text>
+      <View style={styles.header}>
+        <Text style={styles.infoText}>{scene.desc}</Text>
+        <Text style={styles.namazText}>{scene.text}</Text>
         {/* <Text style={styles.namazText}>
           {scene.step}
         </Text> */}
@@ -80,9 +78,14 @@ const NamazPlayArea = ({ route, navigation }) => {
           resizeMethod="resize"
           style={{width: 420, height: 420}}
           alt="Could not load step"></Image>
-      <Progress max={namaz.length} value={progress} borderRadius={0} style={{backgroundColor:colors.cover}} colorScheme="emerald"/>
+        <Progress
+          max={namaz.length}
+          value={progress}
+          borderRadius={0}
+          style={{backgroundColor: colors.cover}}
+          colorScheme="emerald"
+        />
       </View>
-
 
       <View style={styles.controls}>
         <TouchableHighlight onPress={renderPreviousScsne}>
@@ -92,7 +95,9 @@ const NamazPlayArea = ({ route, navigation }) => {
           </View>
         </TouchableHighlight>
 
-        <Button w={150} style={styles.actionButton} onPress={markAsComplete}>Mark as Complete</Button>
+        <Button w={150} style={styles.actionButton} onPress={markAsComplete}>
+          Mark as Complete
+        </Button>
 
         <TouchableHighlight onPress={renderNextScene}>
           <View style={styles.iconButton}>
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flex: 0.06,
-    margin:10,
+    margin: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -131,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.secondary,
     padding: 5,
-    borderRadius:8,
+    borderRadius: 8,
   },
   icon: {
     color: colors.white,
@@ -139,25 +144,24 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fonts.Signika.bold,
     fontSize: 20,
-    color:colors.white
+    color: colors.white,
   },
-  actionButton:{
-    backgroundColor:colors.primary
-  }
-  ,
-  namazText:{
-    color:colors.white,
-    fontSize:20,
-    lineHeight:25,
-    letterSpacing:2,
-    marginLeft:10,
-    marginRight:10,
+  actionButton: {
+    backgroundColor: colors.primary,
   },
-  infoText:{
-    color:colors.secondary,
-    fontSize:20,
-    letterSpacing:2,
-    padding:10,
-    fontFamily:fonts.Signika.bold
-  }
+  namazText: {
+    color: colors.white,
+    fontSize: 20,
+    lineHeight: 25,
+    letterSpacing: 2,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  infoText: {
+    color: colors.secondary,
+    fontSize: 20,
+    letterSpacing: 2,
+    padding: 10,
+    fontFamily: fonts.Signika.bold,
+  },
 });
