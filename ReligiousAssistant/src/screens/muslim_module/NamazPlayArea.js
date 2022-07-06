@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Image, View, Text,Progress} from 'native-base';
+import {Button, Image, View, Text, Progress} from 'native-base';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -20,8 +20,8 @@ import fonts from '../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
 
 const NamazPlayArea = ({route, navigation}) => {
-  const {namazInfo} = route.params;
-
+  const {namazInfo, namazName} = route.params;
+  console.log(namazName);
   const namaz = checkRakat(namazInfo);
   const [scene, setScene] = useState(getScene(namaz, 0));
   const [progress, setProgress] = useState(1);
@@ -35,20 +35,82 @@ const NamazPlayArea = ({route, navigation}) => {
 
   function checkRakat(namazInfo) {
     let namaz;
-    if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
-      namaz = sunnah2;
-    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 2) {
-      namaz = farz2;
-    } else if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 4) {
-      namaz = sunnah4;
-    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 4) {
-      namaz = farz4;
-    } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
-      namaz = nafl2;
-    } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 3) {
-      namaz = farz3;
-    } else if (namazInfo.rakatName == 'Witr' && namazInfo.rakats == 3) {
-      namaz = witr3;
+    if (namazName == 'Fajr') {
+      if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
+        sunnah2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت سنت، وقت فجر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah2;
+      } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 2) {
+        farz2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت فرض، وقت فجر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = farz2;
+      }
+    } else if (namazName == 'Duhr') {
+      if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 4) {
+        sunnah4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت سنت، وقت ظُهْر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah4;
+      } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 4) {
+        farz4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت فرض، وقت ظُهْر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = farz4;
+      } else if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
+        sunnah2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت سنت، وقت ظُهْر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah2;
+      } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
+        nafl2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت نفل، وقت ظُهْر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = nafl2;
+      }
+    } else if (namazName == 'Asr') {
+      if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 4) {
+        sunnah4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت سنت، وقت عصر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah4;
+      } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 4) {
+        farz4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت فرض، وقت عصر، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = farz4;
+      }
+    } else if (namazName == 'Maghrib') {
+      if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 3) {
+        farz3[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 3 رکعت فرض، وقت مغرب، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = farz3;
+      } else if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
+        sunnah2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت سنت، وقت مغرب، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah2;
+      } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
+        nafl2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت نفل، وقت مغرب، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = nafl2;
+      }
+    } else if (namazName == 'Isha') {
+      if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 4) {
+        sunnah4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت سنت، وقت عِشَاء، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah4;
+      } else if (namazInfo.rakatName == 'Farz' && namazInfo.rakats == 4) {
+        farz4[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 4 رکعت فرض، وقت عِشَاء، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = farz4;
+      } else if (namazInfo.rakatName == 'Sunnat' && namazInfo.rakats == 2) {
+        sunnah2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت سنت، وقت عِشَاء، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = sunnah2;
+      } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
+        nafl2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت نفل، وقت عِشَاء، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = nafl2;
+      } else if (namazInfo.rakatName == 'Witr' && namazInfo.rakats == 3) {
+        namaz = witr3;
+      } else if (namazInfo.rakatName == 'Nafl' && namazInfo.rakats == 2) {
+        nafl2[0].text =
+          'نیت کرتا/ کرتی ہوں نماز کی، 2 رکعت نفل، وقت عِشَاء، واسطے اللہ کے مہ کعبہ شریف کی طرف';
+        namaz = nafl2;
+      }
     }
 
     return namaz;

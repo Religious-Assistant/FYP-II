@@ -123,14 +123,18 @@ export default function LearnNamaz() {
   };
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const [state, setState] = useState({showModal: false, rakahs: []});
+  const [state, setState] = useState({
+    showModal: false,
+    rakahs: [],
+    namazName: '',
+  });
 
   function setModal(modalState) {
     setState({...state, showModal: modalState});
   }
 
-  function detectPress(modalState, rakats) {
-    setState({showModal: modalState, rakahs: rakats});
+  function detectPress(modalState, rakats, name) {
+    setState({showModal: modalState, rakahs: rakats, namazName: name});
   }
 
   return (
@@ -209,7 +213,7 @@ export default function LearnNamaz() {
             <>
               <Pressable
                 onPress={() => {
-                  detectPress(true, item.rakahs);
+                  detectPress(true, item.rakahs, item.name);
                 }}>
                 <View style={{width: ITEM_SIZE}}>
                   <Animated.View
@@ -253,7 +257,8 @@ export default function LearnNamaz() {
                   <Modal.Body>
                     <RakahList
                       setModal={setModal}
-                      rakahs={state.rakahs}></RakahList>
+                      rakahs={state.rakahs}
+                      namazName={state.namazName}></RakahList>
                   </Modal.Body>
                 </Modal.Content>
               </Modal>
@@ -266,12 +271,15 @@ export default function LearnNamaz() {
 }
 
 const RakahList = props => {
-  const {rakahs} = props;
-  // console.log(rakahs)
+  const {rakahs, namazName} = props;
+  console.log('Namaz NAME', namazName);
   const navigator = useNavigation();
   function navigateToGame(item) {
     props.setModal(false);
-    navigator.navigate(NAMAZ_PLAY_AREA, {namazInfo: item});
+    navigator.navigate(NAMAZ_PLAY_AREA, {
+      namazInfo: item,
+      namazName: namazName,
+    });
   }
 
   //Should come from prop
