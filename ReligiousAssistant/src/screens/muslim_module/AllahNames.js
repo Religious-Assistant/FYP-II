@@ -276,6 +276,248 @@ export default function AllahNames({navigation}) {
       key:51,
       name:'ٱلْبَاعِثُ',
       meaning:'The Resurrector, The Raiser of the Dead'
+    },
+    {
+      key:52,
+      name:'ٱلْمَتِينُ',
+      meaning:'The Firm, The Steadfast'
+    },
+    {
+      key:53,
+      name:'ٱلْقَوِيُّ',
+      meaning:'	The All-Strong'
+    },
+    {
+      key:54,
+      name:'ٱلْوَكِيلُ',
+      meaning:'The Trustee, The Disposer of Affairs'
+    },
+    {
+      key:55,
+      name:'ٱلْمُحْصِيُ',
+      meaning:'The All-Enumerating, The Counter'
+    }
+    ,
+    {
+      key:56,
+      name:'ٱلْحَمِيدُ',
+      meaning:'The Praiseworthy'
+    },
+    {
+      key:57,
+      name:'ٱلْوَلِيُّ',
+      meaning:'The Protecting Associate'
+    },
+    {
+      key:58,
+      name:'ٱلْمُحْيِى',
+      meaning:'The Giver of Life'
+    }
+    ,
+    {
+      key:59,
+      name:'ٱلْمُعِيدُ',
+      meaning:'The Restorer, The Reinstater'
+    },
+    {
+      key:60,
+      name:'ٱلْمُبْدِئُ',
+      meaning:'The Originator, The Initiator'
+    },
+    {
+      key:61,
+      name:'ٱلْقَيُّومُ',
+      meaning:'The Sustainer, The Self-Subsisting'
+    },
+    {
+      key:62,
+      name:'ٱلْحَىُّ',
+      meaning:'The Ever-Living'
+    },
+    {
+      key:63,
+      name:'ٱلْمُمِيتُ',
+      meaning:'The Bringer of Death, the Destroyer'
+    },
+    {
+      key:64,
+      name:'ٱلْوَاحِدُ',
+      meaning:'The One'
+    },
+    {
+      key:65,
+      name:'ٱلْمَاجِدُ',
+      meaning:'The Illustrious, the Magnificent'
+    },
+    {
+      key:66,
+      name:'ٱلْوَاجِدُ',
+      meaning:'The Perceiver'
+    },
+    {
+      key:67,
+      name:'ٱلْقَادِرُ',
+      meaning:'	The Capable, The Powerful'
+    },
+    {
+      key:68,
+      name:'ٱلْصَّمَدُ',
+      meaning:'The Eternal, Satisfier of Needs'
+    },
+    {
+      key:69,
+      name:'ٱلْأَحَد',
+      meaning:'The Unique, The Only One'
+    },
+    {
+      key:70,
+      name:'ٱلْمُؤَخِّرُ',
+      meaning:'The Delayer, the Retarder'
+    },
+    {
+      key:71,
+      name:'الْمُقَدِّمُ',
+      meaning:'The Expediter, The Promoter'
+    },
+    {
+      key:72,
+      name:'ٱلْمُقْتَدِرُ',
+      meaning:'The Omnipotent'
+    },
+    {
+      key:73,
+      name:'ٱلْظَّاهِرُ',
+      meaning:'The Manifest'
+    },
+    {
+      key:74,
+      name:'ٱلْآخِرُ',
+      meaning:'The Last'
+    },
+    {
+      key:75,
+      name:'ٱلأَوَّلُ',
+      meaning:'The First'
+    },
+    {
+      key:76,
+      name:'ٱلْمُتَعَالِي',
+      meaning:'The Self Exalted'
+    },
+    {
+      key:77,
+      name:'ٱلْوَالِي',
+      meaning:'The Governor, The Patron'
+    },
+    {
+      key:78,
+      name:'ٱلْبَاطِنُ',
+      meaning:'The Hidden One, Knower of the Hidden'
+    },
+    {
+      key:79,
+      name:'ٱلْمُنْتَقِمُ',
+      meaning:'The Avenger'
+    },
+    {
+      key:80,
+      name:'ٱلْتَّوَّابُ',
+      meaning:'The Ever-Pardoning, The Relenting'
+    },
+    {
+      key:81,
+      name:'ٱلْبَرُّ',
+      meaning:'The Source of Goodness, the Kind Benefactor'
+    },
+    {
+      key:82,
+      name:'مَالِكُ ٱلْمُلْكُ',
+      meaning:'Master of the Kingdom, Owner of the Dominion'
+    },
+    {
+      key:83,
+      name:'ٱلْرَّؤُفُ',
+      meaning:'The Most Kind'
+    },
+    {
+      key:84,
+      name:'ٱلْعَفُوُّ',
+      meaning:'The Pardoner'
+    },
+    {
+      key:85,
+      name:'ٱلْجَامِعُ',
+      meaning:'	The Gatherer, the Uniter'
+    },
+    {
+      key:86,
+      name:'ٱلْمُقْسِطُ',
+      meaning:'The Equitable, the Requiter'
+    },
+    {
+      key:87,
+      name:'ذُو ٱلْجَلَالِ وَٱلْإِكْرَامُ',
+      meaning:'Possessor of Glory and Honour'
+    },
+    {
+      key:88,
+      name:'	ٱلْمَانِعُ',
+      meaning:'The Withholder'
+    },
+    {
+      key:89,
+      name:'ٱلْمُغْنِيُّ',
+      meaning:'The Enricher'
+    },
+    {
+      key:90,
+      name:'ٱلْغَنيُّ',
+      meaning:'The Self-Sufficient, The Wealthy'
+    },
+    {
+      key:91,
+      name:'ٱلْنُّورُ',
+      meaning:'The Light, The Illuminator'
+    },
+    {
+      key:92,
+      name:'ٱلْنَّافِعُ',
+      meaning:'The Propitious, the Benefactor'
+    },
+    {
+      key:93,
+      name:'ٱلْضَّارُ',
+      meaning:'The Distresser'
+    },
+    {
+      key:94,
+      name:'ٱلْبَاقِي',
+      meaning:'The Ever-Surviving, The Everlasting'
+    },
+    {
+      key:95,
+      name:'ٱلْبَدِيعُ',
+      meaning:'The Incomparable Originator'
+    },
+    {
+      key:96,
+      name:'ٱلْهَادِي',
+      meaning:'The Guide'
+    },
+    {
+      key:97,
+      name:'ٱلْصَّبُورُ',
+      meaning:'The Forbearing, The Patient'
+    },
+    {
+      key:98,
+      name:'ٱلْرَّشِيدُ',
+      meaning:'The Guide, Infallible Teacher'
+    },
+    {
+      key:99,
+      name:'ٱلْوَارِثُ',
+      meaning:'The Inheritor, The HeirThe Inheritor, The Heir'
     }
   ];
   return (
@@ -322,7 +564,7 @@ export default function AllahNames({navigation}) {
               _light={{
                 backgroundColor: colors.cover,
               }}>
-              <VStack space="2" divider={<Divider />} height={'170'} >
+              <VStack space="2" divider={<Divider />} height={'200'} >
                 <Box px="5" p={'2'}>
                   <Heading
                     style={styles.label}

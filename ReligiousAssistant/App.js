@@ -75,7 +75,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <EntryPoint/>
+        <AllahNames/>
       </NativeBaseProvider>
     </Provider>
   );
