@@ -1,5 +1,5 @@
 const directoryPath="public/avatars";
-const base_url="http://10.102.140.37:5000/avatars/";
+const base_url="http://10.102.140.56:5000/avatars/";
 const defaultAvatar='avatar.png'
 const D7_KEY='Token c684b50abdbe0aa97f130d657548a85e5ee14593'
 const OTP_EXPIRY='300'              //5 minutes

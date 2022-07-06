@@ -1,16 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const fetch = (...args) =>import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 //Models
 const User = require("../models/userModel");
 const Tasbih = require("../models/tasbihModel");
 const DeviceToken = require("../models/deviceTokenModel");
-const MuslimPreference=require("../models/muslimUserPreferencesModel")
+const MuslimPreference = require("../models/muslimUserPreferencesModel");
+const QuranRecitation = require("../models/reciteQuranModel");
 
 //common functions
-const {hashPassword, createToken}=require('./common')
+const { hashPassword, createToken } = require("./common");
 
 const {
   directoryPath,
@@ -21,7 +23,7 @@ const {
 } = require("./constants");
 
 const registerUser = async (req, res) => {
-  console.log("Register API hit");
+  console.log("Register API hit", req.body.password, req.body.username);
 
   try {
     const { username } = await req.body;
@@ -34,15 +36,44 @@ const registerUser = async (req, res) => {
 
       if (user_data) {
         //Create a Tasbih for each Muslim user, check religion
-        if(user_data.religion==1){
+        if (user_data.religion == 1) {
+          await Tasbih.create({ username: username, count: 0 });
+          await MuslimPreference.create({ username: username });
+          
+          //Create Recitation record for Muslim User
+          const quranRecitation = new QuranRecitation({
+            username: username,
+            recitedSurahs: [
+              {
+                surahNumber: 0,
+                surahName: "NONE",
+              },
+            ],
+            recitedParahs: [
+              {
+                parahNumber: 0,
+                parahName: "NONE",
+              },
+            ],
+            surahLastRead: {
+              verseNumber: 0,
+              surahNumber: 0,
+            },
+            parahLastRead: {
+              verseNumber: 0,
+              surahNumber: 0,
+              parahNumber: 0,
+            },
+          });
 
-          await Tasbih.create({username:username, count:0})
-          await MuslimPreference.create({username:username})
+          await quranRecitation.save((err, result) => {
+            console.log(result ? result : err);
+          });
         }
 
         res.send({ success: true, data: user_data, avatar: img_url });
         return;
-      }      
+      }
       res.send({ success: false });
     }
   } catch (error) {
@@ -51,30 +82,48 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  
-  console.log("Login API hit");
+  console.log("Login API hit", req.body.password, req.body.username);
   try {
     const { username, password, deviceToken } = req.body;
-    
-    const user_data = await User.findOne({ username: username, verified:true });
+
+    const user_data = await User.findOne({
+      username: username,
+      verified: true,
+    });
 
     if (user_data) {
       const passwordMatch = await bcrypt.compare(password, user_data.password);
 
       if (passwordMatch) {
         const token = await createToken(user_data.username);
-        const userPreferences= await MuslimPreference.findOne({username:username})
+
+        let userPreferences;
+        if (user_data.religion == 1) {
+          userPreferences = await MuslimPreference.findOne({
+            username: username,
+          });
+        }
+        // else{//Hindu Prefs
+        //   userPreferences = await MuslimPreference.findOne({username:username})
+        // }
 
         if (user_data.avatar == defaultAvatar) {
           const resultData = {
             ...user_data._doc,
             token: token,
             avatar: base_url + defaultAvatar,
-            preferences:userPreferences
+            preferences: userPreferences,
           };
-          await DeviceToken.findOneAndUpdate({username:username}, {username,deviceToken},{upsert:true})
-          res.send({ success: true, data: resultData, msg:'Logged in Successfully' });
-          
+          await DeviceToken.findOneAndUpdate(
+            { username: username },
+            { username, deviceToken },
+            { upsert: true }
+          );
+          res.send({
+            success: true,
+            data: resultData,
+            msg: "Logged in Successfully",
+          });
         } else {
           getProfileImage(user_data.username)
             .then((avatar) => {
@@ -94,7 +143,10 @@ const loginUser = async (req, res) => {
       } else {
         res
           .status(200)
-          .send({ success: false, msg: "Invalid user details provided!" });
+          .send({
+            success: false,
+            msg: "Invalid user details provided! Or unverified account",
+          });
       }
     } else {
       res
@@ -106,7 +158,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-const forgotPassword=async (req, res) => {
+const forgotPassword = async (req, res) => {
   console.log("Forgot password API hit");
   try {
     const { username, newPassword } = req.body;
@@ -163,7 +215,6 @@ const updateProfileImage = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 const sendOTPCode = async (req, res) => {
   console.log("GET OTP Hit");
@@ -272,7 +323,26 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  console.log("Delete User API hit");
+  try {
+    const { username } = req.body;
 
+    await User.findOneAndDelete({ username });
+    await Tasbih.findOneAndDelete({ username });
+    await QuranRecitation.findOneAndDelete({ username });
+    await DeviceToken.findOneAndDelete({ username });
+    await MuslimPreference.findOneAndDelete({ username });
+    // await .findOneAndDelete({ username }); Hindu Prefs
+
+    res.status(200).send({
+      success: true,
+      msg: "User Deleted Successfully!",
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
 module.exports = {
   registerUser,
@@ -281,5 +351,6 @@ module.exports = {
   updateProfileImage,
   sendOTPCode,
   verifyOTPCode,
-  updatePassword
+  updatePassword,
+  deleteUser,
 };
