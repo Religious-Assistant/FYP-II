@@ -38,7 +38,6 @@ export const loginUser = createAsyncThunk(
 export const forgotPassword = createAsyncThunk(
     'forgotPassword',
     async (body)=>{
-        console.log(`Forgot Pass ${body}`)
        const result =  await apiPATCH(forgot_password,body)
        return result  
     }
@@ -50,7 +49,6 @@ export const getUserData = createAsyncThunk(
         try{
             
             const result =  await AsyncStorage.getItem('user') 
-            console.log('RESULT',result)
             return result!=null?JSON.parse(result):null  
         }catch(e){
             console.log('ERROR while Retrieving user data from Async Storage', e)
@@ -103,7 +101,6 @@ const authSlice = createSlice({
         [getUserData.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingGetUserData=false
-            console.log(`DATA `, action.payload)
             state.userData = action.payload
         },
         [getUserData.rejected]:(state,action)=>{
@@ -195,12 +192,10 @@ const authSlice = createSlice({
             state.hasError=false
             state.userData=action.payload.data
             
-            console.log('LOGIN TOKEN',action.payload.data.token)
             const {token, religion}=action.payload.data
             state.token=token
             state.religion=religion+''
 
-            console.log('LOG DATA', state.userData)
             try{
                 const user=JSON.stringify(action.payload.data)
                 AsyncStorage.setItem('user',user)

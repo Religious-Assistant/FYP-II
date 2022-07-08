@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   useWindowDimensions,
   StatusBar,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
@@ -19,12 +18,19 @@ import colors from '../../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  getLastReadSurah,
   getSurahs,
+  selectIsLoadingLastReadSurah,
   selectIsLoadingSurahs,
+  selectLastReadSurah,
   selectSurahs,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
 import Loader from '../common/Loader';
-import {QURAN_RECITATION_AREA, SURAH_RECITATION_AREA} from '../../navigation/constants';
+import {
+  SURAH_RECITATION_AREA,
+  PARAH_RECITATION_AREA,
+} from '../../navigation/constants';
+import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
 
 //Redux
 
@@ -56,31 +62,66 @@ const SurahRoute = () => {
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const dispatch = useDispatch();
   const navigator = useNavigation();
+
+  const isLoadingLastReadSurah = useSelector(selectIsLoadingLastReadSurah);
+  const lastReadSurah = useSelector(selectLastReadSurah);
+  const {username} = useSelector(selectUserData);
+
+  //State
+  const [scrollIndexForSurah, setScrollIndexForSurah] = useState(0);
+
   useEffect(() => {
     if (!surahs) {
       dispatch(getSurahs());
     }
-  }, [dispatch]);
+
+    if (username) {
+      dispatch(getLastReadSurah({username}));
+    }
+  }, [dispatch, username]);
 
   function renderRecitationScreen(item) {
     navigator.navigate(SURAH_RECITATION_AREA, {surah: item});
   }
-  
+
   return (
     <>
       {isLoadingSurahs ? (
-        <Loader msg="Loading Surahs .." />
+        <Loader msg="Loading Surahs ..." />
       ) : (
         <FlatList
           data={surahs}
+          initialScrollIndex={scrollIndexForSurah}
           renderItem={({item, index}) => {
+            //Get last read verse number and highlish that card
+            const {surahNumber} = lastReadSurah.surahLastRead;
+
+            //Jump to this card with initialSCrollIndex
+            if (item.number == surahNumber) {
+              setScrollIndexForSurah(index)
+            }
+
             return (
-              <TouchableOpacity
-                onPress={() => {
-                  renderRecitationScreen(item);
-                }}>
-                <SurahCard surah={item} key={index} />
-              </TouchableOpacity>
+              <>
+                {isLoadingLastReadSurah ? (
+                  <Loader msg="Loading Last Read Surah ..." />
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      renderRecitationScreen(item);
+                    }}>
+                    <SurahCard
+                      surah={item}
+                      key={index}
+                      backgroundColor={
+                        item.number == surahNumber
+                          ? colors.tertiary
+                          : colors.white
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
+              </>
             );
           }}></FlatList>
       )}
@@ -149,9 +190,12 @@ function Tab() {
   );
 }
 
-const SurahCard = ({surah}) => {
+const SurahCard = props => {
+  const {surah, backgroundColor} = props;
+
   return (
-    <View style={styles.surahCardContainer}>
+    <View
+      style={[styles.surahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={{flex: 0.1}}>
         <Text style={styles.surahNumber}>{surah.number}.</Text>
       </View>

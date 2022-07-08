@@ -17,7 +17,9 @@ const mark_surah_as_unread='mark-surah-as-unread'
 const mark_parah_as_read='mark-parah-as-read'
 const mark_parah_as_unread='mark-parah-as-unread'
 const update_last_read_surah='update-last-read-surah'
+const get_last_read_surah='get-last-read-surah'
 const update_last_read_parah='update-last-read-surah'
+const get_last_read_parah='get-last-read-parah'
 const check_surah_is_read='check-surah-is-read'
 const check_parah_is_read='check-parah-is-read'
 
@@ -82,6 +84,8 @@ export {
     update_last_read_parah,
     check_surah_is_read,
     check_parah_is_read,
+    get_last_read_parah,
+    get_last_read_surah,
     get_namaz_accountability,
     update_namaz_accountability,
     update_fast_accountability,

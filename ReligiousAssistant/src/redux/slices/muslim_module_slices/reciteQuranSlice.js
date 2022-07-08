@@ -1,16 +1,20 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import { apiGET, apiPATCH } from '../../../services/apis/AuthService'
-import { check_parah_is_read, check_surah_is_read, get_recitation_stats, mark_parah_as_read, mark_parah_as_unread, mark_surah_as_read, mark_surah_as_unread, update_last_read_parah, update_last_read_surah } from '../../endpoints'
+import { apiGET, apiPATCH, apiPOST } from '../../../services/apis/AuthService'
+import { check_parah_is_read, check_surah_is_read, get_last_read_surah, get_recitation_stats, mark_parah_as_read, mark_parah_as_unread, mark_surah_as_read, mark_surah_as_unread, update_last_read_parah, update_last_read_surah } from '../../endpoints'
 
 const initialState = {
     //Data
     surahs:null,
     parahs:null,
     surahByNumber:null,
+    recitedSurahs:null,
+    recitedParahs:null,
     parahByNumber:null,
     recitationStats:null,
-    surahRecitationStatus:null, //Stored data of recited surah when called to check
-    parahRecitationStatus:null, //Stored data of recited parah when called to check
+    surahRecitationStatus:null, //Stored data of recited surah when called to checkSurahIsRead
+    parahRecitationStatus:null, //Stored data of recited parah when called to checkParahIsRead
+    lastReadSurah:null,
+    lastReadParah:null,
     //Loaders
     isLoadingSurahs:true,
     isLoadingParahs:true,
@@ -25,7 +29,9 @@ const initialState = {
     isLoadingGetRecitationStats:false,
     isLoadingSurahRecitationStatus:false,
     isLoadingParahRecitationStatus:false,
-
+    isLoadingLastReadSurah:false,
+    isLoadingLastReadParah:false,
+    
     //Erros
     hasError:false,
 }
@@ -125,16 +131,26 @@ export const getRecitationStats = createAsyncThunk(
 
 export const checkSurahIsRead = createAsyncThunk(
     'checkSurahIsRead',
-    async ()=>{
-        const result=await apiGET(check_surah_is_read)
+    async (body)=>{
+        const result=await apiPOST(check_surah_is_read,body)
         return result
     }
 )
 
+
+//To be updated as SurahIsRead
 export const checkParahIsRead = createAsyncThunk(
     'checkParahIsRead',
     async ()=>{
         const result=await apiGET(check_parah_is_read)
+        return result
+    }
+)
+
+export const getLastReadSurah = createAsyncThunk(
+    'getLastReadSurah',
+    async (body)=>{
+        const result=await apiPOST(get_last_read_surah, body)
         return result
     }
 )
@@ -161,6 +177,21 @@ const reciteQuranSlice = createSlice({
             state.hasError=false
         },
 
+        [getLastReadSurah.fulfilled]:(state,action)=>{
+            state.hasError=false
+            state.isLoadingLastReadSurah=false
+            state.lastReadSurah = action.payload.data            
+        },
+        [getLastReadSurah.rejected]:(state,action)=>{
+            state.isLoadingLastReadSurah=false
+            state.hasError=true
+
+        },
+        [getLastReadSurah.pending]:(state,action)=>{
+            state.isLoadingLastReadSurah=true
+            state.hasError=false
+        },
+        
         [checkSurahIsRead.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingSurahRecitationStatus=false
@@ -172,7 +203,7 @@ const reciteQuranSlice = createSlice({
 
         },
         [checkSurahIsRead.pending]:(state,action)=>{
-            state.isLoadingGetRecitationStats=true
+            state.isLoadingSurahRecitationStatus=true
             state.hasError=false
         },
 
@@ -224,6 +255,7 @@ const reciteQuranSlice = createSlice({
         [updateLastReadSurah.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingUpdateLastReadSurah=false
+            state.lastReadSurah=action.payload.data
         },
         [updateLastReadSurah.rejected]:(state,action)=>{
             state.isLoadingUpdateLastReadSurah=false
@@ -238,6 +270,8 @@ const reciteQuranSlice = createSlice({
         [updateLastReadParah.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingUpdateLastReadParah=false
+            state.lastReadParah=action.payload.data
+
         },
         [updateLastReadParah.rejected]:(state,action)=>{
             state.isLoadingUpdateLastReadParah=false
@@ -252,6 +286,7 @@ const reciteQuranSlice = createSlice({
         [markSurahAsRead.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingMarkSurahAsRead=false
+            state.recitedSurahs=action.payload.data
         },
         [markSurahAsRead.rejected]:(state,action)=>{
             state.isLoadingMarkSurahAsRead=false
@@ -266,6 +301,7 @@ const reciteQuranSlice = createSlice({
         [markSurahAsUnRead.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingMarkSurahAsUnRead=false
+            state.recitedSurahs=action.payload.data
         },
         [markSurahAsUnRead.rejected]:(state,action)=>{
             state.isLoadingMarkSurahAsUnRead=false
@@ -280,6 +316,8 @@ const reciteQuranSlice = createSlice({
         [markParahAsRead.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingMarkParahAsRead=false
+            state.recitedParahs=action.payload.data
+
         },
         [markParahAsRead.rejected]:(state,action)=>{
             state.isLoadingMarkParahAsRead=false
@@ -338,8 +376,13 @@ const reciteQuranSlice = createSlice({
 
 export const selectSurahs=(state)=>state.quranrecitation.surahs
 export const selectParahs=(state)=>state.quranrecitation.parahs
+export const selectRecitedSurahs=(state)=>state.quranrecitation.recitedSurahs
+export const selectRecitedParahs=(state)=>state.quranrecitation.recitedParahs
 export const selectSurahByNumber=(state)=>state.quranrecitation.surahByNumber
 export const selectParahByNumber=(state)=>state.quranrecitation.parahByNumber
+export const selectLastReadSurah=(state)=>state.quranrecitation.lastReadSurah
+export const selectLastReadParah=(state)=>state.quranrecitation.lastReadParah
+
 export const selectSurahRecitationStatus=(state)=>state.quranrecitation.surahRecitationStatus
 export const selectParahRecitationStatus=(state)=>state.quranrecitation.parahRecitationStatus
 
@@ -358,6 +401,8 @@ export const selectIsLoadingMarkParahAsUnRead=(state)=>state.quranrecitation.isL
 export const selectIsLoadingGetRecitationStats=(state)=>state.quranrecitation.isLoadingGetRecitationStats
 export const selectIsLoadingSurahRecitationStatus=(state)=>state.quranrecitation.isLoadingSurahRecitationStatus
 export const selectIsLoadingParahRecitationStatus=(state)=>state.quranrecitation.isLoadingParahRecitationStatus
+export const selectIsLoadingLastReadParah=(state)=>state.quranrecitation.isLoadingLastReadParah
+export const selectIsLoadingLastReadSurah=(state)=>state.quranrecitation.isLoadingLastReadSurah
 
 export const selectHasError=(state)=>state.quranrecitation.hasError
 
