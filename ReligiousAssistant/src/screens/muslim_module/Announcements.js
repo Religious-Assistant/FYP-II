@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 
 import {
@@ -24,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MAKE_ANNOUNCEMENT_SCREEN } from '../../navigation/constants';
 
 export default function Announcements(){
+
     const [state,setState] = useState({
       data: [
         {
