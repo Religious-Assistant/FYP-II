@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   checkSurahIsRead,
   getLastReadSurah,
+  getRecitationStats,
   getSurahByNumber,
   markSurahAsRead,
   markSurahAsUnRead,
@@ -32,8 +33,6 @@ import colors from '../../theme/colors';
 import {FlatList, Image} from 'native-base';
 import last_read_ic from '../../../assets/images/last_read_ic.png';
 import {
-  getUserData,
-  selectIsLoadingGetUserData,
   selectUserData,
 } from '../../redux/slices/auth_slices/authSlice';
 import {useState} from 'react';
@@ -73,6 +72,7 @@ const SurahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markSurahAsRead({username, surahNumber, surahName}));
       dispatch(checkSurahIsRead({username, surahName}));
+      dispatch(getRecitationStats({username}))
     }
   }
 
@@ -80,6 +80,7 @@ const SurahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markSurahAsUnRead({username, surahNumber, surahName}));
       dispatch(checkSurahIsRead({username, surahName}));
+      dispatch(getRecitationStats({username}))
     }
   }
 
@@ -185,6 +186,7 @@ const AyahCard = props => {
   function saveLastRead(surahNumber, verseNumber) {
     dispatch(updateLastReadSurah({username, surahNumber, verseNumber}));
     dispatch(getLastReadSurah({username}))
+    dispatch(getRecitationStats({username}))
   }
 
   return (

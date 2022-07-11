@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   checkParahIsRead,
   getParahByNumber,
+  getRecitationStats,
   markParahAsRead,
   markParahAsUnRead,
   selectIsLoadingLastReadParah,
@@ -73,6 +74,7 @@ const ParahRecitationArea = ({route, navigation}) => {
     if (username) {
         dispatch(markParahAsRead({username, parahNumber, parahName}));
         dispatch(checkParahIsRead({username, parahName}));
+        dispatch(getRecitationStats({username}))
     }
   }
 
@@ -80,6 +82,7 @@ const ParahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markParahAsUnRead({username, parahNumber, parahName}));
       dispatch(checkParahIsRead({username, parahName}));
+      dispatch(getRecitationStats({username}))
     }
   }
 
@@ -185,6 +188,7 @@ const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} = pro
 
   function saveLastRead(parahNumber, surahNumber, verseNumber) {
     dispatch(updateLastReadParah({username, parahNumber, surahNumber , verseNumber}));
+    dispatch(getRecitationStats({username}))
   }
 
   return (

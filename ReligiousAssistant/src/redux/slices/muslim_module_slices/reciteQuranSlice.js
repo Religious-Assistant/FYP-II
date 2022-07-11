@@ -134,8 +134,9 @@ export const updateLastReadParah = createAsyncThunk(
 
 export const getRecitationStats = createAsyncThunk(
   'getRecitationStats',
-  async () => {
-    const result = await apiGET(get_recitation_stats);
+  async (username) => {
+    console.log(username)
+    const result = await apiPOST(get_recitation_stats, username);
     return result;
   },
 );
@@ -463,5 +464,6 @@ export const selectIsLoadingLastReadSurah = state =>
   state.quranrecitation.isLoadingLastReadSurah;
 
 export const selectHasError = state => state.quranrecitation.hasError;
+export const selectRecitationStats = state => state.quranrecitation.recitationStats;
 
 export default reciteQuranSlice.reducer;

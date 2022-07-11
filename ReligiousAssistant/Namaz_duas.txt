@@ -37,3 +37,7 @@ Steps name
 https://www.kidsquranreading.com/how-to-pray-nimaz.htm
 
 
+Gita API
+https://bhagavadgitaapi.in/chapters
+
+Quran API

@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Text, View, Center, FlatList} from 'native-base';
 
@@ -30,15 +31,18 @@ import {
   selectLastReadSurah,
   selectParahs,
   selectSurahs,
+  getRecitationStats,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
+
 import Loader from '../common/Loader';
 import {
   SURAH_RECITATION_AREA,
   PARAH_RECITATION_AREA,
 } from '../../navigation/constants';
-import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
 
 //Redux
+import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
+import RecitationStats from './RecitationStats';
 
 const ReciteQuran = () => {
   const dispatch = useDispatch();
@@ -49,8 +53,8 @@ const ReciteQuran = () => {
   useEffect(() => {
     dispatch(getSurahs());
     dispatch(getParahs());
-
     if (username) {
+      dispatch(getRecitationStats({username}))
       dispatch(getLastReadSurah({username}));
       dispatch(getLastReadParah({username}));
     }
@@ -166,9 +170,9 @@ const ParahRoute = () => {
 
           // //Jump to this card with initialSCrollIndex
           if (item.number == parahNumber) {
-            setScrollIndexForParah(index)
+            setScrollIndexForParah(index);
           }
-          
+
           return (
             <>
               {isLoadingLastReadParah ? (
@@ -200,15 +204,13 @@ const ParahRoute = () => {
 };
 const StatsRoute = () => {
   return (
-    <Center flex={1} my="4">
-      This is Tab 3
-    </Center>
+    <RecitationStats />
   );
 };
 
 const renderScene = SceneMap({
-  first: SurahRoute,
-  second: ParahRoute,
+  first: StatsRoute,
+  second: StatsRoute,
   third: StatsRoute,
 });
 
