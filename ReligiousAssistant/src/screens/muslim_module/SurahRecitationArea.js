@@ -52,9 +52,8 @@ const SurahRecitationArea = ({route, navigation}) => {
   const isLoadingSurahRecitationStatus = useSelector(
     selectIsLoadingSurahRecitationStatus,
   );
-  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+
   const surahRecitationStatus = useSelector(selectSurahRecitationStatus);
-  // const user = useSelector(selectUserData);
   const {username} = useSelector(selectUserData);
   const isLoadingLastReadSurah = useSelector(selectIsLoadingLastReadSurah);
   const lastReadSurah = useSelector(selectLastReadSurah);
@@ -64,9 +63,7 @@ const SurahRecitationArea = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getSurahByNumber(surah.number));
-    // dispatch(getUserData());
     if (username) {
-      // dispatch(getLastReadSurah({username}));
       dispatch(
         checkSurahIsRead({username: username, surahName: surah.englishName}),
       );
@@ -166,6 +163,7 @@ const SurahRecitationArea = ({route, navigation}) => {
                           ? colors.white
                           : colors.success.deep
                       }
+                      tintColor={colors.info}
                     />
                   )}
                 </>
@@ -178,7 +176,7 @@ const SurahRecitationArea = ({route, navigation}) => {
 };
 
 const AyahCard = props => {
-  const {ayah, surahNumber, username, backgroundColor, fontColor} = props;
+  const {ayah, surahNumber, username, backgroundColor, fontColor, tintColor} = props;
 
   const dispatch = useDispatch();
   let isLoadingUpdateLastReadSurah = useSelector(
@@ -187,13 +185,14 @@ const AyahCard = props => {
 
   function saveLastRead(surahNumber, verseNumber) {
     dispatch(updateLastReadSurah({username, surahNumber, verseNumber}));
+    dispatch(getLastReadSurah({username}))
   }
 
   return (
     <View
       style={[styles.ayahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={styles.meta}>
-        <Text style={[styles.metaText, {color: fontColor}]}>
+        <Text style={[styles.metaText, {color: tintColor}]}>
           Ayah {ayah.number}
         </Text>
       </View>
@@ -210,7 +209,7 @@ const AyahCard = props => {
             }}>
             <Image
               source={last_read_ic}
-              style={{height: 25, width: 25, tintColor: fontColor}}
+              style={{height: 25, width: 25, tintColor: tintColor}}
               alt="Icon"
             />
           </Pressable>

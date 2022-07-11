@@ -76,10 +76,10 @@ export const getParahByNumber = createAsyncThunk(
   async number => {
 
     console.log('NUMBER',number)
-    const parahs = await fetch(
-      `http://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
+    const parah = await fetch(
+      `https://api.alquran.cloud/v1/juz/${number}/quran-uthmani`,
     );
-    const data = await parahs.json();
+    const data = await parah.json();
     return data;
   },
 );
@@ -87,7 +87,6 @@ export const getParahByNumber = createAsyncThunk(
 export const updateLastReadSurah = createAsyncThunk(
   'updateLastReadSurah',
   async body => {
-    console.log(body);
     const result = await apiPATCH(update_last_read_surah, body);
     return result;
   },
@@ -152,8 +151,8 @@ export const checkSurahIsRead = createAsyncThunk(
 //To be updated as SurahIsRead
 export const checkParahIsRead = createAsyncThunk(
   'checkParahIsRead',
-  async () => {
-    const result = await apiGET(check_parah_is_read);
+  async (body) => {
+    const result = await apiPOST(check_parah_is_read, body);
     return result;
   },
 );

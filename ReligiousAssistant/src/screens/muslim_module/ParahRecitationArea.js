@@ -9,7 +9,6 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   checkParahIsRead,
-  getLastReadParah,
   getParahByNumber,
   markParahAsRead,
   markParahAsUnRead,
@@ -22,6 +21,7 @@ import {
   selectLastReadParah,
   selectParahByNumber,
   selectParahRecitationStatus,
+  updateLastReadParah,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
 
 import Loader from '../common/Loader';
@@ -31,7 +31,6 @@ import colors from '../../theme/colors';
 import {FlatList, Image} from 'native-base';
 import last_read_ic from '../../../assets/images/last_read_ic.png';
 import {
-  getUserData,
   selectUserData,
 } from '../../redux/slices/auth_slices/authSlice';
 import {useState} from 'react';
@@ -62,10 +61,8 @@ const ParahRecitationArea = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getParahByNumber(parah.number));
-
+        
     if (username) {
-      console.log(parahByNumber)
-      dispatch(getLastReadParah({username}));
       dispatch(
         checkParahIsRead({username: username, parahName: parah.englishName}),
       );
@@ -134,45 +131,44 @@ const ParahRecitationArea = ({route, navigation}) => {
               </Text>
             </View>
           </View>
-          {/* <FlatList
+          <FlatList
             data={parahByNumber.ayahs}
-            // initialScrollIndex={scrollIndexForAyah}
+            initialScrollIndex={scrollIndexForAyah}
             mb={'25%'}
             renderItem={({item, index}) => {
-              //Get last read verse number and highlish that card
-              // const {verseNumber} = lastReadSurah.surahLastRead;
-
-              // //Jump to this card with initialSCrollIndex
-              // if (item.number == verseNumber) {
-              //   setScrollIndexForAyah(index);
-              // }
+              // Get last read verse number and highlish that card
+              const {verseNumber} = lastReadParah.parahLastRead;
+              //Jump to this card with initialSCrollIndex
+              if (item.number == verseNumber) {
+                setScrollIndexForAyah(index);
+              }
 
               return (
                 <>
                   {isLoadingLastReadParah ? (
                     <Loader msg="Loading Last Read ... " />
                   ) : (
-                    <></>
-                    // <AyahCard
-                    //   ayah={item}
-                    //   parahNumber={parah.number}
-                    //   key={item.number}
-                    //   username={username}
-                    //   // backgroundColor={
-                    //   //   item.number == verseNumber
-                    //   //     ? colors.tertiary
-                    //   //     : colors.cover
-                    //   // }
-                    //   // fontColor={
-                    //   //   item.number == verseNumber
-                    //   //     ? colors.white
-                    //   //     : colors.success.deep
-                    //   // }
-                    // />
+                    <AyahCard
+                      ayah={item}
+                      parahNumber={parah.number}
+                      key={item.number}
+                      username={username}
+                      backgroundColor={
+                        item.number == verseNumber
+                          ? colors.tertiary
+                          : colors.cover
+                      }
+                      fontColor={
+                        item.number == verseNumber
+                          ? colors.white
+                          : colors.success.deep
+                      }
+                      tintColor={colors.info}
+                    />
                   )}
                 </>
               );
-            }}></FlatList> */}
+            }}></FlatList>
         </>
       )}
     </View>
@@ -180,28 +176,27 @@ const ParahRecitationArea = ({route, navigation}) => {
 };
 
 const AyahCard = props => {
-const {ayah, parahNumber, username/*, backgroundColor, fontColor*/} = props;
+const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} = props;
 
   const dispatch = useDispatch();
   let isLoadingUpdateLastReadParah = useSelector(
     selectIsLoadingUpdateLastReadParah,
   );
 
-  function saveLastRead(parahNumber, verseNumber) {
-    console.log(parahNumber, verseNumber)
-    // dispatch(updateLastReadParah({username, parahNumber, verseNumber}));
+  function saveLastRead(parahNumber, surahNumber, verseNumber) {
+    dispatch(updateLastReadParah({username, parahNumber, surahNumber , verseNumber}));
   }
 
   return (
     <View
-      style={[styles.ayahCardContainer, {backgroundColor: colors.cover}]}>
+      style={[styles.ayahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={styles.meta}>
-        <Text style={[styles.metaText, {color: colors.success.deep}]}>
+        <Text style={[styles.metaText, {color: tintColor}]}>
           Ayah {ayah.number}
         </Text>
       </View>
 
-      <Text style={[styles.ayahText, {color: colors.success.deep}]}>{ayah.text}</Text>
+      <Text style={[styles.ayahText, {color: fontColor}]}>{ayah.text}</Text>
 
       {isLoadingUpdateLastReadParah ? (
         <Loader msg="Updating Last Read ... " />
@@ -209,11 +204,11 @@ const {ayah, parahNumber, username/*, backgroundColor, fontColor*/} = props;
         <View style={styles.actions}>
           <Pressable
             onPress={() => {
-              saveLastRead(parahNumber, ayah.number);
+              saveLastRead(parahNumber, ayah.surah.number, ayah.number, );
             }}>
             <Image
               source={last_read_ic}
-              style={{height: 25, width: 25, tintColor: fontColor}}
+              style={{height: 25, width: 25, tintColor: tintColor}}
               alt="Icon"
             />
           </Pressable>
@@ -222,6 +217,7 @@ const {ayah, parahNumber, username/*, backgroundColor, fontColor*/} = props;
     </View>
   );
 };
+
 export default ParahRecitationArea;
 
 const styles = StyleSheet.create({

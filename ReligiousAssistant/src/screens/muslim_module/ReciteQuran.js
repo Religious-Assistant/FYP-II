@@ -41,25 +41,20 @@ import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
 //Redux
 
 const ReciteQuran = () => {
-
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const {username} = useSelector(selectUserData);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const isLoadingParahs = useSelector(selectIsLoadingParahs);
-  
-  useEffect(() => {
 
-      dispatch(getSurahs());
-      dispatch(getParahs());
+  useEffect(() => {
+    dispatch(getSurahs());
+    dispatch(getParahs());
 
     if (username) {
       dispatch(getLastReadSurah({username}));
       dispatch(getLastReadParah({username}));
     }
-
-
   }, [dispatch, username]);
-
 
   return (
     <View style={{flex: 1}}>
@@ -77,17 +72,17 @@ const ReciteQuran = () => {
       />
 
       <View style={{backgroundColor: colors.white, flex: 0.8}}>
-        {
-          isLoadingParahs || isLoadingSurahs ?<Loader msg='Loading Surahs and Parahs ... ' />:
-            <Tab />
-        }
+        {isLoadingParahs || isLoadingSurahs ? (
+          <Loader msg="Loading Surahs and Parahs ... " />
+        ) : (
+          <Tab />
+        )}
       </View>
     </View>
   );
 };
 
 const SurahRoute = () => {
-
   const surahs = useSelector(selectSurahs);
 
   const navigator = useNavigation();
@@ -98,65 +93,60 @@ const SurahRoute = () => {
   //State
   const [scrollIndexForSurah, setScrollIndexForSurah] = useState(0);
 
-
   function renderRecitationScreen(item) {
     navigator.navigate(SURAH_RECITATION_AREA, {surah: item});
   }
 
   return (
     <>
+      <FlatList
+        data={surahs}
+        initialScrollIndex={scrollIndexForSurah}
+        renderItem={({item, index}) => {
+          //Get last read verse number and highlish that card
+          const {surahNumber} = lastReadSurah.surahLastRead;
 
-        <FlatList
-          data={surahs}
-          initialScrollIndex={scrollIndexForSurah}
-          renderItem={({item, index}) => {
-            //Get last read verse number and highlish that card
-            const {surahNumber} = lastReadSurah.surahLastRead;
+          //Jump to this card with initialSCrollIndex
+          if (item.number == surahNumber) {
+            setScrollIndexForSurah(index);
+          }
 
-            //Jump to this card with initialSCrollIndex
-            if (item.number == surahNumber) {
-              setScrollIndexForSurah(index)
-            }
-
-            return (
-              <>
-                {isLoadingLastReadSurah ? (
-                  <Loader msg="Loading Last Read Surah ..." />
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      renderRecitationScreen(item);
-                    }}>
-                    <SurahCard
-                      surah={item}
-                      key={index}
-                      backgroundColor={
-                        item.number == surahNumber
-                          ? colors.tertiary
-                          : colors.white
-                      }
-                      fontColor={item.number == surahNumber
-                        ? colors.white
-                        : colors.primary}
-                    />
-                  </TouchableOpacity>
-                )}
-              </>
-            );
-          }}></FlatList>
-      
+          return (
+            <>
+              {isLoadingLastReadSurah ? (
+                <Loader msg="Loading Last Read Surah ..." />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    renderRecitationScreen(item);
+                  }}>
+                  <SurahCard
+                    surah={item}
+                    key={index}
+                    backgroundColor={
+                      item.number == surahNumber
+                        ? colors.tertiary
+                        : colors.white
+                    }
+                    fontColor={
+                      item.number == surahNumber ? colors.white : colors.primary
+                    }
+                  />
+                </TouchableOpacity>
+              )}
+            </>
+          );
+        }}></FlatList>
     </>
   );
 };
 
 const ParahRoute = () => {
-
-
   const navigator = useNavigation();
 
   const parahs = useSelector(selectParahs);
   const isLoadingLastReadParah = useSelector(selectIsLoadingLastReadParah);
-  const lastReadParah=useSelector(selectLastReadParah)
+  const lastReadParah = useSelector(selectLastReadParah);
 
   //State
   const [scrollIndexForParah, setScrollIndexForParah] = useState(0);
@@ -167,47 +157,44 @@ const ParahRoute = () => {
 
   return (
     <>
+      <FlatList
+        data={parahs}
+        initialScrollIndex={scrollIndexForParah}
+        renderItem={({item, index}) => {
+          // Get last read verse number and highlish that card
+          const {parahNumber} = lastReadParah.parahLastRead;
 
-        <FlatList
-          data={parahs}
-          initialScrollIndex={scrollIndexForParah}
-          renderItem={({item, index}) => {
-            // Get last read verse number and highlish that card
-            // const {parahNumber} = lastReadParah.parahLastRead.parahNumber;
-
-            // // //Jump to this card with initialSCrollIndex
-            // if (item.number == parahNumber) {
-            //   setScrollIndexForParah(index)
-            // }
-            console.log(lastReadParah)
-            const parahNumber=0;
-            return (
-              <>
-                {isLoadingLastReadParah ? (
-                  <Loader msg="Loading Last Read Parah ..." />
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      renderRecitationScreen(item);
-                    }}>
-                    <ParahCard
-                      parah={item}
-                      key={index}
-                      backgroundColor={
-                        item.number == parahNumber
-                          ? colors.tertiary:
-                           colors.white
-                      }
-                      fontColor={
-                        item.number == parahNumber
-                        ? colors.white:
-                        colors.primary}
-                    />
-                  </TouchableOpacity>
-                )}
-              </>
-            );
-          }}></FlatList>
+          // //Jump to this card with initialSCrollIndex
+          if (item.number == parahNumber) {
+            setScrollIndexForParah(index)
+          }
+          
+          return (
+            <>
+              {isLoadingLastReadParah ? (
+                <Loader msg="Loading Last Read Parah ..." />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    renderRecitationScreen(item);
+                  }}>
+                  <ParahCard
+                    parah={item}
+                    key={index}
+                    backgroundColor={
+                      item.number == parahNumber
+                        ? colors.tertiary
+                        : colors.white
+                    }
+                    fontColor={
+                      item.number == parahNumber ? colors.white : colors.primary
+                    }
+                  />
+                </TouchableOpacity>
+              )}
+            </>
+          );
+        }}></FlatList>
     </>
   );
 };
@@ -272,12 +259,18 @@ const SurahCard = props => {
     <View
       style={[styles.surahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={{flex: 0.1}}>
-        <Text style={[styles.surahNumber, {color:fontColor}]}>{surah.number}.</Text>
+        <Text style={[styles.surahNumber, {color: fontColor}]}>
+          {surah.number}.
+        </Text>
       </View>
       <View style={{flex: 0.4}}>
         <View style={styles.surahDetailsContainer}>
-          <Text style={[styles.surahNameEnglish, {color:fontColor}]}>{surah.englishName}</Text>
-          <Text style={[styles.numberOfAyahs, {color:fontColor}]}>Ayahs: {surah.numberOfAyahs}</Text>
+          <Text style={[styles.surahNameEnglish, {color: fontColor}]}>
+            {surah.englishName}
+          </Text>
+          <Text style={[styles.numberOfAyahs, {color: fontColor}]}>
+            Ayahs: {surah.numberOfAyahs}
+          </Text>
         </View>
       </View>
       <View style={{flex: 0.4}}>
@@ -294,11 +287,15 @@ const ParahCard = props => {
     <View
       style={[styles.surahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={{flex: 0.1}}>
-        <Text style={[styles.surahNumber, {color:fontColor}]}>{parah.number}.</Text>
+        <Text style={[styles.surahNumber, {color: fontColor}]}>
+          {parah.number}.
+        </Text>
       </View>
       <View style={{flex: 0.4}}>
         <View style={styles.surahDetailsContainer}>
-          <Text style={[styles.surahNameEnglish, {color:fontColor}]}>{parah.englishName}</Text>
+          <Text style={[styles.surahNameEnglish, {color: fontColor}]}>
+            {parah.englishName}
+          </Text>
           {/* <Text style={[styles.numberOfAyahs, {color:fontColor}]}>Ayahs: {parah.numberOfAyahs}</Text> */}
         </View>
       </View>
