@@ -48,7 +48,7 @@ import {
 } from '../../redux/slices/auth_slices/authSlice';
 
 import Loader from '../common/Loader';
-import { IP } from '../../services/apis/ServiceConstants';
+import { IP } from '../../apis/serviceConstants';
 import { selectHasUpdatedAutosilentSetting, selectHasUpdatedNamazAccountabilityNotificationSettings, selectHasUpdatedNamazNotificationsSettings, updateAutoSilentSetting, updateNamazAccountabilityNotificationsSetting, updateNamazNotificationSettings } from '../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 
 export default function Settings({navigation}) {

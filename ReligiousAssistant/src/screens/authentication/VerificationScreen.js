@@ -5,20 +5,18 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
 import {Heading} from 'native-base';
-import Separator from '../components/Separator';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import fonts from '../theme/fonts';
-import colors from '../theme/colors';
-import {Display} from '../utils';
-import CustomButton from '../components/CustomButton';
+import Separator from '../../components/Separator';
+import fonts from '../../theme/fonts';
+import colors from '../../theme/colors';
+import {Display} from '../../utils';
+import CustomButton from '../../components/CustomButton';
 import {VStack, Center} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { LOGIN } from '../navigation/constants';
+import { LOGIN } from '../../navigation/constants';
 
 const VerificationScreen = () => {
 

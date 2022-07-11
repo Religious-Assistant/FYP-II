@@ -17,31 +17,32 @@ import {Center, VStack, FormControl} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ioicons from 'react-native-vector-icons/Ionicons';
 
-import CustomButton from '../components/CustomButton';
-import PasswordInput from '../components/PasswordInput';
-import ErrorMessage from '../components/ErrorMessage';
-import TextInput from '../components/TextInput';
-import Loader from './common/Loader';
+import CustomButton from '../../components/CustomButton';
+import PasswordInput from '../../components/PasswordInput';
+import ErrorMessage from '../../components/ErrorMessage';
+import TextInput from '../../components/TextInput';
+import Loader from '../common/Loader';
 
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
 //Navigation
 import {useNavigation} from '@react-navigation/native';
-import {LOGIN} from '../navigation/constants';
+import {LOGIN} from '../../navigation/constants';
 
 //theme
-import fonts from '../theme/fonts';
-import colors from '../theme/colors';
-import image from '../../assets/images/setPassword_bg.png';
+import fonts from '../../theme/fonts';
+import colors from '../../theme/colors';
+import image from '../../../assets/images/setPassword_bg.png';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   forgotPassword,
   selectHasRecoveredForgetPassword,
-  selectIsLoading,
-} from '../redux/slices/auth_slices/authSlice';
+  selectIsLoadingForgotPassword,
+
+} from '../../redux/slices/auth_slices/authSlice';
 
 
 const loginValidationSchema = yup.object().shape({
@@ -50,8 +51,9 @@ const loginValidationSchema = yup.object().shape({
 
 export default function SetNewPassword() {
   const navigator = useNavigation();
+
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
+  const isLoading = useSelector(selectIsLoadingForgotPassword);
   const recovered = useSelector(selectHasRecoveredForgetPassword);
 
   function backToLogin() {

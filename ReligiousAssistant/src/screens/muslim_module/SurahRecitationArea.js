@@ -1,6 +1,5 @@
 import {
   Pressable,
-  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,

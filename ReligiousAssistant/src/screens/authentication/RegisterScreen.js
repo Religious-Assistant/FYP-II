@@ -16,21 +16,21 @@ import * as yup from 'yup';
 import Ioicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import colors from '../theme/colors';
-import fonts from '../theme/fonts';
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 
-import TextInput from '../components/TextInput';
-import BottomText from '../components/BottomText';
-import PasswordInput from '../components/PasswordInput';
-import CustomButton from '../components/CustomButton';
-import ErrorMessage from '../components/ErrorMessage';
-import image from '../../assets/images/signUp_bg.png';
+import TextInput from '../../components/TextInput';
+import BottomText from '../../components/BottomText';
+import PasswordInput from '../../components/PasswordInput';
+import CustomButton from '../../components/CustomButton';
+import ErrorMessage from '../../components/ErrorMessage';
+import image from '../../../assets/images/signUp_bg.png';
 import {useNavigation} from '@react-navigation/native';
-import {ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION} from '../navigation/constants';
+import {ENTER_AS_GUEST, LOGIN, OTP_VERIFICATION} from '../../navigation/constants';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../redux/slices/auth_slices/authSlice';
+import { registerUser } from '../../redux/slices/auth_slices/authSlice';
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';

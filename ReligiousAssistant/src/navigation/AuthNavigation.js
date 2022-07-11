@@ -6,8 +6,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import LoginScreen from '../screens/authentication/LoginScreen';
+import RegisterScreen from '../screens/authentication/RegisterScreen';
 import {
   ENTER_AS_GUEST,
   LOGIN,
@@ -16,10 +16,10 @@ import {
   SIGNUP,
   SPLASH_SCREEN,
 } from './constants';
-import ConnectAsGuest from '../screens/ConnectAsGuest';
-import VerificationScreen from '../screens/VerificationScreen';
-import SplashScreeen from '../screens/SplashScreeen';
-import SetNewPassword from '../screens/SetNewPassword';
+import ConnectAsGuest from '../screens/authentication/ConnectAsGuest';
+import VerificationScreen from '../screens/authentication/VerificationScreen';
+import SplashScreeen from '../screens/authentication/SplashScreeen';
+import SetNewPassword from '../screens/authentication/SetNewPassword';
 
 const AuthStack = createNativeStackNavigator();
 

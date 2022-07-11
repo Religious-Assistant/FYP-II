@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL } from "./ServiceConstants";
+import { BASE_URL } from "./serviceConstants";
 
 const apiPOST = async (api,body)=>{
     const res =  await fetch(`${BASE_URL}/${api}`,{ 

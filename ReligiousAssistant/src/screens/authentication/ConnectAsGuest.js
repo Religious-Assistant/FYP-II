@@ -10,13 +10,13 @@ import {Center, Box, VStack, FormControl} from 'native-base';
 import {Select, CheckIcon} from 'native-base';
 import {Formik} from 'formik';
 
-import CustomButton from '../components/CustomButton';
-import BottomText from '../components/BottomText';
+import CustomButton from '../../components/CustomButton';
+import BottomText from '../../components/BottomText';
 
-import colors from '../theme/colors';
-import fonts from '../theme/fonts';
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 
-import {REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../navigation/constants';
+import {REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../../navigation/constants';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ConnectAsGuest() {
@@ -39,7 +39,7 @@ export default function ConnectAsGuest() {
     <View style={styles.flexRatio}>
       <ImageBackground
         style={styles.image}
-        source={require('../../assets/images/connectAsGuest_bg.png')}>
+        source={require('../../../assets/images/connectAsGuest_bg.png')}>
         <Center w="100%" mt={'20%'}>
           <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
             <Formik

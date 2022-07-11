@@ -22,15 +22,15 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 import Ioicons from 'react-native-vector-icons/Ionicons';
-import fonts from '../theme/fonts';
-import colors from '../theme/colors';
+import fonts from '../../theme/fonts';
+import colors from '../../theme/colors';
 
-import CustomButton from '../components/CustomButton';
-import TextInput from '../components/TextInput';
-import PasswordInput from '../components/PasswordInput';
-import BottomText from '../components/BottomText';
-import ErrorMessage from '../components/ErrorMessage';
-import image from '../../assets/images/login_bg.png';
+import CustomButton from '../../components/CustomButton';
+import TextInput from '../../components/TextInput';
+import PasswordInput from '../../components/PasswordInput';
+import BottomText from '../../components/BottomText';
+import ErrorMessage from '../../components/ErrorMessage';
+import image from '../../../assets/images/login_bg.png';
 
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -40,15 +40,15 @@ import {
   REGISTERED_MUSLIM_DASHBOARD_STACK,
   SET_NEW_PASSWORD,
   SIGNUP,
-} from '../navigation/constants';
+} from '../../navigation/constants';
 
 
 //Redux
 import {useDispatch} from 'react-redux'
-import { loginUser, selectIsLoadingLogin } from '../redux/slices/auth_slices/authSlice';
+import { loginUser, selectIsLoadingLogin } from '../../redux/slices/auth_slices/authSlice';
 import { useSelector } from 'react-redux';
-import Loader from './common/Loader';
-import getDeviceToken from '../../getDeviceToken';
+import Loader from '../common/Loader';
+import getDeviceToken from '../../../getDeviceToken';
 
 // const loginValidationSchema = yup.object().shape({
 //   username: yup.string().required('username is required'),

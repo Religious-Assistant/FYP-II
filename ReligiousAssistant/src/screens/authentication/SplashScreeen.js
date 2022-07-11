@@ -8,21 +8,19 @@ import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import bg_gif from '../../assets/images/splash.gif';
+import bg_gif from '../../../assets/images/splash.gif';
 import {
   LOGIN,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
-} from '../navigation/constants';
+} from '../../navigation/constants';
 import {
   getReligion,
   getToken,
-  getUserData,
   logout,
   selectReligion,
   selectToken,
-  selectUserData,
-} from '../redux/slices/auth_slices/authSlice';
+} from '../../redux/slices/auth_slices/authSlice';
 
 //Logout user if token is expired in AsyncStorage
 import jwtDecode from 'jwt-decode';

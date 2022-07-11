@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiPATCH} from '../../../services/apis/AuthService'
+import {apiPOST, apiPATCH} from '../../../apis/apiService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { forgot_password, login_user, register_user } from '../../endpoints';
