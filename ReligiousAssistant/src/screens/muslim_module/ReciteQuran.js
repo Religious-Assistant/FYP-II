@@ -19,10 +19,16 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getLastReadSurah,
+  getLastReadParah,
+  getParahs,
   getSurahs,
+  selectIsLoadingLastReadParah,
   selectIsLoadingLastReadSurah,
+  selectIsLoadingParahs,
   selectIsLoadingSurahs,
+  selectLastReadParah,
   selectLastReadSurah,
+  selectParahs,
   selectSurahs,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
 import Loader from '../common/Loader';
@@ -35,6 +41,26 @@ import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
 //Redux
 
 const ReciteQuran = () => {
+
+  const dispatch=useDispatch()
+  const {username} = useSelector(selectUserData);
+  const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
+  const isLoadingParahs = useSelector(selectIsLoadingParahs);
+  
+  useEffect(() => {
+
+      dispatch(getSurahs());
+      dispatch(getParahs());
+
+    if (username) {
+      dispatch(getLastReadSurah({username}));
+      dispatch(getLastReadParah({username}));
+    }
+
+
+  }, [dispatch, username]);
+
+
   return (
     <View style={{flex: 1}}>
       <Header
@@ -51,34 +77,27 @@ const ReciteQuran = () => {
       />
 
       <View style={{backgroundColor: colors.white, flex: 0.8}}>
-        <Tab />
+        {
+          isLoadingParahs || isLoadingSurahs ?<Loader msg='Loading Surahs and Parahs ... ' />:
+            <Tab />
+        }
       </View>
     </View>
   );
 };
 
 const SurahRoute = () => {
+
   const surahs = useSelector(selectSurahs);
-  const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
-  const dispatch = useDispatch();
+
   const navigator = useNavigation();
 
   const isLoadingLastReadSurah = useSelector(selectIsLoadingLastReadSurah);
   const lastReadSurah = useSelector(selectLastReadSurah);
-  const {username} = useSelector(selectUserData);
 
   //State
   const [scrollIndexForSurah, setScrollIndexForSurah] = useState(0);
 
-  useEffect(() => {
-    if (!surahs) {
-      dispatch(getSurahs());
-    }
-
-    if (username) {
-      dispatch(getLastReadSurah({username}));
-    }
-  }, [dispatch, username]);
 
   function renderRecitationScreen(item) {
     navigator.navigate(SURAH_RECITATION_AREA, {surah: item});
@@ -86,9 +105,7 @@ const SurahRoute = () => {
 
   return (
     <>
-      {isLoadingSurahs ? (
-        <Loader msg="Loading Surahs ..." />
-      ) : (
+
         <FlatList
           data={surahs}
           initialScrollIndex={scrollIndexForSurah}
@@ -118,22 +135,80 @@ const SurahRoute = () => {
                           ? colors.tertiary
                           : colors.white
                       }
+                      fontColor={item.number == surahNumber
+                        ? colors.white
+                        : colors.primary}
                     />
                   </TouchableOpacity>
                 )}
               </>
             );
           }}></FlatList>
-      )}
+      
     </>
   );
 };
 
 const ParahRoute = () => {
+
+
+  const navigator = useNavigation();
+
+  const parahs = useSelector(selectParahs);
+  const isLoadingLastReadParah = useSelector(selectIsLoadingLastReadParah);
+  const lastReadParah=useSelector(selectLastReadParah)
+
+  //State
+  const [scrollIndexForParah, setScrollIndexForParah] = useState(0);
+
+  function renderRecitationScreen(item) {
+    navigator.navigate(PARAH_RECITATION_AREA, {parah: item});
+  }
+
   return (
-    <Center flex={1} my="4">
-      This is Tab 2
-    </Center>
+    <>
+
+        <FlatList
+          data={parahs}
+          initialScrollIndex={scrollIndexForParah}
+          renderItem={({item, index}) => {
+            // Get last read verse number and highlish that card
+            // const {parahNumber} = lastReadParah.parahLastRead.parahNumber;
+
+            // // //Jump to this card with initialSCrollIndex
+            // if (item.number == parahNumber) {
+            //   setScrollIndexForParah(index)
+            // }
+            console.log(lastReadParah)
+            const parahNumber=0;
+            return (
+              <>
+                {isLoadingLastReadParah ? (
+                  <Loader msg="Loading Last Read Parah ..." />
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      renderRecitationScreen(item);
+                    }}>
+                    <ParahCard
+                      parah={item}
+                      key={index}
+                      backgroundColor={
+                        item.number == parahNumber
+                          ? colors.tertiary:
+                           colors.white
+                      }
+                      fontColor={
+                        item.number == parahNumber
+                        ? colors.white:
+                        colors.primary}
+                    />
+                  </TouchableOpacity>
+                )}
+              </>
+            );
+          }}></FlatList>
+    </>
   );
 };
 const StatsRoute = () => {
@@ -191,18 +266,18 @@ function Tab() {
 }
 
 const SurahCard = props => {
-  const {surah, backgroundColor} = props;
+  const {surah, backgroundColor, fontColor} = props;
 
   return (
     <View
       style={[styles.surahCardContainer, {backgroundColor: backgroundColor}]}>
       <View style={{flex: 0.1}}>
-        <Text style={styles.surahNumber}>{surah.number}.</Text>
+        <Text style={[styles.surahNumber, {color:fontColor}]}>{surah.number}.</Text>
       </View>
       <View style={{flex: 0.4}}>
         <View style={styles.surahDetailsContainer}>
-          <Text style={styles.surahNameEnglish}>{surah.englishName}</Text>
-          <Text style={styles.numberOfAyahs}>Ayahs: {surah.numberOfAyahs}</Text>
+          <Text style={[styles.surahNameEnglish, {color:fontColor}]}>{surah.englishName}</Text>
+          <Text style={[styles.numberOfAyahs, {color:fontColor}]}>Ayahs: {surah.numberOfAyahs}</Text>
         </View>
       </View>
       <View style={{flex: 0.4}}>
@@ -212,6 +287,27 @@ const SurahCard = props => {
   );
 };
 
+const ParahCard = props => {
+  const {parah, backgroundColor, fontColor} = props;
+
+  return (
+    <View
+      style={[styles.surahCardContainer, {backgroundColor: backgroundColor}]}>
+      <View style={{flex: 0.1}}>
+        <Text style={[styles.surahNumber, {color:fontColor}]}>{parah.number}.</Text>
+      </View>
+      <View style={{flex: 0.4}}>
+        <View style={styles.surahDetailsContainer}>
+          <Text style={[styles.surahNameEnglish, {color:fontColor}]}>{parah.englishName}</Text>
+          {/* <Text style={[styles.numberOfAyahs, {color:fontColor}]}>Ayahs: {parah.numberOfAyahs}</Text> */}
+        </View>
+      </View>
+      <View style={{flex: 0.4}}>
+        <Text style={styles.surahNameArabic}>{parah.name}</Text>
+      </View>
+    </View>
+  );
+};
 export default ReciteQuran;
 
 const styles = StyleSheet.create({
@@ -235,7 +331,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
   },
   surahNameArabic: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: fonts.Signika.bold,
     color: colors.success.light,
   },

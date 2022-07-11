@@ -1,113 +1,224 @@
-import {Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getSurahByNumber,
-  markSurahAsRead,
-  selectIsLoadingMarkSurahAsRead,
-  selectIsLoadingSurahByNumber,
-  selectIsLoadingUpdateLastReadSurah,
-  selectSurahByNumber,
-  updateLastReadSurah,
+  checkParahIsRead,
+  getLastReadParah,
+  getParahByNumber,
+  markParahAsRead,
+  markParahAsUnRead,
+  selectIsLoadingLastReadParah,
+  selectIsLoadingMarkParahAsRead,
+  selectIsLoadingMarkParahAsUnRead,
+  selectIsLoadingParahByNumber,
+  selectIsLoadingParahRecitationStatus,
+  selectIsLoadingUpdateLastReadParah,
+  selectLastReadParah,
+  selectParahByNumber,
+  selectParahRecitationStatus,
 } from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
+
 import Loader from '../common/Loader';
 import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
 
 import {FlatList, Image} from 'native-base';
 import last_read_ic from '../../../assets/images/last_read_ic.png';
-import Header from '../../components/Header';
-import CustomButton from '../../components/CustomButton';
+import {
+  getUserData,
+  selectUserData,
+} from '../../redux/slices/auth_slices/authSlice';
+import {useState} from 'react';
 
 const ParahRecitationArea = ({route, navigation}) => {
-  const {surah} = route.params;
+
+  const {parah} = route.params;
   const dispatch = useDispatch();
-  const surahByNumber = useSelector(selectSurahByNumber);
-  const isLoadingSurahByNumber = useSelector(selectIsLoadingSurahByNumber);
-  const isLoadingMarkSurahAsRead=useSelector(selectIsLoadingMarkSurahAsRead)
+
+  const parahByNumber = useSelector(selectParahByNumber);
+  const isLoadingParahByNumber = useSelector(selectIsLoadingParahByNumber);
+  const isLoadingMarkParahAsRead = useSelector(selectIsLoadingMarkParahAsRead);
+  const isLoadingMarkParahAsUnRead = useSelector(
+    selectIsLoadingMarkParahAsUnRead,
+  );
+  const isLoadingParahRecitationStatus = useSelector(
+    selectIsLoadingParahRecitationStatus,
+  );
+
+  const parahRecitationStatus = useSelector(selectParahRecitationStatus);
+
+  const {username} = useSelector(selectUserData);
+  const isLoadingLastReadParah = useSelector(selectIsLoadingLastReadParah);
+  const lastReadParah = useSelector(selectLastReadParah);
+
+  // State
+  const [scrollIndexForAyah, setScrollIndexForAyah] = useState(0);
 
   useEffect(() => {
-    dispatch(getSurahByNumber(surah.number));
-  }, [dispatch]);
+    dispatch(getParahByNumber(parah.number));
 
-  function markSurahAsComplete(surahNumber){
+    if (username) {
+      console.log(parahByNumber)
+      dispatch(getLastReadParah({username}));
+      dispatch(
+        checkParahIsRead({username: username, parahName: parah.englishName}),
+      );
+    }
+  }, [dispatch, username]);
 
-    //Send this to Redux
-
-    dispatch(markSurahAsRead({surahNumber}))
-
+  function markParahAsComplete(parahNumber, parahName) {
+    if (username) {
+        dispatch(markParahAsRead({username, parahNumber, parahName}));
+        dispatch(checkParahIsRead({username, parahName}));
+    }
   }
+
+  function markParahAsInComplete(parahNumber, parahName) {
+    if (username) {
+      dispatch(markParahAsUnRead({username, parahNumber, parahName}));
+      dispatch(checkParahIsRead({username, parahName}));
+    }
+  }
+
   return (
     <View style={{backgroundColor: colors.white}}>
-      {isLoadingSurahByNumber || isLoadingMarkSurahAsRead ? (
-        <Loader msg={`Getting it done for you.. ${surah.englishName} ...`} />
+      {
+      isLoadingParahByNumber ||
+      isLoadingMarkParahAsRead ||
+      isLoadingMarkParahAsUnRead ? (
+        <Loader msg={`Getting Parah ${parah.englishName} for you ...`} />
       ) : (
         <>
-        <View style={styles.surahActionContainer}>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-            <TouchableOpacity onPress={()=>{
-                markSurahAsComplete(surah.number)
-            }}>
-            <Text style={{fontFamily:fonts.Signika.medium, color:colors.white, fontSize:16,marginTop:10, marginLeft:10}}>
-                    Mark As Complete
-                </Text>
-            </TouchableOpacity>
-
-                <Text style={{fontFamily:fonts.Signika.bold, color:colors.secondary, fontSize:20,marginTop:10, marginRight:10}}>
-                    {surah.name}
-                </Text>
+          <View style={[styles.surahActionContainer]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginLeft: 10,
+                marginRight: 10,
+                top: 35,
+              }}>
+              {isLoadingParahRecitationStatus ? (
+                <Loader msg="Loading recitation status ..." />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    parahRecitationStatus
+                      ? markParahAsInComplete(parah.number, parah.englishName)
+                      : markParahAsComplete(parah.number, parah.englishName);
+                  }}
+                  >
+                  <Text
+                    style={{
+                      fontFamily: fonts.Signika.medium,
+                      color: parahRecitationStatus ? colors.info : colors.white,
+                      fontSize: 16,
+                    }}>
+                    {parahRecitationStatus ? 'Mark as Unread' : 'Mark as Read'}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              <Text
+                style={{
+                  fontFamily: fonts.Signika.bold,
+                  color: colors.secondary,
+                  fontSize: 20,
+                }}>
+                {parah?parah.name:''}
+              </Text>
             </View>
-        </View>
-            <FlatList
-          data={surahByNumber.ayahs}
-          renderItem={({item, index}) => {
-            return (
-              <>
-                <AyahCard ayah={item} surahNumber={surah.number} key={item.number} />
-              </>
-            );
-          }}></FlatList>
+          </View>
+          {/* <FlatList
+            data={parahByNumber.ayahs}
+            // initialScrollIndex={scrollIndexForAyah}
+            mb={'25%'}
+            renderItem={({item, index}) => {
+              //Get last read verse number and highlish that card
+              // const {verseNumber} = lastReadSurah.surahLastRead;
+
+              // //Jump to this card with initialSCrollIndex
+              // if (item.number == verseNumber) {
+              //   setScrollIndexForAyah(index);
+              // }
+
+              return (
+                <>
+                  {isLoadingLastReadParah ? (
+                    <Loader msg="Loading Last Read ... " />
+                  ) : (
+                    <></>
+                    // <AyahCard
+                    //   ayah={item}
+                    //   parahNumber={parah.number}
+                    //   key={item.number}
+                    //   username={username}
+                    //   // backgroundColor={
+                    //   //   item.number == verseNumber
+                    //   //     ? colors.tertiary
+                    //   //     : colors.cover
+                    //   // }
+                    //   // fontColor={
+                    //   //   item.number == verseNumber
+                    //   //     ? colors.white
+                    //   //     : colors.success.deep
+                    //   // }
+                    // />
+                  )}
+                </>
+              );
+            }}></FlatList> */}
         </>
-        
       )}
     </View>
   );
 };
 
 const AyahCard = props => {
-  const {ayah, surahNumber} = props;
+const {ayah, parahNumber, username/*, backgroundColor, fontColor*/} = props;
 
-  const dispatch=useDispatch()
-  let isLoadingUpdateLastReadSurah=useSelector(selectIsLoadingUpdateLastReadSurah);
-  
+  const dispatch = useDispatch();
+  let isLoadingUpdateLastReadParah = useSelector(
+    selectIsLoadingUpdateLastReadParah,
+  );
 
-  function saveLastRead(surahNum, ayahNum) {
-    //Store in database again user
-    dispatch(updateLastReadSurah({surahNumber:surahNum, ayahNumber:ayahNum}))
+  function saveLastRead(parahNumber, verseNumber) {
+    console.log(parahNumber, verseNumber)
+    // dispatch(updateLastReadParah({username, parahNumber, verseNumber}));
   }
 
   return (
-    <View style={styles.ayahCardContainer}>
-              <View style={styles.meta}>
-      <Text style={styles.metaText}>{ayah.number}</Text>
+    <View
+      style={[styles.ayahCardContainer, {backgroundColor: colors.cover}]}>
+      <View style={styles.meta}>
+        <Text style={[styles.metaText, {color: colors.success.deep}]}>
+          Ayah {ayah.number}
+        </Text>
       </View>
 
-      <Text style={styles.ayahText}>{ayah.text}</Text>
+      <Text style={[styles.ayahText, {color: colors.success.deep}]}>{ayah.text}</Text>
 
-        {isLoadingUpdateLastReadSurah?<Loader msg="Updating Last Read ... " />:
-                  <View style={styles.actions}>
-                  <Pressable
-                    onPress={() => {
-                      saveLastRead(surahNumber, ayah.number);
-                    }}>
-                    <Image
-                      source={last_read_ic}
-                      style={{height: 25, width: 25, tintColor:colors.info}}
-                      alt="Icon"
-                    />
-                  </Pressable>
-                  </View>
-        }
+      {isLoadingUpdateLastReadParah ? (
+        <Loader msg="Updating Last Read ... " />
+      ) : (
+        <View style={styles.actions}>
+          <Pressable
+            onPress={() => {
+              saveLastRead(parahNumber, ayah.number);
+            }}>
+            <Image
+              source={last_read_ic}
+              style={{height: 25, width: 25, tintColor: fontColor}}
+              alt="Icon"
+            />
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 };
@@ -117,31 +228,29 @@ const styles = StyleSheet.create({
   ayahCardContainer: {
     padding: 10,
     marginTop: 5,
-    backgroundColor: colors.cover,
-    width:'96%',
-    alignSelf:'center',
-    borderRadius:2,
-    flex:1,
+    width: '96%',
+    alignSelf: 'center',
+    borderRadius: 2,
+    flex: 1,
   },
-  surahActionContainer:{
-    backgroundColor:colors.primary,
-    height:130,
+  surahActionContainer: {
+    backgroundColor: colors.primary,
+    height: 100,
   },
   ayahText: {
     fontFamily: fonts.Signika.bold,
     fontSize: 22,
-    color: colors.success.deep,
     margin: 5,
   },
-  actions:{
-    flexDirection:'row',
-    paddingVertical:2,
-   },
-   meta:{
-    flexDirection:'row',
-    marginLeft:10,
-   },
-   metaText:{
-    fontFamily:fonts.Signika.bold,
-   }
+  actions: {
+    flexDirection: 'row',
+    paddingVertical: 2,
+  },
+  meta: {
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  metaText: {
+    fontFamily: fonts.Signika.bold,
+  },
 });

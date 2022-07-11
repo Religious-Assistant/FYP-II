@@ -9,9 +9,10 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  Image
 } from 'react-native';
 
-import {Image, Text, View} from 'native-base';
+import {Text, View} from 'native-base';
 
 // Tab ICons...
 import profile from '../../../assets/images/nadir.png';
@@ -34,8 +35,9 @@ import {useNavigation} from '@react-navigation/native';
 
 import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
-import { logout } from '../../redux/slices/auth_slices/authSlice';
+import { getUserData, logout, selectHasError, selectIsLoadingGetUserData, selectUserData } from '../../redux/slices/auth_slices/authSlice';
 import { selectCurrentTab } from '../../redux/slices/muslim_module_slices/bottomNavSlice';
+import Loader from '../common/Loader';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -48,16 +50,29 @@ export default function RegisteredMuslimDashboard() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
+  const dispatch=useDispatch()
   const selectedTab = useSelector(selectCurrentTab);
-  
+  const user=useSelector(selectUserData)
+  const isLoadingGetUserData=useSelector(selectIsLoadingGetUserData)
+  const hasError=useSelector(selectHasError)
+
   useEffect(() => {
-    // console.log(selectedTab);
-  }, [selectedTab]);
+
+    if(!user){
+      dispatch(getUserData())
+    }
+  }, [dispatch, selectedTab]);
 
   return (
     <SafeAreaView style={styles.container}>
+      {
+          isLoadingGetUserData || hasError ? <Loader msg='Loading Dashboard for you ... '/>: 
+        
       <View style={{justifyContent: 'flex-start', padding: 15}}>
-        <View style={{}}>
+        
+        <View style={{
+          alignItems:'center'
+        }}>
           <Image
             source={profile}
             style={{
@@ -65,19 +80,18 @@ export default function RegisteredMuslimDashboard() {
               height: 80,
               borderRadius: 50,
               marginTop: 8,
-              left: 32,
             }}
+            resizeMode={'cover'} 
             alt="Profile image"></Image>
 
           <Text
             style={{
               fontSize: 20,
               color: 'white',
-              marginTop: 20,
-              left: 15,
+              marginTop: 15,
               fontFamily: fonts.Signika.bold,
             }}>
-            Nadir Hussain
+              {user? user.username:'Loading name ... '}
           </Text>
         </View>
 
@@ -94,7 +108,7 @@ export default function RegisteredMuslimDashboard() {
 
         <View>{TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}</View>
       </View>
-
+      }
       {
         // Over lay View...
       }

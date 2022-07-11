@@ -65,6 +65,14 @@ const make_announcement='make-announcement'
 const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
 
+//QuranInfo
+
+const get_parahs='get-parahs'
+
+export{
+    get_parahs
+}
+
 export {
     register_user,
     login_user,

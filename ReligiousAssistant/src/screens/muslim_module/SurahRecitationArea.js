@@ -64,7 +64,7 @@ const SurahRecitationArea = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getSurahByNumber(surah.number));
-    dispatch(getUserData());
+    // dispatch(getUserData());
     if (username) {
       // dispatch(getLastReadSurah({username}));
       dispatch(

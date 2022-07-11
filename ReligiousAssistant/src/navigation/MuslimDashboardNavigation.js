@@ -77,7 +77,7 @@ function MuslimDashboardNavigation() {
         options={{title: 'Recitation'}}
       />
 
-<HomeStack.Screen
+      <HomeStack.Screen
         name={PARAH_RECITATION_AREA}
         component={ParahRecitationArea}
         options={{title: 'Recitation'}}

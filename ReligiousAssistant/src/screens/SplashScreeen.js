@@ -6,63 +6,62 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import bg_gif from '../../assets/images/splash.gif';
-import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK} from '../navigation/constants';
-import { getReligion, getToken, getUserData, logout, selectReligion, selectToken, selectUserData } from '../redux/slices/auth_slices/authSlice';
-
+import {
+  LOGIN,
+  REGISTERED_HINDU_DASHBOARD_STACK,
+  REGISTERED_MUSLIM_DASHBOARD_STACK,
+} from '../navigation/constants';
+import {
+  getReligion,
+  getToken,
+  getUserData,
+  logout,
+  selectReligion,
+  selectToken,
+  selectUserData,
+} from '../redux/slices/auth_slices/authSlice';
 
 //Logout user if token is expired in AsyncStorage
 import jwtDecode from 'jwt-decode';
 
 function SplashScreeen() {
-
   const navigator = useNavigation();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  const token=useSelector(selectToken)
-  const religion=useSelector(selectReligion)
+  const token = useSelector(selectToken);
+  const religion = useSelector(selectReligion);
 
-  console.log(`User Token: ${token}  \nUser Religion: ${religion}`)
+  console.log(`User Token: ${token}  \nUser Religion: ${religion}`);
 
   useEffect(() => {
-
-    dispatch(getToken())
-    dispatch(getReligion())
+    dispatch(getToken());
+    dispatch(getReligion());
     // dispatch(getUserData())
 
     setTimeout(() => {
-      
-    if(religion==1 && token){
-
-      //Check if token is expired, then logout user
-      const decodedToken=jwtDecode(token)
-      if(decodedToken.exp < Date.now() / 1000){
-          dispatch(logout())
+      if (religion == 1 && token) {
+        //Check if token is expired, then logout user
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp < Date.now() / 1000) {
+          dispatch(logout());
+        } else {
+          navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
+        }
+      } else if (religion == 0 && token) {
+        //Check if token is expired, then logout user
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp < Date.now() / 1000) {
+          dispatch(logout());
+        } else {
+          navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
+        }
+      } else {
+        navigator.navigate(LOGIN);
       }
-      else{
-        navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
-      }
-    }
-    else if(religion==0 && token){
-      
-      //Check if token is expired, then logout user
-      const decodedToken=jwtDecode(token)
-      if(decodedToken.exp < Date.now() / 1000){
-          dispatch(logout())
-      }
-      else{
-        navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
-      }
-    }
-    else{
-      navigator.navigate(LOGIN)
-    }
-
-  }, 2000);
-
-
+    }, 2000);
   }, [token, religion]);
 
   return (
