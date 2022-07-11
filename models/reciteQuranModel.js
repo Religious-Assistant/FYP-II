@@ -59,7 +59,7 @@ const reciteQuranSchema = mongoose.Schema({
       default: 0,
     },
   },
-});
+},{timestamp:true});
 
 
 module.exports = mongoose.model("QuranRecitation", reciteQuranSchema);

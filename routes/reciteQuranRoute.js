@@ -4,7 +4,7 @@ const recite_quran_route=express()
 
 const authMiddleWare=require('../middlewares/authMiddleWare')
 
-recite_quran_route.get('/get-recitation-stats',authMiddleWare,getRecitationStats)
+recite_quran_route.post('/get-recitation-stats',authMiddleWare,getRecitationStats)
 recite_quran_route.patch('/mark-surah-as-read',authMiddleWare,markSurahAsRead)
 recite_quran_route.post('/check-surah-is-read',authMiddleWare,checkSurahIsRead)
 recite_quran_route.post('/check-parah-is-read',authMiddleWare,checkParahIsRead)
