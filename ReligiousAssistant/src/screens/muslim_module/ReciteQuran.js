@@ -209,8 +209,8 @@ const StatsRoute = () => {
 };
 
 const renderScene = SceneMap({
-  first: StatsRoute,
-  second: StatsRoute,
+  first: SurahRoute,
+  second: ParahRoute,
   third: StatsRoute,
 });
 
