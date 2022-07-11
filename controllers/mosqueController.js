@@ -66,6 +66,9 @@ const getUnverifiedMosquesAroundUser=async(req, res)=>{
                     maxDistance:parseFloat(1000)*1609,
                     distanceField:'dist.calculated',
                     spherical:true,
+
+                    // "distanceMultiplier": 6378.1, // multiplier for kilometres
+                    // "maxDistance": 100 / 6378.1, // every user within 100 km
                 }
             },
             { $match: { verified:false } },

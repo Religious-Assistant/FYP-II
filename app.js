@@ -42,6 +42,7 @@ const learn_namaz_route=require('./routes/learnNamazRoute')
 const imam_route=require('./routes/imamRoute')
 const recite_quran_route=require('./routes/reciteQuranRoute')
 const muslim_pref_route=require('./routes/muslimUserPreferenceRoute')
+const quranInfo_route=require('./routes/quranInfoRoute')
 
 app.use('/api', user_routes)
 app.use('/api', tasbih_routes)
@@ -54,6 +55,7 @@ app.use('/api', learn_namaz_route)
 app.use('/api', imam_route)
 app.use('/api', recite_quran_route)
 app.use('/api', muslim_pref_route)
+app.use('/api', quranInfo_route)
 
 // //Test API for Notification
 // app.get('/api/getNotf',async(req, res)=>{

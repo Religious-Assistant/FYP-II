@@ -2,6 +2,7 @@ const  NamazAccountability = require("../models/namazAccountabilityModel");
 
 const updateNamazAccuntability=async(req, res)=>{
 
+  console.log(`Updated namaz Accountability API hit`)
   try{
 
   }

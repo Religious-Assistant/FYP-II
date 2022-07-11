@@ -10,6 +10,9 @@ const Tasbih = require("../models/tasbihModel");
 const DeviceToken = require("../models/deviceTokenModel");
 const MuslimPreference = require("../models/muslimUserPreferencesModel");
 const QuranRecitation = require("../models/reciteQuranModel");
+const NamazAccountability=require('../models/namazAccountabilityModel')
+const FastAccountability=require('../models/fastAccountabilityModel')
+const QuranInfo=require('../models/quranInfo')
 
 //common functions
 const { hashPassword, createToken } = require("./common");
@@ -69,6 +72,18 @@ const registerUser = async (req, res) => {
           await quranRecitation.save((err, result) => {
             console.log(result ? result : err);
           });
+
+
+          // const namazAccountability=new NamazAccountability({
+          //   username,
+          //   prayers:[]
+          // })
+          
+          // await namazAccountability.save((err, result)=>{
+          //   console.log(result?result:err)
+          // })
+
+          // await insertQuranInfo()
         }
 
         res.send({ success: true, data: user_data, avatar: img_url });
@@ -323,6 +338,38 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const updateLocation = async (req, res) => {
+  console.log("Update Location API hit");
+  try {
+    const { username, longitude, latitude } = req.body;
+    const user = await User.findOne({ username });
+    if (user) {
+      if (latitude && longitude) {
+        const data=await User.updateOne(
+          { username: username },
+          {
+            $set: {
+              location: {
+                type: "Point",
+                coordinates: [parseFloat(longitude), parseFloat(latitude)],
+              },
+            },
+          },{
+            new:true
+          }
+        );
+        res.send({ success: true, msg: "Location Updated Successfully", data:data });
+      } else {
+        res.send({ success: false, msg: "Location required" });
+      }
+    } else {
+      res.status(400).send({ success: false, msg: "No such user" });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const deleteUser = async (req, res) => {
   console.log("Delete User API hit");
   try {
@@ -333,6 +380,7 @@ const deleteUser = async (req, res) => {
     await QuranRecitation.findOneAndDelete({ username });
     await DeviceToken.findOneAndDelete({ username });
     await MuslimPreference.findOneAndDelete({ username });
+    
     // await .findOneAndDelete({ username }); Hindu Prefs
 
     res.status(200).send({
@@ -344,6 +392,196 @@ const deleteUser = async (req, res) => {
   }
 };
 
+
+const insertQuranInfo=async()=>{
+  const quranInfo=new QuranInfo({
+    parahs:[
+      {
+        number: 1,
+        name: "آلم",
+        englishName: "Alif laam meem",
+        
+      },
+      {
+        number: 2,
+        name: "سَيَقُولُ",
+        englishName: "Sayaqulu",
+        
+      },
+      {
+        number: 3,
+        name: "تِلْكَ الرُّسُلُ",
+        englishName: "Tilka r Rusulu",
+        
+      },
+      {
+        number: 4,
+        name: "لَنْ تَنَالُوا",
+        englishName: "Lan Tana Loo",
+        
+      },
+      {
+        number: 5,
+        name: "وَالْمُحْصَنَاتُ",
+        englishName: "Wal Mohsanat",
+        
+      },
+      {
+        number: 6,
+        name: "يُحِبُّ لَااللَّهُ",
+        englishName: "La Yahubbullah",
+        
+      },
+      {
+        number: 7,
+        name: "وَإِذَا سَمِعُوا",
+        englishName: "Wa Iza Samiu",
+        
+      },
+      {
+        number: 8,
+        name: " وَلَوْ أَنَّنَا",
+        englishName: "Wa Lau Annana",
+        
+      },
+      {
+        number: 9,
+        name: "قَالَ الْمَلَأُ",
+        englishName: "Qalal Malao",
+        
+      },
+      {
+        number: 10,
+        name: "وَاعْلَمُوا",
+        englishName: "Wa A’lamu",
+        
+      },
+      {
+        number: 11,
+        name: "يَعْتَذِرُونَ",
+        englishName: "Yatazeroon",
+        
+      },
+      {
+        number: 12,
+        name: "وَمَا مِنْ دَابَّةٍ",
+        englishName: "Wa Mamin Da’abat",
+        
+      },
+      {
+        number: 13,
+        name: "بَرِّئُوَمَا",
+        englishName: "Wa Ma Ubiroo",
+        
+      },
+      {
+        number: 14,
+        name: "رُبَمَا",
+        englishName: "Rubama",
+        
+      },
+      {
+        number: 15,
+        name: "سُبْحَانَ الَّذِي",
+        englishName: "Subhanallahzi",
+        
+      },
+      {
+        number: 16,
+        name: "قَالَ أَلَمْ ",
+        englishName: "Qal Alam",
+        
+      },
+      {
+        number: 17,
+        name: "اقْتَرَبَ",
+        englishName: "Aqtarabo",
+        
+      },
+      {
+        number: 18,
+        name: "قَدْ أَفْلَحَ",
+        englishName: "Qadd Aflaha",
+        
+      },
+      {
+        number: 19,
+        name: "وَقَالَ الَّذِينَ",
+        englishName: "Wa Qalallazina",
+        
+      },
+      {
+        number: 20,
+        name: "أَمَّنْ خَلَقَ",
+        englishName: "A’man Khalaq",
+        
+      },
+      {
+        number: 21,
+        name: "اتْلُ مَا أُوحِيَ",
+        englishName: "Utlu Ma Oohi",
+        
+      },
+      {
+        number: 22,
+        name: "وَمَنْ يَقْنُتْ ",
+        englishName: "Wa Manyaqnut",
+        
+      },
+      {
+        number: 23,
+        name: "وَمَا لِيَ",
+        englishName: "Wa Mali",
+        
+      },
+      {
+        number: 24,
+        name: "فَمَنْ أَظْلَمُ",
+        englishName: "Faman Azlam",
+        
+      },
+      {
+        number: 25,
+        name: "إِلَيْهِ يُرَدُّ",
+        englishName: "Elahe Yuruddo",
+        
+      },
+      {
+          number: 26,
+          name: "حم",
+          englishName: "Ha’a Meem",
+          
+        },
+        {
+          number: 27,
+          name: "قَال فَمَا خَطْبُكُمْ",
+          englishName: "Qala Fama Khatbukum",
+          
+        },
+        {
+          number: 28,
+          name: "قَدْ سَمِعَ اللَّهُ",
+          englishName: "Qadd Sami Allah",
+          
+        },
+        {
+          number: 29,
+          name: "تَبَارَكَ الَّذِي",
+          englishName: "Tabarakallazi",
+          
+        },
+        {
+          number: 30,
+          name: "عَمَّ يَتَسَاءَلُونَ",
+          englishName: "Amma Yatasa’aloon",
+          
+        }
+    ]
+  })
+
+  await quranInfo.save()
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -353,4 +591,5 @@ module.exports = {
   verifyOTPCode,
   updatePassword,
   deleteUser,
+  updateLocation
 };

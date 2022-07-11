@@ -28,7 +28,7 @@ const userSchema=mongoose.Schema({
         default:'avatar.png'
     },
     location:{
-        type:{typr:String},
+        type:{type:String},
         coordinates:[]
     }
 })
