@@ -26,7 +26,7 @@ import {
   Actionsheet,
   useDisclose,
   ScrollView,
-  FlatList
+  FlatList,
 } from 'native-base';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
@@ -48,14 +48,23 @@ import {
 } from '../../redux/slices/auth_slices/authSlice';
 
 import Loader from '../common/Loader';
-import { IP } from '../../apis/serviceConstants';
-import { selectHasUpdatedAutosilentSetting, selectHasUpdatedNamazAccountabilityNotificationSettings, selectHasUpdatedNamazNotificationsSettings, updateAutoSilentSetting, updateNamazAccountabilityNotificationsSetting, updateNamazNotificationSettings } from '../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+import {IP} from '../../apis/serviceConstants';
+import {
+  selectHasUpdatedAutosilentSetting,
+  selectHasUpdatedNamazAccountabilityNotificationSettings,
+  selectHasUpdatedNamazNotificationsSettings,
+  updateAutoSilentSetting,
+  updateNamazAccountabilityNotificationsSetting,
+  updateNamazNotificationSettings,
+} from '../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 
 export default function Settings({navigation}) {
-
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
-  const [avatar, setAvatar] = useState({image:`http://${IP}:5000/avatars/avatar.png`, key:1});
+  const [avatar, setAvatar] = useState({
+    image: `http://${IP}:5000/avatars/avatar.png`,
+    key: 1,
+  });
 
   const [open, setOpen] = useState(false);
   const [isPasswordModal, setIspasswordModal] = useState(false);
@@ -72,17 +81,23 @@ export default function Settings({navigation}) {
   }
 
   const dispatch = useDispatch();
-  const user=useSelector(selectUserData)
-  const isLoadingGetUserData=useSelector(selectIsLoadingGetUserData)
-  const hasUpdatedAutoSilentSettings=useSelector(selectHasUpdatedAutosilentSetting)
-  const hasUpdatedNamazAccountabilityNotificationsSetting=useSelector(selectHasUpdatedNamazAccountabilityNotificationSettings)
-  const hasUpdatedNamazNotificationsSetting=useSelector(selectHasUpdatedNamazNotificationsSettings)
+  const user = useSelector(selectUserData);
+  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+  const hasUpdatedAutoSilentSettings = useSelector(
+    selectHasUpdatedAutosilentSetting,
+  );
+  const hasUpdatedNamazAccountabilityNotificationsSetting = useSelector(
+    selectHasUpdatedNamazAccountabilityNotificationSettings,
+  );
+  const hasUpdatedNamazNotificationsSetting = useSelector(
+    selectHasUpdatedNamazNotificationsSettings,
+  );
 
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
-    dispatch(getUserData()) 
-    if(user.avatar){
-      setAvatar({image:user.avatar, key:0})
+    dispatch(getUserData());
+    if (user.avatar) {
+      setAvatar({image: user.avatar, key: 0});
     }
 
     const unsubscribe = navigation.addListener('focus', () => {
@@ -90,7 +105,7 @@ export default function Settings({navigation}) {
     });
     // unsubscribe on unmount
     return unsubscribe;
-  }, [navigation, dispatch]);  
+  }, [navigation, dispatch]);
 
   //Take user's profile from Camera
   const takePhotoFromCamera = () => {
@@ -102,7 +117,7 @@ export default function Settings({navigation}) {
     })
       .then(image => {
         const obj = {uri: image.path};
-        console.log(obj)
+        console.log(obj);
         // setAvatar({image:obj, key:0})
         onClose;
       })
@@ -122,7 +137,7 @@ export default function Settings({navigation}) {
       .then(image => {
         const obj = {uri: image.path};
         // console.log(obj);
-        setAvatar({image:obj.uri,key:2})
+        setAvatar({image: obj.uri, key: 2});
         // setImage(obj);
         onClose;
       })
@@ -131,32 +146,37 @@ export default function Settings({navigation}) {
       });
   };
 
-  function updateAccountabilityNotificarions(state){
-      dispatch(updateNamazAccountabilityNotificationsSetting({username:user.username,state:state}))
-    
-      if(hasUpdatedNamazAccountabilityNotificationsSetting){
-        alert(`Updated Accountability Settings`)
-      }
-  }
+  function updateAccountabilityNotificarions(state) {
+    dispatch(
+      updateNamazAccountabilityNotificationsSetting({
+        username: user.username,
+        state: state,
+      }),
+    );
 
-  function updateAutoSilent(state){
-    dispatch(updateAutoSilentSetting({username:user.username,state:state}))
-    
-    if(hasUpdatedAutoSilentSettings){
-      alert(`Updated Auto-Silent Settings`)
+    if (hasUpdatedNamazAccountabilityNotificationsSetting) {
+      alert(`Updated Accountability Settings`);
     }
   }
 
-  function updateNamazNotification(state){
-    dispatch(updateNamazNotificationSettings({username:user.username,state:state}))
-    if(hasUpdatedNamazNotificationsSetting){
-        alert(`Updated Namaz Notification Settings`)
+  function updateAutoSilent(state) {
+    dispatch(updateAutoSilentSetting({username: user.username, state: state}));
+
+    if (hasUpdatedAutoSilentSettings) {
+      alert(`Updated Auto-Silent Settings`);
     }
   }
 
-  function updatePrimaryMosqueSetting(item){
-
+  function updateNamazNotification(state) {
+    dispatch(
+      updateNamazNotificationSettings({username: user.username, state: state}),
+    );
+    if (hasUpdatedNamazNotificationsSetting) {
+      alert(`Updated Namaz Notification Settings`);
+    }
   }
+
+  function updatePrimaryMosqueSetting(item) {}
 
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
@@ -166,427 +186,432 @@ export default function Settings({navigation}) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
-      {
-        isLoadingGetUserData?<Loader msg='Loading ...' />:
-      
+      {isLoadingGetUserData ? (
+        <Loader msg="Loading ..." />
+      ) : (
         <>
-      <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
-        <Image style={styles.avatar} source={{uri:avatar.image}} alt='Loading image ..'/>
-        <Image
-          marginLeft="55%"
-          marginTop="5%"
-          source={edit}
-          style={{
-            height: 45,
-            width: 45,
-            tintColor: colors.primary,
-          }}
-          alt="icon .."
-        />
-      </TouchableOpacity>
-      <Text style={styles.username}>{user.username}</Text>
-      <ScrollView
-      
-        keyboardShouldPersistTaps="handled"
-        flex={1}
-        maxHeight={'57%'}
-        
-        >
-        <View
-          style={{
-            flex: 0.7,
-            marginTop: 35,
-            marginLeft: '6%',
-            width: '90%',
-            maxWidth: '88%',
-            height: '90%',
-            maxHeight: '30%',
-          }}>
-          <VStack space={3} divider={<Divider />} w="99%">
-            {/* Password */}
-
-            <Box alignItems="center">
-              <Box
-                maxW="90%"
-                w={{
-                  base: '90%',
-                }}
-                rounded="lg"
-                overflow="hidden"
-                borderColor={colors.cover}
-                borderWidth="1"
-                _light={{
-                  backgroundColor: colors.cover,
-                }}>
+          <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
+            <Image
+              style={styles.avatar}
+              source={{uri: avatar.image}}
+              alt="Loading image .."
+            />
+            <Image
+              marginLeft="55%"
+              marginTop="5%"
+              source={edit}
+              style={{
+                height: 45,
+                width: 45,
+                tintColor: colors.primary,
+              }}
+              alt="icon .."
+            />
+          </TouchableOpacity>
+          <Text style={styles.username}>{user.username}</Text>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            flex={1}
+            maxHeight={'57%'}>
+            <View
+              style={{
+                flex: 0.7,
+                marginTop: 35,
+                marginLeft: '6%',
+                width: '90%',
+                maxWidth: '88%',
+                height: '90%',
+                maxHeight: '30%',
+              }}>
+              <VStack space={3} divider={<Divider />} w="99%">
                 {/* Password */}
-                <Stack p="4" space={3}>
-                  <Stack space={2}>
-                    <Heading
-                      size="md"
-                      ml="-1"
-                      style={styles.label}
-                      color={colors.primary}>
-                      Password
-                    </Heading>
-                  </Stack>
-                  <Text fontWeight="400" style={styles.text}>
-                    Old Password is Hashed and can't be displayed here.
-                  </Text>
-                  <HStack
-                    flexDirection={'row'}
-                    space={4}
-                    justifyContent="space-between">
-                    <HStack></HStack>
 
-                    {/* Edit Password */}
-                    <TouchableHighlight
-                      activeOpacity={0.8}
-                      underlayColor={colors.cover}
-                      onPress={() => openeModal('Change Password', true)}>
-                      <Image
-                        marginLeft="6%"
-                        source={editIcon}
-                        style={{
-                          height: 30,
-                          width: 33,
-                          tintColor: colors.secondary,
-                        }}
-                        alt="icon .."
-                      />
-                    </TouchableHighlight>
-                  </HStack>
-                </Stack>
-              </Box>
-            </Box>
+                <Box alignItems="center">
+                  <Box
+                    maxW="90%"
+                    w={{
+                      base: '90%',
+                    }}
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    {/* Password */}
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={styles.label}
+                          color={colors.primary}>
+                          Password
+                        </Heading>
+                      </Stack>
+                      <Text fontWeight="400" style={styles.text}>
+                        Old Password is Hashed and can't be displayed here.
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        <HStack></HStack>
 
-            {/* Primary Mosque */}
+                        {/* Edit Password */}
+                        <TouchableHighlight
+                          activeOpacity={0.8}
+                          underlayColor={colors.cover}
+                          onPress={() => openeModal('Change Password', true)}>
+                          <Image
+                            marginLeft="6%"
+                            source={editIcon}
+                            style={{
+                              height: 30,
+                              width: 33,
+                              tintColor: colors.secondary,
+                            }}
+                            alt="icon .."
+                          />
+                        </TouchableHighlight>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
 
-            <Box alignItems="center">
-              <Box
-                maxW="90%"
-                w={{
-                  base: '90%',
-                }}
-                rounded="lg"
-                overflow="hidden"
-                borderColor={colors.cover}
-                borderWidth="1"
-                _light={{
-                  backgroundColor: colors.cover,
-                }}>
-                <Stack p="4" space={3}>
-                  <Stack space={2}>
-                    <Heading
-                      size="md"
-                      ml="-1"
-                      style={{fontFamily: fonts.Signika.bold}}
-                      color={colors.primary}>
-                      Primary Mosque
-                    </Heading>
-                  </Stack>
-                  <Text fontWeight="400" style={styles.text}>
-                    {user.preferences.primaryMosque}
-                  </Text>
-                  <HStack
-                    flexDirection={'row'}
-                    space={4}
-                    justifyContent="space-between">
-                    <HStack></HStack>
-                    {/* Edit Primary Mosque */}
-                    <TouchableHighlight
-                      activeOpacity={0.8}
-                      underlayColor={colors.cover}
-                      onPress={() =>
-                        openeModal('Change Primary Mosque', false)
-                      }>
-                      <Image
-                        marginLeft="6%"
-                        source={editIcon}
-                        style={{
-                          height: 30,
-                          width: 33,
-                          tintColor: colors.secondary,
-                        }}
-                        alt="icon .."
-                      />
-                    </TouchableHighlight>
-                  </HStack>
-                </Stack>
-              </Box>
-            </Box>
+                {/* Primary Mosque */}
 
-            {/* Namaz Noti */}
-            <Box alignItems="center">
-              <Box
-                maxW="80"
-                rounded="lg"
-                overflow="hidden"
-                borderColor={colors.cover}
-                borderWidth="1"
-                _light={{
-                  backgroundColor: colors.cover,
-                }}>
-                <Stack p="4" space={3}>
-                  <Stack space={2}>
-                    <Heading
-                      size="md"
-                      ml="-1"
-                      style={{fontFamily: fonts.Signika.bold}}
-                      color={colors.primary}>
-                      Namaz Notifications
-                    </Heading>
+                <Box alignItems="center">
+                  <Box
+                    maxW="90%"
+                    w={{
+                      base: '90%',
+                    }}
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={{fontFamily: fonts.Signika.bold}}
+                          color={colors.primary}>
+                          Primary Mosque
+                        </Heading>
+                      </Stack>
+                      <Text fontWeight="400" style={styles.text}>
+                        {user.preferences.primaryMosque}
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        <HStack></HStack>
+                        {/* Edit Primary Mosque */}
+                        <TouchableHighlight
+                          activeOpacity={0.8}
+                          underlayColor={colors.cover}
+                          onPress={() =>
+                            openeModal('Change Primary Mosque', false)
+                          }>
+                          <Image
+                            marginLeft="6%"
+                            source={editIcon}
+                            style={{
+                              height: 30,
+                              width: 33,
+                              tintColor: colors.secondary,
+                            }}
+                            alt="icon .."
+                          />
+                        </TouchableHighlight>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
 
-                    <Text style={styles.info} mt="-1">
-                      w.r.t Primary Mosque
-                    </Text>
-                  </Stack>
-                  <Text
-                    fontWeight="400"
-                    style={{fontFamily: fonts.Signika.regular}}>
-                    After enabling namaz notifications, you will be able to get
-                    notification about each prayer
-                  </Text>
-                  <HStack
-                    flexDirection={'row'}
-                    space={4}
-                    justifyContent="space-between">
-                    {/* switch for Namaz Notification */}
-                    <HStack>
-                      <Switch
-                        offTrackColor="rose.300"
-                        onTrackColor="lime.300"
-                        size="lg"
-                        marginLeft={'80%'}
-                        onValueChange={(value)=>{
-                          updateNamazNotification(value)
-                        }}
-                        defaultIsChecked={user.preferences.namazNotifications}
-                      />
-                    </HStack>
-                  </HStack>
-                </Stack>
-              </Box>
-            </Box>
+                {/* Namaz Noti */}
+                <Box alignItems="center">
+                  <Box
+                    maxW="80"
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={{fontFamily: fonts.Signika.bold}}
+                          color={colors.primary}>
+                          Namaz Notifications
+                        </Heading>
+                        <Text style={styles.info} mt="-1">
+                          w.r.t Primary Mosque
+                        </Text>
+                      </Stack>
+                      <Text
+                        fontWeight="400"
+                        style={{fontFamily: fonts.Signika.regular}}>
+                        After enabling namaz notifications, you will be able to
+                        get notification about each prayer
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        {/* switch for Namaz Notification */}
+                        <HStack>
+                          <Switch
+                            offTrackColor="rose.300"
+                            onTrackColor="lime.300"
+                            size="lg"
+                            marginLeft={'80%'}
+                            onValueChange={value => {
+                              updateNamazNotification(value);
+                            }}
+                            defaultIsChecked={
+                              user.preferences.namazNotifications
+                            }
+                          />
+                        </HStack>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
 
-            {/* AutoSilent Mode */}
-            <Box alignItems="center">
-              <Box
-                maxW="80"
-                rounded="lg"
-                overflow="hidden"
-                borderColor={colors.cover}
-                borderWidth="1"
-                _light={{
-                  backgroundColor: colors.cover,
-                }}>
-                <Stack p="4" space={3}>
-                  <Stack space={2}>
-                    <Heading
-                      size="md"
-                      ml="-1"
-                      style={{fontFamily: fonts.Signika.bold}}
-                      color={colors.primary}>
-                      Auto Silent Mode
-                    </Heading>
-                    <Text style={styles.info} mt="-1">
-                      w.r.t Primary Mosque
-                    </Text>
-                  </Stack>
-                  <Text
-                    fontWeight="400"
-                    style={{fontFamily: fonts.Signika.regular}}>
-                    After enabling Auto silent mode, your phone will
-                    automatically be silent when you will enter the mosque
-                  </Text>
-                  <HStack
-                    flexDirection={'row'}
-                    space={4}
-                    justifyContent="space-between">
-                    {/* switch for Auto Silent mode */}
-                    <HStack>
-                      <Switch
-                        offTrackColor="rose.300"
-                        onTrackColor="lime.300"
-                        size="lg"
-                        onValueChange={(value)=>{
-                          updateAutoSilent(value)
-                        }}
+                {/* AutoSilent Mode */}
+                <Box alignItems="center">
+                  <Box
+                    maxW="80"
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={{fontFamily: fonts.Signika.bold}}
+                          color={colors.primary}>
+                          Auto Silent Mode
+                        </Heading>
+                        <Text style={styles.info} mt="-1">
+                          w.r.t Primary Mosque
+                        </Text>
+                      </Stack>
+                      <Text
+                        fontWeight="400"
+                        style={{fontFamily: fonts.Signika.regular}}>
+                        After enabling Auto silent mode, your phone will
+                        automatically be silent when you will enter the mosque
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        {/* switch for Auto Silent mode */}
+                        <HStack>
+                          <Switch
+                            offTrackColor="rose.300"
+                            onTrackColor="lime.300"
+                            size="lg"
+                            onValueChange={value => {
+                              updateAutoSilent(value);
+                            }}
+                            defaultIsChecked={user.preferences.phoneSilent}
+                            marginLeft={'80%'}
+                          />
+                        </HStack>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
 
-                        defaultIsChecked={user.preferences.phoneSilent}
-                        marginLeft={'80%'}
-                      />
-                    </HStack>
-                  </HStack>
-                </Stack>
-              </Box>
-            </Box>
+                {/* Accountability Notification */}
+                <Box alignItems="center">
+                  <Box
+                    maxW="80"
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    marginBottom={'3'}
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={{fontFamily: fonts.Signika.bold}}
+                          color={colors.primary}>
+                          Accountability Notifications
+                        </Heading>
+                      </Stack>
+                      <Text
+                        fontWeight="400"
+                        style={{fontFamily: fonts.Signika.regular}}>
+                        After enabling Accountability notifications, you will
+                        get notification every day at 10 pm to keep track of
+                        your Namaz
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        {/* switch for Accountability Notification */}
+                        <HStack>
+                          <Switch
+                            offTrackColor="rose.300"
+                            onTrackColor="lime.300"
+                            size="lg"
+                            onValueChange={value => {
+                              updateAccountabilityNotificarions(value);
+                            }}
+                            defaultIsChecked={
+                              user.preferences.accountabilityNotifications
+                            }
+                            marginLeft={'80%'}
+                          />
+                        </HStack>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
+              </VStack>
 
-            {/* Accountability Notification */}
-            <Box alignItems="center">
-              <Box
-                maxW="80"
-                rounded="lg"
-                overflow="hidden"
-                borderColor={colors.cover}
-                borderWidth="1"
-                marginBottom={'3'}
-                _light={{
-                  backgroundColor: colors.cover,
-                }}>
-                <Stack p="4" space={3}>
-                  <Stack space={2}>
-                    <Heading
-                      size="md"
-                      ml="-1"
-                      style={{fontFamily: fonts.Signika.bold}}
-                      color={colors.primary}>
-                      Accountability Notifications
-                    </Heading>
-                  </Stack>
-                  <Text
-                    fontWeight="400"
-                    style={{fontFamily: fonts.Signika.regular}}>
-                    After enabling Accountability notifications, you will get
-                    notification every day at 10 pm to keep track of your Namaz
-                  </Text>
-                  <HStack
-                    flexDirection={'row'}
-                    space={4}
-                    justifyContent="space-between">
-                    {/* switch for Accountability Notification */}
-                    <HStack>
-                      <Switch
-                        offTrackColor="rose.300"
-                        onTrackColor="lime.300"
-                        size="lg"
-                        onValueChange={(value)=>{
-                          updateAccountabilityNotificarions(value)
-                        }}
-                        defaultIsChecked={user.preferences.accountabilityNotifications}
-                        marginLeft={'80%'}
-                      />
-                    </HStack>
-                  </HStack>
-                </Stack>
-              </Box>
-            </Box>
-          </VStack>
+              {/* Modals */}
+              <CommonModal
+                open={open}
+                closeModal={closeModal}
+                headerText={modalHeader}>
+                {isPasswordModal ? (
+                  <FormControl>
+                    <FormControl.Label
+                      _text={{fontFamily: fonts.Signika.medium}}>
+                      New Password
+                    </FormControl.Label>
+                    <Input type="password" />
+                  </FormControl>
+                ) : (
+                  <SearchableDropdown
+                    onTextChange={text => console.log(text)}
+                    onItemSelect={item => {
+                      console.log('Item');
+                      // updatePrimaryMosqueSetting(item)
+                    }}
+                    setSort
+                    containerStyle={{padding: 5}}
+                    textInputStyle={{
+                      padding: 5,
+                      borderWidth: 1,
+                      fontFamily: fonts.Signika.medium,
+                    }}
+                    itemStyle={{
+                      padding: 10,
+                      marginTop: 2,
+                      backgroundColor: colors.cover,
+                      borderColor: '#bbb',
+                    }}
+                    itemTextStyle={{
+                      color: colors.black,
+                      fontFamily: fonts.Signika.medium,
+                    }}
+                    itemsContainerStyle={{
+                      maxHeight: '100%',
+                    }}
+                    items={serverData}
+                    placeholder="Select Mosque"
+                  />
+                )}
+              </CommonModal>
 
-          {/* Modals */}
-          <CommonModal
-            open={open}
-            closeModal={closeModal}
-            headerText={modalHeader}>
-            {isPasswordModal ? (
-              <FormControl>
-                <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
-                  New Password
-                </FormControl.Label>
-                <Input type="password" />
-              </FormControl>
-            ) : (
-              <SearchableDropdown
-            onTextChange={text => console.log(text)}
-            onItemSelect={item => {
-              console.log('Item')
-              // updatePrimaryMosqueSetting(item)
-            }}
-            
-            setSort
-            containerStyle={{padding: 5}}
-            textInputStyle={{
-              padding: 5,
-              borderWidth: 1,
-              fontFamily: fonts.Signika.medium,
-            }}
-            itemStyle={{
-              padding: 10,
-              marginTop: 2,
-              backgroundColor: colors.cover,
-              borderColor: '#bbb',
-            }}
-            itemTextStyle={{
-              color: colors.black,
-              fontFamily: fonts.Signika.medium,
-            }}
-            itemsContainerStyle={{
-              maxHeight: '100%',
-            }}
-            items={serverData}
-            placeholder="Select Mosque"
-          />
-            )}
-          </CommonModal>
+              {/* Image ActionSheet */}
 
-          {/* Image ActionSheet */}
-
-          <Actionsheet isOpen={isOpen} onClose={onClose} hideDragIndicator>
-            <Actionsheet.Content>
-              <Box w="100%" h={60} px={4} justifyContent="center">
-                <Text
-                  style={{
-                    color: colors.primary,
-                    fontSize: 20,
-                    fontFamily: fonts.Signika.bold,
-                  }}>
-                  Upload Photo
-                </Text>
-              </Box>
-              <View
-                marginTop="2%"
-                marginBottom="5%"
-                style={{
-                  justifyContent: 'space-around',
-                  flexDirection: 'row',
-                }}>
-                <View>
-                  <TouchableOpacity
-                    activeOpacity={0.98}
-                    onPress={takePhotoFromCamera}>
-                    <Image
-                      marginTop="3%"
-                      marginRight="29%"
-                      source={cameraIcon}
+              <Actionsheet isOpen={isOpen} onClose={onClose} hideDragIndicator>
+                <Actionsheet.Content>
+                  <Box w="100%" h={60} px={4} justifyContent="center">
+                    <Text
                       style={{
-                        height: 55,
-                        width: 55,
-                      }}
-                      alt="icon .."
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.text}>Camera</Text>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    activeOpacity={0.98}
-                    onPress={choosePhotoFromLibrary}>
-                    <Image
-                      marginTop="6%"
-                      source={galleryIcon}
-                      style={{
-                        height: 55,
-                        width: 55,
-                      }}
-                      alt="icon .."
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.text}>Gallery</Text>
-                </View>
-              </View>
-              <Actionsheet.Footer>
-                <Button
-                  onPress={onClose}
-                  _text={{fontFamily: fonts.Signika.regular}}
-                  color={colors.white}
-                  colorScheme="yellow">
-                  Exit
-                </Button>
-              </Actionsheet.Footer>
-            </Actionsheet.Content>
-          </Actionsheet>
-        </View>
-      </ScrollView>
-      </>}
+                        color: colors.primary,
+                        fontSize: 20,
+                        fontFamily: fonts.Signika.bold,
+                      }}>
+                      Upload Photo
+                    </Text>
+                  </Box>
+                  <View
+                    marginTop="2%"
+                    marginBottom="5%"
+                    style={{
+                      justifyContent: 'space-around',
+                      flexDirection: 'row',
+                    }}>
+                    <View>
+                      <TouchableOpacity
+                        activeOpacity={0.98}
+                        onPress={takePhotoFromCamera}>
+                        <Image
+                          marginTop="3%"
+                          marginRight="29%"
+                          source={cameraIcon}
+                          style={{
+                            height: 55,
+                            width: 55,
+                          }}
+                          alt="icon .."
+                        />
+                      </TouchableOpacity>
+                      <Text style={styles.text}>Camera</Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        activeOpacity={0.98}
+                        onPress={choosePhotoFromLibrary}>
+                        <Image
+                          marginTop="6%"
+                          source={galleryIcon}
+                          style={{
+                            height: 55,
+                            width: 55,
+                          }}
+                          alt="icon .."
+                        />
+                      </TouchableOpacity>
+                      <Text style={styles.text}>Gallery</Text>
+                    </View>
+                  </View>
+                  <Actionsheet.Footer>
+                    <Button
+                      onPress={onClose}
+                      _text={{fontFamily: fonts.Signika.regular}}
+                      color={colors.white}
+                      colorScheme="yellow">
+                      Exit
+                    </Button>
+                  </Actionsheet.Footer>
+                </Actionsheet.Content>
+              </Actionsheet>
+            </View>
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }
@@ -605,9 +630,7 @@ const CommonModal = props => {
         <Modal.Header _text={{fontFamily: fonts.Signika.bold}}>
           {headerText}
         </Modal.Header>
-        <Modal.Body>{
-            props.children
-        }</Modal.Body>
+        <Modal.Body>{props.children}</Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>
             <Button

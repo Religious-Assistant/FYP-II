@@ -7,6 +7,13 @@ import bottomNavReducer from './slices/muslim_module_slices/bottomNavSlice';
 import mosqueReducer from './slices/muslim_module_slices/mosqueSlice'
 import muslimPreferencesReducer from './slices/muslim_module_slices/muslimPreferencesSlice';
 import quranrecitationReducer from './slices/muslim_module_slices/reciteQuranSlice'
+import announcementReducer from './slices/muslim_module_slices/announcementSlice'
+import tasbihReducer from './slices/muslim_module_slices/tasbihSlice'
+import namazAccountabilityReducer from './slices/muslim_module_slices/namazAccountabilitySlice'
+import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccountability';
+import templeReducer from './slices/hindu_module_slices/templeSlice';
+import learnNamazReducer from './slices/muslim_module_slices/learnNamazSlice';
+import imamReducer from './slices/muslim_module_slices/imamSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,7 +21,14 @@ const store = configureStore({
     mosque:mosqueReducer,
     bottomNav:bottomNavReducer,
     muslimpreferences:muslimPreferencesReducer,
-    quranrecitation:quranrecitationReducer
+    quranrecitation:quranrecitationReducer,
+    announcement: announcementReducer,
+    tasbih: tasbihReducer,
+    namazAccountability: namazAccountabilityReducer,
+    fastAccountability: fastAccountabilityReducer,
+    temple: templeReducer,
+    learnNamaz: learnNamazReducer,
+    imam:imamReducer
   },
 })
 

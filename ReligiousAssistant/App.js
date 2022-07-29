@@ -12,7 +12,6 @@ import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 import store from './src/redux/store';
 import {Provider} from 'react-redux';
-
 //Redux
 import {useDispatch} from 'react-redux';
 import {
@@ -75,7 +74,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <EntryPoint />
+        <EntryPoint/>
       </NativeBaseProvider>
     </Provider>
   );

@@ -5,7 +5,7 @@
  */
 
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Image, Center} from 'native-base';
 
@@ -16,13 +16,25 @@ import tasbihIcon from '../../../assets/images/tasbih_ic.png';
 import tasbihImg from '../../../assets/images/tasbih_img.png';
 import CustomButton from '../../components/CustomButton';
 import Header from '../../components/Header';
-
+import {useSelector, useDispatch} from 'react-redux'
+import { selectTasbih, updateCount, updateTasbih } from '../../redux/slices/muslim_module_slices/tasbihSlice';
+import { selectUserData } from '../../redux/slices/auth_slices/authSlice';
 
 export default function TasbihCounter() {
   
-  const [tasbihCount, setTasbihCount] = useState(0);
-  const onPress = () => setTasbihCount(prevTasbihCount => prevTasbihCount + 1);
-  const handleReset = () => setTasbihCount(0);
+  const dispatch=useDispatch()
+ // const navigator=useNavigation()
+
+  const tasbih=useSelector(selectTasbih)
+  const userData= useSelector(selectUserData)
+
+  
+  // const [count, setCount] = useState(0);
+  const onPress = () => dispatch(updateCount(tasbih+1));
+  const handleReset = () => dispatch(updateCount(0));
+
+
+  const saveTasbih = ()=> dispatch(updateTasbih({username: userData.username,count: tasbih}));
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -55,7 +67,7 @@ export default function TasbihCounter() {
               marginLeft: '8%',
               fontSize: 70,
             }}>
-            {tasbihCount}
+            {tasbih}
           </Text>
         </Center>
         {/* Center Image */}
@@ -80,7 +92,7 @@ export default function TasbihCounter() {
           {/* Reset Button */}
           <CustomButton onPress={handleReset} base="45%" title="Reset" />
           {/* Save Button */}
-          <CustomButton base="45%" title="Save" />
+          <CustomButton base="45%" title="Save" onPress={saveTasbih}/>
         </View>
       </View>
     </View>
