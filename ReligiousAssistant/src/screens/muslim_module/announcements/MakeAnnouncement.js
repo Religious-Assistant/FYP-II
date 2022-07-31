@@ -4,7 +4,7 @@
  */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center, TextArea, Select, CheckIcon} from 'native-base';
 
@@ -15,13 +15,31 @@ import timeICon from '../../../../assets/images/announce_ic.png';
 import CustomButton from '../../../components/CustomButton';
 
 import {Formik} from 'formik';
-import { ANNOUNCEMENT_CATEGORIES } from '../UIConstants';
+import {ANNOUNCEMENT_CATEGORIES} from '../UIConstants';
+
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {makeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
 
 export default function MakeAnnouncement() {
+  const user = useSelector(selectUserData);
+  const dispatch = useDispatch();
+
+  console.log(user);
 
   function announce(values) {
-    console.log(values);
-
+    if (user) {
+      dispatch(
+        makeAnnouncement({
+          announcedBy: user.username,
+          statement: values.description,
+          category: values.category,
+          longitude:20,
+          latitude:45,
+        }),
+      );
+    }
   }
 
   return (
@@ -86,7 +104,7 @@ export default function MakeAnnouncement() {
                 setFieldValue,
               }) => (
                 <>
-                {/* Statement */}
+                  {/* Statement */}
                   <TextArea
                     name="description"
                     onChangeText={handleChange('description')}
@@ -138,19 +156,18 @@ export default function MakeAnnouncement() {
                       color={'white'}
                     />
                   </Select>
-            {/* button */}
-            <CustomButton
-              title="Announce Now"
-              variant="solid"
-              mt="8%"
-              onPress={handleSubmit}
-              color="white"
-              base="99%"
-            />
-                            </>
+                  {/* button */}
+                  <CustomButton
+                    title="Announce Now"
+                    variant="solid"
+                    mt="8%"
+                    onPress={handleSubmit}
+                    color="white"
+                    base="99%"
+                  />
+                </>
               )}
             </Formik>
-
           </Center>
         </View>
       </View>

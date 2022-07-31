@@ -7,6 +7,8 @@ const initialState = {
     announcements:null,
     isLoading:true,
     hasError:false,
+
+
 }
 
 export const getAnnouncements = createAsyncThunk(
@@ -41,16 +43,13 @@ const announcementSlice = createSlice({
         [getAnnouncements.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoading = false
-            console.log("DATA",action.payload.data);
             state.announcements = action.payload.data
         },
         [getAnnouncements.pending]:(state,action)=>{
-            console.log("pending")
             state.isLoading=true
             state.hasError=false
         },
         [getAnnouncements.rejected]:(state,action)=>{
-            console.log("err")
             state.hasError = true
             state.isLoading = false
         },
