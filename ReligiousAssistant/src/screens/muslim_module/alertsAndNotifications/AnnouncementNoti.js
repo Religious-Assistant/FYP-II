@@ -11,7 +11,11 @@ import {
 } from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-export default function AnnouncementNoti() {
+
+export default function AnnouncementNoti({route, navigation}) {
+
+  const {announcement}=route.params
+  
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -38,15 +42,14 @@ export default function AnnouncementNoti() {
               _light={{
                 backgroundColor: colors.cover,
               }}>
-              {/* Announcement Information */}
+
               <Stack p="10" space={3}>
                 <Stack space={2}>
-                  {/* Announced by */}
                   <Heading
                     size="md"
                     ml="-1"
                     _text={{fontFamily: fonts.Signika.bold}}>
-                    Nadir Hussain
+                      {announcement.name}
                   </Heading>
                   {/* Category */}
                   <Text
@@ -62,11 +65,7 @@ export default function AnnouncementNoti() {
                 </Stack>
                 {/* Announcement (content) */}
                 <Text style={{fontFamily: fonts.Signika.medium}}>
-                  Bengaluru (also called Bangalore) is the center of India's
-                  high-tech industry. The city is also known for its parks and
-                  nightlife.Bengaluru (also called Bangalore) is the center of
-                  India's high-tech industry. The city is also known for its
-                  parks and nightlife.
+                    {announcement.text}
                 </Text>
                 <HStack
                   alignItems="center"

@@ -17,7 +17,7 @@ import {
   VIEW_CALANDER,
   LEARN_NAMAZ,
   ACCOUNTABILITY,
-  ANNOUNCEMENTS,
+  MUSLIM_ANNOUNCEMENTS,
   ADD_MOSQUE,
   TASBIH_COUNTER,
   QIBLA_DIRECTION,
@@ -71,14 +71,14 @@ export default function FeatureContainer() {
     {
       title: 'Announcements',
       image: require('../../../../assets/images/announcement_ic.png'),
-      screen: ANNOUNCEMENTS,
+      screen: MUSLIM_ANNOUNCEMENTS,
       key:5,
     }
     ,
     user?{
       title: 'Announcements',
       image: require('../../../../assets/images/announcement_ic.png'),
-      screen: ANNOUNCEMENTS,
+      screen: MUSLIM_ANNOUNCEMENTS,
       key:6,
     }:{
       title: 'Rakah Info',

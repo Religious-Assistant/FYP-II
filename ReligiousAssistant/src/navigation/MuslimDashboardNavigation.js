@@ -10,7 +10,6 @@ import {
   ABOUT,
   ACCOUNTABILITY,
   ADD_MOSQUE,
-  ANNOUNCEMENTS,
   APPLY_AS_IMAM,
   AUTO_SILENT,
   FIND_MOSQUE,
@@ -18,6 +17,8 @@ import {
   GOOGLE_MAP_DIRECTIONS,
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
+  MUSLIM_ANNOUNCEMENTS,
+  MUSLIM_USER_ANNOUNCEMENT_DETAILS,
   MUSLIM_VIEW_PROFILE,
   NAMAZ_PLAY_AREA,
   PARAH_RECITATION_AREA,
@@ -54,6 +55,7 @@ import Map from '../components/Map';
 import MapDirection from '../components/MapDirection';
 import SurahRecitationArea from '../screens/muslim_module/reciteQuran/SurahRecitationArea';
 import ParahRecitationArea from '../screens/muslim_module/reciteQuran/ParahRecitationArea';
+import AnnouncementNoti from '../screens/muslim_module/alertsAndNotifications/AnnouncementNoti';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -111,9 +113,14 @@ function MuslimDashboardNavigation() {
         options={{title: 'Accountability'}}
       />
       <HomeStack.Screen
-        name={ANNOUNCEMENTS}
+        name={MUSLIM_ANNOUNCEMENTS}
         component={Announcements}
         options={{title: 'Announcements'}}
+      />
+      <HomeStack.Screen
+        name={MUSLIM_USER_ANNOUNCEMENT_DETAILS}
+        component={AnnouncementNoti}
+        options={{title: 'Announcement'}}
       />
 
     <HomeStack.Screen

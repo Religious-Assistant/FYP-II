@@ -28,7 +28,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 import deleteIcon from '../../../../assets/images/delete_ic.png';
 import {useNavigation} from '@react-navigation/native';
-import {MAKE_ANNOUNCEMENT_SCREEN} from '../../../navigation/constants';
+import {MAKE_ANNOUNCEMENT_SCREEN, MUSLIM_USER_ANNOUNCEMENT_DETAILS} from '../../../navigation/constants';
 
 import {data} from './dummyData';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
@@ -78,6 +78,7 @@ export default function Announcements() {
 const ListItem = props => {
   const announcement = props.item.item;
 
+  const navigator=useNavigation()
 
   const rightSwipe = (progress, dragX) => {
 
@@ -96,6 +97,7 @@ const ListItem = props => {
 
   const gotoAnnouncement=()=>{
 
+    navigator.navigate(MUSLIM_USER_ANNOUNCEMENT_DETAILS,{announcement:announcement})
   }
 
   return (
@@ -111,12 +113,9 @@ const ListItem = props => {
           <View style={styles.content}>
             <View>
               <View style={styles.text}>
-                {/* name */}
                 <Text style={styles.name}>{announcement.name}</Text>
-                {/* Announcement text */}
                 <Text>{announcement.text}</Text>
               </View>
-              {/* timeAgo */}
               <Text style={styles.timeAgo}>2 hours ago</Text>
             </View>
           </View>
