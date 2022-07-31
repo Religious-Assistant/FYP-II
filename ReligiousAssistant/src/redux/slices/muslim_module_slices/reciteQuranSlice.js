@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {apiGET, apiPATCH, apiPOST} from '../../../apis/apiService';
+import {apiGET, apiPATCH, apiPOST} from '../../../apis/apiService'
 import {
   check_parah_is_read,
   check_surah_is_read,

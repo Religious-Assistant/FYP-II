@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET, apiPATCH} from '../../../apis/apiService'
+import {apiPATCH} from '../../../apis/apiService'
 import { update_accountability_notifications_setting, update_auto_silent_settings, update_namaz_notifications_setting, update_password, update_primary_mosque } from '../../endpoints';
 
 const initialState = {

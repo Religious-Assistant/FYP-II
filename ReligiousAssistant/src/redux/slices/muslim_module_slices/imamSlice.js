@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST} from '../../../services/apis/AuthService'
+import {apiPOST} from '../../../apis/apiService'
 import {become_imam} from '../../endpoints';
 
 

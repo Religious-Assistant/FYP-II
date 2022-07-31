@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiGET, apiPATCH} from '../../../services/apis/AuthService'
+import {apiGET, apiPATCH} from '../../../apis/apiService'
 import {get_fast_accountability, update_fast_accountability,} from '../../endpoints';
 
 

@@ -31,29 +31,29 @@ import {
   VIEW_CALANDER,
 } from './constants';
 
-import RegisteredMuslimDashboard from '../screens/muslim_module/RegisteredMuslimDashboard';
-import ReciteQuran from '../screens/muslim_module/ReciteQuran';
-import FindMosque from '../screens/muslim_module/FindMosque';
-import Calander from '../screens/muslim_module/Calander';
-import LearnNamaz from '../screens/muslim_module/LearnNamaz';
-import Accountability from '../screens/muslim_module/Accountability';
-import Announcements from '../screens/muslim_module/Announcements';
-import RakahInfo from '../screens/muslim_module/RakahInfo';
-import QiblaDirection from '../screens/muslim_module/QiblaDirection';
-import TasbihCounter from '../screens/muslim_module/TasbihCounter';
-import AddMosque from '../screens/muslim_module/AddMosque';
-import AutoSilent from '../screens/muslim_module/AutoSilent';
-import NamazPlayArea from '../screens/muslim_module/NamazPlayArea';
-import MakeAnnouncement from '../screens/muslim_module/MakeAnnouncement';
+import RegisteredMuslimDashboard from '../screens/muslim_module/dashboard/RegisteredMuslimDashboard';
+import ReciteQuran from '../screens/muslim_module/reciteQuran/ReciteQuran';
+import FindMosque from '../screens/muslim_module/mosques/FindMosque';
+import Calander from '../screens/muslim_module/calander/Calander';
+import LearnNamaz from '../screens/muslim_module/learnNamaz/LearnNamaz';
+import Accountability from '../screens/muslim_module/accountability/Accountability';
+import Announcements from '../screens/muslim_module/announcements/Announcements';
+import RakahInfo from '../screens/muslim_module/staticInfo/RakahInfo';
+import QiblaDirection from '../screens/muslim_module/qiblaDirection/QiblaDirection';
+import TasbihCounter from '../screens/muslim_module/tasbih/TasbihCounter';
+import AddMosque from '../screens/muslim_module/mosques/AddMosque';
+import AutoSilent from '../screens/muslim_module/preferences/AutoSilent';
+import NamazPlayArea from '../screens/muslim_module/learnNamaz/NamazPlayArea';
+import MakeAnnouncement from '../screens/muslim_module/announcements/MakeAnnouncement';
 
-import Profile from '../screens/muslim_module/Profile';
-import ApplyAsImam from '../screens/muslim_module/ApplyAsImam';
+import Profile from '../screens/muslim_module/preferences/Profile';
+import ApplyAsImam from '../screens/muslim_module/imam/ApplyAsImam';
 import ShareApp from '../screens/common/ShareApp';
 import About from '../screens/common/About';
 import Map from '../components/Map';
 import MapDirection from '../components/MapDirection';
-import SurahRecitationArea from '../screens/muslim_module/SurahRecitationArea';
-import ParahRecitationArea from '../screens/muslim_module/ParahRecitationArea';
+import SurahRecitationArea from '../screens/muslim_module/reciteQuran/SurahRecitationArea';
+import ParahRecitationArea from '../screens/muslim_module/reciteQuran/ParahRecitationArea';
 
 const HomeStack = createNativeStackNavigator();
 

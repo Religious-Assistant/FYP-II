@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPATCH, apiGET} from '../../../services/apis/AuthService'
+import {apiPATCH, apiGET} from '../../../apis/apiService'
 import {get_learn_namaz_progress,update_learn_namaz_progress} from '../../endpoints';
 
 

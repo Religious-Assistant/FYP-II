@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET, apiDELETE} from '../../../services/apis/AuthService'
+import {apiPOST, apiGET, apiDELETE} from '../../../apis/apiService'
 import { delete_announcement, get_announcements, make_announcement} from '../../endpoints';
 
 

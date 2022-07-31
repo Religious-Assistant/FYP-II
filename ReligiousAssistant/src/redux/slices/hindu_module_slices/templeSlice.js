@@ -1,7 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET} from '../../../services/apis/AuthService'
+import {apiPOST, apiGET} from '../../../apis/apiService'
 import { add_temple, get_all_temples, get_unverified_temples_around_user } from '../../endpoints'
-
 
 const initialState = {
     allTemples:null,

@@ -9,6 +9,7 @@ const verify_otp_code='verify-otp-code'
 
 //Tasbih
 const update_tasbih='update-tasbih'
+const get_tasbih_count='get-tasbih-count'
 
 //Quran Recitation
 const get_recitation_stats='get-recitation-stats'
@@ -115,5 +116,6 @@ export {
     get_unverified_temples_around_user,
     add_temple,
     update_namaz_notifications_setting,
-    update_accountability_notifications_setting
+    update_accountability_notifications_setting,
+    get_tasbih_count
 }

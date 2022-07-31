@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiGET, apiPOST} from '../../../services/apis/AuthService'
+import {apiGET, apiPOST} from '../../../apis/apiService'
 import {get_recitation_stats, save_last_read, save_recitation_progress} from '../../endpoints';
 
 

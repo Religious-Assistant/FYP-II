@@ -1,57 +1,64 @@
-import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPATCH, apiPOST} from '../../../services/apis/AuthService'
-import {update_tasbih} from '../../endpoints';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {apiPATCH, apiPOST} from '../../../apis/apiService';
+import {get_tasbih_count, update_tasbih} from '../../endpoints';
 
 const initialState = {
-    count:0,
-    isLoading:true,
-    hasError:false,
-}
+  count: 0,
+  isLoading: true,
+  hasError: false,
+};
 
-export const updateTasbih = createAsyncThunk(
-    'updateTasbih',
-    async(body)=>{
-        const result =  await apiPATCH(update_tasbih,body)
-      if(result.success){
-        return body.count
-      }else {
-        return result
-      }
-    }
-)
+export const updateTasbih = createAsyncThunk('updateTasbih', async body => {
+  return await apiPATCH(update_tasbih, body);
+});
+
+export const getTasbihCount = createAsyncThunk('getTasbihCount', async body => {
+  return await apiPOST(get_tasbih_count, body);
+});
 
 const tasbihSlice = createSlice({
-    name:"tasbih",
-    initialState,
-    reducers:{
-        updateCount:(state,action)=>{
-            state.count=action.payload
-        }
+  name: 'tasbih',
+  initialState,
+  reducers: {
+    updateCount: (state, action) => {
+      state.count = action.payload;
     },
-    extraReducers:{
-        [updateTasbih.fulfilled]:(state,action)=>{
-            state.hasError = false
-            state.isLoading = false
-            state.count=action.payload
-            console.log('state.count')            
-        },
-        [updateTasbih.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
-        },
-        [updateTasbih.rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
-        },
+  },
+  extraReducers: {
+    [updateTasbih.fulfilled]: (state, action) => {
+      state.hasError = false;
+      state.isLoading = false;
+      state.count = action.payload;
+    },
+    [updateTasbih.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [updateTasbih.rejected]: (state, action) => {
+      state.hasError = true;
+      state.isLoading = false;
+    },
 
-    }
-})
+    [getTasbihCount.fulfilled]: (state, action) => {
+      state.hasError = false;
+      state.isLoading = false;
+      state.count = action.payload;
+    },
+    [getTasbihCount.pending]: (state, action) => {
+      state.isLoading = true;
+      state.hasError = false;
+    },
+    [getTasbihCount.rejected]: (state, action) => {
+      state.hasError = true;
+      state.isLoading = false;
+    },
+  },
+});
 
 export const {updateCount} = tasbihSlice.actions;
 
-export const selectTasbih =(state)=> state.tasbih.count
-export const selectIsLoading=(state)=>state.tasbih.isLoading
-export const selectHasError=(state)=>state.tasbih.hasError
+export const selectTasbihCount = state => state.tasbih.count;
+export const selectIsTasbihLoading = state => state.tasbih.isLoading;
+export const selectHasTasbihError = state => state.tasbih.hasError;
 
-
-export default tasbihSlice.reducer
+export default tasbihSlice.reducer;
