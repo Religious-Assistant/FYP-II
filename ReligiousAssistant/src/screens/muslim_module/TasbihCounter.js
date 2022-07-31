@@ -1,24 +1,26 @@
 /**
-
  * @author Kinza Kiran
  * @version 1.0
- */
+*/
 
 import {View, Text} from 'react-native';
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Image, Center} from 'native-base';
 
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+//Redux
+import {useSelector, useDispatch} from 'react-redux'
+import { selectTasbih, updateCount, updateTasbih } from '../../redux/slices/muslim_module_slices/tasbihSlice';
+import { selectUserData } from '../../redux/slices/auth_slices/authSlice';
 
 import tasbihIcon from '../../../assets/images/tasbih_ic.png';
 import tasbihImg from '../../../assets/images/tasbih_img.png';
 import CustomButton from '../../components/CustomButton';
 import Header from '../../components/Header';
-import {useSelector, useDispatch} from 'react-redux'
-import { selectTasbih, updateCount, updateTasbih } from '../../redux/slices/muslim_module_slices/tasbihSlice';
-import { selectUserData } from '../../redux/slices/auth_slices/authSlice';
+
+//Theme
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 
 export default function TasbihCounter() {
   
