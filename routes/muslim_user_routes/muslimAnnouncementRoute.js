@@ -9,3 +9,6 @@ announcementRoute.delete('/delete-announcement',authMiddleWare, deleteAnnounceme
 announcementRoute.get('/get-all-announcements',authMiddleWare, getAllAnnouncements)
 
 module.exports=announcementRoute
+
+
+//403 471

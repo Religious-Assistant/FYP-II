@@ -5,7 +5,7 @@ const User=require('../../models/common_models/userModel')
 //Take announcement Data and make it available to everyone
 const makeAnnouncement=async(req, res)=>{
 
-    console.log("Make Announcement API hit")
+    console.log("Make Muslim Announcement API hit")
     const{latitude,longitude,category,announcedBy, statement}=req.body
 
     try{
@@ -16,7 +16,10 @@ const makeAnnouncement=async(req, res)=>{
             
             if(longitude && latitude){
                 
-                
+
+                const nearByPeople=await findNearByPeople(longitude, latitude)
+                console.log(nearByPeople)
+
                 const newAnnouncement=await Announcement.create({
                     statement:statement,
                     category:category,
@@ -25,28 +28,13 @@ const makeAnnouncement=async(req, res)=>{
                         type:'Point',
                         coordinates:[parseFloat(longitude), parseFloat(latitude)]
                     }
+
                 })
 
                 if(newAnnouncement){
 
                     //Send it to people around this location
 
-                    const nearByPeople=await findNearByPeople(longitude, latitude)
-                    if(nearByPeople){
-
-                        console.log(nearByPeople)
-                        
-                        //Get device tokens of these people
-
-                        
-                        
-                        res.status(200).send({success:true,msg:'Announced Successfully',data:newAnnouncement})
-                    }
-                    else{
-                        //Delete announcement incase of failure to find near gy people
-                        await Announcement.deleteOne({_id:newAnnouncement._id})
-                        res.status(200).send({msg:'Could not create announcement: No near by users', success:false})                
-                    }
                 }
                 else{
                     res.status(200).send({msg:'Could not create announcement', success:false})                
