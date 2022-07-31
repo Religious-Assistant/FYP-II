@@ -1,4 +1,4 @@
-export const announcements=[
+export const data=[
     {
       id: 3,
       image: 'https://bootdey.com/img/Content/avatar/avatar7.png',

@@ -7,7 +7,7 @@ import bottomNavReducer from './slices/muslim_module_slices/bottomNavSlice';
 import mosqueReducer from './slices/muslim_module_slices/mosqueSlice'
 import muslimPreferencesReducer from './slices/muslim_module_slices/muslimPreferencesSlice';
 import quranrecitationReducer from './slices/muslim_module_slices/reciteQuranSlice'
-import announcementReducer from './slices/muslim_module_slices/announcementSlice'
+import announcementReducer from './slices/muslim_module_slices/muslimAnnouncementSlice'
 import tasbihReducer from './slices/muslim_module_slices/tasbihSlice'
 import namazAccountabilityReducer from './slices/muslim_module_slices/namazAccountabilitySlice'
 import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccountability';

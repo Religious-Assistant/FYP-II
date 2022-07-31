@@ -4,7 +4,13 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 
 import {
   Icon,
@@ -14,6 +20,7 @@ import {
   NativeBaseProvider,
   Text,
   Image,
+  Button,
 } from 'native-base';
 
 import colors from '../../../theme/colors';
@@ -23,60 +30,41 @@ import deleteIcon from '../../../../assets/images/delete_ic.png';
 import {useNavigation} from '@react-navigation/native';
 import {MAKE_ANNOUNCEMENT_SCREEN} from '../../../navigation/constants';
 
-import { announcements } from './dummyData';
-export default function Announcements() {
+import {data} from './dummyData';
+import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
+import fonts from '../../../theme/fonts';
 
-  const [state, setState] = useState({
-    announcements
-  });
+export default function Announcements() {
+  const [announcements, setAnnouncements] = useState(data);
+
+  const handleDelete = item => {
+    const arr = [...announcements];
+    arr.splice(item.index, 1);
+    setAnnouncements(arr);
+
+  };
+
+  const gotoAnnouncement=(item)=>{
+
+    console.log(item)
+  }
 
   return (
     <View style={styles.root}>
-      {/* Announcements Notifications */}
+      {/* Announcements announcements */}
       <FlatList
         style={styles.root}
-        data={state.data}
-        extraData={state}
-        ItemSeparatorComponent={() => {
-          return <View style={styles.separator} />;
-        }}
-        keyExtractor={item => {
-          return item.id;
-        }}
-        renderItem={item => {
-          const Notification = item.item;
-          let mainContentStyle;
-          return (
-            <View style={styles.container}>
-              <Image
-                source={{uri: Notification.image}}
-                style={styles.avatar}
-                alt="image.."
-              />
-              <View style={styles.content}>
-                <View style={mainContentStyle}>
-                  <View style={styles.text}>
-                    {/* name */}
-                    <Text style={styles.name}>{Notification.name}</Text>
-                    {/* delete */}
-                    <Image
-                      source={deleteIcon}
-                      style={{
-                        height: 22,
-                        width: 22,
-                      }}
-                      alt="icon .."
-                    />
-                    {/* Announcement text */}
-                    <Text>{Notification.text}</Text>
-                  </View>
-                  {/* timeAgo */}
-                  <Text style={styles.timeAgo}>2 hours ago</Text>
-                </View>
-              </View>
-            </View>
-          );
-        }}
+        data={announcements}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        keyExtractor={item => item.id}
+        renderItem={v => (
+          <ListItem
+            item={v}
+            handleDelete={() => {
+              handleDelete(v);
+            }}
+          />
+        )}
       />
       <NativeBaseProvider>
         <Center flex={1} px="3">
@@ -87,6 +75,58 @@ export default function Announcements() {
   );
 }
 
+const ListItem = props => {
+  const announcement = props.item.item;
+
+
+  const rightSwipe = (progress, dragX) => {
+
+
+    return (
+      <TouchableOpacity
+        onPress={props.handleDelete}
+        style={styles.deleteContainer}
+        activeOpacity={0.7}>
+        <Text style={styles.deleteBtnText}>
+          Delete
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const gotoAnnouncement=()=>{
+
+  }
+
+  return (
+    <GestureHandlerRootView>
+      <Swipeable
+        renderRightActions={rightSwipe}>
+          <TouchableOpacity style={styles.container} onPress={gotoAnnouncement}>
+          <Image
+            source={{uri: announcement.image}}
+            style={styles.avatar}
+            alt="image.."
+          />
+          <View style={styles.content}>
+            <View>
+              <View style={styles.text}>
+                {/* name */}
+                <Text style={styles.name}>{announcement.name}</Text>
+                {/* Announcement text */}
+                <Text>{announcement.text}</Text>
+              </View>
+              {/* timeAgo */}
+              <Text style={styles.timeAgo}>2 hours ago</Text>
+            </View>
+          </View>
+          </TouchableOpacity>
+
+
+      </Swipeable>
+    </GestureHandlerRootView>
+  );
+};
 const FabButton = () => {
   const navigator = useNavigation();
 
@@ -126,6 +166,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#FFFFFF',
     alignItems: 'flex-start',
+  },
+  deleteContainer: {
+    justifyContent: 'center',
+    backgroundColor: colors.error,
+    width: '30%',
+    alignItems: 'center',
+  },
+  deleteBtnText:{
+    fontFamily:fonts.Signika.bold,
+    fontSize:20,
+    color:colors.white
   },
   avatar: {
     width: 50,
