@@ -4,7 +4,7 @@
 */
 
 import {View, Text} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Image, Center} from 'native-base';
 
@@ -20,12 +20,11 @@ import Header from '../../../components/Header';
 // Theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import { useState } from 'react';
+
 
 export default function TasbihCounter() {
   
   const dispatch=useDispatch()
-  const[count, setCount]=useState(0)
 
   const tasbih=useSelector(selectTasbihCount)
   const userData= useSelector(selectUserData)
@@ -35,16 +34,23 @@ export default function TasbihCounter() {
     if(userData){
       dispatch(getTasbihCount({username:userData.username}))
     }
-    if(tasbih){
-      setCount(tasbih.count)
-    }
-  },[tasbih])
+
+  },[])
   
-  const onTasbihClick = () => dispatch(updateCount(count+1));
-  const handleReset = () => dispatch(updateCount(0));
+  const onTasbihClick = () =>{
+    dispatch(updateCount(tasbih+1))
+
+  };
+  const handleReset = () => {
+    dispatch(updateCount(0))
+
+  };
 
 
-  const saveTasbih = ()=> dispatch(updateTasbih({username: userData.username,count: count}));
+  const saveTasbih = ()=> {
+    dispatch(updateTasbih({username: userData.username,count: tasbih}))
+    
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -77,7 +83,7 @@ export default function TasbihCounter() {
               marginLeft: '8%',
               fontSize: 70,
             }}>
-              {count}
+              {tasbih}
           </Text>
         </Center>
         {/* Center Image */}

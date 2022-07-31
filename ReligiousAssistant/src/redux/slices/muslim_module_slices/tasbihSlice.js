@@ -21,6 +21,7 @@ const tasbihSlice = createSlice({
   initialState,
   reducers: {
     updateCount: (state, action) => {
+      console.log(action.payload)
       state.count = action.payload;
     },
   },
@@ -28,7 +29,7 @@ const tasbihSlice = createSlice({
     [updateTasbih.fulfilled]: (state, action) => {
       state.hasError = false;
       state.isLoading = false;
-      state.count = action.payload;
+      state.count = action.payload.data.count;
     },
     [updateTasbih.pending]: (state, action) => {
       state.isLoading = true;
@@ -42,7 +43,7 @@ const tasbihSlice = createSlice({
     [getTasbihCount.fulfilled]: (state, action) => {
       state.hasError = false;
       state.isLoading = false;
-      state.count = action.payload;
+      state.count = action.payload.data.count;
     },
     [getTasbihCount.pending]: (state, action) => {
       state.isLoading = true;
