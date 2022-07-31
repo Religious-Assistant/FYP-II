@@ -9,7 +9,19 @@ const updateTasbih = async (req, res) => {
     if (isUserFound) {
       await Tasbih.updateOne({ username: username }, { $set: { count: count } })
         .then((updated) => {
-          res.status(200).send({ success: true, msg: "Updated Tasbih" });
+          if (updated.acknowledged) {
+            res
+              .status(200)
+              .send({
+                success: true,
+                msg: "Updated Tasbih",
+                data: { count: count },
+              });
+          } else {
+            res
+              .status(400)
+              .send({ success: false, msg: "Could not Update Tasbih" });
+          }
         })
         .catch((err) => {
           res
@@ -26,24 +38,18 @@ const updateTasbih = async (req, res) => {
 
 const getTasbihCount = async (req, res) => {
   console.log(`GET Tasbih count API hit`);
+
   try {
     const { username } = req.body;
 
-    const isUserFound = await Tasbih.findOne({ username: username });
+    const tasbihRecord = await Tasbih.findOne({ username: username });
 
-    if (isUserFound) {
-      await Tasbih.updateOne({ username: username }, { $set: { count: count } })
-        .then((updated) => {
-          console.log(isUserFound)
-          res.status(200).send({ success: true, msg: "Updated Tasbih" });
-        })
-        .catch((err) => {
-          res
-            .status(400)
-            .send({ success: false, msg: "Could not update Tasbih" });
-        });
+    if (tasbihRecord) {
+      res
+        .status(200)
+        .send({ success: true, msg: "Updated Tasbih", data: tasbihRecord });
     } else {
-      res.status(400).send({ success: false, msg: "User Does not exist" });
+      res.status(400).send({ success: false, msg: "No record found" });
     }
   } catch (err) {
     res.status(400).send({ success: false, msg: "Could not update Tasbih" });
@@ -52,5 +58,5 @@ const getTasbihCount = async (req, res) => {
 
 module.exports = {
   updateTasbih,
-  getTasbihCount
+  getTasbihCount,
 };
