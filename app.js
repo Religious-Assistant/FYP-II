@@ -5,12 +5,12 @@ const cors=require('cors')
 const bodyParser=require('body-parser')
 const fileUpload=require('express-fileupload')
 const path=require('path')
+
 const admin = require("firebase-admin");
 const serviceAccount = require("./religious-assistant-firebase-adminsdk-tf2ng-1fedfc6227.json");
 
 dotenv.config()
 
-const port=process.env.PORT || 8888;
 const database_url=process.env.DATABASE_URL;
 
 const app=express()
@@ -31,24 +31,24 @@ mongoose.connect(database_url).then(()=>{
 
 
 //routes
-const user_routes=require('./routes/userRoute');
-const tasbih_routes = require('./routes/tasbihRoute')
-const mosque_routes=require('./routes/mosqueRoute')
-const temple_routes=require('./routes/templeRoute')
-const announcement_route=require('./routes/announcementRoute')
-const namaz_accountability_route=require('./routes/namazAccountabilityRoute')
-const fast_accountability_route=require('./routes/fastAccountabilityRoute')
-const learn_namaz_route=require('./routes/learnNamazRoute')
-const imam_route=require('./routes/imamRoute')
-const recite_quran_route=require('./routes/reciteQuranRoute')
-const muslim_pref_route=require('./routes/muslimUserPreferenceRoute')
-const quranInfo_route=require('./routes/quranInfoRoute')
+const user_routes=require('./routes/common_routes/userRoute');
+const tasbih_routes = require('./routes/muslim_user_routes/tasbihRoute')
+const mosque_routes=require('./routes/muslim_user_routes/mosqueRoute')
+const temple_routes=require('./routes/hindu_user_routes/templeRoute')
+const muslim_user_announcement_route=require('./routes/muslim_user_routes/muslimAnnouncementRoute')
+const namaz_accountability_route=require('./routes/muslim_user_routes/namazAccountabilityRoute')
+const fast_accountability_route=require('./routes/muslim_user_routes/fastAccountabilityRoute')
+const learn_namaz_route=require('./routes/muslim_user_routes/learnNamazRoute')
+const imam_route=require('./routes/muslim_user_routes/imamRoute')
+const recite_quran_route=require('./routes/muslim_user_routes/reciteQuranRoute')
+const muslim_pref_route=require('./routes/muslim_user_routes/muslimUserPreferenceRoute')
+const quranInfo_route=require('./routes/muslim_user_routes/quranInfoRoute')
 
 app.use('/api', user_routes)
 app.use('/api', tasbih_routes)
 app.use('/api', mosque_routes)
 app.use('/api', temple_routes)
-app.use('/api', announcement_route)
+app.use('/api', muslim_user_announcement_route)
 app.use('/api', namaz_accountability_route)
 app.use('/api', fast_accountability_route)
 app.use('/api', learn_namaz_route)
