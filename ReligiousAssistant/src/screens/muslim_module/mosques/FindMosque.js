@@ -23,7 +23,7 @@ import {
 } from 'native-base';
 
 import Ioicons from 'react-native-vector-icons/Ionicons';
-import mosqueICon from '../../../assets/images/Logo-muslim.png';
+import mosqueICon from '../../../../assets/images/Logo-muslim.png';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';

@@ -8,10 +8,9 @@ import {
 
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Text, View, Center, FlatList} from 'native-base';
-
 //Theme
 import Header from '../../../components/Header';
-import img from '../../../assets/images/quran_ic.png';
+import img from '../../../../assets/images/quran_ic.png';
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
@@ -42,7 +41,7 @@ import {
 
 //Redux
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import RecitationStats from '../RecitationStats';
+import RecitationStats from './RecitationStats';
 
 const ReciteQuran = () => {
   const dispatch = useDispatch();

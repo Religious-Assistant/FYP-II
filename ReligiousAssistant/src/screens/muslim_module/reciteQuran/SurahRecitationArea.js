@@ -31,7 +31,7 @@ import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
 import {FlatList, Image} from 'native-base';
-import last_read_ic from '../../../assets/images/last_read_ic.png';
+import last_read_ic from '../../../../assets/images/last_read_ic.png';
 import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';

@@ -5,10 +5,10 @@ import { Center, Heading } from 'native-base';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
-import {selectUserData} from '../../redux/slices/auth_slices/authSlice';
-import {getRecitationStats, selectRecitationStats} from '../../redux/slices/muslim_module_slices/reciteQuranSlice';
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {getRecitationStats, selectRecitationStats} from '../../../redux/slices/muslim_module_slices/reciteQuranSlice';
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 
 const RecitationStats = () => {
   const dispatch = useDispatch();

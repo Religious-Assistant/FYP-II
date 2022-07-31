@@ -27,11 +27,11 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import fajrImg from '../../../assets/images/fajr_game.jpg';
-import duhrImg from '../../../assets/images/duhr_game.png';
-import asrImg from '../../../assets/images/asr_game.png';
-import maghribImg from '../../../assets/images/maghrib_game.png';
-import ishaImg from '../../../assets/images/isha_game.png';
+import fajrImg from '../../../../assets/images/fajr_game.jpg';
+import duhrImg from '../../../../assets/images/duhr_game.png';
+import asrImg from '../../../../assets/images/asr_game.png';
+import maghribImg from '../../../../assets/images/maghrib_game.png';
+import ishaImg from '../../../../assets/images/isha_game.png';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;

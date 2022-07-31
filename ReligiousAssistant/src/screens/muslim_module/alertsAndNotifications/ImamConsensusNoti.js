@@ -20,7 +20,7 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import voteIcon from '../../../assets/images/vote_ic.png';
+import voteIcon from '../../../../assets/images/vote_ic.png';
 
 import CustomButton from '../../../components/CustomButton';
 

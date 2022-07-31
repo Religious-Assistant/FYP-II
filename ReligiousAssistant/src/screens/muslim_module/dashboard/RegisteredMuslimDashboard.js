@@ -15,17 +15,17 @@ import {
 import {Text, View} from 'native-base';
 
 // Tab ICons...
-import profile from '../../../assets/images/nadir.png';
-import profile_ic from '../../../assets/images/profile_ic.png';
-import imam_ic from '../../../assets/images/imam_ic.png';
-import about_ic from '../../../assets/images/about_ic.png';
-import share_ic from '../../../assets/images/share_ic.png';
+import profile from '../../../../assets/images/nadir.png';
+import profile_ic from '../../../../assets/images/profile_ic.png';
+import imam_ic from '../../../../assets/images/imam_ic.png';
+import about_ic from '../../../../assets/images/about_ic.png';
+import share_ic from '../../../../assets/images/share_ic.png';
 
-import logout_ic from '../../../assets/images/logout_ic.png';
+import logout_ic from '../../../../assets/images/logout_ic.png';
 
 // Menu
-import menu from '../../../assets/images/menu_ic.png';
-import close from '../../../assets/images/close_ic.png';
+import menu from '../../../../assets/images/menu_ic.png';
+import close from '../../../../assets/images/close_ic.png';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';

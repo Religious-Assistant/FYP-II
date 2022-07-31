@@ -11,7 +11,7 @@ import {Heading, Image, Center, TextArea, Select, CheckIcon} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import timeICon from '../../../assets/images/announce_ic.png';
+import timeICon from '../../../../assets/images/announce_ic.png';
 import CustomButton from '../../../components/CustomButton';
 
 import {Formik} from 'formik';

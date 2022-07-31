@@ -33,10 +33,10 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import editIcon from '../../../assets/images/edit_ic.png';
-import cameraIcon from '../../../assets/images/camera_ic.png';
-import galleryIcon from '../../../assets/images/gallery_ic.png';
-import edit from '../../../assets/images/edit.png';
+import editIcon from '../../../../assets/images/edit_ic.png';
+import cameraIcon from '../../../../assets/images/camera_ic.png';
+import galleryIcon from '../../../../assets/images/gallery_ic.png';
+import edit from '../../../../assets/images/edit.png';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';

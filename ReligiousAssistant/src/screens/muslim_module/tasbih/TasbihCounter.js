@@ -4,39 +4,47 @@
 */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Image, Center} from 'native-base';
 
 //Redux
 import {useSelector, useDispatch} from 'react-redux'
-import { selectTasbihCount, updateCount, updateTasbih } from '../../../redux/slices/muslim_module_slices/tasbihSlice';
+import { getTasbihCount, selectTasbihCount, updateCount, updateTasbih } from '../../../redux/slices/muslim_module_slices/tasbihSlice';
 import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
-import tasbihIcon from '../../../assets/images/tasbih_ic.png';
-import tasbihImg from '../../../assets/images/tasbih_img.png';
+import tasbihIcon from '../../../../assets/images/tasbih_ic.png';
+import tasbihImg from '../../../../assets/images/tasbih_img.png';
 import CustomButton from '../../../components/CustomButton';
 import Header from '../../../components/Header';
-
-//Theme
+// Theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+import { useState } from 'react';
 
 export default function TasbihCounter() {
   
   const dispatch=useDispatch()
+  const[count, setCount]=useState(0)
 
   const tasbih=useSelector(selectTasbihCount)
   const userData= useSelector(selectUserData)
 
+  useEffect(()=>{
 
+    if(userData){
+      dispatch(getTasbihCount({username:userData.username}))
+    }
+    if(tasbih){
+      setCount(tasbih.count)
+    }
+  },[tasbih])
   
-
-  const onPress = () => dispatch(updateCount(tasbih+1));
+  const onTasbihClick = () => dispatch(updateCount(count+1));
   const handleReset = () => dispatch(updateCount(0));
 
 
-  const saveTasbih = ()=> dispatch(updateTasbih({username: userData.username,count: tasbih}));
+  const saveTasbih = ()=> dispatch(updateTasbih({username: userData.username,count: count}));
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -69,11 +77,11 @@ export default function TasbihCounter() {
               marginLeft: '8%',
               fontSize: 70,
             }}>
-            {tasbih}
+              {count}
           </Text>
         </Center>
         {/* Center Image */}
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onTasbihClick}>
           <Center>
             <Image
               size={230}

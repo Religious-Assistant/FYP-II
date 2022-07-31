@@ -11,7 +11,7 @@ import {Heading, Image, Center, ScrollView} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import rakahICon from '../../../assets/images/rakah_ic.png';
+import rakahICon from '../../../../assets/images/rakah_ic.png';
 import Accordian from '../../../components/Accordian';
 
 

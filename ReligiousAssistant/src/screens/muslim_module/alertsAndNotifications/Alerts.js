@@ -9,7 +9,7 @@ import {StyleSheet, View, FlatList} from 'react-native';
 import {Text, Image} from 'native-base';
 
 import colors from '../../../theme/colors';
-import muslimLogo from '../../../assets/images/MuslimLogo.png';
+import muslimLogo from '../../../../assets/images/MuslimLogo.png';
 
 import {useDispatch, useSelector} from 'react-redux'
 import { setTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';

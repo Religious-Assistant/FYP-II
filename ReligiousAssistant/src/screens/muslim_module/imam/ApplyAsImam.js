@@ -8,7 +8,7 @@ import {View, Text} from 'react-native';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import {Heading, Image} from 'native-base';
-import timeICon from '../../../assets/images/applyAsImam_ic.png';
+import timeICon from '../../../../assets/images/applyAsImam_ic.png';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';

@@ -7,8 +7,8 @@ import {View, Text, Center, Image, ScrollView} from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -22,11 +22,11 @@ import {
   TASBIH_COUNTER,
   QIBLA_DIRECTION,
   RAKAH_INFO,
-} from '../../navigation/constants';
+} from '../../../navigation/constants';
 
 //Redux
 import { useSelector } from 'react-redux';
-import { selectUserData } from '../../redux/slices/auth_slices/authSlice';
+import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
 export default function FeatureContainer() {
 
@@ -36,19 +36,19 @@ export default function FeatureContainer() {
   const featureArray1 = [
     {
       title: 'Recite Quran',
-      image: require('../../../assets/images/quran_ic.png'),
+      image: require('../../../../assets/images/quran_ic.png'),
       screen: RECITE_QURAN,
       key:1,
     },
     {
       title: 'Closest Mosque',
-      image: require('../../../assets/images/mosque_ic.png'),
+      image: require('../../../../assets/images/mosque_ic.png'),
       screen: FIND_MOSQUE,
       key:2,
     },
     {
       title: 'Qibla Rukh',
-      image: require('../../../assets/images/qibla_direction_ic.png'),
+      image: require('../../../../assets/images/qibla_direction_ic.png'),
       screen: QIBLA_DIRECTION,
       key:3,
     },
@@ -57,32 +57,32 @@ export default function FeatureContainer() {
   const featureArray2 = [
     {
       title: 'Learn Namaz',
-      image: require('../../../assets/images/learn_namaz_ic.png'),
+      image: require('../../../../assets/images/learn_namaz_ic.png'),
       screen: LEARN_NAMAZ,
       key:4,
     },
     user?
     {
       title: 'Accountability',
-      image: require('../../../assets/images/accountability_ic.png'),
+      image: require('../../../../assets/images/accountability_ic.png'),
       screen: ACCOUNTABILITY,
       key:5,
     }:
     {
       title: 'Announcements',
-      image: require('../../../assets/images/announcement_ic.png'),
+      image: require('../../../../assets/images/announcement_ic.png'),
       screen: ANNOUNCEMENTS,
       key:5,
     }
     ,
     user?{
       title: 'Announcements',
-      image: require('../../../assets/images/announcement_ic.png'),
+      image: require('../../../../assets/images/announcement_ic.png'),
       screen: ANNOUNCEMENTS,
       key:6,
     }:{
       title: 'Rakah Info',
-      image: require('../../../assets/images/info_ic.png'),
+      image: require('../../../../assets/images/info_ic.png'),
       screen: RAKAH_INFO,
       key:6,
     },
@@ -92,25 +92,25 @@ export default function FeatureContainer() {
     user?
     {
       title: 'Add Mosque',
-      image: require('../../../assets/images/add_ic.png'),
+      image: require('../../../../assets/images/add_ic.png'),
       screen: ADD_MOSQUE,
       key:7,
     }:undefined,
     {
       title: 'View Calander',
-      image: require('../../../assets/images/islamic_calander_ic.png'),
+      image: require('../../../../assets/images/islamic_calander_ic.png'),
       screen: VIEW_CALANDER,
       key:8,
     },
     {
       title: 'Tasbih Counter',
-      image: require('../../../assets/images/tasbih_ic.png'),
+      image: require('../../../../assets/images/tasbih_ic.png'),
       screen: TASBIH_COUNTER,
       key:9,
     },
     user?{
       title: 'Rakah Info',
-      image: require('../../../assets/images/info_ic.png'),
+      image: require('../../../../assets/images/info_ic.png'),
       screen: RAKAH_INFO,
       key:10,
     }:undefined,

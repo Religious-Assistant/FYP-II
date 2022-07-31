@@ -3,19 +3,17 @@
  * @version 1.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Settings from './Settings';
-import FindMosque from './FindMosque';
+import Settings from '../preferences/Settings';
+import FindMosque from '../mosques/FindMosque';
 import fonts from '../../../theme/fonts';
-import NamazTimings from './NamazTimings';
+import NamazTimings from '../namazTimings/NamazTimings';
 import Home from './Home';
-import Alerts from './Alerts';
-import { useSelector } from 'react-redux';
-// import { selectToken } from '../../redux/slices/auth_slices/authSlice';
+import Alerts from '../alertsAndNotifications/Alerts';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -81,7 +79,7 @@ export default function MuslimBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/images/home_ic.png')}
+                  source={require('../../../../assets/images/home_ic.png')}
                   resizeMode="contain"
                   style={{
                     width: 25,
@@ -115,7 +113,7 @@ export default function MuslimBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/images/notifications_ic.png')}
+                  source={require('../../../../assets/images/notifications_ic.png')}
                   resizeMode="contain"
                   style={{
                     width: 25,
@@ -144,7 +142,7 @@ export default function MuslimBottomTab() {
             tabBarIcon: ({focused}) => {
               return(
               <Image
-                source={require('../../../assets/images/search_mosque_ic.png')}
+                source={require('../../../../assets/images/search_mosque_ic.png')}
                 resizeMode="contain"
                 style={{
                   width: 30,
@@ -171,7 +169,7 @@ export default function MuslimBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/images/time_ic.png')}
+                  source={require('../../../../assets/images/time_ic.png')}
                   resizeMode="contain"
                   style={{
                     width: 25,
@@ -204,7 +202,7 @@ export default function MuslimBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/images/settings_ic.png')}
+                  source={require('../../../../assets/images/settings_ic.png')}
                   resizeMode="contain"
                   style={{
                     width: 25,

@@ -14,9 +14,9 @@ import CompassHeading from 'react-native-compass-heading';
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
 
-import kompass from '../../../assets/images/kompas.png';
-import image from '../../../assets/images/qibla_bg.png';
-import kabahICon from '../../../assets/images/kabah_ic.png';
+import kompass from '../../../../assets/images/kompas.png';
+import image from '../../../../assets/images/qibla_bg.png';
+import kabahICon from '../../../../assets/images/kabah_ic.png';
 
 import colors from '../../../theme/colors';
 

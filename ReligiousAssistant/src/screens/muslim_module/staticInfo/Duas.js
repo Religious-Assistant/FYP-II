@@ -9,7 +9,7 @@ import {VStack, Divider, Box, Stack, Heading, ScrollView} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import duaIcon from '../../../assets/images/dua_ic.png';
+import duaIcon from '../../../../assets/images/dua_ic.png';
 
 export default function Duas({navigation}) {
   const duas = [

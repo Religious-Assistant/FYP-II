@@ -48,7 +48,7 @@ export default function Header() {
       <View style={[styles.subContainer1, {flex:token?0.4:0.6}]}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../assets/images/time_ic.png')}
+            source={require('../../../../assets/images/time_ic.png')}
             style={{
               width: 25,
               height: 25,
@@ -62,7 +62,7 @@ export default function Header() {
 
         <View style={styles.infoContainer} mt={3}>
           <Image
-            source={require('../../../assets/images/current_namaz_ic.png')}
+            source={require('../../../../assets/images/current_namaz_ic.png')}
             style={{
               width: 30,
               height: 30,
@@ -78,7 +78,7 @@ export default function Header() {
       <View style={styles.subContainer2}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../assets/images/islamic_date_ic.png')}
+            source={require('../../../../assets/images/islamic_date_ic.png')}
             style={{
               width: 25,
               height: 25,
@@ -91,7 +91,7 @@ export default function Header() {
 
         <View style={styles.infoContainer} mt={2}>
           <Image
-            source={require('../../../assets/images/date_ic.png')}
+            source={require('../../../../assets/images/date_ic.png')}
             style={{
               width: 25,
               height: 25,
@@ -104,7 +104,7 @@ export default function Header() {
             {
               token?<View style={styles.infoContainer} mt={2}>
               <Image
-                source={require('../../../assets/images/location_ic.png')}
+                source={require('../../../../assets/images/location_ic.png')}
                 style={{
                   width: 25,
                   height: 25,

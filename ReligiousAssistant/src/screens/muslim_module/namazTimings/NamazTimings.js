@@ -8,7 +8,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Heading, Image, Center, VStack, Box} from 'native-base';
 
-import timeICon from '../../../assets/images/clock_ic.png';
+import timeICon from '../../../../assets/images/clock_ic.png';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
@@ -34,35 +34,35 @@ export default function NamazTimings({navigation}) {
       title: 'Fajr',
       startTime: '4:30 AM',
       endTime: '5:00 AM',
-      image: require('../../../assets/images/fajr_img.jpeg'),
+      image: require('../../../../assets/images/fajr_img.jpeg'),
     },
     {
       key: 2,
       title: 'Duhr',
       startTime: '1:30 PM',
       endTime: '2:00 PM',
-      image: require('../../../assets/images/duhr_img.jpeg'),
+      image: require('../../../../assets/images/duhr_img.jpeg'),
     },
     {
       key: 3,
       title: 'Asr',
       startTime: '5:00 PM',
       endTime: '5:20 PM',
-      image: require('../../../assets/images/asr_img.jpeg'),
+      image: require('../../../../assets/images/asr_img.jpeg'),
     },
     {
       key: 4,
       title: 'Maghrib',
       startTime: '6:50 PM',
       endTime: '7:15 PM',
-      image: require('../../../assets/images/maghrib_img.jpeg'),
+      image: require('../../../../assets/images/maghrib_img.jpeg'),
     },
     {
       key: 5,
       title: 'Isha',
       startTime: '8:30 PM',
       endTime: '9:00 PM',
-      image: require('../../../assets/images/isha_img.jpeg'),
+      image: require('../../../../assets/images/isha_img.jpeg'),
     },
   ];
   return (

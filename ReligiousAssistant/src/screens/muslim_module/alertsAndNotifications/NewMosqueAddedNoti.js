@@ -20,7 +20,7 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import mosqueIcon from '../../../assets/images/closest_mosque_ic.png';
+import mosqueIcon from '../../../../assets/images/closest_mosque_ic.png';
 
 import CustomButton from '../../../components/CustomButton';
 
