@@ -25,14 +25,16 @@ const updateTasbih = async (req, res) => {
 };
 
 const getTasbihCount = async (req, res) => {
-  console.log(`GET Tasbih count API hit`, req.body);
+  console.log(`GET Tasbih count API hit`);
   try {
-    const { username, count } = req.body;
+    const { username } = req.body;
 
-    const isUserFound = await Tasbih.findOne({ username: username },{count});
+    const isUserFound = await Tasbih.findOne({ username: username });
+
     if (isUserFound) {
       await Tasbih.updateOne({ username: username }, { $set: { count: count } })
         .then((updated) => {
+          console.log(isUserFound)
           res.status(200).send({ success: true, msg: "Updated Tasbih" });
         })
         .catch((err) => {
