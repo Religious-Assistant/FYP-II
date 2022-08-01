@@ -15,7 +15,6 @@ const announcementSchema = mongoose.Schema(
       //username here
       type: String,
       required: true,
-      ref: "User",
     },
     location: {
       //From where it was announced,
@@ -25,7 +24,7 @@ const announcementSchema = mongoose.Schema(
       },
       coordinates: [],
     },
-    targetAudience: [{ username: { type: String, ref: "User" } }],
+    targetAudience: [{  type: String}],
   },
   { timestamps: true }
 );

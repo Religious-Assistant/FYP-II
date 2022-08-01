@@ -32,7 +32,6 @@ const reciteQuranSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    ref:'User',
   },
   recitedSurahs:[recitedSurahsSchema],
   recitedParahs:[recitedParahsSchema],

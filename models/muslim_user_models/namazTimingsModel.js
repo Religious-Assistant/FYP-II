@@ -9,7 +9,6 @@ const namazTimingsSchema=mongoose.Schema({
     updatedBy:{                  //Updated By a user
         type:String,
         required:true,
-        ref:'User',
     },
     fajr:{
         startTime:{

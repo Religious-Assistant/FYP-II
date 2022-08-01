@@ -6,7 +6,6 @@ const muslimUserPreferencesSchema=mongoose.Schema({
         type:String,
         required:true,
         unique:true,
-        ref:'User',
     },
     primaryMosque:{
         type:String,

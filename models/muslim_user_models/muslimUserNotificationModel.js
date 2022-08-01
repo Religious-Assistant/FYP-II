@@ -27,7 +27,6 @@ const notificationSchema = mongoose.Schema(
       //username here
       type: String,
       required: true,
-      ref: "User",
     },
     isOpenedByUser: {
       type: Boolean,

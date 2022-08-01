@@ -15,7 +15,6 @@ const mosqueSchema=mongoose.Schema({
     addedBy:{
         type:String,
         required:true,
-        ref:'User',
     },
     verified:{
         type:Boolean,

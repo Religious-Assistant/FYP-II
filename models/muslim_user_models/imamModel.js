@@ -5,7 +5,6 @@ const imamSchema=mongoose.Schema({
         type: String,
         required: true,
         unique:true,
-        ref:'User',
     },
     mosqueId:{
         type:mongoose.Types.ObjectId,

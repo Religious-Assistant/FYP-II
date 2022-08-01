@@ -17,7 +17,6 @@ const namazAccountabilitySchema = mongoose.Schema({
   username: {
     type: String,
     required: true,
-    ref:'User',
   },
   prayers: [prayerSchema],
 });

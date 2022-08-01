@@ -4,7 +4,6 @@ const tasbihSchema=mongoose.Schema({
     username:{
         type: String,
         required: true,
-        ref:'User',
     },
     count:{
         type:Number,

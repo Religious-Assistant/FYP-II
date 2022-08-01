@@ -6,7 +6,7 @@ const learnNamazSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    ref:'User',
+
   },
   level: {
     type: Number,

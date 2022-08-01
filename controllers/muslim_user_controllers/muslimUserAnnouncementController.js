@@ -1,6 +1,8 @@
 const Announcement = require("../../models/muslim_user_models/muslimAnnouncementModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const User = require("../../models/common_models/userModel");
+const MuslimPreference=require('../../models/muslim_user_models/muslimUserPreferencesModel')
+
 const { findNearByPeople, notifyUsers } = require("../utils/utils");
 
 //Take announcement Data and make it available to everyone
@@ -17,7 +19,7 @@ const makeAnnouncement = async (req, res) => {
 
         const targetAudience = [];
         await peopleAround.map((person) => {
-          targetAudience.push({ username: person });
+          targetAudience.push(person);
         });
 
         const newAnnouncement = await Announcement.create({
@@ -35,8 +37,13 @@ const makeAnnouncement = async (req, res) => {
 
             const title=`New Announcement by ${announcedBy.toUpperCase()}`
             const body=`${statement}` 
-            const devices=await DeviceToken.find({},{_id:0,username:0,__v:0})   //Only deviceToken are returned
-            const totalReceivers=await notifyUsers(title,body, devices)
+            const receivers=await DeviceToken.find({},{_id:0,__v:0})   //Only username,deviceToken are returned
+            //We could send to only those who has subscribed to announcement notfs in preferences
+
+            //Get only device tokens that are targeted i.e within range
+            let recepients = receivers.filter(receiver => targetAudience.includes(receiver.username));
+
+            const totalReceivers=await notifyUsers(title,body, recepients)
 
           res.status(200).send({
             success: true,
@@ -67,8 +74,8 @@ const getAllAnnouncements = async (req, res) => {
 
   try {
     const {username}=req.body
-    const announcements=await Announcement.find({"targetAudience.username":username}).populate()
-    // console.log(announcements[0].targetAudience.username)
+    const announcements=await Announcement.find({"targetAudience":username})
+
     res
       .status(200)
       .send({ msg: "Here are All Announcements", success: true, data: announcements });

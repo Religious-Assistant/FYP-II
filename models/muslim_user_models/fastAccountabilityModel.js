@@ -5,7 +5,6 @@ const fastAccountabilitySchema=mongoose.Schema({
     username:{
         type:String,
         required:true,
-        ref:'User',
     },
     hasFast:{
         default:false,
