@@ -32,14 +32,17 @@ const makeAnnouncement = async (req, res) => {
         });
 
         if (newAnnouncement) {
-            await notifyUsers()
-            
+
+            const title=`New Announcement by ${announcedBy.toUpperCase()}`
+            const body=`${statement}` 
+            const devices=await DeviceToken.find({},{_id:0,username:0,__v:0})   //Only deviceToken are returned
+            const totalReceivers=await notifyUsers(title,body, devices)
+
           res.status(200).send({
             success: true,
-            msg: `Announcement sent to ${peopleAround.length} people around your location`,
+            msg: `Announcement sent to ${totalReceivers} people around your location`,
           });
 
-          //Send it to people around this location
         } else {
           console.log("Could not created");
           res
@@ -59,12 +62,16 @@ const makeAnnouncement = async (req, res) => {
 
 //Takes username, gets all announcements
 const getAllAnnouncements = async (req, res) => {
+
   console.log("Get all Announcement API hit");
 
   try {
+    const {username}=req.body
+    const announcements=await Announcement.find({"targetAudience.username":username}).populate()
+    // console.log(announcements[0].targetAudience.username)
     res
       .status(200)
-      .send({ msg: "Here are All Announcements", success: true, data: [] });
+      .send({ msg: "Here are All Announcements", success: true, data: announcements });
   } catch (error) {
     res.status(400).send(error.message);
   }

@@ -45,10 +45,10 @@ const findNearByPeople = async (longitude, latitude) => {
 async function notifyUsers(title, body, targetDevices) {
   
   // Send a message to devices with the registered tokens
-  await admin
+  const resp=await admin
     .messaging()
     .sendMulticast({
-      tokens: targetDevices,
+      tokens: targetDevices.map(token=>token.deviceToken),
       data: {
         notification: JSON.stringify({
           body: body,
@@ -68,9 +68,8 @@ async function notifyUsers(title, body, targetDevices) {
         }),
       },
     })
-    .then((response) => {
-      console.log(response.successCount + " messages were sent successfully");
-    });
+
+    return resp.successCount
 }
 
 module.exports = {
