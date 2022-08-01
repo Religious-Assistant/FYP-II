@@ -29,7 +29,7 @@ export const makeAnnouncement = createAsyncThunk(
     }
 )
 
-const deleteAnnouncement = createAsyncThunk(
+export const deleteAnnouncement = createAsyncThunk(
     'deleteAnnouncement',
     async(body)=>{
         const result =  await apiDELETE(delete_announcement,body)
@@ -45,7 +45,6 @@ const announcementSlice = createSlice({
         [getAnnouncements.fulfilled]:(state,action)=>{
             state.hasErrorInAnnouncements=false
             state.isLoadingAnnouncements = false
-            console.log(action.payload.data)
             state.announcements = action.payload.data
         },
         [getAnnouncements.pending]:(state,action)=>{
@@ -69,17 +68,17 @@ const announcementSlice = createSlice({
             state.isLoadingMakeAnnouncement = false
         },
         [deleteAnnouncement.fulfilled]:(state,action)=>{
-            state.hasError = false
-            state.isLoading = false
+            state.hasErrorInAnnouncements = false
+            state.isLoadingAnnouncements = false
+            state.announcements=action.payload.data
         },
         [deleteAnnouncement.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingAnnouncements=true
+            state.hasErrorInAnnouncements=false
         },
-        [deleteAnnouncement
-            .rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
+        [deleteAnnouncement.rejected]:(state,action)=>{
+            state.hasErrorInAnnouncements = true
+            state.isLoadingAnnouncements = false
         },
 
     }

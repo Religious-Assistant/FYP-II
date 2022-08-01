@@ -20,7 +20,7 @@ import {ANNOUNCEMENT_CATEGORIES} from '../UIConstants';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {makeAnnouncement, selectHasErrorInMakeAnnouncement, selectIsLoadingMakeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
+import {getAnnouncements, makeAnnouncement, selectHasErrorInMakeAnnouncement, selectIsLoadingMakeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
 import Loader from '../../common/Loader';
 
 export default function MakeAnnouncement() {
@@ -40,8 +40,10 @@ export default function MakeAnnouncement() {
           category: values.category,
           longitude:68.8228,          //this shoud come from user.pref.location.longitude
           latitude:27.7244,
+          avatar:user.avatar          //Url of image, may cause problem on Heroku
         }),
       );
+      dispatch(getAnnouncements({username:user.username}))
     }
   }
 

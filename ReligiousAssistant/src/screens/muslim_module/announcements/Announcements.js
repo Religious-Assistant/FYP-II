@@ -37,6 +37,7 @@ import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import fonts from '../../../theme/fonts';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  deleteAnnouncement,
   getAnnouncements,
   selectAnnouncements,
   selectHasErrorInAnnouncements,
@@ -44,61 +45,66 @@ import {
 } from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
-import moment from 'moment';
 
 export default function Announcements() {
   // const [announcements, setAnnouncements] = useState(data);
 
   const dispatch = useDispatch();
 
-  const announcements = useSelector(selectAnnouncements);
+  let announcements = useSelector(selectAnnouncements);
   const isLoadingAnnouncements = useSelector(selectIsLoadingAnnouncements);
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
 
   useEffect(() => {
-    if (!announcements && user) {
+    if (user) {
+      console.log(announcements)
       dispatch(getAnnouncements({username: user.username}));
     }
   }, []);
 
-  // //Handle delete
-  // const handleDelete = item => {
-  //   const arr = [...announcements];
-  //   arr.splice(item.index, 1);
-  //   setAnnouncements(arr);
-
-  // };
+  //Handle delete
+  const handleDelete = item => {
+    if (user) {
+      dispatch(
+        deleteAnnouncement({
+          username: user?.username,
+          announcementId: item.item._id,
+        }),
+      );
+    }
+  };
 
   return (
-    <View style={styles.root}>
-      {isLoadingAnnouncements ? (
-        <Loader msg="Loagding announcements" />
-      ) : (
-        <FlatList
-          style={styles.root}
-          data={announcements}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          keyExtractor={item => item._id}
-          renderItem={v => {
-            console.log(v);
-            return (
-              <ListItem
-                item={v}
-                handleDelete={() => {
-                  handleDelete(v);
-                }}
-              />
-            );
-          }}
-        />
-      )}
+    <>
+      <View style={styles.root}>
+        {isLoadingAnnouncements ? (
+          <Loader msg="Loagding announcements" />
+        ) : (
+          <FlatList
+            style={styles.root}
+            data={announcements}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            keyExtractor={item => item?._id}
+            renderItem={v => {
+              return (
+                <ListItem
+                  item={v}
+                  handleDelete={() => {
+                    handleDelete(v);
+                  }}
+                />
+              );
+            }}
+          />
+        )}
+      </View>
       <NativeBaseProvider>
         <Center flex={1} px="3">
           <FabButton />
         </Center>
       </NativeBaseProvider>
-    </View>
+    </>
   );
 }
 
@@ -120,9 +126,10 @@ const ListItem = props => {
 
   const dateDifference = () => {
     let dt1 = new Date(announcement.createdAt);
-    let dt2 = new Date();           //Now
+    let dt2 = new Date(); //Now
     let diff = (dt2.getTime() - dt1.getTime()) / 1000;
     diff /= 60;
+
     return Math.abs(Math.round(diff));
   };
 
@@ -137,7 +144,7 @@ const ListItem = props => {
       <Swipeable renderRightActions={rightSwipe}>
         <TouchableOpacity style={styles.container} onPress={gotoAnnouncement}>
           <Image
-            source={{uri: announcement.image}}
+            source={{uri: announcement.avatar}}
             style={styles.avatar}
             alt="image.."
           />
@@ -145,9 +152,9 @@ const ListItem = props => {
             <View>
               <View style={styles.text}>
                 <Text style={styles.name}>{announcement.announcedBy}</Text>
-                <Text>{announcement.statement}</Text>
+                <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
               </View>
-              <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
+              <Text>{announcement.statement}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -162,7 +169,7 @@ const FabButton = () => {
     navigator.navigate(MAKE_ANNOUNCEMENT_SCREEN);
   }
   return (
-    <Box position="relative" w="100%" h={200}>
+    <Box position="relative" w="100%" h={100}>
       <Fab
         bottom={46}
         backgroundColor={colors.tertiary}
@@ -194,6 +201,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#FFFFFF',
     alignItems: 'flex-start',
+    flex: 1,
   },
   deleteContainer: {
     justifyContent: 'center',
