@@ -35,8 +35,8 @@ export default function MakeAnnouncement() {
           announcedBy: user.username,
           statement: values.description,
           category: values.category,
-          longitude:27.7244,          //this shoud come from user.pref.location.longitude
-          latitude:68.8228,
+          longitude:68.8228,          //this shoud come from user.pref.location.longitude
+          latitude:27.7244,
         }),
       );
     }
