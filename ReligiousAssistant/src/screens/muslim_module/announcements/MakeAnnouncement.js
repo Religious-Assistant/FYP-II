@@ -20,13 +20,16 @@ import {ANNOUNCEMENT_CATEGORIES} from '../UIConstants';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {makeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
+import {makeAnnouncement, selectHasErrorInMakeAnnouncement, selectIsLoadingMakeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
+import Loader from '../../common/Loader';
 
 export default function MakeAnnouncement() {
-  const user = useSelector(selectUserData);
-  const dispatch = useDispatch();
 
-  console.log(user);
+
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const isMakingAnnouncement=useSelector(selectIsLoadingMakeAnnouncement)
+  const hasErrorinMakeAnnouncement=useSelector(selectHasErrorInMakeAnnouncement)
 
   function announce(values) {
     if (user) {
@@ -45,7 +48,6 @@ export default function MakeAnnouncement() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
-        {/* header */}
         <View
           style={{
             flex: 0.17,
@@ -80,7 +82,10 @@ export default function MakeAnnouncement() {
             </Heading>
           </View>
         </View>
-        <View style={{flex: 0.83}} width="95%">
+        {
+          isMakingAnnouncement?<Loader msg="Announcing to people ..." />:
+          
+          <View style={{flex: 0.83}} width="95%">
           <Center
             width="88%"
             space={2}
@@ -170,6 +175,8 @@ export default function MakeAnnouncement() {
             </Formik>
           </Center>
         </View>
+        }
+        
       </View>
     </TouchableWithoutFeedback>
   );

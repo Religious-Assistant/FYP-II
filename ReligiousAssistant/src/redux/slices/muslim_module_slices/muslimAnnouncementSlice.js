@@ -5,16 +5,18 @@ import { delete_announcement, get_announcements, make_announcement} from '../../
 
 const initialState = {
     announcements:null,
-    isLoading:true,
-    hasError:false,
+    isLoadingAnnouncements:false,
+    hasErrorInAnnouncements:false,
 
+    isLoadingMakeAnnouncement:false,
+    hasErrorInMakeAnnouncement:false,
 
 }
 
 export const getAnnouncements = createAsyncThunk(
     'getAnnouncements',
-    async()=>{
-        const result =  await apiGET(get_announcements)
+    async(body)=>{
+        const result =  await apiPOST(get_announcements, body)
         return result
     }
 )
@@ -41,29 +43,30 @@ const announcementSlice = createSlice({
     reducers:{},
     extraReducers:{
         [getAnnouncements.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isLoading = false
+            state.hasErrorInAnnouncements=false
+            state.isLoadingAnnouncements = false
+            console.log(action.payload.data)
             state.announcements = action.payload.data
         },
         [getAnnouncements.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingAnnouncements=true
+            state.hasErrorInAnnouncements=false
         },
         [getAnnouncements.rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
+            state.hasErrorInAnnouncements = true
+            state.isLoadingAnnouncements = false
         },
         [makeAnnouncement.fulfilled]:(state,action)=>{
-            state.hasError = false
-            state.isLoading = false
+            state.hasErrorInMakeAnnouncement = false
+            state.isLoadingMakeAnnouncement = false
         },
         [makeAnnouncement.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingMakeAnnouncement=true
+            state.hasErrorInMakeAnnouncement=false
         },
         [makeAnnouncement.rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
+            state.hasErrorInMakeAnnouncement = true
+            state.isLoadingMakeAnnouncement = false
         },
         [deleteAnnouncement.fulfilled]:(state,action)=>{
             state.hasError = false
@@ -84,8 +87,10 @@ const announcementSlice = createSlice({
 
 
 export const selectAnnouncements =(state)=> state.announcement.announcements;
-export const selectIsLoading=(state)=>state.announcement.isLoading
-export const selectHasError=(state)=>state.announcement.hasError
+export const selectIsLoadingAnnouncements=(state)=>state.announcement.isLoadingAnnouncements
+export const selectHasErrorInAnnouncements=(state)=>state.announcement.hasErrorInAnnouncements
 
+export const selectIsLoadingMakeAnnouncement=(state)=>state.announcement.isLoadingMakeAnnouncement
+export const selectHasErrorInMakeAnnouncement=(state)=>state.announcement.hasErrorInMakeAnnouncement
 
 export default announcementSlice.reducer

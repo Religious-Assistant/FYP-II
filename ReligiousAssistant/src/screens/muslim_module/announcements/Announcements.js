@@ -26,46 +26,73 @@ import {
 import colors from '../../../theme/colors';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import deleteIcon from '../../../../assets/images/delete_ic.png';
 import {useNavigation} from '@react-navigation/native';
-import {MAKE_ANNOUNCEMENT_SCREEN, MUSLIM_USER_ANNOUNCEMENT_DETAILS} from '../../../navigation/constants';
+import {
+  MAKE_ANNOUNCEMENT_SCREEN,
+  MUSLIM_USER_ANNOUNCEMENT_DETAILS,
+} from '../../../navigation/constants';
 
 import {data} from './dummyData';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import fonts from '../../../theme/fonts';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getAnnouncements,
+  selectAnnouncements,
+  selectHasErrorInAnnouncements,
+  selectIsLoadingAnnouncements,
+} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import Loader from '../../common/Loader';
+import moment from 'moment';
 
 export default function Announcements() {
-  const [announcements, setAnnouncements] = useState(data);
+  // const [announcements, setAnnouncements] = useState(data);
 
-  const handleDelete = item => {
-    const arr = [...announcements];
-    arr.splice(item.index, 1);
-    setAnnouncements(arr);
+  const dispatch = useDispatch();
 
-  };
+  const announcements = useSelector(selectAnnouncements);
+  const isLoadingAnnouncements = useSelector(selectIsLoadingAnnouncements);
+  const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
+  const user = useSelector(selectUserData);
 
-  const gotoAnnouncement=(item)=>{
+  useEffect(() => {
+    if (!announcements && user) {
+      dispatch(getAnnouncements({username: user.username}));
+    }
+  }, []);
 
-    console.log(item)
-  }
+  // //Handle delete
+  // const handleDelete = item => {
+  //   const arr = [...announcements];
+  //   arr.splice(item.index, 1);
+  //   setAnnouncements(arr);
+
+  // };
 
   return (
     <View style={styles.root}>
-      {/* Announcements announcements */}
-      <FlatList
-        style={styles.root}
-        data={announcements}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        keyExtractor={item => item.id}
-        renderItem={v => (
-          <ListItem
-            item={v}
-            handleDelete={() => {
-              handleDelete(v);
-            }}
-          />
-        )}
-      />
+      {isLoadingAnnouncements ? (
+        <Loader msg="Loagding announcements" />
+      ) : (
+        <FlatList
+          style={styles.root}
+          data={announcements}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          keyExtractor={item => item._id}
+          renderItem={v => {
+            console.log(v);
+            return (
+              <ListItem
+                item={v}
+                handleDelete={() => {
+                  handleDelete(v);
+                }}
+              />
+            );
+          }}
+        />
+      )}
       <NativeBaseProvider>
         <Center flex={1} px="3">
           <FabButton />
@@ -78,33 +105,37 @@ export default function Announcements() {
 const ListItem = props => {
   const announcement = props.item.item;
 
-  const navigator=useNavigation()
+  const navigator = useNavigation();
 
   const rightSwipe = (progress, dragX) => {
-
-
     return (
       <TouchableOpacity
         onPress={props.handleDelete}
         style={styles.deleteContainer}
         activeOpacity={0.7}>
-        <Text style={styles.deleteBtnText}>
-          Delete
-        </Text>
+        <Text style={styles.deleteBtnText}>Delete</Text>
       </TouchableOpacity>
     );
   };
 
-  const gotoAnnouncement=()=>{
+  const dateDifference = () => {
+    let dt1 = new Date(announcement.createdAt);
+    let dt2 = new Date();           //Now
+    let diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60;
+    return Math.abs(Math.round(diff));
+  };
 
-    navigator.navigate(MUSLIM_USER_ANNOUNCEMENT_DETAILS,{announcement:announcement})
-  }
+  const gotoAnnouncement = () => {
+    navigator.navigate(MUSLIM_USER_ANNOUNCEMENT_DETAILS, {
+      announcement: announcement,
+    });
+  };
 
   return (
     <GestureHandlerRootView>
-      <Swipeable
-        renderRightActions={rightSwipe}>
-          <TouchableOpacity style={styles.container} onPress={gotoAnnouncement}>
+      <Swipeable renderRightActions={rightSwipe}>
+        <TouchableOpacity style={styles.container} onPress={gotoAnnouncement}>
           <Image
             source={{uri: announcement.image}}
             style={styles.avatar}
@@ -113,15 +144,13 @@ const ListItem = props => {
           <View style={styles.content}>
             <View>
               <View style={styles.text}>
-                <Text style={styles.name}>{announcement.name}</Text>
-                <Text>{announcement.text}</Text>
+                <Text style={styles.name}>{announcement.announcedBy}</Text>
+                <Text>{announcement.statement}</Text>
               </View>
-              <Text style={styles.timeAgo}>2 hours ago</Text>
+              <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
             </View>
           </View>
-          </TouchableOpacity>
-
-
+        </TouchableOpacity>
       </Swipeable>
     </GestureHandlerRootView>
   );
@@ -172,10 +201,10 @@ const styles = StyleSheet.create({
     width: '30%',
     alignItems: 'center',
   },
-  deleteBtnText:{
-    fontFamily:fonts.Signika.bold,
-    fontSize:20,
-    color:colors.white
+  deleteBtnText: {
+    fontFamily: fonts.Signika.bold,
+    fontSize: 20,
+    color: colors.white,
   },
   avatar: {
     width: 50,
