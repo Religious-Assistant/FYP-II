@@ -25,6 +25,7 @@ const announcementSchema = mongoose.Schema(
       coordinates: [],
     },
     targetAudience: [{  type: String}],
+    avatar:{type:String}
   },
   { timestamps: true }
 );

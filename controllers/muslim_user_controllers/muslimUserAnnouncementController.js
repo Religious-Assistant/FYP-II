@@ -3,12 +3,12 @@ const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const User = require("../../models/common_models/userModel");
 const MuslimPreference=require('../../models/muslim_user_models/muslimUserPreferencesModel')
 
-const { findNearByPeople, notifyUsers } = require("../utils/utils");
+const { findNearByPeople, notifyUsers, getProfileImage } = require("../utils/utils");
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
   console.log("Make Muslim Announcement API hit");
-  const { latitude, longitude, category, announcedBy, statement } = req.body;
+  const { latitude, longitude, category, announcedBy, statement, avatar } = req.body;
 
   try {
     const user = await User.findOne({ username: announcedBy });
@@ -31,6 +31,7 @@ const makeAnnouncement = async (req, res) => {
             coordinates: [parseFloat(longitude), parseFloat(latitude)],
           },
           targetAudience,
+          avatar:avatar
         });
 
         if (newAnnouncement) {
@@ -40,9 +41,9 @@ const makeAnnouncement = async (req, res) => {
             const receivers=await DeviceToken.find({},{_id:0,__v:0})   //Only username,deviceToken are returned
             //We could send to only those who has subscribed to announcement notfs in preferences
 
+
             //Get only device tokens that are targeted i.e within range
             let recepients = receivers.filter(receiver => targetAudience.includes(receiver.username));
-
             const totalReceivers=await notifyUsers(title,body, recepients)
 
           res.status(200).send({
@@ -74,11 +75,11 @@ const getAllAnnouncements = async (req, res) => {
 
   try {
     const {username}=req.body
-    const announcements=await Announcement.find({"targetAudience":username})
-
+     let announcements=await Announcement.find({"targetAudience":username})
     res
       .status(200)
       .send({ msg: "Here are All Announcements", success: true, data: announcements });
+
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -89,10 +90,18 @@ const deleteAnnouncement = async (req, res) => {
   console.log("Delete Announcement API hit");
 
   try {
+    const {username, announcementId}=req.body
+
+    await Announcement.updateOne({_id:announcementId,targetAudience:username},{$pullAll:{
+        targetAudience:[username]
+    }})
+
+    const announcements=await Announcement.find({targetAudience:username})
+
     res.status(200).send({
       msg: "Announcement Deleted Successfully",
       success: true,
-      data: [],
+      data: announcements,
     });
   } catch (error) {
     res.status(400).send(error.message);

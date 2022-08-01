@@ -15,7 +15,7 @@ const FastAccountability = require("../../models/muslim_user_models/fastAccounta
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 
 //common functions
-const { hashPassword, createToken } = require("../utils/utils");
+const { hashPassword, createToken, getProfileImage } = require("../utils/utils");
 
 const {
   directoryPath,
@@ -24,6 +24,7 @@ const {
   D7_KEY,
   OTP_EXPIRY,
 } = require("../utils/constants");
+
 
 const registerUser = async (req, res) => {
   console.log("Register API hit", req.body.password, req.body.username);
@@ -288,22 +289,6 @@ const verifyOTPCode = async (req, res) => {
   }
 };
 
-const getProfileImage = async (username) => {
-  return new Promise((resolve, reject) => {
-    fs.readdir(directoryPath, function (err, files) {
-      if (err) {
-        reject(err);
-      }
-      files.forEach(function (file) {
-        const splittedName = file.split("-");
-        if (splittedName[0] == username) {
-          resolve(base_url + file);
-        }
-      });
-      reject("Image Not found");
-    });
-  });
-};
 
 const updatePassword = async (req, res) => {
   console.log("Update password API hit");

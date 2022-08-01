@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const admin = require("firebase-admin");
-
+const fs=require('fs')
 const User = require("../../models/common_models/userModel");
 
 const jwt_secret = process.env.JWT_KEY;
-const { TOKEN_EXPIRE } = require("./constants");
+const { TOKEN_EXPIRE, directoryPath, base_url } = require("./constants");
 
 async function hashPassword(password) {
   const newPass = await bcrypt.hash(password, 5);
@@ -73,9 +73,27 @@ async function notifyUsers(title, body, targetDevices) {
     return resp.successCount
 }
 
+const getProfileImage = async (username) => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(directoryPath, function (err, files) {
+      if (err) {
+        reject(err);
+      }
+      files.forEach(function (file) {
+        const splittedName = file.split("-");
+        if (splittedName[0] == username) {
+          resolve(base_url + file);
+        }
+      });
+      reject("Image Not found");
+    });
+  });
+};
+
 module.exports = {
   hashPassword,
   createToken,
   findNearByPeople,
-  notifyUsers
+  notifyUsers,
+  getProfileImage
 };
