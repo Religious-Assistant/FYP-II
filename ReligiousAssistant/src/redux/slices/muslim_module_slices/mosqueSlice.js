@@ -1,5 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiGET} from '../../../apis/apiService'
+import { add_mosque, get_all_mosques, get_closest_mosques, get_unverified_mosques_around_user } from '../../endpoints'
 
 const initialState = {
     allMosques:null,
@@ -13,7 +14,7 @@ const initialState = {
 export const getAllMosques = createAsyncThunk(
     'getAllMosques',
     async ()=>{
-       const result =  await apiGET('getAllMosques')
+       const result =  await apiGET(get_all_mosques)
        return result  
     }
 )
@@ -21,7 +22,7 @@ export const getAllMosques = createAsyncThunk(
 export const getClosestMosques = createAsyncThunk(
     'getClosestMosques',
     async (location)=>{
-       const result =  await apiPOST('getClosestMosques',location)   //Location object with latitude and longitude
+       const result =  await apiPOST(get_closest_mosques,location)   //Location object with latitude and longitude
        return result  
     }
 )
@@ -30,7 +31,7 @@ export const getClosestMosques = createAsyncThunk(
 export const getUnverifiedMosquesAroundUser = createAsyncThunk(
     'getUnverifiedMosquesAroundUser',
     async (location)=>{
-       const result =  await apiPOST('getUnverifiedMosquesAroundUser',location)   //Location object with latitude and longitude
+       const result =  await apiPOST(get_unverified_mosques_around_user,location)   //Location object with latitude and longitude
        return result  
     }
 )
@@ -38,7 +39,7 @@ export const getUnverifiedMosquesAroundUser = createAsyncThunk(
 export const addMosque = createAsyncThunk(
     'addMosque',
     async (body)=>{
-       const result =  await apiPOST('addMosque',body)   //body with required info
+       const result =  await apiPOST(add_mosque,body)   //body with required info
        return result  
     }
 )

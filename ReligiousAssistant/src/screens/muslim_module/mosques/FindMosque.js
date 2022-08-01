@@ -50,7 +50,6 @@ export default function FindMosque() {
   const[sourceCoordinates,setSourceCoordinates]=useState()
 
   useEffect(()=>{
-
     getLocation()
   },[])
   

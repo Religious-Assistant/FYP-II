@@ -48,12 +48,19 @@ const Map = () => {
   }, []);
 
   function getLongLatitude(e) {
-    console.log(e.nativeEvent.coordinate);
+
+    setPosition({
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude,
+      latitudeDelta: 0.0421,
+      longitudeDelta: 0.0421,
+    });
+
   }
 
-  function confirmAndSubmitMapValues(lat_long){
-
-    navigator.navigate(ADD_MOSQUE,{longitude:lat_long.longitude, latitude:lat_long.latitude})
+  function confirmAndSubmitMapValues(){
+    console.log(position)
+    navigator.navigate(ADD_MOSQUE,{longitude:position.longitude, latitude:position.latitude})
   }
   return (
     <View style={styles.container}>
@@ -66,25 +73,14 @@ const Map = () => {
             showsUserLocation={true}
             zoomEnabled={true}
             zoomControlEnabled={true}
-            onPress={e => {
-              getLongLatitude(e);
-              setPosition({
-                latitude: e.nativeEvent.coordinate.latitude,
-                longitude: e.nativeEvent.coordinate.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              });
-            }}>
+            onPress={getLongLatitude}>
             {position && (
               <Marker
                 pinColor="red"
                 draggable={true}
                 title="Yor are here"
-                onDragStart={e => {}}
-                onDragEnd={e => {
-                  getLongLatitude(e);
-                }}
-                coordinate={position}
+                onDragEnd={getLongLatitude}
+                coordinate={{latitude : position.latitude , longitude : position.longitude}}
               />
             )}
           </MapView>
@@ -95,9 +91,7 @@ const Map = () => {
       mt="8%"
       color={colors.primary}
       base="99%"
-      onPress={() => {
-          confirmAndSubmitMapValues(position)
-      }}
+      onPress={confirmAndSubmitMapValues}
     />
   </View>
         </>
