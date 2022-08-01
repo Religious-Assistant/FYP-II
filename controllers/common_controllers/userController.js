@@ -35,7 +35,15 @@ const registerUser = async (req, res) => {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
       const img_url = base_url + defaultAvatar;
-      const user_data = await User.create({ ...req.body });
+      
+      //By default, Sukkur location is added
+      const user_data = await User.create({
+        ...req.body,
+        location: {
+          type: "Point",
+          coordinates: [parseFloat("68.8228"), parseFloat("27.7244")],
+        },
+      });
 
       if (user_data) {
         //Create a Tasbih for each Muslim user, check religion

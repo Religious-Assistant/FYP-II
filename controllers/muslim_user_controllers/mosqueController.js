@@ -34,7 +34,7 @@ const getClosestMosques=async(req, res)=>{
                         coordinates:[parseFloat(longitude),parseFloat(latitude)]
                     },
                     key:'location',
-                    maxDistance:parseFloat(1000)*1609,
+                    maxDistance:1000*10,            //Display mosques in 10KM
                     distanceField:'dist.calculated',
                     spherical:true,
                 }
@@ -63,7 +63,7 @@ const getUnverifiedMosquesAroundUser=async(req, res)=>{
                         coordinates:[parseFloat(longitude),parseFloat(latitude)]
                     },
                     key:'location',
-                    maxDistance:parseFloat(1000)*1609,
+                    maxDistance:1000*10,                //10 KM
                     distanceField:'dist.calculated',
                     spherical:true,
 
@@ -105,6 +105,8 @@ const addMosque=async(req, res)=>{
                 })
 
                 if(newMosqueData){
+
+                    //send notification to users around this mosque
                     res.status(200).send({success:true,msg:'Added Successfully',data:newMosqueData})
                 }
                 else{

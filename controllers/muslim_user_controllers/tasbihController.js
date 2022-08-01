@@ -1,7 +1,7 @@
 const Tasbih = require("../../models/muslim_user_models/tasbihModel");
 
 const updateTasbih = async (req, res) => {
-  console.log(`Update Tasbih API hit`, req.body);
+  console.log(`Update Tasbih API hit`);
   try {
     const { username, count } = req.body;
 
