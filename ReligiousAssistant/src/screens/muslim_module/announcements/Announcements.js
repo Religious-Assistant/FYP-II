@@ -58,7 +58,6 @@ export default function Announcements() {
 
   useEffect(() => {
     if (user) {
-      console.log(announcements)
       dispatch(getAnnouncements({username: user.username}));
     }
   }, []);
@@ -151,7 +150,7 @@ const ListItem = props => {
           <View style={styles.content}>
             <View>
               <View style={styles.text}>
-                <Text style={styles.name}>{announcement.announcedBy}</Text>
+                <Text style={styles.name}>{announcement?.announcedBy.toUpperCase()}</Text>
                 <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
               </View>
               <Text>{announcement.statement}</Text>

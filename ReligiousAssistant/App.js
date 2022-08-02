@@ -16,19 +16,36 @@ import {Provider} from 'react-redux';
 //Notifee
 import notifee from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
+import colors from './src/theme/colors';
 
 async function onMessageReceived(message) {
   const data = await JSON.parse(message.data.notification);
+
+  console.log(data)
   const channelId = await notifee.createChannel({
-    id: '123',
+    id: data["channelId"],
     name: 'Default Channel',
   });
+
   notifee.displayNotification({
     body: data['body'],
     title: data['title'],
     android: {
       channelId,
-      smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+      smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher',
+      largeIcon:data['largeIcon'],
+      autoCancel:false,
+      category:AndroidCategory.CALL,
+      importance:AndroidImportance.HIGH,
+      // color:colors.secondary,
+      actions:[
+        {
+          title:"Mark as Read",
+          pressAction:{
+            id:'read'
+          }
+        }
+      ]
     },
   });
 }
