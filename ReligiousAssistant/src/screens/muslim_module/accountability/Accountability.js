@@ -15,9 +15,10 @@ import colors from '../../../theme/colors';
 import Namaz from '../../../components/Namaz';
 import Fast from '../../../components/Fast';
 
-export default function Accountability(props) {
+export default function Accountability() {
+
   const [state, setState] = useState({
-    selectedStartDate: null,
+    selectedStartDate: Date('DD-MM-YYYY'),
     selected: 0,
   });
 
@@ -30,14 +31,8 @@ export default function Accountability(props) {
     setState({selected: selectedFeature});
   }
 
-  const {selectedStartDate} = state;
-  const startDate = selectedStartDate ? selectedStartDate.toString() : '';
-  const date = moment(selectedStartDate).format('DD-MM-YYYY');
-
   return (
-    // main view
     <View style={{flex: 1, backgroundColor: colors.white}}>
-
       <View style={styles.headerContainer}>
         <Heading color={colors.white}>
           Self <Heading color={colors.secondary}>Accountability</Heading>
@@ -54,6 +49,7 @@ export default function Accountability(props) {
           nextTitleStyle={{
             fontFamily: fonts.Signika.medium,
           }}
+          dayShape="square" //circle
           onDateChange={onDateChange}
           selectedDayColor={colors.secondary}
           todayBackgroundColor={colors.primary}
@@ -62,10 +58,9 @@ export default function Accountability(props) {
       </View>
 
       {state.selected == 0 ? (
-
-        <Namaz selectedDate={date} />
+        <Namaz selectedDate={state.selectedStartDate} />
       ) : (
-        <Fast selectedDate={date} />
+        <Fast selectedDate={state.selectedStartDate} />
       )}
       <FooterOptions
         setSelectedFeature={setSelectedFeature}
@@ -129,14 +124,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.4,
     fontFamily: fonts.Signika.regular,
-    marginTop:10,
-    width:"90%",
-    alignSelf:'center'    
+    marginTop: 10,
+    width: '90%',
+    alignSelf: 'center',
   },
   headerContainer: {
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center',
-    flex:0.2,
+    flex: 0.2,
     backgroundColor: colors.primary,
   },
 });
