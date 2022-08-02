@@ -4,6 +4,7 @@ const User = require("../../models/common_models/userModel");
 const MuslimPreference=require('../../models/muslim_user_models/muslimUserPreferencesModel')
 
 const { findNearByPeople, notifyUsers, getProfileImage } = require("../utils/utils");
+const { ANNOUNCEMENT_CHANNEL_ID } = require("../utils/constants");
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
@@ -44,7 +45,7 @@ const makeAnnouncement = async (req, res) => {
 
             //Get only device tokens that are targeted i.e within range
             let recepients = receivers.filter(receiver => targetAudience.includes(receiver.username));
-            const totalReceivers=await notifyUsers(title,body, recepients)
+            const totalReceivers=await notifyUsers(title,body, recepients,ANNOUNCEMENT_CHANNEL_ID, newAnnouncement.avatar)
 
           res.status(200).send({
             success: true,

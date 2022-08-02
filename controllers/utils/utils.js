@@ -42,10 +42,11 @@ const findNearByPeople = async (longitude, latitude) => {
   return usernames;
 };
 
-async function notifyUsers(title, body, targetDevices) {
+async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
   
   // Send a message to devices with the registered tokens
 
+  console.log(senderImage)
   const resp=await admin
     .messaging()
     .sendMulticast({
@@ -54,18 +55,8 @@ async function notifyUsers(title, body, targetDevices) {
         notification: JSON.stringify({
           body: body,
           title: title,
-            // android: {
-            //   channelId: "default",
-            //   smallIcon: "ic_launcher",
-            //   actions: [
-            //     {
-            //       title: "Mark as Read",
-            //       pressAction: {
-            //         id: "read",
-            //       },
-            //     },
-            //   ],
-            // },
+          channelId:channelId,
+          largeIcon:senderImage,
         }),
       },
     })
