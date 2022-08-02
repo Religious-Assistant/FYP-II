@@ -135,7 +135,6 @@ export const updateLastReadParah = createAsyncThunk(
 export const getRecitationStats = createAsyncThunk(
   'getRecitationStats',
   async (username) => {
-    console.log(username)
     const result = await apiPOST(get_recitation_stats, username);
     return result;
   },

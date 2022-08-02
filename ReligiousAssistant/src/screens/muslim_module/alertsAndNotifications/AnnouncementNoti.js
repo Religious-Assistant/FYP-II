@@ -1,7 +1,9 @@
 import React from 'react';
-import {View} from 'native-base';
+import {StyleSheet} from 'react-native';
 import {
   Box,
+  Image,
+  View,
   Heading,
   Text,
   Center,
@@ -11,81 +13,91 @@ import {
 } from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+import {dateDifference} from '../announcements/helpers';
 
 export default function AnnouncementNoti({route, navigation}) {
+  const {announcement} = route.params;
 
-  const {announcement}=route.params
-  
+  console.log(announcement);
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
       flex={1}
       backgroundColor={colors.white}>
       {/* Main view */}
-      <View style={{flex: 1, backgroundColor: colors.white}}>
-        <Center
-          width="90%"
-          space={2}
-          maxW="90%"
-          height={'70%'}
-          maxH={'65%'}
-          marginTop={'45%'}
-          marginLeft={'5%'}
-          marginBottom={'5%'}>
-          <Box alignItems="center">
-            <Box
-              maxW="80"
-              rounded="lg"
-              overflow="hidden"
-              borderColor={colors.cover}
-              borderWidth="1"
-              _light={{
-                backgroundColor: colors.cover,
-              }}>
+      <View style={styles.root}>
+        <View>
+          <Image
+            source={{uri: announcement?.avatar}}
+            style={styles.avatar}
+            alt="Announcer image"
+          />
+          <Text style={styles.userText}>{announcement.announcedBy}</Text>
+        </View>
 
-              <Stack p="10" space={3}>
-                <Stack space={2}>
-                  <Heading
-                    size="md"
-                    ml="-1"
-                    _text={{fontFamily: fonts.Signika.bold}}>
-                      {announcement.name}
-                  </Heading>
-                  {/* Category */}
-                  <Text
-                    fontSize="xs"
-                    _light={{
-                      color: 'violet.500',
-                    }}
-                    _text={{fontFamily: fonts.Signika.medium}}
-                    ml="-0.5"
-                    mt="-1">
-                    Eid Namaz
-                  </Text>
-                </Stack>
-                {/* Announcement (content) */}
-                <Text style={{fontFamily: fonts.Signika.medium}}>
-                    {announcement.text}
-                </Text>
-                <HStack
-                  alignItems="center"
-                  space={4}
-                  justifyContent="space-between">
-                  <HStack alignItems="center">
-                    {/* timeAgo */}
-                    <Text
-                      color={colors.muted}
-                      style={{fontFamily: fonts.Signika.regular}}
-                      fontWeight="400">
-                      6 mins ago
-                    </Text>
-                  </HStack>
-                </HStack>
-              </Stack>
-            </Box>
-          </Box>
-        </Center>
+        <Box
+          rounded="lg"
+          overflow="hidden"
+          style={styles.boxContainer}
+          borderColor={colors.cover}
+          borderWidth="1"
+          _light={{
+            backgroundColor: colors.cover,
+          }}>
+          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+            <Text
+              _light={{
+                color: colors.info,
+              }}
+              _text={{fontFamily: fonts.Signika.bold}}>
+              {announcement.category}
+            </Text>
+
+            <Text
+              color={colors.muted}
+              style={{fontFamily: fonts.Signika.regular}}
+              fontWeight="400">
+              {dateDifference(announcement.createdAt)} mins ago
+            </Text>
+          </View>
+
+
+              <Text style={styles.statement}>
+                {announcement.statement}
+              </Text>
+        </Box>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginTop: 30,
+  },
+  userText: {
+    alignSelf: 'center',
+    fontFamily: fonts.Signika.medium,
+    fontSize: 24,
+    marginTop: 15,
+  },
+  boxContainer: {
+    minWidth: '90%',
+    padding: 15,
+    marginTop:20,
+  },
+  statement:{
+    marginTop:20,
+    padding:2,
+    fontFamily: fonts.Signika.regular,
+    fontSize:18,
+  }
+});

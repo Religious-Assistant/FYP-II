@@ -9,7 +9,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Animated,
   RefreshControl,
   Dimensions,
 } from 'react-native';
@@ -48,6 +47,7 @@ import {
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
+import { dateDifference } from './helpers';
 
 
 //Screen dimensions
@@ -140,14 +140,6 @@ const ListItem = props => {
     );
   };
 
-  const dateDifference = () => {
-    let dt1 = new Date(announcement.createdAt);
-    let dt2 = new Date(); //Now
-    let diff = (dt2.getTime() - dt1.getTime()) / 1000;
-    diff /= 60;
-
-    return Math.abs(Math.round(diff));
-  };
 
   const gotoAnnouncement = () => {
     navigator.navigate(MUSLIM_USER_ANNOUNCEMENT_DETAILS, {
@@ -170,9 +162,9 @@ const ListItem = props => {
                 <Text style={styles.name}>
                   {announcement?.announcedBy.toUpperCase()}
                 </Text>
-                <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
+                <Text style={styles.timeAgo}>{dateDifference(announcement?.createdAt)} mins ago</Text>
               </View>
-              <Text>{announcement.statement}</Text>
+              <Text numberOfLines={2}>{announcement.statement}</Text>
             </View>
           </View>
         </TouchableOpacity>

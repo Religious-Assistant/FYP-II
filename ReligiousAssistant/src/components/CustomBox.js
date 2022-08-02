@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {Box, Image, Button, Text} from 'native-base';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import mosqueIcon from '../../assets/images/closest_mosque_ic.png';
 import directionIcon from '../../assets/images/direction_ic.png';
@@ -25,13 +25,10 @@ export default function CustomBox(props) {
       style: styleObj,
     });
   }, [myRef]);
+
+  
   return (
-    <Box
-      width="100%"
-      bg={colors.cover}
-      p="3"
-      mt={props.mt}
-      ref={myRef}>
+    <Box bg={colors.cover} p="3" mt={props.mt} ref={myRef}>
       <View
         style={{
           flexDirection: 'row',
@@ -47,39 +44,35 @@ export default function CustomBox(props) {
           alt="icon .."
         />
         <Text style={styles.textMosque}>{props.text}</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-          <Text
+      </View>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text
+          style={{
+            fontFamily: fonts.Signika.medium,
+            color: colors.black,
+            marginTop: '5%',
+            marginLeft: props.ml,
+            fontSize: 16,
+          }}>
+          {props.distance}
+        </Text>
+        <TouchableOpacity
+          style={{
+            right:10
+          }}
+          onPress={props.onPress}
+          activeOpacity={0.6}
+          >
+          <Image
+            source={directionIcon}
             style={{
-              fontFamily: fonts.Signika.medium,
-              color: colors.black,
-              marginTop: '5%',
-              marginLeft: props.ml,
-              fontSize:16
-            }}>
-            {props.distance}
-          </Text>
-          <Button
-            style={{
-              height: 20,
-              width: 70,
-
-              marginLeft: '45%',
-              marginTop: '5%',
+              height: 50,
+              width: 50,
+              tintColor: colors.primary,
             }}
-            variant="ghost"
-            onPress={props.onPress}
-            >
-            <Image
-              source={directionIcon}
-              style={{
-                height: 50,
-                width: 42,
-                tintColor: colors.primary,
-              }}
-              alt="icon .."
-            />
-          </Button>
-        </View>
+            alt="Direction"
+          />
+        </TouchableOpacity>
       </View>
     </Box>
   );

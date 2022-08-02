@@ -45,19 +45,19 @@ import RecitationStats from './RecitationStats';
 
 const ReciteQuran = () => {
   const dispatch = useDispatch();
-  const {username} = useSelector(selectUserData);
+  const userData = useSelector(selectUserData);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const isLoadingParahs = useSelector(selectIsLoadingParahs);
 
   useEffect(() => {
     dispatch(getSurahs());
     dispatch(getParahs());
-    if (username) {
-      dispatch(getRecitationStats({username}))
-      dispatch(getLastReadSurah({username}));
-      dispatch(getLastReadParah({username}));
+    if (userData) {
+      dispatch(getRecitationStats({username:userData.username}))
+      dispatch(getLastReadSurah({username:userData.username}));
+      dispatch(getLastReadParah({username:userData.username}));
     }
-  }, [dispatch, username]);
+  }, [dispatch, userData]);
 
   return (
     <View style={{flex: 1}}>
@@ -107,10 +107,9 @@ const SurahRoute = () => {
         initialScrollIndex={scrollIndexForSurah}
         renderItem={({item, index}) => {
           //Get last read verse number and highlish that card
-          const {surahNumber} = lastReadSurah.surahLastRead;
 
           //Jump to this card with initialSCrollIndex
-          if (item.number == surahNumber) {
+          if (item.number == lastReadSurah?.surahLastRead?.surahNumber) {
             setScrollIndexForSurah(index);
           }
 
@@ -127,12 +126,12 @@ const SurahRoute = () => {
                     surah={item}
                     key={index}
                     backgroundColor={
-                      item.number == surahNumber
+                      item.number == lastReadSurah?.surahLastRead?.surahNumber
                         ? colors.tertiary
                         : colors.white
                     }
                     fontColor={
-                      item.number == surahNumber ? colors.white : colors.primary
+                      item.number == lastReadSurah?.surahLastRead?.surahNumber ? colors.white : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -165,10 +164,9 @@ const ParahRoute = () => {
         initialScrollIndex={scrollIndexForParah}
         renderItem={({item, index}) => {
           // Get last read verse number and highlish that card
-          const {parahNumber} = lastReadParah.parahLastRead;
 
           // //Jump to this card with initialSCrollIndex
-          if (item.number == parahNumber) {
+          if (item.number == lastReadParah?.parahLastRead?.parahNumber) {
             setScrollIndexForParah(index);
           }
 
@@ -185,12 +183,12 @@ const ParahRoute = () => {
                     parah={item}
                     key={index}
                     backgroundColor={
-                      item.number == parahNumber
+                      item.number == lastReadParah?.parahLastRead?.parahNumber
                         ? colors.tertiary
                         : colors.white
                     }
                     fontColor={
-                      item.number == parahNumber ? colors.white : colors.primary
+                      item.number == lastReadParah?.parahLastRead?.parahNumber ? colors.white : colors.primary
                     }
                   />
                 </TouchableOpacity>
