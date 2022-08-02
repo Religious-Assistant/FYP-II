@@ -1,4 +1,4 @@
-const data=[{
+const parahMetaData=[{
     number: 1,
     name: "آلم",
     englishName: "Alif laam meem",
@@ -179,3 +179,5 @@ const data=[{
       
     }
 ]
+
+module.exports=parahMetaData

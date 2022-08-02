@@ -46,7 +46,6 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
   
   // Send a message to devices with the registered tokens
 
-  console.log(senderImage)
   const resp=await admin
     .messaging()
     .sendMulticast({
@@ -55,8 +54,8 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
         notification: JSON.stringify({
           body: body,
           title: title,
-          channelId:channelId,
-          largeIcon:senderImage,
+          channelId:channelId+"",
+          largeIcon:senderImage
         }),
       },
     })

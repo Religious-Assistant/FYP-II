@@ -24,6 +24,7 @@ const {
   D7_KEY,
   OTP_EXPIRY,
 } = require("../utils/constants");
+const { parahMetaData } = require("../../JSONDATA");
 
 
 const registerUser = async (req, res) => {

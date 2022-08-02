@@ -34,7 +34,7 @@ const getClosestMosques=async(req, res)=>{
                         coordinates:[parseFloat(longitude),parseFloat(latitude)]
                     },
                     key:'location',
-                    maxDistance:1000*10,            //Display mosques in 10KM
+                    maxDistance:1000*600,            //Display mosques in 600KM
                     distanceField:'dist.calculated',
                     spherical:true,
                 }
@@ -63,12 +63,9 @@ const getUnverifiedMosquesAroundUser=async(req, res)=>{
                         coordinates:[parseFloat(longitude),parseFloat(latitude)]
                     },
                     key:'location',
-                    maxDistance:1000*10,                //10 KM
+                    maxDistance:1000*600,                //600 KM
                     distanceField:'dist.calculated',
                     spherical:true,
-
-                    // "distanceMultiplier": 6378.1, // multiplier for kilometres
-                    // "maxDistance": 100 / 6378.1, // every user within 100 km
                 }
             },
             { $match: { verified:false } },

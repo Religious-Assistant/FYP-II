@@ -1,15 +1,20 @@
 const Announcement = require("../../models/muslim_user_models/muslimAnnouncementModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const User = require("../../models/common_models/userModel");
-const MuslimPreference=require('../../models/muslim_user_models/muslimUserPreferencesModel')
+const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 
-const { findNearByPeople, notifyUsers, getProfileImage } = require("../utils/utils");
+const {
+  findNearByPeople,
+  notifyUsers,
+  getProfileImage,
+} = require("../utils/utils");
 const { ANNOUNCEMENT_CHANNEL_ID } = require("../utils/constants");
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
   console.log("Make Muslim Announcement API hit");
-  const { latitude, longitude, category, announcedBy, statement, avatar } = req.body;
+  const { latitude, longitude, category, announcedBy, statement, avatar } =
+    req.body;
 
   try {
     const user = await User.findOne({ username: announcedBy });
@@ -32,26 +37,31 @@ const makeAnnouncement = async (req, res) => {
             coordinates: [parseFloat(longitude), parseFloat(latitude)],
           },
           targetAudience,
-          avatar:avatar
+          avatar: avatar,
         });
 
         if (newAnnouncement) {
+          const title = `New Announcement by ${announcedBy.toUpperCase()}`;
+          const body = `${statement}`;
+          const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 }); //Only username,deviceToken are returned
+          //We could send to only those who has subscribed to announcement notfs in preferences
 
-            const title=`New Announcement by ${announcedBy.toUpperCase()}`
-            const body=`${statement}` 
-            const receivers=await DeviceToken.find({},{_id:0,__v:0})   //Only username,deviceToken are returned
-            //We could send to only those who has subscribed to announcement notfs in preferences
-
-
-            //Get only device tokens that are targeted i.e within range
-            let recepients = receivers.filter(receiver => targetAudience.includes(receiver.username));
-            const totalReceivers=await notifyUsers(title,body, recepients,ANNOUNCEMENT_CHANNEL_ID, newAnnouncement.avatar)
+          //Get only device tokens that are targeted i.e within range
+          let recepients = receivers.filter((receiver) =>
+            targetAudience.includes(receiver.username)
+          );
+          const totalReceivers = await notifyUsers(
+            title,
+            body,
+            recepients,
+            ANNOUNCEMENT_CHANNEL_ID,
+            newAnnouncement.avatar
+          );
 
           res.status(200).send({
             success: true,
             msg: `Announcement sent to ${totalReceivers} people around your location`,
           });
-
         } else {
           console.log("Could not created");
           res
@@ -71,16 +81,18 @@ const makeAnnouncement = async (req, res) => {
 
 //Takes username, gets all announcements
 const getAllAnnouncements = async (req, res) => {
-
   console.log("Get all Announcement API hit");
 
   try {
-    const {username}=req.body
-     let announcements=await Announcement.find({"targetAudience":username})
+    const { username } = req.body;
+    let announcements = await Announcement.find({ targetAudience: username });
     res
       .status(200)
-      .send({ msg: "Here are All Announcements", success: true, data: announcements });
-
+      .send({
+        msg: "Here are All Announcements",
+        success: true,
+        data: announcements,
+      });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -91,13 +103,18 @@ const deleteAnnouncement = async (req, res) => {
   console.log("Delete Announcement API hit");
 
   try {
-    const {username, announcementId}=req.body
+    const { username, announcementId } = req.body;
 
-    await Announcement.updateOne({_id:announcementId,targetAudience:username},{$pullAll:{
-        targetAudience:[username]
-    }})
+    await Announcement.updateOne(
+      { _id: announcementId, targetAudience: username },
+      {
+        $pullAll: {
+          targetAudience: [username],
+        },
+      }
+    );
 
-    const announcements=await Announcement.find({targetAudience:username})
+    const announcements = await Announcement.find({ targetAudience: username });
 
     res.status(200).send({
       msg: "Announcement Deleted Successfully",
@@ -109,8 +126,29 @@ const deleteAnnouncement = async (req, res) => {
   }
 };
 
+
+//For development
+
+const deleteAllAnnouncements = async (req, res) => {
+    console.log("Delete All Announcements API hit");
+  
+    try {
+  
+      await Announcement.deleteMany()
+  
+      res.status(200).send({
+        msg: "Announcements Deleted Successfully",
+        success: true,
+      });
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+  
+  
 module.exports = {
   makeAnnouncement,
   getAllAnnouncements,
   deleteAnnouncement,
+  deleteAllAnnouncements
 };
