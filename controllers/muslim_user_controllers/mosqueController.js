@@ -91,7 +91,6 @@ const addMosque=async(req, res)=>{
             
             if(longitude && latitude){
                 
-                
                 const newMosqueData=await Mosque.create({
                     mosqueName:mosqueName,
                     addedBy:addedBy,
