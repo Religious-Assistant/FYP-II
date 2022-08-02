@@ -10,6 +10,8 @@ import {
   FlatList,
   TouchableOpacity,
   Animated,
+  RefreshControl,
+  Dimensions,
 } from 'react-native';
 
 import {
@@ -45,10 +47,14 @@ import {
 } from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
+import Empty from '../../common/Empty';
+
+
+//Screen dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function Announcements() {
-  // const [announcements, setAnnouncements] = useState(data);
-
   const dispatch = useDispatch();
 
   let announcements = useSelector(selectAnnouncements);
@@ -95,6 +101,17 @@ export default function Announcements() {
                 />
               );
             }}
+            refreshControl={
+              <RefreshControl
+                onRefresh={() => {
+                  if(user){
+                    dispatch(getAnnouncements({username: user.username}))
+                  }
+                }}
+                refreshing={isLoadingAnnouncements}
+                />
+            }
+            ListEmptyComponent={<Empty message={'No announcements yet'} />}
           />
         )}
       </View>
@@ -150,7 +167,9 @@ const ListItem = props => {
           <View style={styles.content}>
             <View>
               <View style={styles.text}>
-                <Text style={styles.name}>{announcement?.announcedBy.toUpperCase()}</Text>
+                <Text style={styles.name}>
+                  {announcement?.announcedBy.toUpperCase()}
+                </Text>
                 <Text style={styles.timeAgo}>{dateDifference()} mins ago</Text>
               </View>
               <Text>{announcement.statement}</Text>
@@ -193,6 +212,7 @@ const FabButton = () => {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: '#FFFFFF',
+    // height:windowHeight,
   },
   container: {
     padding: 16,
