@@ -14,14 +14,12 @@ import store from './src/redux/store';
 import {Provider} from 'react-redux';
 
 //Notifee
-import notifee from '@notifee/react-native';
+import notifee, {EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
-import colors from './src/theme/colors';
 
 async function onMessageReceived(message) {
   const data = await JSON.parse(message.data.notification);
 
-  console.log(data)
   const channelId = await notifee.createChannel({
     id: data["channelId"],
     name: 'Default Channel',
@@ -35,14 +33,12 @@ async function onMessageReceived(message) {
       smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher',
       largeIcon:data['largeIcon'],
       autoCancel:false,
-      category:AndroidCategory.CALL,
-      importance:AndroidImportance.HIGH,
       // color:colors.secondary,
       actions:[
         {
           title:"Mark as Read",
           pressAction:{
-            id:'read'
+            id:'mark-as-read'
           }
         }
       ]
@@ -55,6 +51,28 @@ messaging().setBackgroundMessageHandler(onMessageReceived);
 
 const EntryPoint = () => {
 
+  useEffect(()=>{
+  
+    //For Ios Ask permisson for notification
+    const askPermission=async ()=>await messaging().requestPermission()
+    askPermission()
+
+    return notifee.onForegroundEvent(async ({ type, detail }) => {
+      const {notification, pressAction}=detail
+
+      if(pressAction.id==='mark-as-read'){
+        await notifee.cancelNotification(notification.id);
+      }
+      switch (type) {
+        case EventType.DISMISSED:
+          break;
+        case EventType.PRESS:
+          await notifee.cancelNotification(notification.id);
+          break;
+      }
+    });
+
+  },[])
   return <RootNavigator />;
 };
 
