@@ -16,10 +16,8 @@ export default function Namaz(props) {
     <View style={styles.container}>
       <Box
         style={styles.mainBox}
-        marginTop={'1%'}
-        marginLeft={'2%'}
-        maxW="96%"
-        maxH={'100%'}>
+        rounded="lg"
+        >
         <VStack space="1.5" divider={<Divider />}>
           <NamazTimes text="Fajr" mt="2%" />
           <NamazTimes text="Zuhr" />
@@ -30,17 +28,14 @@ export default function Namaz(props) {
       </Box>
       <Button
         w={{
-          base:"27%"
+          base:"29%"
         }}
-        marginLeft="70%"
-        marginTop={"38%"}
-        marginBottom="-19%"
         _text={{
           fontSize: 'md',
           fontFamily: fonts.Signika.medium,
-
           color: colors.white,
         }}
+        style={{alignSelf:'flex-end', right:10, top:4}}
         colorScheme="yellow"
         variant="solid">
         Save
@@ -52,16 +47,6 @@ export default function Namaz(props) {
 function NamazTimes(props) {
   
   return (
-    <View>
-      <Box
-        style={styles.subBox}
-        _text={styles.text}
-        shadow={3}
-        p="1"
-        px="3"
-        pb="-1"
-        mb={props.mb}
-        mt={props.mt}>
         <View
           style={{
             flexDirection: 'row',
@@ -76,8 +61,6 @@ function NamazTimes(props) {
             accessibilityLabel="Namaz time"
           />
         </View>
-      </Box>
-    </View>
   );
 }
 
@@ -89,31 +72,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: fonts.Signika.regular,
   },
   mainBox: {
-    border: 1,
-    borderWidth: 4,
-    backgroundColor: colors.white,
-    borderColor: colors.white,
-  },
-  subBox: {
-    borderWidth: -2,
-    borderColor: colors.white,
-    borderRadius: 6,
-    backgroundColor: colors.white,
-  },
-  buttonStyle: {
-    w: {
-      base: '20%',
-    },
-    _text: {
-      fontSize: 'md',
-      fontFamily: fonts.Signika.medium,
-      color: colors.white,
-    },
-    colorScheme: 'yellow',
-    variant: 'solid',
+    alignSelf:'center',
+    width:"94%",
+    backgroundColor: colors.cover,
+    padding:8,
+    marginTop:15,
   },
 });

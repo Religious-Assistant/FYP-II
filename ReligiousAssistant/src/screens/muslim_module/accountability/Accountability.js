@@ -37,24 +37,22 @@ export default function Accountability(props) {
   return (
     // main view
     <View style={{flex: 1, backgroundColor: colors.white}}>
-      {/* header view */}
+
       <View style={styles.headerContainer}>
-        <Heading ml={'25%'} color={colors.white}>
+        <Heading color={colors.white}>
           Self <Heading color={colors.secondary}>Accountability</Heading>
         </Heading>
       </View>
-      {/* view for calendar picker */}
+
       <View style={styles.container}>
         <CalendarPicker
           previousTitle="Previous"
           nextTitle="Next"
           previousTitleStyle={{
-            color: colors.info,
-            fontFamily: fonts.Signika.bold,
+            fontFamily: fonts.Signika.medium,
           }}
           nextTitleStyle={{
-            color: colors.info,
-            fontFamily: fonts.Signika.bold,
+            fontFamily: fonts.Signika.medium,
           }}
           onDateChange={onDateChange}
           selectedDayColor={colors.secondary}
@@ -64,13 +62,11 @@ export default function Accountability(props) {
       </View>
 
       {state.selected == 0 ? (
-        // Namaz Accountability
+
         <Namaz selectedDate={date} />
       ) : (
-        // Fast Accountability
         <Fast selectedDate={date} />
       )}
-      {/* Footer to select Prayer or Fast */}
       <FooterOptions
         setSelectedFeature={setSelectedFeature}
         selected={state.selected}
@@ -131,15 +127,16 @@ function FooterOptions(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
+    flex: 0.4,
     fontFamily: fonts.Signika.regular,
+    marginTop:10,
+    width:"90%",
+    alignSelf:'center'    
   },
   headerContainer: {
-    flexDirection: 'row',
+    justifyContent:'center',
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    flex:0.2,
     backgroundColor: colors.primary,
   },
 });
