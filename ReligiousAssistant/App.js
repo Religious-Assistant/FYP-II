@@ -16,6 +16,7 @@ import {Provider} from 'react-redux';
 //Notifee
 import notifee, {EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
+import Settings from './src/screens/muslim_module/preferences/Settings';
 
 async function onMessageReceived(message) {
   const data = await JSON.parse(message.data.notification);
@@ -84,7 +85,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <EntryPoint/>
+        <Settings/>
       </NativeBaseProvider>
     </Provider>
   );

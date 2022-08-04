@@ -32,7 +32,7 @@ export default function Fast(props) {
           </Text>
         </View>
 
-        <View style={{justifyContent: 'space-between', flexDirection: 'row', paddingTop:20}}>
+        <View style={{justifyContent: 'space-between', flexDirection: 'row', paddingTop:40}}>
           <Button
             title="Yes"
             variant="solid"
@@ -72,7 +72,7 @@ export default function Fast(props) {
         }}
         colorScheme="yellow"
         variant="solid"
-        style={{alignSelf: 'flex-end', right: 10, top: "32%", bottom:10}}
+        style={{alignSelf: 'flex-end', right: 10, top: "22.5%", bottom:10}}
         onPress={() => {
           keepFast == 0 ? console.log('No') : console.log('Yes');
         }}>
@@ -98,5 +98,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cover,
     padding:20,
     marginTop:30,
+    minHeight:"20%"
   },
 });

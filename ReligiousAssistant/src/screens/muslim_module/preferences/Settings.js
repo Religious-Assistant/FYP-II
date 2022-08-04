@@ -94,18 +94,18 @@ export default function Settings({navigation}) {
   );
 
   //when tab is focused in MuslimBottomTab.js, this will be called
-  useEffect(() => {
-    dispatch(getUserData());
-    if (user.avatar) {
-      setAvatar({image: user.avatar, key: 0});
-    }
+  // useEffect(() => {
+  //   dispatch(getUserData());
+  //   if (user?.avatar) {
+  //     setAvatar({image: user.avatar, key: 0});
+  //   }
 
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(setTab('Settings'));
-    });
-    // unsubscribe on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     dispatch(setTab('Settings'));
+  //   });
+  //   // unsubscribe on unmount
+  //   return unsubscribe;
+  // }, [navigation, dispatch]);
 
   //Take user's profile from Camera
   const takePhotoFromCamera = () => {
@@ -135,10 +135,10 @@ export default function Settings({navigation}) {
       compressImageQuality: 0.7,
     })
       .then(image => {
-        const obj = {uri: image.path};
+        const obj = {uri: image.path, name:"image123", type:image.mime};
         // console.log(obj);
         setAvatar({image: obj.uri, key: 2});
-        // setImage(obj);
+        console.log(obj)
         onClose;
       })
       .catch(err => {
@@ -208,7 +208,7 @@ export default function Settings({navigation}) {
               alt="icon .."
             />
           </TouchableOpacity>
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.username}>{user?.username}</Text>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             flex={1}
@@ -306,7 +306,7 @@ export default function Settings({navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {user.preferences.primaryMosque}
+                        {user?.preferences?.primaryMosque}
                       </Text>
                       <HStack
                         flexDirection={'row'}
@@ -381,7 +381,7 @@ export default function Settings({navigation}) {
                               updateNamazNotification(value);
                             }}
                             defaultIsChecked={
-                              user.preferences.namazNotifications
+                              user?.preferences?.namazNotifications
                             }
                           />
                         </HStack>
@@ -433,7 +433,7 @@ export default function Settings({navigation}) {
                             onValueChange={value => {
                               updateAutoSilent(value);
                             }}
-                            defaultIsChecked={user.preferences.phoneSilent}
+                            defaultIsChecked={user?.preferences?.phoneSilent}
                             marginLeft={'80%'}
                           />
                         </HStack>
@@ -485,7 +485,7 @@ export default function Settings({navigation}) {
                               updateAccountabilityNotificarions(value);
                             }}
                             defaultIsChecked={
-                              user.preferences.accountabilityNotifications
+                              user?.preferences?.accountabilityNotifications
                             }
                             marginLeft={'80%'}
                           />
