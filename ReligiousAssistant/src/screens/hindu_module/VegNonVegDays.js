@@ -27,7 +27,6 @@ import vegDays from '../../../assets/images/vegDays_ic.png';
 import CustomButton from '../../components/CustomButton';
 
 const VegNonVegDays = () => {
-
   const days = [
     {
       key: 1,
@@ -58,6 +57,11 @@ const VegNonVegDays = () => {
       dayName: 'Sunday',
     },
   ];
+  function handlePress() {
+    var today = new Date();
+    const day = today.toDateString().split(' ')[0];
+    console.log(day);
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -112,43 +116,40 @@ const VegNonVegDays = () => {
                 </Text>
               </Heading>
               <View style={{marginTop: '15%', width: '94%'}}>
-                
-                    <FormControl>
-                      {days.map(day => {
-                        return (
-                          <Box
-                            key={day.key}
-                            style={styles.subBox}
-                            _text={styles.text}
-                            shadow={3}
-                            px="3">
-                            <View
-                              style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                              }}>
-                              <Text style={styles.text}>{day.dayName}</Text>
-                              <Checkbox
-                                name="day"
-                                
-                                my={2}
-                                colorScheme="green"
-                                accessibilityLabel="Namaz time"
-                              />
-                            </View>
-                          </Box>
-                        );
-                      })}
-                      
-                      <CustomButton
-                        title="Save"
-                        color="yellow"
-                        mt="5%"
-                       
-                      />
-                      </FormControl>
-                  
+                <FormControl>
+                  {days.map(day => {
+                    return (
+                      <Box
+                        key={day.key}
+                        style={styles.subBox}
+                        _text={styles.text}
+                        shadow={3}
+                        px="3">
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={styles.text}>{day.dayName}</Text>
+                          <Checkbox
+                            name="day"
+                            my={2}
+                            colorScheme="green"
+                            accessibilityLabel="Namaz time"
+                          />
+                        </View>
+                      </Box>
+                    );
+                  })}
+
+                  <CustomButton
+                    title="Save"
+                    color="yellow"
+                    mt="5%"
+                    onPress={handlePress}
+                  />
+                </FormControl>
               </View>
             </Center>
           </View>
