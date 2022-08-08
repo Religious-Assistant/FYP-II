@@ -46,9 +46,10 @@ import {
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-
+import {GOOGLE_MAP} from '../../../navigation/constants';
 import Loader from '../../common/Loader';
 import {IP} from '../../../apis/serviceConstants';
+import {useNavigation} from '@react-navigation/native';
 import {
   selectHasUpdatedAutosilentSetting,
   selectHasUpdatedNamazAccountabilityNotificationSettings,
@@ -59,6 +60,7 @@ import {
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 
 export default function Settings({navigation}) {
+  const navigator = useNavigation();
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
   const [avatar, setAvatar] = useState({
@@ -178,6 +180,10 @@ export default function Settings({navigation}) {
 
   function updatePrimaryMosqueSetting(item) {}
 
+  function openMap(){
+    console.log("Location");
+    navigator.navigate(GOOGLE_MAP);
+  }
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
 
@@ -208,7 +214,7 @@ export default function Settings({navigation}) {
               alt="icon .."
             />
           </TouchableOpacity>
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.username}>{user?.username}</Text>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             flex={1}
@@ -306,7 +312,7 @@ export default function Settings({navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {user.preferences.primaryMosque}
+                        {user?.preferences?.primaryMosque}
                       </Text>
                       <HStack
                         flexDirection={'row'}
@@ -320,6 +326,63 @@ export default function Settings({navigation}) {
                           onPress={() =>
                             openeModal('Change Primary Mosque', false)
                           }>
+                          <Image
+                            marginLeft="6%"
+                            source={editIcon}
+                            style={{
+                              height: 30,
+                              width: 33,
+                              tintColor: colors.secondary,
+                            }}
+                            alt="icon .."
+                          />
+                        </TouchableHighlight>
+                      </HStack>
+                    </Stack>
+                  </Box>
+                </Box>
+
+
+                {/* Location */}
+
+                <Box alignItems="center">
+                  <Box
+                    maxW="90%"
+                    w={{
+                      base: '90%',
+                    }}
+                    rounded="lg"
+                    overflow="hidden"
+                    borderColor={colors.cover}
+                    borderWidth="1"
+                    _light={{
+                      backgroundColor: colors.cover,
+                    }}>
+                    <Stack p="4" space={3}>
+                      <Stack space={2}>
+                        <Heading
+                          size="md"
+                          ml="-1"
+                          style={{fontFamily: fonts.Signika.bold}}
+                          color={colors.primary}>
+                          Location
+                        </Heading>
+                      </Stack>
+                      <Text fontWeight="400" style={styles.text}>
+                        Your Location here
+                      </Text>
+                      <HStack
+                        flexDirection={'row'}
+                        space={4}
+                        justifyContent="space-between">
+                        <HStack></HStack>
+                        {/* Edit Location Mosque */}
+                        <TouchableHighlight
+                          activeOpacity={0.8}
+                          underlayColor={colors.cover}
+                          onPress={() => {
+                            openMap();
+                          }}>
                           <Image
                             marginLeft="6%"
                             source={editIcon}
@@ -381,7 +444,7 @@ export default function Settings({navigation}) {
                               updateNamazNotification(value);
                             }}
                             defaultIsChecked={
-                              user.preferences.namazNotifications
+                              user?.preferences?.namazNotifications
                             }
                           />
                         </HStack>
@@ -433,7 +496,7 @@ export default function Settings({navigation}) {
                             onValueChange={value => {
                               updateAutoSilent(value);
                             }}
-                            defaultIsChecked={user.preferences.phoneSilent}
+                            defaultIsChecked={user?.preferences?.phoneSilent}
                             marginLeft={'80%'}
                           />
                         </HStack>
@@ -485,7 +548,7 @@ export default function Settings({navigation}) {
                               updateAccountabilityNotificarions(value);
                             }}
                             defaultIsChecked={
-                              user.preferences.accountabilityNotifications
+                              user?.preferences?.accountabilityNotifications
                             }
                             marginLeft={'80%'}
                           />

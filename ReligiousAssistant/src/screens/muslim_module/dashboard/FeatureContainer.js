@@ -22,6 +22,8 @@ import {
   TASBIH_COUNTER,
   QIBLA_DIRECTION,
   RAKAH_INFO,
+  MUSLIM_DUAS,
+  ALLAH_99_NAME
 } from '../../../navigation/constants';
 
 //Redux
@@ -36,13 +38,13 @@ export default function FeatureContainer() {
   const featureArray1 = [
     {
       title: 'Recite Quran',
-      image: require('../../../../assets/images/quran_ic.png'),
+      image: require('../../../../assets/images/quran1_ic.png'),
       screen: RECITE_QURAN,
       key:1,
     },
     {
       title: 'Closest Mosque',
-      image: require('../../../../assets/images/mosque_ic.png'),
+      image: require('../../../../assets/images/mosque1_ic.png'),
       screen: FIND_MOSQUE,
       key:2,
     },
@@ -57,7 +59,7 @@ export default function FeatureContainer() {
   const featureArray2 = [
     {
       title: 'Learn Namaz',
-      image: require('../../../../assets/images/learn_namaz_ic.png'),
+      image: require('../../../../assets/images/learn_namaz1_ic.png'),
       screen: LEARN_NAMAZ,
       key:4,
     },
@@ -70,7 +72,7 @@ export default function FeatureContainer() {
     }:
     {
       title: 'Announcements',
-      image: require('../../../../assets/images/announcement_ic.png'),
+      image: require('../../../../assets/images/announcement1_ic.png'),
       screen: MUSLIM_ANNOUNCEMENTS,
       key:5,
     }
@@ -98,22 +100,35 @@ export default function FeatureContainer() {
     }:undefined,
     {
       title: 'View Calander',
-      image: require('../../../../assets/images/islamic_calander_ic.png'),
+      image: require('../../../../assets/images/islamic_calendar1_ic.png'),
       screen: VIEW_CALANDER,
       key:8,
     },
     {
       title: 'Tasbih Counter',
-      image: require('../../../../assets/images/tasbih_ic.png'),
+      image: require('../../../../assets/images/tasbih1_ic.png'),
       screen: TASBIH_COUNTER,
       key:9,
     },
     user?{
       title: 'Rakah Info',
-      image: require('../../../../assets/images/info_ic.png'),
+      image: require('../../../../assets/images/rakat_ic.png'),
       screen: RAKAH_INFO,
       key:10,
     }:undefined,
+    user?{
+      title: '99 names',
+      image: require('../../../../assets/images/names_ic.png'),
+      screen: ALLAH_99_NAME,
+      key:11,
+    }:undefined,
+    user?{
+      title: 'Duas',
+      image: require('../../../../assets/images/duas_ic.png'),
+      screen: MUSLIM_DUAS,
+      key:12,
+    }:undefined,
+    
   ];
 
   return (

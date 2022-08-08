@@ -2,7 +2,8 @@ import React from 'react'
 import { Share, View, Button } from 'react-native';
 
 export default function ShareApp() {
-    const onShare = async () => {
+
+  const onShare = async () => {
         try {
           const result = await Share.share({
             message:

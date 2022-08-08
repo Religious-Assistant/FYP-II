@@ -10,6 +10,7 @@ import {
   ABOUT,
   ACCOUNTABILITY,
   ADD_MOSQUE,
+  ALLAH_99_NAME,
   APPLY_AS_IMAM,
   AUTO_SILENT,
   FIND_MOSQUE,
@@ -18,6 +19,7 @@ import {
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
   MUSLIM_ANNOUNCEMENTS,
+  MUSLIM_DUAS,
   MUSLIM_USER_ANNOUNCEMENT_DETAILS,
   MUSLIM_VIEW_PROFILE,
   NAMAZ_PLAY_AREA,
@@ -56,6 +58,8 @@ import MapDirection from '../components/MapDirection';
 import SurahRecitationArea from '../screens/muslim_module/reciteQuran/SurahRecitationArea';
 import ParahRecitationArea from '../screens/muslim_module/reciteQuran/ParahRecitationArea';
 import AnnouncementNoti from '../screens/muslim_module/alertsAndNotifications/AnnouncementNoti';
+import Duas from '../screens/muslim_module/staticInfo/Duas';
+import AllahNames from '../screens/muslim_module/staticInfo/AllahNames';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -154,6 +158,17 @@ function MuslimDashboardNavigation() {
         name={RAKAH_INFO}
         component={RakahInfo}
         options={{title: 'Rakah Info'}}
+      />
+      <HomeStack.Screen
+        name={MUSLIM_DUAS}
+        component={Duas}
+        options={{title: 'Duas'}}
+      />
+
+    <HomeStack.Screen
+        name={ALLAH_99_NAME}
+        component={AllahNames}
+        options={{title: 'Asma-ul-Husna'}}
       />
 
       {/* Define Drawer navigation */}
