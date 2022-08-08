@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
+  Share
 } from 'react-native';
 
 import {Text, View} from 'native-base';
@@ -194,6 +195,26 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
   const dispatch=useDispatch()
   const navigator = useNavigation();
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'https://www.google.com/',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+            console.log("Shared")
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <TouchableOpacity
       onPress={() => {
@@ -217,8 +238,10 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           // setCurrentTab(title);
         }
         else if(title=='share app') {
-          navigator.navigate(SHARE_APP)
-          // setCurrentTab(title);
+
+            onShare()
+          // navigator.navigate(SHARE_APP)
+          // // setCurrentTab(title);
         }
       }}>
       <View
