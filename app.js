@@ -5,6 +5,7 @@ const cors=require('cors')
 const bodyParser=require('body-parser')
 const fileUpload=require('express-fileupload')
 const path=require('path')
+const cloudinary = require("cloudinary").v2;
 
 const admin = require("firebase-admin");
 const serviceAccount = require("./religious-assistant-firebase-adminsdk-tf2ng-1fedfc6227.json");
@@ -18,7 +19,7 @@ const app=express()
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
-app.use(fileUpload())
+app.use(fileUpload({useTempFiles:true}))
 app.use(express.static(path.join(__dirname,'public')))
 app.use('/avatars',express.static(path.join(__dirname,'public/avatars')))
 
@@ -29,6 +30,16 @@ mongoose.connect(database_url).then(()=>{
     console.log(`Could not connect to database`, error)
 })
 
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure:true
+});
+
+console.log(cloudinary.config())
+    
 
 //routes
 const user_routes=require('./routes/common_routes/userRoute');

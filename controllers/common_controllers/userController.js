@@ -19,16 +19,14 @@ const { hashPassword, createToken, getProfileImage } = require("../utils/utils")
 
 const {
   directoryPath,
-  base_url,
   defaultAvatar,
   D7_KEY,
   OTP_EXPIRY,
 } = require("../utils/constants");
-const { parahMetaData } = require("../../JSONDATA");
 
 
 const registerUser = async (req, res) => {
-  console.log("Register API hit", req.body.password, req.body.username);
+  console.log("Register API hit");
 
   try {
     const { username } = await req.body;
@@ -36,7 +34,7 @@ const registerUser = async (req, res) => {
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
-      const img_url = base_url + defaultAvatar;
+      // const img_url = base_url + defaultAvatar;
       
       //By default, Sukkur location is added
       const user_data = await User.create({
@@ -45,6 +43,7 @@ const registerUser = async (req, res) => {
           type: "Point",
           coordinates: [parseFloat("68.8228"), parseFloat("27.7244")],
         },
+        avatar:defaultAvatar
       });
 
       if (user_data) {
@@ -82,7 +81,7 @@ const registerUser = async (req, res) => {
           await quranRecitation.save((err, result) => {});
         }
 
-        res.send({ success: true, data: user_data, avatar: img_url });
+        res.send({ success: true, data: user_data });
         return;
       }
       res.send({ success: false });
@@ -118,11 +117,10 @@ const loginUser = async (req, res) => {
         //   userPreferences = await MuslimPreference.findOne({username:username})
         // }
 
-        if (user_data.avatar == defaultAvatar) {
+        // if (user_data.avatar == defaultAvatar) {
           const resultData = {
             ...user_data._doc,
             token: token,
-            avatar: base_url + defaultAvatar,
             preferences: userPreferences,
           };
           await DeviceToken.findOneAndUpdate(
@@ -135,22 +133,24 @@ const loginUser = async (req, res) => {
             data: resultData,
             msg: "Logged in Successfully",
           });
-        } else {
-          getProfileImage(user_data.username)
-            .then((avatar) => {
-              const resultData = {
-                ...user_data._doc,
-                token: token,
-                avatar: avatar,
-              };
-              res.send({ success: true, data: resultData });
-            })
-            .catch((error) => {
-              res
-                .status(200)
-                .send({ success: false, msg: "Could not load image" });
-            });
-        }
+        // } else {
+
+
+          // getProfileImage(user_data.username)
+          //   .then((avatar) => {
+          //     const resultData = {
+          //       ...user_data._doc,
+          //       token: token,
+          //       avatar: avatar,
+          //     };
+          //     res.send({ success: true, data: resultData });
+          //   })
+          //   .catch((error) => {
+          //     res
+          //       .status(200)
+          //       .send({ success: false, msg: "Could not load image" });
+          //   });
+        // }
       } else {
         res.status(200).send({
           success: false,
