@@ -15,7 +15,11 @@ const FastAccountability = require("../../models/muslim_user_models/fastAccounta
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 
 //common functions
-const { hashPassword, createToken, getProfileImage } = require("../utils/utils");
+const {
+  hashPassword,
+  createToken,
+  getProfileImage,
+} = require("../utils/utils");
 
 const {
   directoryPath,
@@ -23,7 +27,11 @@ const {
   D7_KEY,
   OTP_EXPIRY,
 } = require("../utils/constants");
-
+const {
+  avatarUploader,
+  avatarRemover,
+  getPublicId,
+} = require("../../utils/cloudinaryUtils");
 
 const registerUser = async (req, res) => {
   console.log("Register API hit");
@@ -35,7 +43,7 @@ const registerUser = async (req, res) => {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
       // const img_url = base_url + defaultAvatar;
-      
+
       //By default, Sukkur location is added
       const user_data = await User.create({
         ...req.body,
@@ -43,7 +51,7 @@ const registerUser = async (req, res) => {
           type: "Point",
           coordinates: [parseFloat("68.8228"), parseFloat("27.7244")],
         },
-        avatar:defaultAvatar
+        avatar: defaultAvatar,
       });
 
       if (user_data) {
@@ -117,40 +125,21 @@ const loginUser = async (req, res) => {
         //   userPreferences = await MuslimPreference.findOne({username:username})
         // }
 
-        // if (user_data.avatar == defaultAvatar) {
-          const resultData = {
-            ...user_data._doc,
-            token: token,
-            preferences: userPreferences,
-          };
-          await DeviceToken.findOneAndUpdate(
-            { username: username },
-            { username, deviceToken },
-            { upsert: true }
-          );
-          res.send({
-            success: true,
-            data: resultData,
-            msg: "Logged in Successfully",
-          });
-        // } else {
-
-
-          // getProfileImage(user_data.username)
-          //   .then((avatar) => {
-          //     const resultData = {
-          //       ...user_data._doc,
-          //       token: token,
-          //       avatar: avatar,
-          //     };
-          //     res.send({ success: true, data: resultData });
-          //   })
-          //   .catch((error) => {
-          //     res
-          //       .status(200)
-          //       .send({ success: false, msg: "Could not load image" });
-          //   });
-        // }
+        const resultData = {
+          ...user_data._doc,
+          token: token,
+          preferences: userPreferences,
+        };
+        await DeviceToken.findOneAndUpdate(
+          { username: username },
+          { username, deviceToken },
+          { upsert: true }
+        );
+        res.send({
+          success: true,
+          data: resultData,
+          msg: "Logged in Successfully",
+        });
       } else {
         res.status(200).send({
           success: false,
@@ -158,9 +147,10 @@ const loginUser = async (req, res) => {
         });
       }
     } else {
-      res
-        .status(200)
-        .send({ success: false, msg: "Invalid user details provided!" });
+      res.status(200).send({
+        success: false,
+        msg: "Invalid user details provided! Or unverified account",
+      });
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -200,25 +190,75 @@ const updateProfileImage = async (req, res) => {
 
     const user = await User.findOne({ username });
     if (user) {
-      const imageName = username + "-" + new Date().getTime() + ".png";
-      image.mv(path.join(directoryPath, imageName), async (error) => {
-        if (!error) {
-          await User.updateOne(
-            { username: username },
-            { $set: { avatar: image.name } }
-          );
+      const avatar = user.avatar;
+      if (avatar !== defaultAvatar) {
+        let p_id = getPublicId(avatar);
+        avatarRemover(p_id)
+          .then(async (result) => {
+            if (result) {
+              await avatarUploader(image)
+                .then(async (result) => {
+                  const updated = await User.findOneAndUpdate(
+                    { username: username },
+                    { avatar: result.url },
+                    {new:true}
+                  );
 
-          res.send({
-            success: true,
-            msg: "Updated profile image successfully",
+                  return res
+                    .status(200)
+                    .send({
+                      success: true,
+                      msg: "Updated Image successfully",
+                      data: updated,
+                    });
+                })
+                .catch((error) => {
+                  return res.status(400).send({
+                    success: false,
+                    msg: "Could not upload image",
+                    error: error.message,
+                  });
+                });
+            } else {
+              return res.status(400).send({
+                success: false,
+                msg: "Failed to overwrite existing image",
+              });
+            }
+          })
+          .catch((error) => {
+            return res.status(400).send({
+              success: false,
+              msg: "Failed to overwrite existing image",
+            });
           });
-        } else {
-          console.log(error);
-          res.send({ success: false, msg: "Failed to upload image" });
-        }
-      });
+      } else {
+        await avatarUploader(image)
+          .then(async (result) => {
+
+            const updated = await User.findOneAndUpdate(
+              { username: username },
+              { avatar: result.url }
+            );
+
+            return res
+              .status(200)
+              .send({
+                success: true,
+                msg: "Updated Image successfully",
+                data: updated,
+              });
+          })
+          .catch((error) => {
+            return res.status(400).send({
+              success: false,
+              msg: "Could not upload image",
+              error: error.message,
+            });
+          });
+      }
     } else {
-      res.status(400).send({ success: false, msg: "No such user" });
+      return res.status(400).send({ success: false, msg: "No such user" });
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -289,7 +329,6 @@ const verifyOTPCode = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 const updatePassword = async (req, res) => {
   console.log("Update password API hit");

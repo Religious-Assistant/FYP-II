@@ -37,8 +37,6 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
     secure:true
 });
-
-console.log(cloudinary.config())
     
 
 //routes
