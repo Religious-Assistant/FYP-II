@@ -158,6 +158,33 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getUpdatedUserdata = async (req, res) => {
+  console.log("Get Updated User Data hit");
+  try {
+    const { username } = req.body;
+
+    const user_data = await User.findOne({
+      username: username,
+    });
+
+    if (user_data) {
+
+        res.send({
+          success: true,
+          data: user_data,
+          msg: "Fetched Data Successfully",
+        });
+      } else {
+        res.status(400).send({
+          success: false,
+          msg: "Could not fetch data ",
+        });
+      }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const forgotPassword = async (req, res) => {
   console.log("Forgot password API hit");
   try {
@@ -578,6 +605,7 @@ const insertQuranInfo = async () => {
 module.exports = {
   registerUser,
   loginUser,
+  getUpdatedUserdata,
   forgotPassword,
   updateProfileImage,
   sendOTPCode,
