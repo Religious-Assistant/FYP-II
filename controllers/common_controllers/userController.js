@@ -385,13 +385,13 @@ const updatePassword = async (req, res) => {
 };
 
 const updateLocation = async (req, res) => {
-  console.log("Update Location API hit");
+  console.log("Update Location API hit", req.body);
   try {
+
     const { username, longitude, latitude } = req.body;
     const user = await User.findOne({ username });
     if (user) {
       if (latitude && longitude) {
-        console.log(user, longitude, latitude)
         const data = await User.updateOne(
           { username: username },
           {
