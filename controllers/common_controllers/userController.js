@@ -185,10 +185,9 @@ const forgotPassword = async (req, res) => {
 const updateProfileImage = async (req, res) => {
   console.log("Update Profile API hit");
  try {
-    const { username, avatar } = req.body;
+    const { username, profileImage } = req.body;
 
-    let image=`data:image/png;base64,${avatar}`
-    console.log(username, avatar)
+    let image=`data:image/png;base64,${profileImage}`
 
     const user = await User.findOne({ username });
     if (user) {
