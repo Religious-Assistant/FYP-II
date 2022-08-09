@@ -47,8 +47,11 @@ const makeAnnouncement = async (req, res) => {
           //We could send to only those who has subscribed to announcement notfs in preferences
 
           //Get only device tokens that are targeted i.e within range
-          let recepients = receivers.filter((receiver) =>
-            targetAudience.includes(receiver.username)
+          let recepients = receivers.filter((receiver) =>{
+            if(receiver.username!==announcedBy){
+              targetAudience.includes(receiver.username)
+            }
+          }
           );
           const totalReceivers = await notifyUsers(
             title,
