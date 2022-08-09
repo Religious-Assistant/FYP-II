@@ -392,7 +392,7 @@ const updateLocation = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       if (latitude && longitude) {
-        const data = await User.updateOne(
+        const data = await User.findOneAndUpdate(
           { username: username },
           {
             $set: {
