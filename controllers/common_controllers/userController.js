@@ -183,7 +183,8 @@ const forgotPassword = async (req, res) => {
 };
 
 const updateProfileImage = async (req, res) => {
-  console.log("Update Profile API hit");
+  console.log("Update Profile API hit", req.files);
+  console.log(req.body);
   try {
     const image = req.files.avatar;
     const { username } = req.body;
