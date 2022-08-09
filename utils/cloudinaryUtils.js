@@ -22,8 +22,17 @@ const getPublicId=(url)=>{
   return public_id[public_id.length-1].split(".")[0]
 }
 
+const base64Uploader = (file) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(file, {folder:'religious-assistant', overwrite:true}, (error, result) => {
+      return result ? resolve(result) : reject(error);
+    });
+  });
+};
+
 module.exports = {
   avatarUploader,
   avatarRemover,
-  getPublicId
+  getPublicId,
+  base64Uploader
 };

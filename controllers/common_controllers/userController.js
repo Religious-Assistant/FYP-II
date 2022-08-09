@@ -31,6 +31,7 @@ const {
   avatarUploader,
   avatarRemover,
   getPublicId,
+  base64Uploader,
 } = require("../../utils/cloudinaryUtils");
 
 const registerUser = async (req, res) => {
@@ -197,7 +198,7 @@ const updateProfileImage = async (req, res) => {
         avatarRemover(p_id)
           .then(async (result) => {
             if (result) {
-              await avatarUploader(image)
+              await base64Uploader(image)
                 .then(async (result) => {
                   const updated = await User.findOneAndUpdate(
                     { username: username },
@@ -234,7 +235,7 @@ const updateProfileImage = async (req, res) => {
             });
           });
       } else {
-        await avatarUploader(image)
+        await base64Uploader(image)
           .then(async (result) => {
 
             const updated = await User.findOneAndUpdate(
