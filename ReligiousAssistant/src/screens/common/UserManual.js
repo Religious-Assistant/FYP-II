@@ -12,39 +12,14 @@ import {
   Text,
   Center,
   VStack,
-  HStack,
-  Divider,
   ScrollView,
 } from 'native-base';
 
 import mosqueIcon from '../../../assets/images/Logo-combined.png';
-import CustomButton from '../../components/CustomButton';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import registerScreenImg from '../../../assets/images/registerScreen.png';
 export default function UserManual() {
-  const mosqueInfo = [
-    {
-      key: 1,
-      label: 'Mosque Name',
-      info: 'Sukkur Iba',
-    },
-    {
-      key: 2,
-      label: 'Location',
-      info: 'Sukkur IBA Uni',
-    },
-    {
-      key: 3,
-      label: 'Added By',
-      info: 'Nadir Hussain',
-    },
-    {
-      key: 4,
-      label: 'Distance from you',
-      info: '3km',
-    },
-  ];
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -472,7 +447,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
     fontSize: 17,
     padding: 5,
-    color: colors.primary,
+    color: colors.tertiary,
   },
   boldHeading: {
     fontFamily: fonts.Signika.bold,
@@ -499,7 +474,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 5,
     marginTop: '-4%',
-    color: colors.tertiary,
+    color: colors.primary,
   },
   bullets: {
     fontFamily: fonts.Signika.regular,

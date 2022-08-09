@@ -28,17 +28,17 @@ export default function FeatureContainer() {
   const featureArray1 = [
     {
       title: 'Recite Gita',
-      image: require('../../../assets/images/gita_ic.png'),
+      image: require('../../../assets/images/gita2_ic.png'),
       screen: RECITE_GITA,
     },
     {
       title: 'Closest Temple',
-      image: require('../../../assets/images/temple_ic.png'),
+      image: require('../../../assets/images/temple3_ic.png'),
       screen: FIND_TEMPLE,
     },
     {
       title: 'Veg Days',
-      image: require('../../../assets/images/veg_ic.png'),
+      image: require('../../../assets/images/veg2_ic.png'),
       screen: VEG_DAYS,
     },
   ];
@@ -46,12 +46,12 @@ export default function FeatureContainer() {
   const featureArray2 = [
     {
       title: 'View Calander',
-      image: require('../../../assets/images/islamic_calander_ic.png'),
+      image: require('../../../assets/images/calendar_ic.png'),
       screen: VIEW_HINDU_CALANDER,
     },
     {
       title: 'Announcements',
-      image: require('../../../assets/images/announcement_ic.png'),
+      image: require('../../../assets/images/announcement2_ic.png'),
       screen: HINDU_ANNOUNCEMENTS,
     },
     {
@@ -64,7 +64,7 @@ export default function FeatureContainer() {
   const featureArray3 = [
     {
       title: 'Add Temple',
-      image: require('../../../assets/images/add_ic.png'),
+      image: require('../../../assets/images/add2_ic.png'),
       screen: ADD_TEMPLE,
     },
     // {
