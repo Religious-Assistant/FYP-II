@@ -159,7 +159,7 @@ const loginUser = async (req, res) => {
 };
 
 const getUpdatedUserdata = async (req, res) => {
-  console.log("Get Updated User Data hit");
+  console.log("Get Updated User Data hit", req.body);
   try {
     const { username } = req.body;
 
@@ -405,6 +405,7 @@ const updateLocation = async (req, res) => {
             new: true,
           }
         );
+        
         res.send({
           success: true,
           msg: "Location Updated Successfully",
