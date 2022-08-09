@@ -42,31 +42,32 @@ import edit from '../../../../assets/images/edit.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import {
+  getUpdatedUserData,
   getUserData,
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-import {GOOGLE_MAP} from '../../../navigation/constants';
+import {GOOGLE_MAP, MUSLIM_SETTINGS} from '../../../navigation/constants';
 import Loader from '../../common/Loader';
-import {IP} from '../../../apis/serviceConstants';
+
 import {useNavigation} from '@react-navigation/native';
 import {
   selectHasUpdatedAutosilentSetting,
   selectHasUpdatedNamazAccountabilityNotificationSettings,
   selectHasUpdatedNamazNotificationsSettings,
+  selectIsUploadingProfileImage,
   updateAutoSilentSetting,
   updateNamazAccountabilityNotificationsSetting,
   updateNamazNotificationSettings,
+  updateProfileImage,
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Settings({navigation}) {
+export default function Settings({route, navigation}) {
   const navigator = useNavigation();
+
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
-  const [avatar, setAvatar] = useState({
-    image: `http://${IP}:5000/avatars/avatar.png`,
-    key: 1,
-  });
 
   const [open, setOpen] = useState(false);
   const [isPasswordModal, setIspasswordModal] = useState(false);
@@ -85,6 +86,7 @@ export default function Settings({navigation}) {
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+
   const hasUpdatedAutoSilentSettings = useSelector(
     selectHasUpdatedAutosilentSetting,
   );
@@ -95,19 +97,34 @@ export default function Settings({navigation}) {
     selectHasUpdatedNamazNotificationsSettings,
   );
 
+  const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
+
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
     dispatch(getUserData());
-    if (user.avatar) {
-      setAvatar({image: user.avatar, key: 0});
+    if (user?.avatar) {
+      setAvatar({image: user?.avatar, key: 0});
     }
 
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Settings'));
     });
-    // unsubscribe on unmount
+
     return unsubscribe;
   }, [navigation, dispatch]);
+
+  //avatar state
+  const [avatar, setAvatar] = useState({
+    image: `${user?.avatar}`,
+    key: 1,
+  });
+
+  const sendFileToBackend = image => {
+    dispatch(
+      updateProfileImage({profileImage: image.data, username: user?.username}),
+    );
+    dispatch(getUpdatedUserData({username: user?.username}));
+  };
 
   //Take user's profile from Camera
   const takePhotoFromCamera = () => {
@@ -116,11 +133,11 @@ export default function Settings({navigation}) {
       compressImageMaxHeight: 300,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     })
       .then(image => {
-        const obj = {uri: image.path};
-        console.log(obj);
-        // setAvatar({image:obj, key:0})
+        sendFileToBackend(image);
+        setAvatar({image: image.path, key: 0});
         onClose;
       })
       .catch(err => {
@@ -135,12 +152,11 @@ export default function Settings({navigation}) {
       height: 300,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     })
       .then(image => {
-        const obj = {uri: image.path};
-        // console.log(obj);
-        setAvatar({image: obj.uri, key: 2});
-        // setImage(obj);
+        sendFileToBackend(image);
+        setAvatar({image: image.path, key: 2});
         onClose;
       })
       .catch(err => {
@@ -180,9 +196,8 @@ export default function Settings({navigation}) {
 
   function updatePrimaryMosqueSetting(item) {}
 
-  function openMap(){
-    console.log("Location");
-    navigator.navigate(GOOGLE_MAP);
+  function openMap() {
+    navigator.navigate(GOOGLE_MAP, {screen: MUSLIM_SETTINGS});
   }
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
@@ -192,7 +207,7 @@ export default function Settings({navigation}) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
-      {isLoadingGetUserData ? (
+      {isLoadingGetUserData || isUploadingProfileImage ? (
         <Loader msg="Loading ..." />
       ) : (
         <>
@@ -342,7 +357,6 @@ export default function Settings({navigation}) {
                   </Box>
                 </Box>
 
-
                 {/* Location */}
 
                 <Box alignItems="center">
@@ -368,9 +382,20 @@ export default function Settings({navigation}) {
                           Location
                         </Heading>
                       </Stack>
-                      <Text fontWeight="400" style={styles.text}>
-                        Your Location here
-                      </Text>
+                      {route?.params ? (
+                        <Text fontWeight="400" style={styles.text}>
+                          {`Longitude: ${route.params.longitude}\nLatitude: ${route.params.latitude}`}
+                        </Text>
+                      ) : user ? (
+                        <Text fontWeight="400" style={styles.text}>
+                          {`Longitude: ${user.location.coordinates[0]}\nLatitude: ${user.location.coordinates[1]}`}
+                        </Text>
+                      ) : (
+                        <Text fontWeight="400" style={styles.text}>
+                          {`No Location set yet`}
+                        </Text>
+                      )}
+
                       <HStack
                         flexDirection={'row'}
                         space={4}

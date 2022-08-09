@@ -6,6 +6,7 @@ const update_profile_image='update-profile-image'
 const update_location='update-location'
 const get_otp_code='get-OTP-code'
 const verify_otp_code='verify-otp-code'
+const get_updated_user_data='get-updated-user-data'
 
 //Tasbih
 const update_tasbih='update-tasbih'
@@ -83,6 +84,8 @@ export {
     update_location,
     get_otp_code,
     verify_otp_code,
+    get_updated_user_data,
+
     update_tasbih,
     get_recitation_stats,
     mark_surah_as_read,

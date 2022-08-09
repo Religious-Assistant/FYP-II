@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -14,6 +14,8 @@ import fonts from '../../../theme/fonts';
 import NamazTimings from '../namazTimings/NamazTimings';
 import Home from './Home';
 import Alerts from '../alertsAndNotifications/Alerts';
+import { FIND_MOSQUE, MUSLIM_ALERTS, MUSLIM_HOME, MUSLIM_PRAYERS, MUSLIM_SETTINGS } from '../../../navigation/constants';
+import colors from '../../../theme/colors';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -32,7 +34,7 @@ const AddMosqueButton = ({children, onPress}) => {
           width: 70,
           height: 70,
           borderRadius: 35,
-          backgroundColor: '#f3ba1c',
+          backgroundColor: colors.success.light,
         }}>
         {children}
       </View>
@@ -45,10 +47,12 @@ export default function MuslimBottomTab() {
   
   // const token=useSelector(selectToken) 
 
+  const [showBadge, setShowBadge]=useState(true)
+
   return (
     <>
       <BottomTab.Navigator
-        initialRouteName="Home"
+        initialRouteName={MUSLIM_HOME}
         screenOptions={{
           tabBarActiveTintColor: '#12FF12',
           tabBarInactiveTintColor: '#12FF12',
@@ -66,7 +70,7 @@ export default function MuslimBottomTab() {
           },
         }}>
         <BottomTab.Screen
-          name="Home"
+          name={MUSLIM_HOME}
           component={Home}
           options={{
             headerShown: false,
@@ -84,12 +88,12 @@ export default function MuslimBottomTab() {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? '#f3ba1c' : '#0f1e3d',
+                    tintColor: focused ? colors.success.light : '#0f1e3d',
                   }}></Image>
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: focused ? '#f3ba1c' : '#0f1e3d'},
+                    {color: focused ? colors.success.light : '#0f1e3d'},
                   ]}>
                   Home
                 </Text>
@@ -99,12 +103,15 @@ export default function MuslimBottomTab() {
         />
         {
           <BottomTab.Screen
-          name="Alerts"
+          name={MUSLIM_ALERTS}
           component={Alerts}
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
+            tabBarBadge:100,
+            tabBarBadgeStyle:{color:colors.primary, backgroundColor:colors.secondary, marginTop:15},
             tabBarIcon: ({focused}) => {
+              setShowBadge(false)
               return(
               <View
                 style={{
@@ -118,12 +125,12 @@ export default function MuslimBottomTab() {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? '#f3ba1c' : '#0f1e3d',
+                    tintColor: focused ? colors.success.light : '#0f1e3d',
                   }}></Image>
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: focused ? '#f3ba1c' : '#0f1e3d'},
+                    {color: focused ? colors.success.light : '#0f1e3d'},
                   ]}>
                   Alerts
                 </Text>
@@ -134,7 +141,7 @@ export default function MuslimBottomTab() {
         }
 
         <BottomTab.Screen
-          name="FindMosque"
+          name={FIND_MOSQUE}
           component={FindMosque}
           options={{
             // tabBarLabel:'Home',
@@ -147,7 +154,7 @@ export default function MuslimBottomTab() {
                 style={{
                   width: 30,
                   height: 30,
-                  tintColor: '#fff',
+                  tintColor: colors.primary,
                 }}></Image>
             )},
             tabBarButton:  props =>(<AddMosqueButton {...props} />),
@@ -155,7 +162,7 @@ export default function MuslimBottomTab() {
         />
 
         <BottomTab.Screen
-          name="Prayers"
+          name={MUSLIM_PRAYERS}
           component={NamazTimings}
           options={{
             // tabBarLabel:'Home',
@@ -174,12 +181,12 @@ export default function MuslimBottomTab() {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? '#f3ba1c' : '#0f1e3d',
+                    tintColor: focused ? colors.success.light : '#0f1e3d',
                   }}></Image>
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: focused ? '#f3ba1c' : '#0f1e3d'},
+                    {color: focused ? colors.success.light : '#0f1e3d'},
                   ]}>
                   Prayers
                 </Text>
@@ -188,7 +195,7 @@ export default function MuslimBottomTab() {
           }}
         />
         <BottomTab.Screen
-          name="Settings"
+          name={MUSLIM_SETTINGS}
           component={Settings}
           options={{
             // tabBarLabel:'Home',
@@ -207,12 +214,12 @@ export default function MuslimBottomTab() {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? '#f3ba1c' : '#0f1e3d',
+                    tintColor: focused ? colors.success.light : '#0f1e3d',
                   }}></Image>
                 <Text
                   style={[
                     styles.tabItemText,
-                    {color: focused ? '#f3ba1c' : '#0f1e3d'},
+                    {color: focused ? colors.success.light : '#0f1e3d'},
                   ]}>
                   Settings
                 </Text>

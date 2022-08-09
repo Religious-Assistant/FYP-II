@@ -2,7 +2,7 @@ import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiPATCH} from '../../../apis/apiService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { forgot_password, login_user, register_user } from '../../endpoints';
+import { forgot_password, get_updated_user_data, login_user, register_user } from '../../endpoints';
 
 const initialState = {
     userData:null,
@@ -14,6 +14,9 @@ const initialState = {
     isLoadingGetToken:false,
     isLoadingGetReligion:false,
     isLoadingForgotPassword:false,
+
+    isLoadingGetUpdatedUserData:false,
+    hasErrorGetUpdatedUserData:false,
 
     hasError:false,
     hasRecoveredForgetPassword:false,
@@ -47,13 +50,20 @@ export const getUserData = createAsyncThunk(
     'getUserData',
     async ()=>{
         try{
-            
             const result =  await AsyncStorage.getItem('user') 
             return result!=null?JSON.parse(result):null  
         }catch(e){
             console.log('ERROR while Retrieving user data from Async Storage', e)
         }
     }
+)
+
+export const getUpdatedUserData = createAsyncThunk(
+    'getUpdatedUserData',
+    async (body)=>{
+        const result =  await apiPOST(get_updated_user_data,body)
+        return result  
+     }
 )
 
 export const getToken = createAsyncThunk(
@@ -97,6 +107,25 @@ const authSlice = createSlice({
     },
     
     extraReducers:{
+
+        [getUpdatedUserData.fulfilled]:(state,action)=>{
+            state.hasErrorGetUpdatedUserData=false
+            state.isLoadingGetUpdatedUserData=false
+            state.userData = action.payload.data
+
+            const user=JSON.stringify(action.payload.data)
+            AsyncStorage.setItem('user',user)
+
+        },
+        [getUpdatedUserData.rejected]:(state,action)=>{
+            state.isLoadingGetUpdatedUserData=false
+            state.hasErrorGetUpdatedUserData=true
+
+        },
+        [getUpdatedUserData.pending]:(state,action)=>{
+            state.isLoadingGetUpdatedUserData=true
+            state.hasErrorGetUpdatedUserData=false
+        },
 
         [getUserData.fulfilled]:(state,action)=>{
             state.hasError=false
@@ -221,6 +250,9 @@ export const selectIsLoadingGetUserData=(state)=>state.user.isLoadingGetUserData
 export const selectIsLoadingGetToken=(state)=>state.user.isLoadingGetToken
 export const selectIsLoadingGetReligion=(state)=>state.user.isLoadingGetReligion
 export const selectIsLoadingForgotPassword=(state)=>state.user.isLoadingForgotPassword
+
+export const selectHasErrorGetUpdatedUserData=(state)=>state.user.hasErrorGetUpdatedUserData
+export const selectIsLoadingGetUpdatedUserData=(state)=>state.user.isLoadingGetUpdatedUserData
 
 export const selectHasError=(state)=>state.user.hasError
 export const selectHasRecoveredForgetPassword=(state)=>state.user.hasRecoveredForgetPassword

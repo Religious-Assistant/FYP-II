@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPATCH} from '../../../apis/apiService'
-import { update_accountability_notifications_setting, update_auto_silent_settings, update_namaz_notifications_setting, update_password, update_primary_mosque } from '../../endpoints';
+import { update_accountability_notifications_setting, update_auto_silent_settings, update_location, update_namaz_notifications_setting, update_password, update_primary_mosque, update_profile_image } from '../../endpoints';
 
 const initialState = {
     hasUpdatedPassword:false,
@@ -8,8 +9,17 @@ const initialState = {
     hasUpdatedNamazNotificationsSetting:false,
     hasUpdatedPrimaryMosque:false,
     hasUpdatedNamazAccountabilityNotificationsSetting:false,
+
+    isUploadingProfileImage:false,
+    hasErrorInUploadingProfileImage:false,
+
+    isUpdatingLocation:false,
+    hasErrorUpdatingLocation:false,
+
     isLoading:true,
     hasError:false,
+
+
 }
 
 
@@ -29,6 +39,13 @@ export const updatePrimaryMosque = createAsyncThunk(
     }
 )
 
+export const updateProfileImage = createAsyncThunk(
+    'updateProfileImage',
+    async (body)=>{
+       const result =  await apiPATCH(update_profile_image,body)
+       return result  
+    }
+)
 
 export const updateNamazAccountabilityNotificationsSetting = createAsyncThunk(
     'updateNamazAccountabilityNotificationsSetting',
@@ -54,6 +71,14 @@ export const updateNamazNotificationSettings = createAsyncThunk(
     }
 )
 
+export const updateLocation = createAsyncThunk(
+    'updateLocation',
+    async (body)=>{
+       const result =  await apiPATCH(update_location,body)
+       return result  
+    }
+)
+
 const muslimPreferencesSlice = createSlice({
     name:"muslimpreferences",
     initialState,
@@ -75,6 +100,40 @@ const muslimPreferencesSlice = createSlice({
             state.hasError=true
             state.isLoading=false
             state.hasUpdatedPassword=false
+        },
+
+        [updateLocation.fulfilled]:(state,action)=>{
+            state.isUpdatingLocation = false
+            state.hasErrorUpdatingLocation=false
+            AsyncStorage.setItem('user',JSON.stringify(action.payload.data))
+
+        },
+        [updateLocation.pending]:(state,action)=>{
+            state.isUpdatingLocation = true
+            state.hasErrorUpdatingLocation=false
+
+        },
+        [updateLocation.rejected]:(state,action)=>{
+            state.isUpdatingLocation=false
+            state.hasErrorUpdatingLocation=true
+
+
+        },
+
+        [updateProfileImage.fulfilled]:(state,action)=>{
+            state.isUploadingProfileImage = false
+            state.hasErrorInUploadingProfileImage=false
+
+        },
+        [updateProfileImage.pending]:(state,action)=>{
+            state.isUploadingProfileImage = true
+            state.hasErrorInUploadingProfileImage=false
+
+        },
+        [updateProfileImage.rejected]:(state,action)=>{
+            state.isUploadingProfileImage = false
+            state.hasErrorInUploadingProfileImage=true
+
         },
 
         [updateNamazNotificationSettings.fulfilled]:(state,action)=>{
@@ -150,6 +209,12 @@ export const selectHasUpdatedPrimaryMosque=(state)=>state.muslimpreferences.hasU
 export const selectHasUpdatedNamazNotificationsSettings=(state)=>state.muslimpreferences.hasUpdatedNamazNotificationsSetting
 export const selectHasUpdatedAutosilentSetting=(state)=>state.muslimpreferences.hasUpdatedAutoSilentSettings
 export const selectHasUpdatedNamazAccountabilityNotificationSettings=(state)=>state.muslimpreferences.hasUpdatedNamazAccountabilityNotificationsSetting
+
+export const selectIsUploadingProfileImage=(state)=>state.muslimpreferences.isUploadingProfileImage
+export const selectHasErrorInUploadingProfileImage=(state)=>state.muslimpreferences.hasErrorInUploadingProfileImage
+
+export const selectIsUpdatingLocation=(state)=>state.muslimpreferences.isUpdatingLocation
+export const selectHasErrorUpdatingLocation=(state)=>state.muslimpreferences.hasErrorUpdatingLocation
 
 export const selectIsLoading=(state)=>state.muslimpreferences.isLoading
 export const selectHasError=(state)=>state.muslimpreferences.hasError

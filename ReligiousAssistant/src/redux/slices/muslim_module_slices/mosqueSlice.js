@@ -5,10 +5,21 @@ import { add_mosque, get_all_mosques, get_closest_mosques, get_unverified_mosque
 const initialState = {
     allMosques:null,
     closestMosques:null,
-    newMosque:null,
+    newMosque:null,    
     unerifiedMosques:null,
-    isLoading:true,
-    hasError:false,
+
+    isLoadingAllMosques:false,
+    hasErrorInGettingAllMosques:false,
+    
+    isLoadingClosestMosques:false,
+    hasErrorInGettingClosestMosques:false,
+    
+    isLoadingUnverifiedMosques:false,
+    hasErrorInGettingUnverifiedMosques:false,
+
+    isLoadingAddNewMosque:false,
+    hasErrorInAddingMosque:false,
+
 }
 
 export const getAllMosques = createAsyncThunk(
@@ -51,63 +62,63 @@ const mosqueSlice = createSlice({
     reducers:{},
     extraReducers:{
         [getAllMosques.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isPending=false
+            state.hasErrorInGettingAllMosques=false
+            state.isLoadingAllMosques=false
             state.allMosques = action.payload.data
             
         },
         [getAllMosques.rejected]:(state,action)=>{
-            state.isLoading=false
-            state.hasError=true
+            state.isLoadingAllMosques=false
+            state.hasErrorInGettingAllMosques=true
 
         },
         [getAllMosques.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingAllMosques=true
+            state.hasErrorInGettingAllMosques=false
         },
         [getClosestMosques.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isPending=false
+            state.hasErrorInGettingClosestMosques=false
+            state.isLoadingClosestMosques=false
             state.closestMosques = action.payload.data
             
         },
         [getClosestMosques.rejected]:(state,action)=>{
-            state.isLoading=false
-            state.hasError=true
+            state.isLoadingClosestMosques=false
+            state.hasErrorInGettingClosestMosques=true
 
         },
         [getClosestMosques.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingClosestMosques=true
+            state.hasErrorInGettingClosestMosques=false
         },
 
         [getUnverifiedMosquesAroundUser.fulfilled]:(state,action)=>{
-            state.isLoading = false
-            state.hasError=false
+            state.isLoadingUnverifiedMosques = false
+            state.hasErrorInGettingUnverifiedMosques=false
             state.unerifiedMosques=action.payload.data
         },
         [getUnverifiedMosquesAroundUser.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
+            state.isLoadingUnverifiedMosques = true
+            state.hasErrorInGettingUnverifiedMosques=false
         },
         [getUnverifiedMosquesAroundUser.rejected]:(state,action)=>{
-            state.hasError=true
-            state.isLoading=false
+            state.hasErrorInGettingUnverifiedMosques=true
+            state.isLoadingUnverifiedMosques=false
         },
         
         [addMosque.fulfilled]:(state,action)=>{
-            state.hasError = false;
-            state.isLoading=false;
+            state.hasErrorInAddingMosque = false;
+            state.isLoadingAddNewMosque=false;
             state.newMosque=action.payload.data
 
         },
         [addMosque.pending]:(state,action)=>{
-            state.isLoading = true
-            state.hasError=false
+            state.isLoadingAddNewMosque = true
+            state.hasErrorInAddingMosque=false
         },
         [addMosque.rejected]:(state,action)=>{
-            state.hasError = true;
-            state.isLoading=false;
+            state.hasErrorInAddingMosque = true;
+            state.isLoadingAddNewMosque=false;
         },
 
     }
@@ -117,7 +128,18 @@ export const selectAllMosques=(state)=>state.mosque.allMosques
 export const selectClosestMosques=(state)=>state.mosque.closestMosques
 export const selectUnverifiedMosques=(state)=>state.mosque.unerifiedMosques
 export const selectNewAddedMosque=(state)=>state.mosque.newMosque
-export const selectIsLoading=(state)=>state.mosque.isLoading
-export const selectHasError=(state)=>state.mosque.hasError
+
+export const selectIsLoadingAllMosques=(state)=>state.mosque.isLoadingAllMosques
+export const selectHasErrorInGettingAllMosques=(state)=>state.mosque.hasErrorInGettingAllMosques
+
+export const selectIsLoadingClosestMosques=(state)=>state.mosque.isLoadingClosestMosques
+export const selectHasErrorInGettingClosestMosques=(state)=>state.mosque.hasErrorInGettingClosestMosques
+
+export const selectIsLoadingAddNewMosque=(state)=>state.mosque.isLoadingAddNewMosque
+export const selectHasErrorInAddingNewMosque=(state)=>state.mosque.hasErrorInAddingMosque
+
+export const selectIsLoadingUnverifiedMosques=(state)=>state.mosque.isLoadingUnverifiedMosques
+export const selectHasErrorInGettingUnverifiedMosques=(state)=>state.mosque.hasErrorInGettingUnverifiedMosques
+
 
 export default mosqueSlice.reducer

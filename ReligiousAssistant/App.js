@@ -39,7 +39,15 @@ async function onMessageReceived(message) {
           title:"Mark as Read",
           pressAction:{
             id:'mark-as-read'
-          }
+          },
+        },
+        {
+          title:"Open Up",
+          pressAction:{
+            id:"open",
+            launchActivity:"default",
+            launchActivityFlags:[AndroidLaunchActivityFlag.SINGLE_TOP]
+          } 
         }
       ]
     },
@@ -63,6 +71,11 @@ const EntryPoint = () => {
       if(pressAction.id==='mark-as-read'){
         await notifee.cancelNotification(notification.id);
       }
+      
+      if(pressAction.id==='open'){
+        await notifee.cancelNotification(notification.id);
+      }
+      
       switch (type) {
         case EventType.DISMISSED:
           break;

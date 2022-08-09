@@ -17,20 +17,28 @@ import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 
-import {GOOGLE_MAP} from '../../../navigation/constants';
+import {ADD_MOSQUE, GOOGLE_MAP} from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {addMosque} from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import {
+  addMosque,
+  selectIsLoadingAddNewMosque,
+  selectNewAddedMosque,
+} from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import Loader from '../../common/Loader';
 
 export default function AddMosque({route, navigation}) {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
   const userData = useSelector(selectUserData);
+  const isLoadingAddNewMosque = useSelector(selectIsLoadingAddNewMosque);
+  const newMosque = useSelector(selectNewAddedMosque);
+
   const [mosqueName, setMosquename] = useState('');
 
   function openMap() {
-    navigator.navigate(GOOGLE_MAP);
+    navigator.navigate(GOOGLE_MAP, {screen: ADD_MOSQUE});
   }
 
   function changeHandler(text) {
@@ -47,6 +55,11 @@ export default function AddMosque({route, navigation}) {
           addedBy: userData.username,
         }),
       );
+      
+      if(newMosque){
+        console.log(newMosque)
+      }
+
     } else {
       alert('Location and Name required');
     }
@@ -86,55 +99,53 @@ export default function AddMosque({route, navigation}) {
             </Heading>
           </View>
         </View>
-        <View style={{flex: 0.83}} width="95%">
-          <Center
-            width="88%"
-            space={2}
-            maxW="88%"
-            marginTop={'35%'}
-            marginLeft={'8%'}
-            marginBottom={'5%'}>
-            <TextInput
-              textTitle="Enter Mosque Name"
-              mt="50%"
-              icon={<MaterialCommunityIcons name="mosque" />}
-              onChangeText={changeHandler}
-            />
 
-            <CustomButton
-              title="Select Location"
-              variant="outline"
-              mt="8%"
-              color={colors.primary}
-              base="99%"
-              colorscheme="lightBlue.900"
-              onPress={() => {
-                openMap();
-              }}
-            />
-            {route != 0 ? (
-              <Text mt={5} fontFamily={fonts.Signika.bold}>
-                Longitude: {route.params?.longitude}
-              </Text>
-            ) : (
-              <></>
-            )}
-            {route != 0 ? (
-              <Text mt={5} fontFamily={fonts.Signika.bold}>
-                Latitude: {route.params?.latitude}
-              </Text>
-            ) : (
-              <></>
-            )}
-            <CustomButton
-              title="Add Mosque"
-              variant="solid"
-              mt="8%"
-              color="white"
-              base="99%"
-              onPress={addNewMosque}
-            />
-          </Center>
+        <View style={{flex: 0.83}} width="95%">
+          {!isLoadingAddNewMosque ? (
+            <Center
+              width="88%"
+              space={2}
+              maxW="88%"
+              marginTop={'35%'}
+              marginLeft={'8%'}
+              marginBottom={'5%'}>
+              <TextInput
+                textTitle="Enter Mosque Name"
+                mt="50%"
+                icon={<MaterialCommunityIcons name="mosque" />}
+                onChangeText={changeHandler}
+              />
+
+              <CustomButton
+                title="Select Location"
+                variant="outline"
+                mt="8%"
+                color={colors.primary}
+                base="99%"
+                colorscheme="lightBlue.900"
+                onPress={() => {
+                  openMap();
+                }}
+              />
+              {route?.params ? (
+                <Text mt={5} fontFamily={fonts.Signika.bold}>
+                  {`Longitude: ${route.params?.longitude}\n Latitude: ${route.params?.latitude}`}
+                </Text>
+              ) : (
+                <></>
+              )}
+              <CustomButton
+                title="Add Mosque"
+                variant="solid"
+                mt="8%"
+                color="white"
+                base="99%"
+                onPress={addNewMosque}
+              />
+            </Center>
+          ) : (
+            <Loader msg="Adding New Mosque" />
+          )}
         </View>
       </View>
     </TouchableWithoutFeedback>

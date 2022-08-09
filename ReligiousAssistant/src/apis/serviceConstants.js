@@ -1,4 +1,4 @@
-const IP=`192.168.10.7`
-const BASE_URL=`http://${IP}:5000/api/`
+// const BASE_URL=`https://religious-assistant-backend.herokuapp.com/api`
+const BASE_URL=`http://10.102.140.72:5000/api`
 
-module.exports={BASE_URL, IP}
+module.exports={BASE_URL}
