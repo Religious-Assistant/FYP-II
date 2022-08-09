@@ -391,6 +391,7 @@ const updateLocation = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       if (latitude && longitude) {
+        console.log(user, longitude, latitude)
         const data = await User.updateOne(
           { username: username },
           {
@@ -405,7 +406,7 @@ const updateLocation = async (req, res) => {
             new: true,
           }
         );
-        
+
         res.send({
           success: true,
           msg: "Location Updated Successfully",
