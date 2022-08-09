@@ -63,6 +63,8 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
     return resp.successCount
 }
 
+
+
 const getProfileImage = async (username) => {
   return new Promise((resolve, reject) => {
     fs.readdir(directoryPath, function (err, files) {
