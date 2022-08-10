@@ -15,8 +15,7 @@ import timeICon from '../../../../assets/images/announce_ic.png';
 import CustomButton from '../../../components/CustomButton';
 
 import {Formik} from 'formik';
-import {ANNOUNCEMENT_CATEGORIES} from '../UIConstants';
-
+import CATEGORIES from '../UIConstants';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
@@ -99,7 +98,7 @@ export default function MakeAnnouncement() {
             <Formik
               initialValues={{
                 description: '',
-                category: ANNOUNCEMENT_CATEGORIES[1],
+                category: CATEGORIES.OTHER,
               }}
               onSubmit={values => {
                 announce(values);
@@ -155,12 +154,12 @@ export default function MakeAnnouncement() {
                     onValueChange={item => setFieldValue('category', item)}>
                     <Select.Item
                       label="Eid Namaz"
-                      value={ANNOUNCEMENT_CATEGORIES[0]}
+                      value={CATEGORIES.EID_NAMAZ}
                       color={'white'}
                     />
                     <Select.Item
                       label="Other"
-                      value={ANNOUNCEMENT_CATEGORIES[1]}
+                      value={CATEGORIES.OTHER}
                       color={'white'}
                     />
                   </Select>

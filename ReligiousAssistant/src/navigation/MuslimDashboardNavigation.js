@@ -16,13 +16,17 @@ import {
   FIND_MOSQUE,
   GOOGLE_MAP,
   GOOGLE_MAP_DIRECTIONS,
+  IMAM_CONSENSUS,
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
+  MOSQUE_CONSENSUS,
   MUSLIM_ANNOUNCEMENTS,
   MUSLIM_DUAS,
   MUSLIM_USER_ANNOUNCEMENT_DETAILS,
   MUSLIM_VIEW_PROFILE,
+  NAMAZ_ALERT_NOTIFICATION,
   NAMAZ_PLAY_AREA,
+  NEW_MOSQUE_ADDITION,
   PARAH_RECITATION_AREA,
   QIBLA_DIRECTION,
   RAKAH_INFO,
@@ -60,6 +64,9 @@ import ParahRecitationArea from '../screens/muslim_module/reciteQuran/ParahRecit
 import AnnouncementNoti from '../screens/muslim_module/alertsAndNotifications/AnnouncementNoti';
 import Duas from '../screens/muslim_module/staticInfo/Duas';
 import AllahNames from '../screens/muslim_module/staticInfo/AllahNames';
+import MosqueConsensusNoti from '../screens/muslim_module/alertsAndNotifications/MosqueConsensusNoti';
+import ImamConsensusNoti from '../screens/muslim_module/alertsAndNotifications/ImamConsensusNoti';
+import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/NewMosqueAddedNoti';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -121,11 +128,36 @@ function MuslimDashboardNavigation() {
         component={Announcements}
         options={{title: 'Announcements'}}
       />
+
       <HomeStack.Screen
         name={MUSLIM_USER_ANNOUNCEMENT_DETAILS}
         component={AnnouncementNoti}
         options={{title: 'Announcement'}}
       />
+
+    <HomeStack.Screen
+        name={MOSQUE_CONSENSUS}
+        component={MosqueConsensusNoti}
+        options={{title: 'Mosque Consensus'}}
+      />
+    <HomeStack.Screen
+        name={IMAM_CONSENSUS}
+        component={ImamConsensusNoti}
+        options={{title: 'Imam Consensus'}}
+      />
+
+<HomeStack.Screen
+        name={NEW_MOSQUE_ADDITION}
+        component={NewMosqueAddedNoti}
+        options={{title: 'New Mosque'}}
+      />
+
+{/* //Go to no where when Namaz alert notifiation clicked  */}
+{/* <HomeStack.Screen
+        name={NAMAZ_ALERT_NOTIFICATION}
+        component={ImamConsensusNoti}
+        options={{title: 'Imam Consensus'}}
+      /> */}
 
     <HomeStack.Screen
         name={MAKE_ANNOUNCEMENT_SCREEN}

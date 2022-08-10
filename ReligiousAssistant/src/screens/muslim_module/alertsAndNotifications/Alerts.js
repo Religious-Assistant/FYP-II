@@ -33,6 +33,8 @@ import {
   selectMuslimNotifications,
 } from '../../../redux/slices/muslim_module_slices/muslimNotificationSlice';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+import CATEGORIES from '../UIConstants';
+import { IMAM_CONSENSUS, MOSQUE_CONSENSUS, MUSLIM_ANNOUNCEMENTS, NEW_MOSQUE_ADDITION } from '../../../navigation/constants';
 
 export default function Alerts({navigation}) {
   const dispatch = useDispatch();
@@ -112,7 +114,31 @@ export default function Alerts({navigation}) {
 
 const ListItem = props => {
   const notification = props.item.item;
+  const navigator=useNavigation()
 
+  const gotoRespectiveScreen=(category)=>{
+    
+    if(category==CATEGORIES.EID_NAMAZ){
+      navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
+    }
+    else if(category==CATEGORIES.OTHER){
+        navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
+    }
+    else if(category===CATEGORIES.NEW_MOSQUE_ADDITION){
+      navigator.navigate(NEW_MOSQUE_ADDITION)
+    }
+    else if(category===CATEGORIES.MOSQUE_CONSENSUS){
+      navigator.navigate(MOSQUE_CONSENSUS)  
+    }
+    //Go to no where when Namaz Alert Notification clicked
+    else if(category===CATEGORIES.NAMAZ_ALERT){
+        
+    }
+    else if(category===CATEGORIES.IMAM_CONSENSUS){
+      navigator.navigate(IMAM_CONSENSUS)  
+    }
+
+  }
   const rightSwipe = (progress, dragX) => {
     return (
       <TouchableOpacity
@@ -127,7 +153,9 @@ const ListItem = props => {
   return (
     <GestureHandlerRootView>
       <Swipeable renderRightActions={rightSwipe} key={notification._id}>
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={()=>{
+          gotoRespectiveScreen(notification.category)
+        }}>
           <Image
             source={{uri: notification.icon}}
             style={styles.avatar}
@@ -146,7 +174,7 @@ const ListItem = props => {
               <Text numberOfLines={2}>{notification.description}</Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Swipeable>
     </GestureHandlerRootView>
   );
