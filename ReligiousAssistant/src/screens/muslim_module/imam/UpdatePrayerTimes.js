@@ -40,7 +40,7 @@ export default function UpdatePrayerTimes() {
       let fTime = tempDate.toLocaleTimeString();
       //let fTime = tempDate.getHours() + ':' + tempDate.getMinutes();
       setText(fTime);
-      console.log(fTime);
+      //console.log(fTime);
     };
     const showMode = currentMode => {
       setShow(true);
@@ -55,62 +55,103 @@ export default function UpdatePrayerTimes() {
       mode,
     };
   }
-  const fajr = useInput(new Date());
-  const duhr = useInput(new Date());
-  const asr = useInput(new Date());
-  const maghrib = useInput(new Date());
-  const isha = useInput(new Date());
+  const fajrStartTime = useInput(new Date());
+  const fajrEndTime = useInput(new Date());
+  
+  const duhrStartTime = useInput(new Date());
+  const duhrEndTime = useInput(new Date());
+
+  const asrStartTime = useInput(new Date());
+  const asrEndTime = useInput(new Date());
+
+  const maghribStartTime = useInput(new Date());
+  const maghribEndTime = useInput(new Date());
+
+  const ishaStartTime = useInput(new Date());
+  const ishaEndTime = useInput(new Date());
 
   const data = [
     {
       key: 1,
       label: 'Fajr',
-      defaultTime: '5:00 am',
-      updatedTime: fajr.text,
-      showMode: () => fajr.showMode('time'),
-      show: fajr.show,
-      mode: fajr.mode,
-      onChange: fajr.onChange,
+      defaultStartTime: '4:30:00 am',
+      defaultEndTime: '5:30:00 am',
+      updatedStartTime: fajrStartTime.text,
+      updatedEndTime: fajrEndTime.text,
+      startShowMode: () => fajrStartTime.showMode('time'),
+      endShowMode: () => fajrEndTime.showMode('time'),
+      startShow: fajrStartTime.show,
+      endShow: fajrEndTime.show,
+      startMode: fajrStartTime.mode,
+      endMode: fajrEndTime.mode,
+      onChangeStart: fajrStartTime.onChange,
+      onChangeEnd: fajrEndTime.onChange,
     },
     {
       key: 2,
       label: 'Duhr',
-      defaultTime: '2:00 pm',
-      updatedTime: duhr.text,
-      showMode: () => duhr.showMode('time'),
-      show: duhr.show,
-      mode: duhr.mode,
-      onChange: duhr.onChange,
+      defaultStartTime: '2:00:00 pm',
+      defaultEndTime: '3:00:00 pm',
+      updatedStartTime: duhrStartTime.text,
+      updatedEndTime: duhrEndTime.text,
+      startShowMode: () => duhrStartTime.showMode('time'),
+      endShowMode: () => duhrEndTime.showMode('time'),
+      startShow: duhrStartTime.show,
+      endShow: duhrEndTime.show,
+      startMode: duhrStartTime.mode,
+      endMode: duhrEndTime.mode,
+      onChangeStart: duhrStartTime.onChange,
+      onChangeEnd: duhrEndTime.onChange,
     },
     {
       key: 3,
       label: 'Asr',
-      defaultTime: '5:00 pm',
-      updatedTime: asr.text,
-      showMode: () => asr.showMode('time'),
-      show: asr.show,
-      mode: asr.mode,
-      onChange: asr.onChange,
+      defaultStartTime: '5:00:00 pm',
+      defaultEndTime: '5:45:00 pm',
+      updatedStartTime: asrStartTime.text,
+      updatedEndTime: asrEndTime.text,
+      startShowMode: () => asrStartTime.showMode('time'),
+      endShowMode: () => asrEndTime.showMode('time'),
+      startShow: asrStartTime.show,
+      endShow: asrEndTime.show,
+      startMode: asrStartTime.mode,
+      endMode: asrEndTime.mode,
+      onChangeStart: asrStartTime.onChange,
+      onChangeEnd: asrEndTime.onChange,
     },
+    
     {
       key: 4,
       label: 'Maghrib',
-      defaultTime: '7:00 pm',
-      updatedTime: maghrib.text,
-      showMode: () => maghrib.showMode('time'),
-      show: maghrib.show,
-      mode: maghrib.mode,
-      onChange: maghrib.onChange,
+      defaultStartTime: '7:00:00 pm',
+      defaultEndTime: '8:45:00 pm',
+      updatedStartTime: maghribStartTime.text,
+      updatedEndTime: maghribEndTime.text,
+      startShowMode: () => maghribStartTime.showMode('time'),
+      endShowMode: () => maghribEndTime.showMode('time'),
+      startShow: maghribStartTime.show,
+      endShow: maghribEndTime.show,
+      startMode: maghribStartTime.mode,
+      endMode: maghribEndTime.mode,
+      onChangeStart: maghribStartTime.onChange,
+      onChangeEnd: maghribEndTime.onChange,
     },
+    
     {
       key: 5,
       label: 'Isha',
-      defaultTime: '9:00 pm',
-      updatedTime: isha.text,
-      showMode: () => isha.showMode('time'),
-      show: isha.show,
-      mode: isha.mode,
-      onChange: isha.onChange,
+      defaultStartTime: '9:00:00 pm',
+      defaultEndTime: '12:00:00 pm',
+      updatedStartTime: ishaStartTime.text,
+      updatedEndTime: ishaEndTime.text,
+      startShowMode: () => ishaStartTime.showMode('time'),
+      endShowMode: () => ishaEndTime.showMode('time'),
+      startShow: ishaStartTime.show,
+      endShow: ishaEndTime.show,
+      startMode: ishaStartTime.mode,
+      endMode: ishaEndTime.mode,
+      onChangeStart: ishaStartTime.onChange,
+      onChangeEnd: ishaEndTime.onChange,
     },
   ];
   return (
@@ -182,22 +223,54 @@ export default function UpdatePrayerTimes() {
                           elevation: 0.0,
                         }}>
                         <Text style={styles.label}>{itm.label}</Text>
-                        <Text style={styles.secondHeading}>
-                          {itm.updatedTime ? itm.updatedTime : itm.defaultTime}
-                        </Text>
-                        <MaterialCommunityIcons
-                          name="clock-edit"
-                          size={36}
-                          color={colors.primary}
-                          onPress={itm.showMode}
-                        />
-                        {itm.show && (
+                        <View>
+                          <MaterialCommunityIcons
+                            name="clock-edit"
+                            size={36}
+                            color={colors.primary}
+                            onPress={itm.startShowMode}
+                            style={{alignSelf: 'center'}}
+                          />
+                          <Text style={styles.info}>Start Time</Text>
+
+                          <Text style={styles.secondHeading}>
+                            {itm.updatedStartTime
+                              ? itm.updatedStartTime
+                              : itm.defaultStartTime}
+                          </Text>
+                        </View>
+                        {itm.startShow && (
                           <DateTimePicker
                             value={new Date()}
-                            mode={itm.mode}
+                            mode={itm.startMode}
                             is24Hour={false}
                             display="default"
-                            onChange={itm.onChange}
+                            onChange={itm.onChangeStart}
+                          />
+                        )}
+                        <View style={{justifyContent: 'center'}}>
+                          <MaterialCommunityIcons
+                            name="clock-edit"
+                            size={36}
+                            color={colors.primary}
+                            onPress={itm.endShowMode}
+                            style={{alignSelf: 'center'}}
+                          />
+                          <Text style={styles.info}>End Time</Text>
+
+                          <Text style={styles.secondHeading}>
+                            {itm.updatedEndTime
+                              ? itm.updatedEndTime
+                              : itm.defaultEndTime}
+                          </Text>
+                        </View>
+                        {itm.endShow && (
+                          <DateTimePicker
+                            value={new Date()}
+                            mode={itm.endMode}
+                            is24Hour={false}
+                            display="default"
+                            onChange={itm.onChangeEnd}
                           />
                         )}
                       </Card>
@@ -211,18 +284,12 @@ export default function UpdatePrayerTimes() {
                   title={'Update Namaz Times'}
                   mt="5%"
                   onPress={() => {
-                    console.log(
-                      'Fajr:',
-                      fajr.text,
-                      ' Duhr:',
-                      duhr.text,
-                      ' Asr:',
-                      asr.text,
-                      ' Maghrib:',
-                      maghrib.text,
-                      ' Isha:',
-                      isha.text,
-                    );
+                    console.log("Fajr: ",fajrStartTime.text," ",fajrEndTime.text );
+                    
+                    console.log("Duhr: ",duhrStartTime.text," ",duhrEndTime.text );
+                    console.log("Asr: ",asrStartTime.text," ",asrEndTime.text );
+                    console.log("Maghrib: ",maghribStartTime.text," ",maghribEndTime.text );
+                    console.log("Isha: ",ishaStartTime.text," ",ishaEndTime.text );
                   }}
                 />
               </VStack>
@@ -251,8 +318,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: fonts.Signika.regular,
-    fontSize: 20,
-    marginTop: '3%',
+    fontSize: 23,
+    marginTop: '10%',
     padding: 5,
     color: colors.tertiary,
   },
@@ -267,15 +334,17 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
     fontSize: 19,
     padding: 5,
-    marginTop: '3%',
     color: colors.info,
+    alignSelf: 'center',
   },
 
   info: {
     fontFamily: fonts.Signika.regular,
-    fontSize: 15,
+    fontSize: 13,
     padding: 5,
     marginTop: '-4%',
+    marginBottom: '-10%',
     color: colors.primary,
+    alignSelf: 'center',
   },
 });
