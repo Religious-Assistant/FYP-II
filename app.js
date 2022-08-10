@@ -39,11 +39,13 @@ cloudinary.config({
 });
     
 
-//routes
+//common routes
 const user_routes=require('./routes/common_routes/userRoute');
+
+//Muslim routes
 const tasbih_routes = require('./routes/muslim_user_routes/tasbihRoute')
 const mosque_routes=require('./routes/muslim_user_routes/mosqueRoute')
-const temple_routes=require('./routes/hindu_user_routes/templeRoute')
+const muslim_notification_route=require('./routes/muslim_user_routes/muslimNotificationRoute')
 const muslim_user_announcement_route=require('./routes/muslim_user_routes/muslimAnnouncementRoute')
 const namaz_accountability_route=require('./routes/muslim_user_routes/namazAccountabilityRoute')
 const fast_accountability_route=require('./routes/muslim_user_routes/fastAccountabilityRoute')
@@ -53,10 +55,17 @@ const recite_quran_route=require('./routes/muslim_user_routes/reciteQuranRoute')
 const muslim_pref_route=require('./routes/muslim_user_routes/muslimUserPreferenceRoute')
 const quranInfo_route=require('./routes/muslim_user_routes/quranInfoRoute')
 
+//Hindu routes
+const temple_routes=require('./routes/hindu_user_routes/templeRoute')
+
+
+
+//Common endpoints
 app.use('/api', user_routes)
+
+//Muslim endpoints
 app.use('/api', tasbih_routes)
 app.use('/api', mosque_routes)
-app.use('/api', temple_routes)
 app.use('/api', muslim_user_announcement_route)
 app.use('/api', namaz_accountability_route)
 app.use('/api', fast_accountability_route)
@@ -65,7 +74,10 @@ app.use('/api', imam_route)
 app.use('/api', recite_quran_route)
 app.use('/api', muslim_pref_route)
 app.use('/api', quranInfo_route)
+app.use('/api', muslim_notification_route)
 
+//Hindu endpoints
+app.use('/api', temple_routes)
 
 // FCM: Notification configuration
 

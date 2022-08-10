@@ -1,6 +1,8 @@
 const Announcement = require("../../models/muslim_user_models/muslimAnnouncementModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const User = require("../../models/common_models/userModel");
+const MuslimNotification = require("../../models/muslim_user_models/muslimUserNotificationModel");
+
 const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 
 const {
@@ -8,7 +10,7 @@ const {
   notifyUsers,
   getProfileImage,
 } = require("../utils/utils");
-const { ANNOUNCEMENT_CHANNEL_ID } = require("../utils/constants");
+const { ANNOUNCEMENT_CHANNEL_ID, appLogo } = require("../utils/constants");
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
@@ -47,24 +49,88 @@ const makeAnnouncement = async (req, res) => {
           //We could send to only those who has subscribed to announcement notfs in preferences
 
           //Get only device tokens that are targeted i.e within range
-          let recepients = receivers.filter((receiver) =>{
-            if(receiver.username!==announcedBy){
-              targetAudience.includes(receiver.username)
-            }
-          }
-          );
-          const totalReceivers = await notifyUsers(
-            title,
-            body,
-            recepients,
-            ANNOUNCEMENT_CHANNEL_ID,
-            newAnnouncement.avatar
-          );
-
-          res.status(200).send({
-            success: true,
-            msg: `Announcement sent to ${totalReceivers} people around your location`,
+          let recepients = receivers.filter((receiver) => {
+            // if (receiver.username !== announcedBy) {
+            return targetAudience.includes(receiver.username);
+            // }
           });
+
+          const createOne = (one_receiver) => {
+            return new Promise((resolve, reject) => {
+              MuslimNotification.create({
+                title: title,
+                description: statement,
+                receivedBy: one_receiver.username,
+                category: category,
+              })
+                .then((data) => {
+                  resolve(data);
+                })
+                .catch((error) => {
+                  reject(null);
+                });
+            })
+              .then((data) => {
+                resolve(data);
+              })
+              .catch((error) => {
+                reject(null);
+              });
+          };
+
+          const createNotificationEntry = (muslim_receivers) => {
+            return new Promise((resolve, reject) => {
+              let promises = muslim_receivers.map(createOne);
+              let results = Promise.all(promises);
+              results
+                .then((data) => {
+                  resolve(data);
+                })
+                .catch((error) => {
+                  reject(null);
+                });
+            })
+              .then((data) => {
+                resolve(data);
+              })
+              .catch((error) => {
+                reject(null);
+              });
+          };
+
+          const muslimNotificationData = new Promise((resolve, reject) => {
+            createNotificationEntry(recepients)
+              .then((response) => {
+                resolve(response);
+              })
+              .catch((error) => {
+                resolve(null);
+              });
+          });
+
+          muslimNotificationData
+            .then(async (data) => {
+              console.log("Created notifiction record");
+              const totalReceivers = await notifyUsers(
+                title,
+                body,
+                recepients,
+                ANNOUNCEMENT_CHANNEL_ID,
+                newAnnouncement.avatar
+              );
+
+              console.log(`Announced successfully`);
+
+              res.status(200).send({
+                success: true,
+                msg: `Announcement sent to ${totalReceivers} people around your location`,
+              });
+            })
+            .catch((error) => {
+              res
+                .status(400)
+                .send({ msg: "Could not notify users", success: false });
+            });
         } else {
           console.log("Could not created");
           res
@@ -89,13 +155,11 @@ const getAllAnnouncements = async (req, res) => {
   try {
     const { username } = req.body;
     let announcements = await Announcement.find({ targetAudience: username });
-    res
-      .status(200)
-      .send({
-        msg: "Here are All Announcements",
-        success: true,
-        data: announcements,
-      });
+    res.status(200).send({
+      msg: "Here are All Announcements",
+      success: true,
+      data: announcements,
+    });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -129,29 +193,26 @@ const deleteAnnouncement = async (req, res) => {
   }
 };
 
-
 //For development
 
 const deleteAllAnnouncements = async (req, res) => {
-    console.log("Delete All Announcements API hit");
-  
-    try {
-  
-      await Announcement.deleteMany()
-  
-      res.status(200).send({
-        msg: "Announcements Deleted Successfully",
-        success: true,
-      });
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  };
-  
-  
+  console.log("Delete All Announcements API hit");
+
+  try {
+    await Announcement.deleteMany();
+
+    res.status(200).send({
+      msg: "Announcements Deleted Successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   makeAnnouncement,
   getAllAnnouncements,
   deleteAnnouncement,
-  deleteAllAnnouncements
+  deleteAllAnnouncements,
 };

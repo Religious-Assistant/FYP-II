@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { appLogo } = require("../../controllers/utils/constants");
 
 const notificationSchema = mongoose.Schema(
   {
@@ -20,11 +21,11 @@ const notificationSchema = mongoose.Schema(
         "MOSQUE_CONSENSUS",
         "IMAM_CONSENSUS",
         "SETTINGS_CHANGED",
+        "OTHER"
       ],
       required: true,
     },
     receivedBy: {
-      //username here
       type: String,
       required: true,
     },
@@ -32,8 +33,12 @@ const notificationSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    icon:{
+      type:String,
+      default:appLogo
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Notification", notificationSchema);
+module.exports = mongoose.model("MuslimNotification", notificationSchema);
