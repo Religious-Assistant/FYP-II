@@ -100,6 +100,7 @@ export default function Settings({route, navigation}) {
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
 
   //when tab is focused in MuslimBottomTab.js, this will be called
+
   useEffect(() => {
     dispatch(getUserData());
     if (user?.avatar) {
