@@ -4,48 +4,73 @@
  */
 
 import {View, Text, Image} from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import moment from 'moment'
-import moment_hijri from 'moment-hijri'
-import { useDispatch, useSelector } from 'react-redux';
-import { selectHasError, selectIsLoading, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import moment from 'moment';
+import moment_hijri from 'moment-hijri';
+import Geocoder from 'react-native-geocoding';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  selectHasError,
+  selectIsLoading,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
+Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
 // https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
+  const token = useSelector(selectUserData);
 
-  const token=useSelector(selectUserData)
+  const [islamicDate, setIslamicDate] = useState('');
+  let m = moment_hijri('1443/11/20', 'iYYYY/iMM/iD'); // Parse a Hijri date.
+  const [reg, setReg] = useState();
+  const [location, setLocation] = useState(null);
+  const [currentTime, setCurrentTime] = useState({
+    time: moment().format('LTS'),
+    islamicDatem: m.format('iYYYY/iM/iD'),
+    engDate: moment().format('D MMM, y'),
+  });
 
-  let m = moment_hijri("1443/11/19", "iYYYY/iMM/iD"); // Parse a Hijri date.
+  useEffect(() => {
+    setIslamicDate(
+      new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
+        day: 'numeric',
+        month: 'long',
+        weekday: 'long',
+        year: 'numeric',
+      }).format(Date.now()),
+    );
+    {
+      token
+        ? Geocoder.from(
+            token.location.coordinates[1],
+            token.location.coordinates[0],
+          )
+            .then(json => {
+              var addressComponent = json.results[0].address_components;
+              //setReg({address: addressComponent});
+              setLocation(addressComponent[1].long_name);
+            })
 
-  const[currentTime,setCurrentTime]=useState(
-      {
-        time:moment().format('LTS'),
-        islamicDatem:  m.format("iYYYY/iM/iD"),
-        engDate:moment().format("D MMM, y")
-      }
-    )
-
-  useEffect(()=>{
-
-    const timerId=setInterval(()=>{
-      setCurrentTime(
-        {
-          time:moment().format('LTS'),
-          islamicDate:m.format("iYYYY/iM/iD"),
-          engDate:moment().format("D MMM, y")
-        }
-      )
-    },1000)
+            .catch(error => console.warn(error))
+        :"";
+    }
+    const timerId = setInterval(() => {
+      setCurrentTime({
+        time: moment().format('LTS'),
+        islamicDate: m.format('iYYYY/iM/iD'),
+        engDate: moment().format('D MMM, y'),
+      });
+    }, 1000);
     // return clearInterval(timerId)
-  },[])
+  }, []);
 
   return (
-      <View  style={styles.container}>
-      <View style={[styles.subContainer1, {flex:token?0.4:0.6}]}>
+    <View style={styles.container}>
+      <View style={[styles.subContainer1, {flex: token ? 0.4 : 0.6}]}>
         <View style={styles.infoContainer}>
           <Image
             source={require('../../../../assets/images/time_ic.png')}
@@ -55,8 +80,8 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={[styles.namazInfoText, {color: colors.white}]}>   
-          {currentTime.time}
+          <Text style={[styles.namazInfoText, {color: colors.white}]}>
+            {currentTime.time}
           </Text>
         </View>
 
@@ -85,8 +110,8 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-            {/* 19 Ramdan, 1443 */}
-          <Text style={styles.dateInfo}>{currentTime.islamicDate}</Text>
+          {/* 19 Ramdan, 1443 */}
+          <Text style={styles.dateInfo}>{islamicDate}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
@@ -98,22 +123,28 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={styles.dateInfo}>{moment().format("MMMM Do, YYYY")}</Text>
+          <Text style={styles.dateInfo}>
+            {moment().format('MMMM Do, YYYY')}
+          </Text>
         </View>
 
-            {
-              token?<View style={styles.infoContainer} mt={2}>
-              <Image
-                source={require('../../../../assets/images/location_ic.png')}
-                style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: 'white',
-                }}
-                alt="Icon"></Image>
-              <Text style={styles.dateInfo}>Sukkur Sindh, Pakistan</Text>
-            </View>:<></>
-            }
+        {token ? (
+          <View style={styles.infoContainer} mt={2}>
+            <Image
+              source={require('../../../../assets/images/location_ic.png')}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: 'white',
+              }}
+              alt="Icon"></Image>
+            <Text style={styles.dateInfo}>
+              {location ? location : 'No location set'}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );
