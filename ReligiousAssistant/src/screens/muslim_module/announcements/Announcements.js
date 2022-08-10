@@ -47,7 +47,7 @@ import {
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
-import { dateDifference } from './helpers';
+import { dateDifference } from '../../../utils/helpers';
 
 
 //Screen dimensions

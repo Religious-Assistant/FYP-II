@@ -13,7 +13,7 @@ import {
 } from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {dateDifference} from '../announcements/helpers';
+import {dateDifference} from '../../../utils/helpers'
 
 export default function AnnouncementNoti({route, navigation}) {
   const {announcement} = route.params;

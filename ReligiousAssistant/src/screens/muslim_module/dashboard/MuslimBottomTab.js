@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -16,6 +16,9 @@ import Home from './Home';
 import Alerts from '../alertsAndNotifications/Alerts';
 import { FIND_MOSQUE, MUSLIM_ALERTS, MUSLIM_HOME, MUSLIM_PRAYERS, MUSLIM_SETTINGS } from '../../../navigation/constants';
 import colors from '../../../theme/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMuslimNotifications } from '../../../redux/slices/muslim_module_slices/muslimNotificationSlice';
+import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -49,6 +52,14 @@ export default function MuslimBottomTab() {
 
   const [showBadge, setShowBadge]=useState(true)
 
+  const dispatch=useDispatch()
+  const notifications=useSelector(selectMuslimNotifications)
+  const user=useSelector(selectUserData)
+  
+  useEffect(()=>{
+    dispatch(getUserData())
+  },[])
+  
   return (
     <>
       <BottomTab.Navigator
@@ -108,10 +119,9 @@ export default function MuslimBottomTab() {
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
-            tabBarBadge:100,
+            tabBarBadge:notifications?notifications.length:null,
             tabBarBadgeStyle:{color:colors.primary, backgroundColor:colors.secondary, marginTop:15},
             tabBarIcon: ({focused}) => {
-              setShowBadge(false)
               return(
               <View
                 style={{

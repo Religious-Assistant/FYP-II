@@ -28,7 +28,7 @@ export default function CustomBox(props) {
 
   
   return (
-    <Box bg={colors.cover} p="3" mt={props.mt} ref={myRef}>
+    <Box bg={colors.cover} p="3" mt={props.mt} ref={myRef} mb={props.mb}>
       <View
         style={{
           flexDirection: 'row',

@@ -46,7 +46,6 @@ async function onMessageReceived(message) {
           pressAction:{
             id:"open",
             launchActivity:"default",
-            launchActivityFlags:[AndroidLaunchActivityFlag.SINGLE_TOP]
           } 
         }
       ]

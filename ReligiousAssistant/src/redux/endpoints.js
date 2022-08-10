@@ -59,6 +59,12 @@ const add_temple='add-temple'
 const get_learn_namaz_progress='get-learn-namaz-progress'
 const update_learn_namaz_progress='update-learn-namaz-progress'
 
+
+//Notifications
+
+const get_user_notifications='get-user-notifications'
+const delete_muslim_notification='delete-muslim-notification'
+
 //Imam
 const become_imam='become-imam'
 
@@ -120,5 +126,7 @@ export {
     add_temple,
     update_namaz_notifications_setting,
     update_accountability_notifications_setting,
-    get_tasbih_count
+    get_tasbih_count,
+    get_user_notifications,
+    delete_muslim_notification
 }

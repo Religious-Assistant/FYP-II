@@ -33,13 +33,14 @@ export default function MakeAnnouncement() {
 
   function announce(values) {
     if (user) {
+      console.log(user)
       dispatch(
         makeAnnouncement({
           announcedBy: user.username,
           statement: values.description,
           category: values.category,
-          longitude:68.8228,          //this shoud come from user.pref.location.longitude
-          latitude:27.7244,
+          longitude:user.location?.coordinates[0],          //this shoud come from user.pref.location.longitude
+          latitude:user.location?.coordinates[1],
           avatar:user.avatar          //Url of image, may cause problem on Heroku
         }),
       );

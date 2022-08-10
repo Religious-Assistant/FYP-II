@@ -5,11 +5,5 @@ export const dateDifference = (createdAt) => {
     let diff = (dt2.getTime() - dt1.getTime()) / 1000;
     diff /= 60;
 
-    let years=0;
-    let days=0;
-    let months=0;
-    let hours=0
-    let mins=0;
-
     return Math.abs(Math.round(diff));
   };

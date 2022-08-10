@@ -161,7 +161,8 @@ export default function FindMosque() {
 
                   return(
                     <CustomBox
-                    mt={'10%'}
+                    mt={'5%'}
+                    mb={index==closesMosques.length-1?"15%":"0%"}
                     text={mosque.mosqueName}
                     distance={Math.round((mosque.dist.calculated/1000 + Number.EPSILON) * 100) / 100+" KM "}
                     onPress={()=>{getDirections(mosque.location.coordinates)}}
