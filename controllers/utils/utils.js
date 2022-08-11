@@ -67,11 +67,12 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
 }
 
 
-const saveNotificationForMuslimUser=(recepients,title,statement,category)=>{
+const saveNotificationForMuslimUser=(recepients,title,statement,category, notifictionId)=>{
 
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       MuslimNotification.create({
+        _id:notifictionId,
         title: title,
         description: statement,
         receivedBy: one_receiver.username,

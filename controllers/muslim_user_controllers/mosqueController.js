@@ -19,6 +19,21 @@ const getAllMosques = async (req, res) => {
   }
 };
 
+const getMosqueById = async (req, res) => {
+  console.log("Get Mosque By ID API Hit");
+  try {
+    const {mosqueId}=req.body
+    const mosque = await Mosque.findOne({_id:mosqueId});
+    if (mosque ) {
+      res.status(200).send({ success: true, data: mosque });
+    } else {
+      res.status(200).send({ msg: "Could not find Mosque", success: false });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const getClosestMosques = async (req, res) => {
   console.log("Find closest Mosques API hit");
 
@@ -116,7 +131,7 @@ const addMosque = async (req, res) => {
 
           //TODO: Should return only Muslim users
           const recepients=await getNotificationReceivers(peopleAround,1)
-          saveNotificationForMuslimUser(recepients, title, body,MOSQUE_CONSENSUS).then(async (data) => {
+          saveNotificationForMuslimUser(recepients, title, body,MOSQUE_CONSENSUS, newMosqueData._id).then(async (data) => {
 
             const totalReceivers = await notifyUsers(
               title,
@@ -157,4 +172,5 @@ module.exports = {
   addMosque,
   getClosestMosques,
   getUnverifiedMosquesAroundUser,
+  getMosqueById
 };
