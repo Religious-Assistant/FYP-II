@@ -9,6 +9,16 @@ const ANNOUNCEMENT_CHANNEL_ID = 1;
 const NAMAZ_CHANNEL_ID = 2;
 const ADD_NEW_MOSQUE_CHANNEL_ID = 3;
 
+
+//Categories: Synced with Frotnend
+const EID_NAMAZ='EID_NAMAZ'   //Alread received in request
+const OTHER='OTHER'           //Alread received in request
+
+const NAMAZ_ALERT='NAMAZ_ALERT' //Not received in request, therefore defined here
+const MOSQUE_CONSENSUS='MOSQUE_CONSENSUS' //Not received in request, therefore defined here
+const IMAM_CONSENSUS='IMAM_CONSENSUS' //Not received in request, therefore defined here
+const NEW_MOSQUE_ADDITION='NEW_MOSQUE_ADDITION' //Not received in request, therefore defined here
+
 module.exports = {
   directoryPath,
   defaultAvatar,
@@ -18,5 +28,10 @@ module.exports = {
   TOKEN_EXPIRE,
   ANNOUNCEMENT_CHANNEL_ID,
   NAMAZ_CHANNEL_ID,
-  ADD_NEW_MOSQUE_CHANNEL_ID
+  ADD_NEW_MOSQUE_CHANNEL_ID,
+
+  MOSQUE_CONSENSUS,
+  NEW_MOSQUE_ADDITION,
+  IMAM_CONSENSUS,
+  NAMAZ_ALERT,
 };

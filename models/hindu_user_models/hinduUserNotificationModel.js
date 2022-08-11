@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { appLogo } = require("../../controllers/utils/constants");
 
 const notificationSchema = mongoose.Schema(
   {
@@ -16,7 +17,6 @@ const notificationSchema = mongoose.Schema(
         "NEW_ANNOUNCEMENT",
         "TEMPLE_ADDED",
         "TEMPLE_CONSENSUS",
-        "SETTINGS_CHANGED",
       ],
       required: true,
     },
@@ -30,8 +30,12 @@ const notificationSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    icon:{
+      type:String,
+      default:appLogo
+    }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Notification", notificationSchema);
+module.exports = mongoose.model("HinduNotification", notificationSchema);

@@ -8,7 +8,8 @@ const MuslimPreference = require("../../models/muslim_user_models/muslimUserPref
 const {
   findNearByPeople,
   notifyUsers,
-  getProfileImage,
+  saveNotificationForMuslimUser,
+  getNotificationReceivers,
 } = require("../utils/utils");
 const { ANNOUNCEMENT_CHANNEL_ID, appLogo } = require("../utils/constants");
 
@@ -45,72 +46,12 @@ const makeAnnouncement = async (req, res) => {
         if (newAnnouncement) {
           const title = `New Announcement by ${announcedBy.toUpperCase()}`;
           const body = `${statement}`;
-          const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 }); //Only username,deviceToken are returned
-          //We could send to only those who has subscribed to announcement notfs in preferences
 
-          //Get only device tokens that are targeted i.e within range
-          let recepients = receivers.filter((receiver) => {
-            // if (receiver.username !== announcedBy) {
-            return targetAudience.includes(receiver.username);
-            // }
-          });
+          //Returns muslim users in range
+          const recepients=await getNotificationReceivers(targetAudience,1) 
 
-          const createOne = (one_receiver) => {
-            return new Promise((resolve, reject) => {
-              MuslimNotification.create({
-                title: title,
-                description: statement,
-                receivedBy: one_receiver.username,
-                category: category,
-              })
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  reject(null);
-                });
-            })
-              .then((data) => {
-                resolve(data);
-              })
-              .catch((error) => {
-                reject(null);
-              });
-          };
-
-          const createNotificationEntry = (muslim_receivers) => {
-            return new Promise((resolve, reject) => {
-              let promises = muslim_receivers.map(createOne);
-              let results = Promise.all(promises);
-              results
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  reject(null);
-                });
-            })
-              .then((data) => {
-                resolve(data);
-              })
-              .catch((error) => {
-                reject(null);
-              });
-          };
-
-          const muslimNotificationData = new Promise((resolve, reject) => {
-            createNotificationEntry(recepients)
-              .then((response) => {
-                resolve(response);
-              })
-              .catch((error) => {
-                resolve(null);
-              });
-          });
-
-          muslimNotificationData
-            .then(async (data) => {
-              console.log("Created notifiction record");
+          saveNotificationForMuslimUser(recepients, title, statement,category).then(async (data) => {
+              console.log("Created notifiction record for Muslim");
               const totalReceivers = await notifyUsers(
                 title,
                 body,
@@ -118,8 +59,6 @@ const makeAnnouncement = async (req, res) => {
                 ANNOUNCEMENT_CHANNEL_ID,
                 newAnnouncement.avatar
               );
-
-              console.log(`Announced successfully`);
 
               res.status(200).send({
                 success: true,

@@ -18,7 +18,6 @@ const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 const {
   hashPassword,
   createToken,
-  getProfileImage,
 } = require("../utils/utils");
 
 const {
