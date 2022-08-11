@@ -16,7 +16,6 @@ import {Provider} from 'react-redux';
 //Notifee
 import notifee, {EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
-import UpdatePrayerTimes from './src/screens/muslim_module/imam/UpdatePrayerTimes'
 async function onMessageReceived(message) {
   const data = await JSON.parse(message.data.notification);
 

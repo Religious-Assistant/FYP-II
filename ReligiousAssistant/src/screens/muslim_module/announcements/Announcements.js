@@ -48,13 +48,16 @@ import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
 import { dateDifference } from '../../../utils/helpers';
-
+import { checkConnected } from '../../common/CheckConnection';
+import NoConnectionScreen from '../../common/NoConnectionScreen';  
+  
 
 //Screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
 export default function Announcements() {
+  
+const [connectStatus, setConnectStatus] = useState(false);
   const dispatch = useDispatch();
 
   let announcements = useSelector(selectAnnouncements);
@@ -63,6 +66,9 @@ export default function Announcements() {
   const user = useSelector(selectUserData);
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
@@ -81,6 +87,7 @@ export default function Announcements() {
   };
 
   return (
+    connectStatus?(
     <>
       <View style={styles.root}>
         {isLoadingAnnouncements ? (
@@ -120,7 +127,13 @@ export default function Announcements() {
           <FabButton />
         </Center>
       </NativeBaseProvider>
-    </>
+    </>):(<NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />)
   );
 }
 
@@ -162,7 +175,7 @@ const ListItem = props => {
                 <Text style={styles.name}>
                   {announcement?.announcedBy.toUpperCase()}
                 </Text>
-                <Text style={styles.timeAgo}>{dateDifference(announcement?.createdAt)} mins ago</Text>
+                <Text style={styles.timeAgo}>{dateDifference(announcement?.createdAt)} ago</Text>
               </View>
               <Text numberOfLines={2}>{announcement.statement}</Text>
             </View>
