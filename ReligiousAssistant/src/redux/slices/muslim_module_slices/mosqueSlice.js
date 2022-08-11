@@ -1,16 +1,20 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiGET} from '../../../apis/apiService'
-import { add_mosque, get_all_mosques, get_closest_mosques, get_unverified_mosques_around_user } from '../../endpoints'
+import { add_mosque, get_all_mosques, get_closest_mosques, get_mosque_by_id, get_unverified_mosques_around_user } from '../../endpoints'
 
 const initialState = {
     allMosques:null,
     closestMosques:null,
     newMosque:null,    
     unerifiedMosques:null,
+    mosqueById:null,
 
     isLoadingAllMosques:false,
     hasErrorInGettingAllMosques:false,
     
+    isLoadingGetMosqueById:false,
+    hasErrorGetMosqueById:false,
+
     isLoadingClosestMosques:false,
     hasErrorInGettingClosestMosques:false,
     
@@ -55,12 +59,20 @@ export const addMosque = createAsyncThunk(
     }
 )
 
+export const getMosqueById = createAsyncThunk(
+    'getMosqueById',
+    async (body)=>{
+       const result =  await apiPOST(get_mosque_by_id,body)   //body with required info
+       return result  
+    }
+)
 
 const mosqueSlice = createSlice({
     name:"mosque",
     initialState,
     reducers:{},
     extraReducers:{
+
         [getAllMosques.fulfilled]:(state,action)=>{
             state.hasErrorInGettingAllMosques=false
             state.isLoadingAllMosques=false
@@ -75,6 +87,22 @@ const mosqueSlice = createSlice({
         [getAllMosques.pending]:(state,action)=>{
             state.isLoadingAllMosques=true
             state.hasErrorInGettingAllMosques=false
+        },
+
+        [getMosqueById.fulfilled]:(state,action)=>{
+            state.hasErrorGetMosqueById=false
+            state.isLoadingGetMosqueById=false
+            state.mosqueById = action.payload.data
+            
+        },
+        [getMosqueById.rejected]:(state,action)=>{
+            state.isLoadingGetMosqueById=false
+            state.hasErrorGetMosqueById=true
+
+        },
+        [getMosqueById.pending]:(state,action)=>{
+            state.isLoadingGetMosqueById=true
+            state.hasErrorGetMosqueById=false
         },
         [getClosestMosques.fulfilled]:(state,action)=>{
             state.hasErrorInGettingClosestMosques=false
@@ -128,9 +156,13 @@ export const selectAllMosques=(state)=>state.mosque.allMosques
 export const selectClosestMosques=(state)=>state.mosque.closestMosques
 export const selectUnverifiedMosques=(state)=>state.mosque.unerifiedMosques
 export const selectNewAddedMosque=(state)=>state.mosque.newMosque
+export const selectMosqueById=(state)=>state.mosque.mosqueById
 
 export const selectIsLoadingAllMosques=(state)=>state.mosque.isLoadingAllMosques
 export const selectHasErrorInGettingAllMosques=(state)=>state.mosque.hasErrorInGettingAllMosques
+
+export const selectIsLoadingGetMosqueById=(state)=>state.mosque.isLoadingGetMosqueById
+export const selectHasErrorGetMosqueById=(state)=>state.mosque.hasErrorGetMosqueById
 
 export const selectIsLoadingClosestMosques=(state)=>state.mosque.isLoadingClosestMosques
 export const selectHasErrorInGettingClosestMosques=(state)=>state.mosque.hasErrorInGettingClosestMosques

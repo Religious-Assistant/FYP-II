@@ -116,7 +116,7 @@ const ListItem = props => {
   const notification = props.item.item;
   const navigator=useNavigation()
 
-  const gotoRespectiveScreen=(category)=>{
+  const gotoRespectiveScreen=(category, notificationId)=>{
     
     if(category==CATEGORIES.EID_NAMAZ){
       navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
@@ -128,7 +128,9 @@ const ListItem = props => {
       navigator.navigate(NEW_MOSQUE_ADDITION)
     }
     else if(category===CATEGORIES.MOSQUE_CONSENSUS){
-      navigator.navigate(MOSQUE_CONSENSUS)  
+      
+      navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:notificationId})  
+
     }
     //Go to no where when Namaz Alert Notification clicked
     else if(category===CATEGORIES.NAMAZ_ALERT){
@@ -154,7 +156,7 @@ const ListItem = props => {
     <GestureHandlerRootView>
       <Swipeable renderRightActions={rightSwipe} key={notification._id}>
         <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={()=>{
-          gotoRespectiveScreen(notification.category)
+          gotoRespectiveScreen(notification.category, notification._id)
         }}>
           <Image
             source={{uri: notification.icon}}
