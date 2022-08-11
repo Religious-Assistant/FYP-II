@@ -1,24 +1,28 @@
-const  MuslimNotification = require("../../models/muslim_user_models/muslimUserNotificationModel");
+const MuslimNotification = require("../../models/muslim_user_models/muslimUserNotificationModel");
 
-const getUserNotifications=async(req, res)=>{
+const getUserNotifications = async (req, res) => {
+  console.log(`GET NOTIFICATIONS API hit `);
+  try {
+    const { username } = req.body;
+    const result = await MuslimNotification.find({ receivedBy: username });
 
-  console.log(`GET NOTFS API hit`)
-  try{
-
-    const {username}=req.body
-    const result=await MuslimNotification.find({receivedBy:username})
-
-    if(result.length>0){
-      res.status(200).send({success:true,msg:`Fetched Notifications Successfully`, data:result})
+    if (result.length > 0) {
+      res
+        .status(200)
+        .send({
+          success: true,
+          msg: `Fetched Notifications Successfully`,
+          data: result,
+        });
+    } else {
+      res.status(200).send({ success: false, msg: `No Notification found` });
     }
-    else{
-      res.status(200).send({success:false,msg:`No Notification found`})
-    }
+  } catch (err) {
+    res
+      .status(400)
+      .send({ success: false, msg: "Could not load Notifications" });
   }
-  catch(err){
-    res.status(400).send({success:false,msg:'Could not load Notifications'})
-  }
-}
+};
 
 const deleteMuslimNotification = async (req, res) => {
   console.log("Delete Announcement API hit");
@@ -26,9 +30,14 @@ const deleteMuslimNotification = async (req, res) => {
   try {
     const { username, notificationId } = req.body;
 
-    await MuslimNotification.findOneAndDelete({ _id: notificationId, receivedBy: username });
+    await MuslimNotification.findOneAndDelete({
+      _id: notificationId,
+      receivedBy: username,
+    });
 
-    const notifictions = await MuslimNotification.find({ receivedBy: username });
+    const notifictions = await MuslimNotification.find({
+      receivedBy: username,
+    });
 
     res.status(200).send({
       msg: "Notification Deleted Successfully",
@@ -40,7 +49,7 @@ const deleteMuslimNotification = async (req, res) => {
   }
 };
 
-module.exports={
+module.exports = {
   getUserNotifications,
-  deleteMuslimNotification
-}
+  deleteMuslimNotification,
+};
