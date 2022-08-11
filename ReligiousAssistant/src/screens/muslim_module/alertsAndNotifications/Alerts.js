@@ -168,7 +168,7 @@ const ListItem = props => {
                   {notification?.title.toUpperCase()}
                 </Text>
                 <Text style={styles.timeAgo}>
-                  {dateDifference(notification?.createdAt)} mins ago
+                  {dateDifference(notification?.createdAt)} ago
                 </Text>
               </View>
               <Text numberOfLines={2}>{notification.description}</Text>
