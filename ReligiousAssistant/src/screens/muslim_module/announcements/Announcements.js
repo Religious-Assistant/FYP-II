@@ -72,7 +72,7 @@ const [connectStatus, setConnectStatus] = useState(false);
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-  }, []);
+  }, [connectStatus]);
 
   //Handle delete
   const handleDelete = item => {
