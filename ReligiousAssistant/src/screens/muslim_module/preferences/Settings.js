@@ -56,10 +56,12 @@ import {
   selectHasUpdatedNamazAccountabilityNotificationSettings,
   selectHasUpdatedNamazNotificationsSettings,
   selectIsUploadingProfileImage,
+  selectHasUpdatedPassword,
   updateAutoSilentSetting,
   updateNamazAccountabilityNotificationsSetting,
   updateNamazNotificationSettings,
   updateProfileImage,
+  updatePassword,
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -98,6 +100,8 @@ export default function Settings({route, navigation}) {
   );
 
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
+
+  const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
 
   //when tab is focused in MuslimBottomTab.js, this will be called
 
@@ -165,6 +169,18 @@ export default function Settings({route, navigation}) {
       });
   };
 
+  function updateUserPassword(state) {
+    dispatch(
+      updatePassword({
+        username: user.username,
+        state: state,
+      }),
+    );
+    if (hasUpdatedPassword) {
+      alert('Updated Password');
+    }
+  }
+
   function updateAccountabilityNotificarions(state) {
     dispatch(
       updateNamazAccountabilityNotificationsSetting({
@@ -202,6 +218,11 @@ export default function Settings({route, navigation}) {
   }
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
+
+  const [password, setPassword] = useState();
+  const handlePassword = text => {
+    setPassword(text);
+  };
 
   return (
     <View style={styles.container}>
@@ -596,7 +617,12 @@ export default function Settings({route, navigation}) {
                       _text={{fontFamily: fonts.Signika.medium}}>
                       New Password
                     </FormControl.Label>
-                    <Input type="password" />
+                    <Input
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChangeText={handlePassword}
+                    />
                   </FormControl>
                 ) : (
                   <SearchableDropdown
@@ -733,7 +759,8 @@ const CommonModal = props => {
               _text={{fontFamily: fonts.Signika.regular}}
               color={colors.white}
               colorScheme="yellow"
-              onPress={closeModal}>
+              onPress={closeModal}
+              type="submit">
               Save
             </Button>
           </Button.Group>

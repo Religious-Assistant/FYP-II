@@ -33,6 +33,9 @@ import asrImg from '../../../../assets/images/asr_game.png';
 import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
 
+import Loader from '../../common/Loader';
+import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
@@ -40,8 +43,22 @@ const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 import {useNavigation} from '@react-navigation/native';
 import {NAMAZ_PLAY_AREA} from '../../../navigation/constants';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 export default function LearnNamaz() {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const username=user.username;
+  const avatar = user.avatar;
+  //console.log(avatar)
+
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(getAnnouncements({username: user.username}));
+  //   }
+  // }, []);
+  
   const NAMAZ_TIMES = [
     {
       id: 1,
@@ -152,7 +169,7 @@ export default function LearnNamaz() {
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
               source={{
-                uri: 'https://bootdey.com/img/Content/avatar/avatar3.png',
+                uri: avatar,
               }}
               style={{
                 marginTop: '10%',
@@ -168,7 +185,7 @@ export default function LearnNamaz() {
           </View>
           <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
             <Heading color={colors.secondary} marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>Kinza </Text>
+              <Text style={{fontFamily: fonts.Signika.bold}}>{username} </Text>
             </Heading>
             <Heading color={colors.white}>
               <Text style={{fontFamily: fonts.Signika.bold}}>Level 1</Text>
