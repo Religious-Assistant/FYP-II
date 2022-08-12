@@ -18,7 +18,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
@@ -27,6 +27,7 @@ export default function Profile() {
   const user = useSelector(selectUserData);
   const [userData, setUserData] = useState();
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
       setUserData(user);

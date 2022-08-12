@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   ImageBackground,
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import {Center, VStack, FormControl, Button} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -32,13 +34,13 @@ import {
   OTP_VERIFICATION,
 } from '../../navigation/constants';
 
+import Geolocation from '@react-native-community/geolocation';
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../../redux/slices/auth_slices/authSlice';
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
-
 // const registerValidationSchema = yup.object().shape({
 //   username: yup.string(),
 //   password: yup.string(),
@@ -60,6 +62,41 @@ const registerValidationSchema = yup.object().shape({
 function RegisterScreen() {
   const navigator = useNavigation();
   const dispatch = useDispatch();
+  const [position, setPosition] = useState();
+  const AskPermission = async () => {
+
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use location")
+        return true;
+      } else {
+        console.log("permission denied")
+        return false;
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+}
+  useEffect(() => {
+    const res=AskPermission();
+    console.log("yes or no",res)
+    // if(res){
+    //     Geolocation.getCurrentPosition(pos => {
+    //   const crd = pos.coords;
+    //   setPosition({
+    //     latitude: crd.latitude,
+    //     longitude: crd.longitude,
+    //     latitudeDelta: 0.0421,
+    //     longitudeDelta: 0.0421,
+    //   });
+    // }).catch(err => {
+    //   console.log(err);
+    //  });}
+  }, []);
+  console.log(position);
 
   function signupHandler(values) {
     dispatch(registerUser(values));
