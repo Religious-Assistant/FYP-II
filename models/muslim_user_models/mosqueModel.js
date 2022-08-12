@@ -20,10 +20,7 @@ const mosqueSchema=mongoose.Schema({
         type:Boolean,
         default:false,
     },
-    totalReceivers:{
-        type:Number,
-        default:0
-    },
+    receivers:[],
     upVotes:{
         type:Number,
         default:0

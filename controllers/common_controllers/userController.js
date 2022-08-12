@@ -366,15 +366,24 @@ const updatePassword = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       const securePassword = await hashPassword(newPassword);
-      await User.updateOne(
+      const result=await User.updateOne(
         { username: username },
         { $set: { password: securePassword } }
       );
 
-      res.status(200).send({
-        success: true,
-        msg: "Password Updated Successfully!",
-      });
+      if(result.acknowledged){
+        res.status(200).send({
+          success: true,
+          msg: "Password Updated Successfully!",
+        });
+      }
+      else{
+        res.status(200).send({
+          success: false,
+          msg: "Could not update password",
+        });
+      }
+
     } else {
       res.status(400).send({ success: false, msg: "No such user" });
     }
