@@ -18,13 +18,14 @@ import fonts from '../../theme/fonts';
 
 import {REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../../navigation/constants';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ConnectAsGuest() {
 
   const navigator=useNavigation()
 
   function connectAsGuestHandler(values) {
-
+    
     const {religion}=values
 
     if(religion==1){
@@ -98,7 +99,7 @@ export default function ConnectAsGuest() {
             <BottomText
               text="Do you want to register?"
               goTo="Sign up"
-              color={colors.cover}
+              color={colors.white}
               destination={SIGNUP}
               mt="25%"
             />

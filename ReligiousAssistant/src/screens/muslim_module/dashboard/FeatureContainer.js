@@ -33,7 +33,6 @@ import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 export default function FeatureContainer() {
   const navigator = useNavigation();
   const user = useSelector(selectUserData);
-
   const featureArray1 = [
     {
       title: 'Recite Quran',
@@ -56,75 +55,105 @@ export default function FeatureContainer() {
   ];
 
   const featureArray2 = [
-    {
-      title: 'Learn Namaz',
-      image: require('../../../../assets/images/learn_namaz1_ic.png'),
-      screen: LEARN_NAMAZ,
-      key: 4,
-    },
     user
       ? {
+          disabled: false,
+          title: 'Learn Namaz',
+          image: require('../../../../assets/images/learn_namaz1_ic.png'),
+          screen: LEARN_NAMAZ,
+          key: 4,
+        }
+      : {
+          disabled: true,
+          title: 'Learn Namaz',
+          image: require('../../../../assets/images/learn_namaz1_ic.png'),
+          screen: LEARN_NAMAZ,
+          key: 4,
+        },
+    user
+      ? {
+          disabled: false,
           title: 'Accountability',
           image: require('../../../../assets/images/accountability_ic.png'),
           screen: ACCOUNTABILITY,
           key: 5,
         }
-      : undefined,
+      : {
+          disabled: true,
+          title: 'Accountability',
+          image: require('../../../../assets/images/accountability_ic.png'),
+          screen: ACCOUNTABILITY,
+          key: 5,
+        },
     user
       ? {
+          disabled: false,
           title: 'Announcements',
           image: require('../../../../assets/images/announcement1_ic.png'),
           screen: MUSLIM_ANNOUNCEMENTS,
           key: 6,
         }
-      : undefined
+      : {
+          disabled: true,
+          title: 'Announcements',
+          image: require('../../../../assets/images/announcement1_ic.png'),
+          screen: MUSLIM_ANNOUNCEMENTS,
+          key: 6,
+        },
   ];
 
   const featureArray3 = [
     user
       ? {
+          disabled: false,
           title: 'Add Mosque',
           image: require('../../../../assets/images/add_ic.png'),
           screen: ADD_MOSQUE,
           key: 7,
         }
-      : undefined,
+      : {
+          disabled: true,
+          title: 'Add Mosque',
+          image: require('../../../../assets/images/add_ic.png'),
+          screen: ADD_MOSQUE,
+          key: 7,
+        },
     {
+      disabled: false,
       title: 'View Calander',
       image: require('../../../../assets/images/islamic_calendar1_ic.png'),
       screen: VIEW_CALANDER,
       key: 8,
     },
     {
+      disabled: false,
       title: 'Tasbih Counter',
       image: require('../../../../assets/images/tasbih1_ic.png'),
       screen: TASBIH_COUNTER,
       key: 9,
     },
-    user
-      ? {
-          title: 'Rakah Info',
-          image: require('../../../../assets/images/rakat_ic.png'),
-          screen: RAKAH_INFO,
-          key: 10,
-        }
-      : undefined,
-    user
-      ? {
-          title: '99 names',
-          image: require('../../../../assets/images/names_ic.png'),
-          screen: ALLAH_99_NAME,
-          key: 11,
-        }
-      : undefined,
-    user
-      ? {
-          title: 'Duas',
-          image: require('../../../../assets/images/duas_ic.png'),
-          screen: MUSLIM_DUAS,
-          key: 12,
-        }
-      : undefined,
+    {
+      disabled: false,
+      title: 'Rakah Info',
+      image: require('../../../../assets/images/rakat_ic.png'),
+      screen: RAKAH_INFO,
+      key: 10,
+    },
+
+    {
+      disabled: false,
+      title: '99 names',
+      image: require('../../../../assets/images/names_ic.png'),
+      screen: ALLAH_99_NAME,
+      key: 11,
+    },
+    {
+      disabled: false,
+      title: 'Duas',
+      image: require('../../../../assets/images/duas_ic.png'),
+      screen: MUSLIM_DUAS,
+      key: 12,
+    },
   ];
 
   return (
@@ -147,7 +176,7 @@ export default function FeatureContainer() {
               <>
                 {item ? (
                   <TouchableOpacity
-                    key={item.key+Math.random()}
+                    key={item.key + Math.random()}
                     onPress={() => {
                       navigator.navigate(item.screen);
                     }}>
@@ -183,10 +212,11 @@ export default function FeatureContainer() {
               <>
                 {item ? (
                   <TouchableOpacity
-                    key={item.key+Math.random()}
+                    key={item.key + Math.random()}
                     onPress={() => {
                       navigator.navigate(item.screen);
-                    }}>
+                    }}
+                    disabled={item.disabled}>
                     <FeatureCard key={item.key}>
                       <Image
                         source={item.image}
@@ -217,10 +247,11 @@ export default function FeatureContainer() {
               <>
                 {item ? (
                   <TouchableOpacity
-                    key={item.key+Math.random()}
+                    key={item.key + Math.random()}
                     onPress={() => {
                       navigator.navigate(item.screen);
-                    }}>
+                    }}
+                    disabled={item.disabled}>
                     <MoreFeaturesCard key={item.key}>
                       <Image
                         source={item.image}
@@ -246,11 +277,19 @@ export default function FeatureContainer() {
 }
 
 function FeatureCard(props) {
-  return <Center key={props.key} style={styles.card}>{props.children}</Center>;
+  return (
+    <Center key={props.key} style={styles.card}>
+      {props.children}
+    </Center>
+  );
 }
 
 function MoreFeaturesCard(props) {
-  return <Center key={props.key} style={styles.moreFeaturesCard}>{props.children}</Center>;
+  return (
+    <Center key={props.key} style={styles.moreFeaturesCard}>
+      {props.children}
+    </Center>
+  );
 }
 
 const styles = StyleSheet.create({

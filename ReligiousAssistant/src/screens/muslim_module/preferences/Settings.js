@@ -170,7 +170,7 @@ export default function Settings({route, navigation}) {
   };
 
   function updateUserPassword(newPassword) {
-    console.log(newPassword)
+    console.log(newPassword);
     dispatch(
       updatePassword({
         username: user.username,
@@ -613,8 +613,7 @@ export default function Settings({route, navigation}) {
                 closeModal={closeModal}
                 headerText={modalHeader}
                 newPassword={password}
-                updateUserPassword={updateUserPassword}
-                >
+                updateUserPassword={updateUserPassword}>
                 {isPasswordModal ? (
                   <FormControl>
                     <FormControl.Label
@@ -736,7 +735,7 @@ export default function Settings({route, navigation}) {
 }
 
 const CommonModal = props => {
-  const {open, headerText,newPassword,updateUserPassword} = props;
+  const {open, headerText, newPassword, updateUserPassword} = props;
   //console.log(headerText);
   function closeModal() {
     props.closeModal();
@@ -759,24 +758,27 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-            {
-              headerText=="Change Password"?<Button
-              _text={{fontFamily: fonts.Signika.regular}}
-              color={colors.white}
-              colorScheme="yellow"
-              onPress={()=>{updateUserPassword(newPassword)}}
-              type="submit">
-              Save
-            </Button>:<Button
-              _text={{fontFamily: fonts.Signika.regular}}
-              color={colors.white}
-              colorScheme="yellow"
-              onPress={closeModal}
-              type="submit">
-              Save
-            </Button>
-            }
-            
+            {headerText == 'Change Password' ? (
+              <Button
+                _text={{fontFamily: fonts.Signika.regular}}
+                color={colors.white}
+                colorScheme="yellow"
+                onPress={() => {
+                  updateUserPassword(newPassword);
+                }}
+                type="submit">
+                Save
+              </Button>
+            ) : (
+              <Button
+                _text={{fontFamily: fonts.Signika.regular}}
+                color={colors.white}
+                colorScheme="yellow"
+                onPress={closeModal}
+                type="submit">
+                Save
+              </Button>
+            )}
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>
