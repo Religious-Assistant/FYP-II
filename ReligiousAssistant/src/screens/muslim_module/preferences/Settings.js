@@ -169,11 +169,12 @@ export default function Settings({route, navigation}) {
       });
   };
 
-  function updateUserPassword(state) {
+  function updateUserPassword(newPassword) {
+    console.log(newPassword)
     dispatch(
       updatePassword({
         username: user.username,
-        state: state,
+        newPassword: newPassword,
       }),
     );
     if (hasUpdatedPassword) {
@@ -610,7 +611,10 @@ export default function Settings({route, navigation}) {
               <CommonModal
                 open={open}
                 closeModal={closeModal}
-                headerText={modalHeader}>
+                headerText={modalHeader}
+                newPassword={password}
+                updateUserPassword={updateUserPassword}
+                >
                 {isPasswordModal ? (
                   <FormControl>
                     <FormControl.Label
@@ -732,8 +736,8 @@ export default function Settings({route, navigation}) {
 }
 
 const CommonModal = props => {
-  const {open, headerText} = props;
-
+  const {open, headerText,newPassword,updateUserPassword} = props;
+  //console.log(headerText);
   function closeModal() {
     props.closeModal();
   }
@@ -755,7 +759,15 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-            <Button
+            {
+              headerText=="Change Password"?<Button
+              _text={{fontFamily: fonts.Signika.regular}}
+              color={colors.white}
+              colorScheme="yellow"
+              onPress={()=>{updateUserPassword(newPassword)}}
+              type="submit">
+              Save
+            </Button>:<Button
               _text={{fontFamily: fonts.Signika.regular}}
               color={colors.white}
               colorScheme="yellow"
@@ -763,6 +775,8 @@ const CommonModal = props => {
               type="submit">
               Save
             </Button>
+            }
+            
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>
