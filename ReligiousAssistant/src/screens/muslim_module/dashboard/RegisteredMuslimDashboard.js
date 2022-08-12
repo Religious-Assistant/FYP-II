@@ -27,6 +27,7 @@ import logout_ic from '../../../../assets/images/logout_ic.png';
 // Menu
 import menu from '../../../../assets/images/menu_ic.png';
 import close from '../../../../assets/images/close_ic.png';
+import help from '../../../../assets/images/help_ic.png';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -34,11 +35,12 @@ import fonts from '../../../theme/fonts';
 import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
-import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../../navigation/constants';
+import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, HELP, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import { getUserData, logout, selectHasError, selectIsLoadingGetUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 import { selectCurrentTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import Loader from '../../common/Loader';
+
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -105,6 +107,7 @@ export default function RegisteredMuslimDashboard() {
           {TabButton(currentTab, setCurrentTab, 'Apply as Imam', imam_ic)}
           {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
           {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
+          {TabButton(currentTab, setCurrentTab, 'Help', help)}
         </View>
 
         <View>{TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}</View>
@@ -243,6 +246,10 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           // navigator.navigate(SHARE_APP)
           // // setCurrentTab(title);
         }
+
+        else if(title=='help') {
+        navigator.navigate(HELP)
+      }
       }}>
       <View
         style={{

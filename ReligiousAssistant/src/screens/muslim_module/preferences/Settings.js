@@ -56,10 +56,12 @@ import {
   selectHasUpdatedNamazAccountabilityNotificationSettings,
   selectHasUpdatedNamazNotificationsSettings,
   selectIsUploadingProfileImage,
+  selectHasUpdatedPassword,
   updateAutoSilentSetting,
   updateNamazAccountabilityNotificationsSetting,
   updateNamazNotificationSettings,
   updateProfileImage,
+  updatePassword,
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -98,6 +100,8 @@ export default function Settings({route, navigation}) {
   );
 
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
+
+  const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
 
   //when tab is focused in MuslimBottomTab.js, this will be called
 
@@ -165,6 +169,19 @@ export default function Settings({route, navigation}) {
       });
   };
 
+  function updateUserPassword(newPassword) {
+    console.log(newPassword);
+    dispatch(
+      updatePassword({
+        username: user.username,
+        newPassword: newPassword,
+      }),
+    );
+    if (hasUpdatedPassword) {
+      alert('Updated Password');
+    }
+  }
+
   function updateAccountabilityNotificarions(state) {
     dispatch(
       updateNamazAccountabilityNotificationsSetting({
@@ -202,6 +219,11 @@ export default function Settings({route, navigation}) {
   }
   //Rough Data
   const [serverData, setServerData] = React.useState([]);
+
+  const [password, setPassword] = useState();
+  const handlePassword = text => {
+    setPassword(text);
+  };
 
   return (
     <View style={styles.container}>
@@ -589,14 +611,21 @@ export default function Settings({route, navigation}) {
               <CommonModal
                 open={open}
                 closeModal={closeModal}
-                headerText={modalHeader}>
+                headerText={modalHeader}
+                newPassword={password}
+                updateUserPassword={updateUserPassword}>
                 {isPasswordModal ? (
                   <FormControl>
                     <FormControl.Label
                       _text={{fontFamily: fonts.Signika.medium}}>
                       New Password
                     </FormControl.Label>
-                    <Input type="password" />
+                    <Input
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChangeText={handlePassword}
+                    />
                   </FormControl>
                 ) : (
                   <SearchableDropdown
@@ -706,8 +735,8 @@ export default function Settings({route, navigation}) {
 }
 
 const CommonModal = props => {
-  const {open, headerText} = props;
-
+  const {open, headerText, newPassword, updateUserPassword} = props;
+  //console.log(headerText);
   function closeModal() {
     props.closeModal();
   }
@@ -729,13 +758,27 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-            <Button
-              _text={{fontFamily: fonts.Signika.regular}}
-              color={colors.white}
-              colorScheme="yellow"
-              onPress={closeModal}>
-              Save
-            </Button>
+            {headerText == 'Change Password' ? (
+              <Button
+                _text={{fontFamily: fonts.Signika.regular}}
+                color={colors.white}
+                colorScheme="yellow"
+                onPress={() => {
+                  updateUserPassword(newPassword);
+                }}
+                type="submit">
+                Save
+              </Button>
+            ) : (
+              <Button
+                _text={{fontFamily: fonts.Signika.regular}}
+                color={colors.white}
+                colorScheme="yellow"
+                onPress={closeModal}
+                type="submit">
+                Save
+              </Button>
+            )}
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

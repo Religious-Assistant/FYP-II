@@ -16,6 +16,7 @@ import {
   FIND_MOSQUE,
   GOOGLE_MAP,
   GOOGLE_MAP_DIRECTIONS,
+  HELP,
   IMAM_CONSENSUS,
   LEARN_NAMAZ,
   MAKE_ANNOUNCEMENT_SCREEN,
@@ -67,6 +68,7 @@ import AllahNames from '../screens/muslim_module/staticInfo/AllahNames';
 import MosqueConsensusNoti from '../screens/muslim_module/alertsAndNotifications/MosqueConsensusNoti';
 import ImamConsensusNoti from '../screens/muslim_module/alertsAndNotifications/ImamConsensusNoti';
 import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/NewMosqueAddedNoti';
+import UserManual from '../screens/common/UserManual';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -238,6 +240,13 @@ function MuslimDashboardNavigation() {
         component={MapDirection}
         options={{title: 'Get Directions'}}
       />
+
+      <HomeStack.Screen
+        name={HELP}
+        component={UserManual}
+        options={{title: 'Help'}}
+      />
+
     </HomeStack.Navigator>
   );
 }

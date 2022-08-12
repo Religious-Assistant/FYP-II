@@ -23,112 +23,137 @@ import {
   QIBLA_DIRECTION,
   RAKAH_INFO,
   MUSLIM_DUAS,
-  ALLAH_99_NAME
+  ALLAH_99_NAME,
 } from '../../../navigation/constants';
 
 //Redux
-import { useSelector } from 'react-redux';
-import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {useSelector} from 'react-redux';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function FeatureContainer() {
-
   const navigator = useNavigation();
-  const user=useSelector(selectUserData)
-
+  const user = useSelector(selectUserData);
   const featureArray1 = [
     {
       title: 'Recite Quran',
       image: require('../../../../assets/images/quran1_ic.png'),
       screen: RECITE_QURAN,
-      key:1,
+      key: 1,
     },
     {
       title: 'Closest Mosque',
       image: require('../../../../assets/images/mosque1_ic.png'),
       screen: FIND_MOSQUE,
-      key:2,
+      key: 2,
     },
     {
       title: 'Qibla Rukh',
       image: require('../../../../assets/images/qibla_direction_ic.png'),
       screen: QIBLA_DIRECTION,
-      key:3,
+      key: 3,
     },
   ];
 
   const featureArray2 = [
-    {
-      title: 'Learn Namaz',
-      image: require('../../../../assets/images/learn_namaz1_ic.png'),
-      screen: LEARN_NAMAZ,
-      key:4,
-    },
-    user?
-    {
-      title: 'Accountability',
-      image: require('../../../../assets/images/accountability_ic.png'),
-      screen: ACCOUNTABILITY,
-      key:5,
-    }:
-    {
-      title: 'Announcements',
-      image: require('../../../../assets/images/announcement1_ic.png'),
-      screen: MUSLIM_ANNOUNCEMENTS,
-      key:5,
-    }
-    ,
-    user?{
-      title: 'Announcements',
-      image: require('../../../../assets/images/announcement_ic.png'),
-      screen: MUSLIM_ANNOUNCEMENTS,
-      key:6,
-    }:{
-      title: 'Rakah Info',
-      image: require('../../../../assets/images/info_ic.png'),
-      screen: RAKAH_INFO,
-      key:6,
-    },
+    user
+      ? {
+          disabled: false,
+          title: 'Learn Namaz',
+          image: require('../../../../assets/images/learn_namaz1_ic.png'),
+          screen: LEARN_NAMAZ,
+          key: 4,
+        }
+      : {
+          disabled: true,
+          title: 'Learn Namaz',
+          image: require('../../../../assets/images/learn_namaz1_ic.png'),
+          screen: LEARN_NAMAZ,
+          key: 4,
+        },
+    user
+      ? {
+          disabled: false,
+          title: 'Accountability',
+          image: require('../../../../assets/images/accountability_ic.png'),
+          screen: ACCOUNTABILITY,
+          key: 5,
+        }
+      : {
+          disabled: true,
+          title: 'Accountability',
+          image: require('../../../../assets/images/accountability_ic.png'),
+          screen: ACCOUNTABILITY,
+          key: 5,
+        },
+    user
+      ? {
+          disabled: false,
+          title: 'Announcements',
+          image: require('../../../../assets/images/announcement1_ic.png'),
+          screen: MUSLIM_ANNOUNCEMENTS,
+          key: 6,
+        }
+      : {
+          disabled: true,
+          title: 'Announcements',
+          image: require('../../../../assets/images/announcement1_ic.png'),
+          screen: MUSLIM_ANNOUNCEMENTS,
+          key: 6,
+        },
   ];
 
   const featureArray3 = [
-    user?
+    user
+      ? {
+          disabled: false,
+          title: 'Add Mosque',
+          image: require('../../../../assets/images/add_ic.png'),
+          screen: ADD_MOSQUE,
+          key: 7,
+        }
+      : {
+          disabled: true,
+          title: 'Add Mosque',
+          image: require('../../../../assets/images/add_ic.png'),
+          screen: ADD_MOSQUE,
+          key: 7,
+        },
     {
-      title: 'Add Mosque',
-      image: require('../../../../assets/images/add_ic.png'),
-      screen: ADD_MOSQUE,
-      key:7,
-    }:undefined,
-    {
+      disabled: false,
       title: 'View Calander',
       image: require('../../../../assets/images/islamic_calendar1_ic.png'),
       screen: VIEW_CALANDER,
-      key:8,
+      key: 8,
     },
     {
+      disabled: false,
       title: 'Tasbih Counter',
       image: require('../../../../assets/images/tasbih1_ic.png'),
       screen: TASBIH_COUNTER,
-      key:9,
+      key: 9,
     },
-    user?{
+    {
+      disabled: false,
       title: 'Rakah Info',
       image: require('../../../../assets/images/rakat_ic.png'),
       screen: RAKAH_INFO,
-      key:10,
-    }:undefined,
-    user?{
+      key: 10,
+    },
+
+    {
+      disabled: false,
       title: '99 names',
       image: require('../../../../assets/images/names_ic.png'),
       screen: ALLAH_99_NAME,
-      key:11,
-    }:undefined,
-    user?{
+      key: 11,
+    },
+    {
+      disabled: false,
       title: 'Duas',
       image: require('../../../../assets/images/duas_ic.png'),
       screen: MUSLIM_DUAS,
-      key:12,
-    }:undefined,
-    
+      key: 12,
+    },
   ];
 
   return (
@@ -147,27 +172,30 @@ export default function FeatureContainer() {
             marginTop: 10,
           }}>
           {featureArray1.map((item, index) => {
-            return (<>
-              {
-                item?            
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => {
-                  navigator.navigate(item.screen);
-                }}>
-                <FeatureCard>
-                  <Image
-                    source={item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
-                    }}
-                    alt="Icon..."
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </FeatureCard>
-              </TouchableOpacity>:<></>
-          }</>
+            return (
+              <>
+                {item ? (
+                  <TouchableOpacity
+                    key={item.key + Math.random()}
+                    onPress={() => {
+                      navigator.navigate(item.screen);
+                    }}>
+                    <FeatureCard key={item.key}>
+                      <Image
+                        source={item.image}
+                        style={{
+                          height: 50,
+                          width: 50,
+                        }}
+                        alt="Icon..."
+                      />
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                    </FeatureCard>
+                  </TouchableOpacity>
+                ) : (
+                  <></>
+                )}
+              </>
             );
           })}
         </View>
@@ -180,30 +208,31 @@ export default function FeatureContainer() {
             marginTop: -20,
           }}>
           {featureArray2.map((item, index) => {
-            return (<>
-              {
-                item?
-                <TouchableOpacity
-                key={item.key}
-                onPress={() => {
-                  navigator.navigate(item.screen);
-                }}>
-                <FeatureCard>
-                  <Image
-                    source={item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
+            return (
+              <>
+                {item ? (
+                  <TouchableOpacity
+                    key={item.key + Math.random()}
+                    onPress={() => {
+                      navigator.navigate(item.screen);
                     }}
-                    alt="Icon..."
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </FeatureCard>
-              </TouchableOpacity>
-                :<></>
-              }
-            </>
-
+                    disabled={item.disabled}>
+                    <FeatureCard key={item.key}>
+                      <Image
+                        source={item.image}
+                        style={{
+                          height: 50,
+                          width: 50,
+                        }}
+                        alt="Icon..."
+                      />
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                    </FeatureCard>
+                  </TouchableOpacity>
+                ) : (
+                  <></>
+                )}
+              </>
             );
           })}
         </View>
@@ -216,25 +245,29 @@ export default function FeatureContainer() {
           {featureArray3.map((item, index) => {
             return (
               <>
-              {item?<TouchableOpacity
-                key={item.key}
-                onPress={() => {
-                  navigator.navigate(item.screen);
-                }}>
-                <MoreFeaturesCard key={index}>
-                  <Image
-                    source={item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
+                {item ? (
+                  <TouchableOpacity
+                    key={item.key + Math.random()}
+                    onPress={() => {
+                      navigator.navigate(item.screen);
                     }}
-                    alt="Icon.."
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </MoreFeaturesCard>
-              </TouchableOpacity>
-                :<></>}
-                </>
+                    disabled={item.disabled}>
+                    <MoreFeaturesCard key={item.key}>
+                      <Image
+                        source={item.image}
+                        style={{
+                          height: 50,
+                          width: 50,
+                        }}
+                        alt="Icon.."
+                      />
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                    </MoreFeaturesCard>
+                  </TouchableOpacity>
+                ) : (
+                  <></>
+                )}
+              </>
             );
           })}
         </ScrollView>
@@ -244,11 +277,19 @@ export default function FeatureContainer() {
 }
 
 function FeatureCard(props) {
-  return <Center style={styles.card}>{props.children}</Center>;
+  return (
+    <Center key={props.key} style={styles.card}>
+      {props.children}
+    </Center>
+  );
 }
 
 function MoreFeaturesCard(props) {
-  return <Center style={styles.moreFeaturesCard}>{props.children}</Center>;
+  return (
+    <Center key={props.key} style={styles.moreFeaturesCard}>
+      {props.children}
+    </Center>
+  );
 }
 
 const styles = StyleSheet.create({

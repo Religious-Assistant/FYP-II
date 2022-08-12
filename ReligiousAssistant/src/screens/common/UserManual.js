@@ -6,20 +6,14 @@
 import {View} from 'react-native';
 import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import {
-  Heading,
-  Image,
-  Text,
-  Center,
-  VStack,
-  ScrollView,
-} from 'native-base';
+import {Heading, Image, Text, Center, VStack, ScrollView} from 'native-base';
 
 import mosqueIcon from '../../../assets/images/Logo-combined.png';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import registerScreenImg from '../../../assets/images/registerScreen.png';
 export default function UserManual() {
+  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -357,9 +351,9 @@ export default function UserManual() {
                   you have to select any date. You will be given two option,
                   Prayer and Fast. When you select Namaz you have to check the
                   boxes of Namaz that you have offered and then click on the
-                  save button. {'\n'}When you select the fast option, it will ask you
-                  if you have kept fast or not, choose your option and click
-                  save button.
+                  save button. {'\n'}When you select the fast option, it will
+                  ask you if you have kept fast or not, choose your option and
+                  click save button.
                 </Text>
                 <View
                   style={{
@@ -394,8 +388,12 @@ export default function UserManual() {
                   />
                 </View>
                 <Text style={styles.boldHeading}>3. NOTIFICATIONS</Text>
-                <Text style={styles.info}>{'\t\t\t'}You can enable or disable the notifications from settings. 
-                You can check the notifications from Alerts option in the Dashboard.{'\n'}You will also get some consensus notifications to which you have to give correct response.</Text>
+                <Text style={styles.info}>
+                  {'\t\t\t'}You can enable or disable the notifications from
+                  settings. You can check the notifications from Alerts option
+                  in the Dashboard.{'\n'}You will also get some consensus
+                  notifications to which you have to give correct response.
+                </Text>
                 <Image
                   source={registerScreenImg}
                   style={{
@@ -413,12 +411,14 @@ export default function UserManual() {
                     What is consensus?
                   </Text>
                 </Text>
-                <Text style={styles.info}>{'\t\t\t'} When a user add a Mosque or Apply as Imam, other users 
-                will get notification to ensure that the provided information about the Mosque or Imam is correct.{'\n'}
-                We would appreciate your participation in the consensus mechanism and we hope you won't ignore such notifications.
+                <Text style={styles.info}>
+                  {'\t\t\t'} When a user add a Mosque or Apply as Imam, other
+                  users will get notification to ensure that the provided
+                  information about the Mosque or Imam is correct.{'\n'}
+                  We would appreciate your participation in the consensus
+                  mechanism and we hope you won't ignore such notifications.
                 </Text>
                 <Text style={styles.theEnd}>THE END</Text>
-                
               </VStack>
             </Center>
           </View>
@@ -466,8 +466,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 5,
     color: colors.secondary,
-    alignSelf:"center",
-    marginTop:"5%"
+    alignSelf: 'center',
+    marginTop: '5%',
   },
   info: {
     fontFamily: fonts.Signika.regular,

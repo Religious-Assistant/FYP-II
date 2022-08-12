@@ -8,12 +8,10 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Heading, Image, Center, ScrollView} from 'native-base';
 
-
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 import rakahICon from '../../../../assets/images/rakah_ic.png';
 import Accordian from '../../../components/Accordian';
-
 
 export default function RakahInfo() {
   // static information about namaz rakats
@@ -54,13 +52,9 @@ export default function RakahInfo() {
     ],
   };
   return (
-    <ScrollView
-    keyboardShouldPersistTaps="handled"
-    flex={1}
-    >
-      
- <View style={{flex: 1, backgroundColor: colors.white}}>
-  {/* Header */}
+    <ScrollView keyboardShouldPersistTaps="handled" flex={1}>
+      <View style={{flex: 1, backgroundColor: colors.white}}>
+        {/* Header */}
         <View
           style={{
             flex: 0.17,
@@ -126,8 +120,6 @@ export default function RakahInfo() {
         </View>
       </View>
     </ScrollView>
-   
-   
   );
 }
 

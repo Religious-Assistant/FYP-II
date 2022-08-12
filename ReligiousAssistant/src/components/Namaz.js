@@ -45,7 +45,7 @@ export default function Namaz(props) {
         await dispatch(
           getNamazAccountability({
             username: user.username,
-            date: moment(props.selectedDate).format('YYYY-MM-DD'),
+            date: moment(props.selectedDate).format("YYYY-MM-DD"),
           }),
         );
       }
