@@ -313,6 +313,7 @@ const RakahList = props => {
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <Pressable
+            key={item.id}
             onPress={() => {
               navigateToGame(item);
             }}>

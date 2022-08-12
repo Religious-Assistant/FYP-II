@@ -118,11 +118,10 @@ export default function AddMosque({route, navigation}) {
 
               <CustomButton
                 title="Select Location"
-                variant="outline"
+                variant="solid"
                 mt="8%"
-                color={colors.primary}
+                color={colors.white}
                 base="99%"
-                colorscheme="lightBlue.900"
                 onPress={() => {
                   openMap();
                 }}

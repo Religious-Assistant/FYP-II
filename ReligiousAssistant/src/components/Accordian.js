@@ -55,7 +55,7 @@ export default class Accordian extends Component {
             <FlatList
               data={this.state.data}
               numColumns={1}
-              scrollEnabled={false}
+              scrollEnabled={true}
               renderItem={({item, index}) => (
                 <View >
                   <View
