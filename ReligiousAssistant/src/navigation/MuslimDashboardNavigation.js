@@ -33,6 +33,7 @@ import {
   RAKAH_INFO,
   RECITE_QURAN,
   REGISTERED_MUSLIM_HOME_STACK,
+  SET_NAMAZ_TIMES,
   SHARE_APP,
   SURAH_RECITATION_AREA,
   TASBIH_COUNTER,
@@ -246,7 +247,6 @@ function MuslimDashboardNavigation() {
         component={UserManual}
         options={{title: 'Help'}}
       />
-
     </HomeStack.Navigator>
   );
 }

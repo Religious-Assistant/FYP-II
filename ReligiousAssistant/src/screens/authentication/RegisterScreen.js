@@ -70,19 +70,19 @@ function RegisterScreen() {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use location")
+       // console.log("You can use location")
         return true;
       } else {
-        console.log("permission denied")
+        //console.log("permission denied")
         return false;
       }
     } catch (err) {
-      console.warn(err)
+      //console.warn(err)
     }
 }
   useEffect(() => {
     const res=AskPermission();
-    console.log("yes or no",res)
+    //console.log("yes or no",res)
     // if(res){
     //     Geolocation.getCurrentPosition(pos => {
     //   const crd = pos.coords;
@@ -96,7 +96,7 @@ function RegisterScreen() {
     //   console.log(err);
     //  });}
   }, []);
-  console.log(position);
+  // console.log(position);
 
   function signupHandler(values) {
     dispatch(registerUser(values));

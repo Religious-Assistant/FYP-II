@@ -16,6 +16,8 @@ import {Provider} from 'react-redux';
 //Notifee
 import notifee, {EventType } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
+import SetPrayerTimes from './src/screens/muslim_module/namazTimings/SetPrayerTimes';
+import UpdatePrayerTimes from './src/screens/muslim_module/imam/UpdatePrayerTimes'
 async function onMessageReceived(message) {
   const data = await JSON.parse(message.data.notification);
 
@@ -95,7 +97,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <EntryPoint />
+        < SetPrayerTimes/>
       </NativeBaseProvider>
     </Provider>
   );

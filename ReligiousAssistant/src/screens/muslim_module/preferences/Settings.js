@@ -170,7 +170,6 @@ export default function Settings({route, navigation}) {
   };
 
   function updateUserPassword(newPassword) {
-    console.log(newPassword);
     dispatch(
       updatePassword({
         username: user.username,

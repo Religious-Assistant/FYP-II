@@ -219,7 +219,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
         if (result.activityType) {
           // shared with activity type of result.activityType
         } else {
-          console.log('Shared');
+         // console.log('Shared');
           // shared
         }
       } else if (result.action === Share.dismissedAction) {

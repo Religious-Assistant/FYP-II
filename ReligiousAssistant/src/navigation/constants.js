@@ -86,7 +86,6 @@ export {
   ENTER_AS_GUEST,
   OTP_VERIFICATION,
   SPLASH_SCREEN,
-  SET_NEW_PASSWORD
 };
 
 //Registered Muslim navigation constants
@@ -121,7 +120,7 @@ export {
   MOSQUE_CONSENSUS,
   NEW_MOSQUE_ADDITION,
   NAMAZ_ALERT_NOTIFICATION,
-  NO_CONNECTION_SCREEN
+  NO_CONNECTION_SCREEN,
 };
 
 //Registered Hindu user navigation constants
