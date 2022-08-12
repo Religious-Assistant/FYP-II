@@ -285,7 +285,6 @@ export default function UpdatePrayerTimes() {
                   mt="5%"
                   onPress={() => {
                     console.log("Fajr: ",fajrStartTime.text," ",fajrEndTime.text );
-                    
                     console.log("Duhr: ",duhrStartTime.text," ",duhrEndTime.text );
                     console.log("Asr: ",asrStartTime.text," ",asrEndTime.text );
                     console.log("Maghrib: ",maghribStartTime.text," ",maghribEndTime.text );

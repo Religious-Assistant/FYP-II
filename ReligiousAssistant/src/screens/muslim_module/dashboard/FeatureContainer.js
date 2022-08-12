@@ -24,7 +24,6 @@ import {
   RAKAH_INFO,
   MUSLIM_DUAS,
   ALLAH_99_NAME,
-  SET_NAMAZ_TIMES,
 } from '../../../navigation/constants';
 
 //Redux
@@ -119,12 +118,27 @@ export default function FeatureContainer() {
           screen: ADD_MOSQUE,
           key: 7,
         },
+        user
+      ? {
+          disabled: false,
+          title: 'Set PrayerTimes',
+          image: require('../../../../assets/images/namazTimes_ic.png'),
+          screen: VIEW_CALANDER,
+          key: 7,
+        }
+      : {
+          disabled: true,
+          title: 'Set PrayerTimes',
+          image: require('../../../../assets/images/namazTimes_ic.png'),
+          screen: VIEW_CALANDER,
+          key: 7,
+        },
     {
       disabled: false,
       title: 'View Calander',
       image: require('../../../../assets/images/islamic_calendar1_ic.png'),
       screen: VIEW_CALANDER,
-      key: 9,
+      key: 8,
     },
     {
       disabled: false,
