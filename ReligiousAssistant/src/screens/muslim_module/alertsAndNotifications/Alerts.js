@@ -82,6 +82,7 @@ export default function Alerts({navigation}) {
           <FlatList
             style={styles.root}
             data={notifications}
+            extraData={notifications}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

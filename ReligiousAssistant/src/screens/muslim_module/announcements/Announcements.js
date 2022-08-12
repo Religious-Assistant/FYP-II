@@ -89,6 +89,7 @@ export default function Announcements() {
           <FlatList
             style={styles.root}
             data={announcements}
+            extraData={announcements}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

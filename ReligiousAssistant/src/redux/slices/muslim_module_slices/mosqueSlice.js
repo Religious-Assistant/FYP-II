@@ -1,6 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiGET} from '../../../apis/apiService'
-import { add_mosque, get_all_mosques, get_closest_mosques, get_mosque_by_id, get_unverified_mosques_around_user } from '../../endpoints'
+import {apiPOST, apiGET, apiPATCH} from '../../../apis/apiService'
+import { add_mosque, cast_down_vote, cast_up_vote, get_all_mosques, get_closest_mosques, get_mosque_by_id, get_unverified_mosques_around_user } from '../../endpoints'
 
 const initialState = {
     allMosques:null,
@@ -11,7 +11,13 @@ const initialState = {
 
     isLoadingAllMosques:false,
     hasErrorInGettingAllMosques:false,
-    
+
+    isLoadingCastUpvote:false,
+    hasErrorInCastingUpVote:false,
+
+    isLoadingCastDownvote:false,
+    hasErrorInCastingDownVote:false,
+
     isLoadingGetMosqueById:false,
     hasErrorGetMosqueById:false,
 
@@ -67,6 +73,22 @@ export const getMosqueById = createAsyncThunk(
     }
 )
 
+export const castUpvote = createAsyncThunk(
+    'castUpvote',
+    async (body)=>{
+       const result =  await apiPATCH(cast_up_vote,body)   //body with required info
+       return result  
+    }
+)
+
+export const castDownvote = createAsyncThunk(
+    'castDownvote',
+    async (body)=>{
+       const result =  await apiPATCH(cast_down_vote,body)   //body with required info
+       return result  
+    }
+)
+
 const mosqueSlice = createSlice({
     name:"mosque",
     initialState,
@@ -89,6 +111,36 @@ const mosqueSlice = createSlice({
             state.hasErrorInGettingAllMosques=false
         },
 
+        [castUpvote.fulfilled]:(state,action)=>{
+            state.hasErrorInCastingUpVote=false
+            state.isLoadingCastUpvote=false
+            state.mosqueById = action.payload.data
+            
+        },
+        [castUpvote.rejected]:(state,action)=>{
+            state.isLoadingCastUpvote=false
+            state.hasErrorInCastingUpVote=true
+        },
+        [castUpvote.pending]:(state,action)=>{
+            state.isLoadingCastUpvote=true
+            state.hasErrorInCastingUpVote=false
+        },
+
+        [castDownvote.fulfilled]:(state,action)=>{
+            state.hasErrorInCastingDownVote=false
+            state.isLoadingCastDownvote=false
+            state.mosqueById = action.payload.data
+            
+        },
+        [castDownvote.rejected]:(state,action)=>{
+            state.isLoadingCastDownvote=false
+            state.hasErrorInCastingDownVote=true
+
+        },
+        [castDownvote.pending]:(state,action)=>{
+            state.isLoadingCastDownvote=true
+            state.hasErrorInCastingDownVote=false
+        },
         [getMosqueById.fulfilled]:(state,action)=>{
             state.hasErrorGetMosqueById=false
             state.isLoadingGetMosqueById=false
@@ -160,6 +212,12 @@ export const selectMosqueById=(state)=>state.mosque.mosqueById
 
 export const selectIsLoadingAllMosques=(state)=>state.mosque.isLoadingAllMosques
 export const selectHasErrorInGettingAllMosques=(state)=>state.mosque.hasErrorInGettingAllMosques
+
+export const selectIsLoadingCastUpVote=(state)=>state.mosque.isLoadingCastUpvote
+export const selectHasErrorInCastingUpVote=(state)=>state.mosque.hasErrorInCastingUpVote
+
+export const selectIsLoadingCastDownVote=(state)=>state.mosque.isLoadingCastDownvote
+export const selectHasErrorInCastingDownVote=(state)=>state.mosque.hasErrorInCastingDownVote
 
 export const selectIsLoadingGetMosqueById=(state)=>state.mosque.isLoadingGetMosqueById
 export const selectHasErrorGetMosqueById=(state)=>state.mosque.hasErrorGetMosqueById

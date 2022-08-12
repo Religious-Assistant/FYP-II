@@ -49,6 +49,8 @@ const get_closest_mosques='get-closest-mosques'
 const get_unverified_mosques_around_user='get-unverified-mosques-aroundUser'
 const add_mosque='add-mosque'
 const get_mosque_by_id='get-mosque-by-id'
+const cast_up_vote='cast-up-vote'
+const cast_down_vote='cast-down-vote'
 
 //Temples
 const get_all_temples='get-all-temples'
@@ -117,6 +119,8 @@ export {
     get_unverified_mosques_around_user,
     add_mosque,
     get_mosque_by_id,
+    cast_up_vote,
+    cast_down_vote,
 
     get_learn_namaz_progress,
     update_learn_namaz_progress,
