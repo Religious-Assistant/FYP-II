@@ -69,7 +69,7 @@ export default function RegisteredMuslimDashboard() {
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
   const hasError = useSelector(selectHasError);
-  
+
   useEffect(() => {
     if (!user) {
       dispatch(getUserData());
@@ -218,7 +218,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
         if (result.activityType) {
           // shared with activity type of result.activityType
         } else {
-         // console.log('Shared');
+          // console.log('Shared');
           // shared
         }
       } else if (result.action === Share.dismissedAction) {
@@ -259,7 +259,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           flexDirection: 'row',
           alignItems: 'center',
           paddingVertical: 8,
-          backgroundColor: currentTab == title ? 'white' : 'transparent',
+          // backgroundColor: currentTab == title ? 'white' : 'transparent',
+          backgroundColor: 'transparent',
           paddingLeft: 13,
           paddingRight: 35,
           borderRadius: 8,
@@ -270,7 +271,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           style={{
             width: 25,
             height: 25,
-            tintColor: currentTab == title ? colors.secondary : 'white',
+            // tintColor: currentTab == title ? colors.secondary : 'white',
+            tintColor: 'white',
           }}
           alt="Icon"></Image>
 
@@ -279,7 +281,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
             fontSize: 15,
             paddingLeft: 15,
             fontFamily: fonts.Signika.semi_bold,
-            color: currentTab == title ? colors.secondary : 'white',
+            // color: currentTab == title ? colors.secondary : 'white',
+            color: 'white',
           }}>
           {title}
         </Text>
