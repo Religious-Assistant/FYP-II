@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
+  require('dotenv').config()
 //Models
 const User = require("../../models/common_models/userModel");
 const Tasbih = require("../../models/muslim_user_models/tasbihModel");
@@ -285,7 +286,9 @@ const sendOTPCode = async (req, res) => {
   try {
     const { mobile } = req.body;
 
+    console.log(mobile)
     const doesExist = await User.findOne({ mobile: mobile });
+    console.log(doesExist)
 
     if (!doesExist) {
       let number = "92" + mobile.substring(1, 11);
@@ -294,7 +297,7 @@ const sendOTPCode = async (req, res) => {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization: process.env.D7_KEY,
+          Authorization:`Token ${process.env.D7_KEY}`,
         },
         body: `
           {
@@ -332,7 +335,7 @@ const verifyOTPCode = async (req, res) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization: process.env.D7_KEY,
+        Authorization:`Token ${process.env.D7_KEY}`,
       },
       body: `{
             "otp_id":"${otp_id}",
