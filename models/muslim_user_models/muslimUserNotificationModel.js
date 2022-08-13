@@ -17,8 +17,9 @@ const notificationSchema = mongoose.Schema(
         "EID_NAMAZ",
         "DAILY_NAMAZ",
         "NEW_ANNOUNCEMENT",
-        "MOSQUE_ADDED",
+        "NEW_MOSQUE_ADDITION",
         "MOSQUE_CONSENSUS",
+        "NEW_MOSQUE_UNVERIFIED",
         "IMAM_CONSENSUS",
         "SETTINGS_CHANGED",
         "OTHER"
@@ -36,7 +37,9 @@ const notificationSchema = mongoose.Schema(
     icon:{
       type:String,
       default:appLogo
-    }
+    },
+    causedBy:{type:String,default:""} //It may be caused by announcement, mosque consensus, mosque addition, rejection
+      //So place announcement, mosque id
   },
   { timestamps: true }
 );

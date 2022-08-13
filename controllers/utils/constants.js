@@ -17,6 +17,7 @@ const NAMAZ_ALERT='NAMAZ_ALERT' //Not received in request, therefore defined her
 const MOSQUE_CONSENSUS='MOSQUE_CONSENSUS' //Not received in request, therefore defined here
 const IMAM_CONSENSUS='IMAM_CONSENSUS' //Not received in request, therefore defined here
 const NEW_MOSQUE_ADDITION='NEW_MOSQUE_ADDITION' //Not received in request, therefore defined here
+const NEW_MOSQUE_UNVERIFIED='NEW_MOSQUE_UNVERIFIED' //Not received in request, therefore defined here
 
 module.exports = {
   directoryPath,
@@ -31,4 +32,5 @@ module.exports = {
   NEW_MOSQUE_ADDITION,
   IMAM_CONSENSUS,
   NAMAZ_ALERT,
+  NEW_MOSQUE_UNVERIFIED
 };

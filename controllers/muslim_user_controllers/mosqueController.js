@@ -12,6 +12,8 @@ const {
   ADD_NEW_MOSQUE_CHANNEL_ID,
   appLogo,
   MOSQUE_CONSENSUS,
+  NEW_MOSQUE_ADDITION,
+  NEW_MOSQUE_UNVERIFIED,
 } = require("../utils/constants");
 
 const getAllMosques = async (req, res) => {
@@ -44,7 +46,7 @@ const getMosqueById = async (req, res) => {
 };
 
 const getClosestMosques = async (req, res) => {
-  console.log("Find closest Mosques API hit");
+  console.log("Find closest Mosques API hit", req.body);
 
   const { longitude, latitude } = req.body;
 
@@ -137,8 +139,6 @@ const addMosque = async (req, res) => {
         });
 
         if (newMosqueData) {
-          //send notification to users around this mosque
-
           //Sign a notification for users
           const title = `New Mosque`.toUpperCase();
           const body = `${addedBy.toUpperCase()} feels that mosque ${mosqueName} is not yet present in the system and asks you to upvote so new Mosque could be added. Total ${
@@ -193,23 +193,25 @@ const castUpvote = async (req, res) => {
   try {
     const { mosqueId, username } = req.body;
 
-    const voter = await Mosque.findOne({
+    const mosqueToBeAdded = await Mosque.findOne({
       _id: mosqueId,
       "receivers.username": username,
     });
-    const index = await voter.receivers.findIndex(
+    const index = await mosqueToBeAdded.receivers.findIndex(
       (candidate) => candidate.username === username
     );
 
-    if (!voter?.receivers[index].hasVoted) {
-      const result = await Mosque.findOneAndUpdate(
+    if (!mosqueToBeAdded?.receivers[index].hasVoted) {
+      const updatedMosque = await Mosque.findOneAndUpdate(
         { _id: mosqueId, "receivers.username": username },
-        { $inc: { upVotes: 1 }, $set: { "receivers.$.hasVoted": true } }
+        { $inc: { upVotes: 1 }, $set: { "receivers.$.hasVoted": true } },
+        { new: true }
       );
 
       if (
-        voter.upVotes > voter.downVotes &&
-        voter.upVotes + voter.downVotes == voter.receivers.length
+        updatedMosque.upVotes > updatedMosque.downVotes &&
+        updatedMosque.upVotes + updatedMosque.downVotes ==
+          updatedMosque.receivers.length
       ) {
         const verifiedMosque = await Mosque.findOneAndUpdate(
           { _id: mosqueId },
@@ -217,22 +219,51 @@ const castUpvote = async (req, res) => {
         );
 
         if (verifiedMosque) {
-          //Send notification of newly added mosque
-          // const totalReceivers = await notifyUsers(
-          //   title="",
-          //   body,
-          //   recepients,
-          //   ADD_NEW_MOSQUE_CHANNEL_ID,
-          //   appLogo
-          // );
-        }
-      }
+          //Sign a notification for users
+          const title = `New Mosque Added`.toUpperCase();
+          const body = `MOSQUE: ${mosqueToBeAdded.mosqueName} was added to system. You may consider making it as primary.`;
 
-      if (result) {
+          let mosque_long = mosqueToBeAdded.location.coordinates[0];
+          let mosque_lat = mosqueToBeAdded.location.coordinates[1];
+
+          let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
+
+          //TODO: Should return only Muslim users
+          const recepients = await getNotificationReceivers(peopleAround, 1);
+          saveNotificationForMuslimUser(
+            recepients,
+            title,
+            body,
+            NEW_MOSQUE_ADDITION,
+            mosqueToBeAdded._id //TODO:Will not be unique
+          )
+
+            .then(async (data) => {
+              const totalReceivers = await notifyUsers(
+                title,
+                body,
+                recepients,
+                ADD_NEW_MOSQUE_CHANNEL_ID,
+                appLogo
+              );
+
+              res.status(200).send({
+                success: true,
+                msg: "New mosque was added to system.",
+                data: mosqueToBeAdded,
+              });
+            })
+            .catch((error) => {
+              res
+                .status(400)
+                .send({ msg: "Could not notify users", success: false });
+            });
+        }
+      } else if (mosqueToBeAdded) {
         res.status(200).send({
           success: true,
           msg: `Vote Casted Successfully`,
-          data: result,
+          data: mosqueToBeAdded,
         });
       } else {
         res.status(400).send({ success: false, msg: `Could not cast vote` });
@@ -250,23 +281,92 @@ const castUpvote = async (req, res) => {
 };
 
 const castDownvote = async (req, res) => {
-  console.log("Cast DownVote API hit");
+  console.log("cast Down vote API hit");
   try {
     const { mosqueId, username } = req.body;
 
-    const result = await Mosque.findOneAndUpdate(
-      { _id: mosqueId, receivers: username },
-      { $inc: { downVotes: 1 }, $set: { "receivers.hasVoted": true } }
+    const mosqueToBeAdded = await Mosque.findOne({
+      _id: mosqueId,
+      "receivers.username": username,
+    });
+    const index = await mosqueToBeAdded.receivers.findIndex(
+      (candidate) => candidate.username === username
     );
 
-    if (result) {
-      res
-        .status(200)
-        .send({ success: true, msg: `Vote Casted Successfully`, data: result });
+    if (!mosqueToBeAdded?.receivers[index].hasVoted) {
+      const updatedMosque = await Mosque.findOneAndUpdate(
+        { _id: mosqueId, "receivers.username": username },
+        { $inc: { downVotes: 1 }, $set: { "receivers.$.hasVoted": true } },
+        { new: true }
+      );
+
+      if (
+        updatedMosque.upVotes < updatedMosque.downVotes &&
+        updatedMosque.upVotes + updatedMosque.downVotes ==
+          updatedMosque.receivers.length
+      ) {
+        const verifiedMosque = await Mosque.findOneAndUpdate(
+          { _id: mosqueId },
+          { verified: false }
+        );
+
+        if (verifiedMosque) {
+          //Sign a notification for users
+          const title = `MOSQUE NOT VERIFIED`.toUpperCase();
+          const body = `MOSQUE: ${mosqueToBeAdded.mosqueName} was marked unverified by many users and could not be added.`;
+
+          let mosque_long = mosqueToBeAdded.location.coordinates[0];
+          let mosque_lat = mosqueToBeAdded.location.coordinates[1];
+
+          let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
+
+          //TODO: Should return only Muslim users
+          const recepients = await getNotificationReceivers(peopleAround, 1);
+          saveNotificationForMuslimUser(
+            recepients,
+            title,
+            body,
+            NEW_MOSQUE_UNVERIFIED,
+            mosqueToBeAdded._id
+          )
+            .then(async (data) => {
+              const totalReceivers = await notifyUsers(
+                title,
+                body,
+                recepients,
+                ADD_NEW_MOSQUE_CHANNEL_ID,
+                appLogo
+              );
+
+              res.status(200).send({
+                success: true,
+                msg: "New mosque could not be added",
+                data: mosqueToBeAdded,
+              });
+            })
+            .catch((error) => {
+              res
+                .status(400)
+                .send({ msg: "Could not notify users", success: false });
+            });
+        }
+      } else if (mosqueToBeAdded) {
+        res.status(200).send({
+          success: true,
+          msg: `Vote Casted Successfully`,
+          data: mosqueToBeAdded,
+        });
+      } else {
+        res.status(400).send({ success: false, msg: `Could not cast vote` });
+      }
     } else {
-      res.status(400).send({ success: false, msg: `Could not cast vote` });
+      const result = await Mosque.findOne({ _id: mosqueId });
+      res
+        .status(400)
+        .send({ success: false, msg: `Alredy casted`, data: result });
     }
   } catch (error) {
+    console.log(error);
     res.status(400).send(error.message);
   }
 };

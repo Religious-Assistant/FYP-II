@@ -2,19 +2,16 @@ const User=require('../../models/common_models/userModel')
 const MuslimPreferences=require('../../models/muslim_user_models/muslimUserPreferencesModel')
 
 const updatePrimaryMosque = async (req, res) => {
-  console.log("Add primary mosque API hit");
+  console.log("Update primary mosque API hit");
   try {
     const { username, primaryMosque } = req.body;
 
-    const user = await MuslimPreferences.findOne({ username });
-    if (user) {
-      await MuslimPreferences.updateOne(
-        { username: username },
-        { $set: { primaryMosque: primaryMosque } }
-      );
-      res.send({ success: true, msg: "Primary Mosque Updated"});
+    const updateMosque = await MuslimPreferences.findOneAndUpdate({ username },{$set:{primaryMosque:primaryMosque}},{new:true});
+
+    if (updateMosque) {
+      res.send({ success: true, msg: "Primary Mosque Updated", data:updateMosque});
     } else {
-      res.status(400).send({ success: false, msg: "No such user" });
+      res.status(400).send({ success: false, msg: "No such user"});
     }
   } catch (error) {
     res.status(400).send(error.message);

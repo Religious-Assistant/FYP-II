@@ -288,7 +288,6 @@ const sendOTPCode = async (req, res) => {
 
     console.log(mobile)
     const doesExist = await User.findOne({ mobile: mobile });
-    console.log(doesExist)
 
     if (!doesExist) {
       let number = "92" + mobile.substring(1, 11);

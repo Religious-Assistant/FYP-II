@@ -71,10 +71,11 @@ const saveNotificationForMuslimUser = (
   category,
   notifictionId
 ) => {
+
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       MuslimNotification.create({
-        _id: notifictionId,
+        causedBy: notifictionId,
         title: title,
         description: statement,
         receivedBy: one_receiver.username,
@@ -124,6 +125,7 @@ const saveNotificationForMuslimUser = (
         resolve(null);
       });
   });
+
 };
 
 const saveNotificationForHinduUser = (
