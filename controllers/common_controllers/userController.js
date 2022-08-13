@@ -296,33 +296,38 @@ const updateProfileImage = async (req, res) => {
 const sendOTPCode = async (req, res) => {
   console.log("GET OTP Hit");
   try {
-    const { username, mobile } = req.body;
-    const user = await User.findOne({ username });
-    if (user) {
+    const {mobile } = req.body;
+    
+    const doesExist=await User.findOne({mobile:mobile})
+
+    if(!doesExist){
+      let number="92"+mobile.substring(1,11)
+    
       fetch("https://d7networks.com/api/verifier/send", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: D7_KEY,
-        },
-        body: `
-        {
-            "expiry":${OTP_EXPIRY},
-            "message":"Dear ${username} your OTP code is {code}. Valid for 5 minutes",
-            "mobile":${mobile},
-            "sender_id":"R-Assistant"}
-        `,
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          res.send({ success: true, msg: "OTP sent", data: response });
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: D7_KEY,
+          },
+          body: `
+          {
+              "expiry":${OTP_EXPIRY},
+              "message":"Dear User, your OTP code is {code}. Valid for 25 minutes",
+              "mobile":${number},
+              "sender_id":"R-Assistant"}
+          `,
         })
-        .catch((error) => {
-          res.send({ success: false, msg: "Could not sent OTP" });
-        });
-    } else {
-      res.status(400).send({ success: false, msg: "No such user" });
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+            res.send({ success: true, msg: "OTP sent", data: response });
+          })
+          .catch((error) => {
+            res.send({ success: false, msg: "Could not sent OTP" });
+          });
+    }
+    else{
+      res.send({ success: false, msg: "User with this number already registered" });
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -333,19 +338,19 @@ const verifyOTPCode = async (req, res) => {
   console.log("Verify OTP API Hit");
   try {
     const { otpId, otpCode } = req.body;
+    let otp_id=otpId.otp_id
     fetch("https://d7networks.com/api/verifier/verify", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: D7_KEY,
       },
-      body: `
-        {
-            "otp_id":${otpId},
-            "otp_code":${otpCode}
-        `,
+      body: `{
+            "otp_id":"${otp_id}",
+            "otp_code":"${otpCode}"
+          }`
     })
-      .then((response) => response.json())
+      .then((response) =>response.json())
       .then((response) => {
         console.log(response);
         res.send({ success: true, msg: "OTP Verified", data: response });

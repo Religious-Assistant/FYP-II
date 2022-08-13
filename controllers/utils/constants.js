@@ -1,6 +1,6 @@
 const directoryPath = "public/avatars";
-const D7_KEY = "Token c684b50abdbe0aa97f130d657548a85e5ee14593";
-const OTP_EXPIRY = "300"; //5 minutes
+const D7_KEY = "Token b2cbcb18b68924ddf80dba013d180a817cbdf523";
+const OTP_EXPIRY = "1500"; //5 minutes
 const TOKEN_EXPIRE = 60 * 60 * 24 * 7; //7 days
 const defaultAvatar=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1659965386/religious-assistant/avatar3_l6smjt.png`
 const appLogo=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1660083538/religious-assistant/Original_Theme_rmzpoe.png`
