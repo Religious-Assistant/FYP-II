@@ -11,7 +11,7 @@ const {
   saveNotificationForMuslimUser,
   getNotificationReceivers,
 } = require("../utils/utils");
-const { ANNOUNCEMENT_CHANNEL_ID, appLogo } = require("../utils/constants");
+const { ANNOUNCEMENT_CHANNEL_ID, appLogo, announcement_notification_logo } = require("../utils/constants");
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
@@ -44,20 +44,20 @@ const makeAnnouncement = async (req, res) => {
         });
 
         if (newAnnouncement) {
-          const title = `New Announcement by ${announcedBy.toUpperCase()}`;
+          const title = `Announcement by ${announcedBy.toUpperCase()}`;
           const body = `${statement}`;
 
           //Returns muslim users in range
           const recepients=await getNotificationReceivers(targetAudience,1) 
 
-          saveNotificationForMuslimUser(recepients, title, statement,category, newAnnouncement._id).then(async (data) => {
+          saveNotificationForMuslimUser(recepients, title, statement,category, newAnnouncement._id, announcement_notification_logo).then(async (data) => {
               console.log("Created notifiction record for Muslim");
               const totalReceivers = await notifyUsers(
                 title,
                 body,
                 recepients,
                 ANNOUNCEMENT_CHANNEL_ID,
-                newAnnouncement.avatar
+                newAnnouncement.avatar,
               );
 
               res.status(200).send({

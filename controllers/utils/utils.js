@@ -69,9 +69,11 @@ const saveNotificationForMuslimUser = (
   title,
   statement,
   category,
-  notifictionId
+  notifictionId,
+  icon
 ) => {
 
+  console.log(icon)
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       MuslimNotification.create({
@@ -80,6 +82,7 @@ const saveNotificationForMuslimUser = (
         description: statement,
         receivedBy: one_receiver.username,
         category: category,
+        icon:icon
       })
         .then((data) => {
           resolve(data);

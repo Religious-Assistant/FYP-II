@@ -21,6 +21,8 @@ const notificationSchema = mongoose.Schema(
         "MOSQUE_CONSENSUS",
         "NEW_MOSQUE_UNVERIFIED",
         "IMAM_CONSENSUS",
+        "IMAM_VERIFIED",
+        "IMAM_UNVERIFIED",
         "SETTINGS_CHANGED",
         "OTHER"
       ],
@@ -36,7 +38,6 @@ const notificationSchema = mongoose.Schema(
     },
     icon:{
       type:String,
-      default:appLogo
     },
     causedBy:{type:String,default:""} //It may be caused by announcement, mosque consensus, mosque addition, rejection
       //So place announcement, mosque id

@@ -31,4 +31,4 @@ const announcementSchema = mongoose.Schema(
 );
 
 announcementSchema.index({ location: "2dsphere" });
-module.exports = mongoose.model("Announcement", announcementSchema);
+module.exports = mongoose.model("MuslimAnnouncement", announcementSchema);

@@ -8,12 +8,16 @@ const {
   getNotificationReceivers,
   saveNotificationForMuslimUser,
 } = require("../utils/utils");
+
 const {
   ADD_NEW_MOSQUE_CHANNEL_ID,
   appLogo,
   MOSQUE_CONSENSUS,
   NEW_MOSQUE_ADDITION,
   NEW_MOSQUE_UNVERIFIED,
+  consensus_notificaion_logo,
+  new_mosque_notification_logo,
+  rejected_notification_logo,
 } = require("../utils/constants");
 
 const getAllMosques = async (req, res) => {
@@ -147,12 +151,14 @@ const addMosque = async (req, res) => {
 
           //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
+          console.log(consensus_notificaion_logo)
           saveNotificationForMuslimUser(
             recepients,
             title,
             body,
             MOSQUE_CONSENSUS,
-            newMosqueData._id
+            newMosqueData._id,
+            consensus_notificaion_logo
           )
             .then(async (data) => {
               const totalReceivers = await notifyUsers(
@@ -235,7 +241,8 @@ const castUpvote = async (req, res) => {
             title,
             body,
             NEW_MOSQUE_ADDITION,
-            mosqueToBeAdded._id //TODO:Will not be unique
+            mosqueToBeAdded._id,
+            new_mosque_notification_logo,
           )
 
             .then(async (data) => {
@@ -327,7 +334,8 @@ const castDownvote = async (req, res) => {
             title,
             body,
             NEW_MOSQUE_UNVERIFIED,
-            mosqueToBeAdded._id
+            mosqueToBeAdded._id,
+            rejected_notification_logo
           )
             .then(async (data) => {
               const totalReceivers = await notifyUsers(

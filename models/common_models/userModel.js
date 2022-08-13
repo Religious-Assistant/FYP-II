@@ -30,8 +30,8 @@ const userSchema = mongoose.Schema({
   location: {
     type: { type: String },
     coordinates: [],
-  },
-});
+  }
+},{timestamp:true});
 
 userSchema.pre("save", function (next) {
   const user = this;
