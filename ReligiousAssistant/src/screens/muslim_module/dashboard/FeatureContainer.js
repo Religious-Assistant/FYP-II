@@ -118,7 +118,7 @@ export default function FeatureContainer() {
           screen: ADD_MOSQUE,
           key: 7,
         },
-        user
+    user
       ? {
           disabled: false,
           title: 'Set PrayerTimes',

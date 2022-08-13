@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 import {Text, View} from 'native-base';
-import Geolocation from '@react-native-community/geolocation';
 // Tab ICons...
 import profile from '../../../../assets/images/nadir.png';
 import profile_ic from '../../../../assets/images/profile_ic.png';
