@@ -10,11 +10,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Share
+  Share,
 } from 'react-native';
 
 import {Text, View} from 'native-base';
-
 // Tab ICons...
 import profile from '../../../../assets/images/nadir.png';
 import profile_ic from '../../../../assets/images/profile_ic.png';
@@ -35,12 +34,24 @@ import fonts from '../../../theme/fonts';
 import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
-import {ABOUT, APPLY_AS_IMAM, AUTH_STACK, HELP, MUSLIM_VIEW_PROFILE, SHARE_APP} from '../../../navigation/constants';
+import {
+  ABOUT,
+  APPLY_AS_IMAM,
+  AUTH_STACK,
+  HELP,
+  MUSLIM_VIEW_PROFILE,
+  SHARE_APP,
+} from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
-import { getUserData, logout, selectHasError, selectIsLoadingGetUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
-import { selectCurrentTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {
+  getUserData,
+  logout,
+  selectHasError,
+  selectIsLoadingGetUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {selectCurrentTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import Loader from '../../common/Loader';
-
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -53,66 +64,67 @@ export default function RegisteredMuslimDashboard() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const selectedTab = useSelector(selectCurrentTab);
-  const user=useSelector(selectUserData)
-  const isLoadingGetUserData=useSelector(selectIsLoadingGetUserData)
-  const hasError=useSelector(selectHasError)
+  const user = useSelector(selectUserData);
+  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+  const hasError = useSelector(selectHasError);
 
   useEffect(() => {
-
-    if(!user){
-      dispatch(getUserData())
+    if (!user) {
+      dispatch(getUserData());
     }
   }, [dispatch, selectedTab]);
 
   return (
     <SafeAreaView style={styles.container}>
-      {
-          isLoadingGetUserData || hasError ? <Loader msg='Loading Dashboard for you ... '/>: 
-        
-      <View style={{justifyContent: 'flex-start', padding: 15}}>
-        
-        <View style={{
-          alignItems:'center'
-        }}>
-          <Image
-            source={profile}
+      {isLoadingGetUserData || hasError ? (
+        <Loader msg="Loading Dashboard for you ... " />
+      ) : (
+        <View style={{justifyContent: 'flex-start', padding: 15}}>
+          <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 50,
-              marginTop: 8,
-            }}
-            resizeMode={'cover'} 
-            alt="Profile image"></Image>
-
-          <Text
-            style={{
-              fontSize: 20,
-              color: 'white',
-              marginTop: 15,
-              fontFamily: fonts.Signika.bold,
+              alignItems: 'center',
             }}>
-              {user? user.username:'Loading name ... '}
-          </Text>
+            <Image
+              source={{uri: user?.avatar}}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 50,
+                marginTop: 8,
+              }}
+              resizeMode={'cover'}
+              alt="Profile image"></Image>
+
+            <Text
+              style={{
+                fontSize: 20,
+                color: 'white',
+                marginTop: 15,
+                fontFamily: fonts.Signika.bold,
+              }}>
+              {user ? user.username : 'Loading name ... '}
+            </Text>
+          </View>
+
+          <View style={{flexGrow: 1, marginTop: 50}}>
+            {
+              // Tab Bar Buttons....
+            }
+
+            {TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)}
+            {TabButton(currentTab, setCurrentTab, 'Apply as Imam', imam_ic)}
+            {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
+            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
+            {TabButton(currentTab, setCurrentTab, 'Help', help)}
+          </View>
+
+          <View>
+            {TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}
+          </View>
         </View>
-
-        <View style={{flexGrow: 1, marginTop: 50}}>
-          {
-            // Tab Bar Buttons....
-          }
-
-          {TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)}
-          {TabButton(currentTab, setCurrentTab, 'Apply as Imam', imam_ic)}
-          {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
-          {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
-          {TabButton(currentTab, setCurrentTab, 'Help', help)}
-        </View>
-
-        <View>{TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}</View>
-      </View>
-      }
+      )}
       {
         // Over lay View...
       }
@@ -194,21 +206,19 @@ export default function RegisteredMuslimDashboard() {
 
 // For multiple Buttons...
 const TabButton = (currentTab, setCurrentTab, title, image) => {
-
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const navigator = useNavigation();
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          'https://www.google.com/',
+        message: 'https://www.google.com/',
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activityType
         } else {
-            console.log("Shared")
+          // console.log('Shared');
           // shared
         }
       } else if (result.action === Share.dismissedAction) {
@@ -221,42 +231,36 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        
-        title=title.toLowerCase()
+        title = title.toLowerCase();
 
         if (title == 'logout') {
           //Remove token from async storage
-          dispatch(logout())
+          dispatch(logout());
           navigator.navigate(AUTH_STACK);
-        } else if(title=='view profile') {
-          navigator.navigate(MUSLIM_VIEW_PROFILE)
+        } else if (title == 'view profile') {
+          navigator.navigate(MUSLIM_VIEW_PROFILE);
           // setCurrentTab(title);
-        }
-        else if(title=='about') {
-          navigator.navigate(ABOUT)
+        } else if (title == 'about') {
+          navigator.navigate(ABOUT);
           // setCurrentTab(title);
-        }
-        else if(title=='apply as imam') {
-          navigator.navigate(APPLY_AS_IMAM)
+        } else if (title == 'apply as imam') {
+          navigator.navigate(APPLY_AS_IMAM);
           // setCurrentTab(title);
-        }
-        else if(title=='share app') {
-
-            onShare()
+        } else if (title == 'share app') {
+          onShare();
           // navigator.navigate(SHARE_APP)
           // // setCurrentTab(title);
+        } else if (title == 'help') {
+          navigator.navigate(HELP);
         }
-
-        else if(title=='help') {
-        navigator.navigate(HELP)
-      }
       }}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           paddingVertical: 8,
-          backgroundColor: currentTab == title ? 'white' : 'transparent',
+          // backgroundColor: currentTab == title ? 'white' : 'transparent',
+          backgroundColor: 'transparent',
           paddingLeft: 13,
           paddingRight: 35,
           borderRadius: 8,
@@ -267,7 +271,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           style={{
             width: 25,
             height: 25,
-            tintColor: currentTab == title ? colors.secondary : 'white',
+            // tintColor: currentTab == title ? colors.secondary : 'white',
+            tintColor: 'white',
           }}
           alt="Icon"></Image>
 
@@ -276,7 +281,8 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
             fontSize: 15,
             paddingLeft: 15,
             fontFamily: fonts.Signika.semi_bold,
-            color: currentTab == title ? colors.secondary : 'white',
+            // color: currentTab == title ? colors.secondary : 'white',
+            color: 'white',
           }}>
           {title}
         </Text>

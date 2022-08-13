@@ -24,6 +24,7 @@ import {
   RAKAH_INFO,
   MUSLIM_DUAS,
   ALLAH_99_NAME,
+  SET_PRAYER_TIMES,
 } from '../../../navigation/constants';
 
 //Redux
@@ -116,6 +117,21 @@ export default function FeatureContainer() {
           title: 'Add Mosque',
           image: require('../../../../assets/images/add_ic.png'),
           screen: ADD_MOSQUE,
+          key: 7,
+        },
+    user
+      ? {
+          disabled: false,
+          title: 'Set PrayerTimes',
+          image: require('../../../../assets/images/namazTimes_ic.png'),
+          screen: SET_PRAYER_TIMES,
+          key: 7,
+        }
+      : {
+          disabled: true,
+          title: 'Set PrayerTimes',
+          image: require('../../../../assets/images/namazTimes_ic.png'),
+          screen: SET_PRAYER_TIMES,
           key: 7,
         },
     {

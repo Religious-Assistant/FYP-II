@@ -5,6 +5,8 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import {Center, VStack, FormControl, Button} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -32,13 +34,13 @@ import {
   OTP_VERIFICATION,
 } from '../../navigation/constants';
 
+import Geolocation from '@react-native-community/geolocation';
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {getOTPCode, registerUser, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
-
 const registerValidationSchema = yup.object().shape({
   username: yup.string(),
   password: yup.string(),
@@ -58,18 +60,33 @@ const registerValidationSchema = yup.object().shape({
 // });
 
 function RegisterScreen() {
-  const navigator = useNavigation();
 
+  const navigator = useNavigation();
   const dispatch=useDispatch()
   const hasErrorGetOtpCode=useSelector(selectHasErrorGetOTPCode)
   const isObtainedOTP=useSelector(selectIsObtainedOTP)
 
   const [registerValues, setRegisterValues]=useState()
+  const [position, setPosition] = useState(null);
+  
+  useEffect(() => {
+
+    Geolocation.getCurrentPosition(pos => {
+      const crd = pos.coords;
+      setPosition({
+        latitude: crd.latitude,
+        longitude: crd.longitude,
+      });
+    },
+    error => console.log(error.message),
+    {timeout: 20000, maximumAge: 1000},) 
+  }, []);
+
 
   function signupHandler(values) {
     dispatch(getOTPCode({mobile:values.mobile}))
-    setRegisterValues(values)
-
+    setRegisterValues({...values,location:position})
+  
   }
 
   function enterAsGuest() {
@@ -107,6 +124,7 @@ function RegisterScreen() {
                 }}
                 onSubmit={values => {
                   signupHandler(values);
+                  //position?console.log(position):console.log("no pos");
                 }}>
                 {({
                   handleChange,
