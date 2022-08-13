@@ -2,12 +2,16 @@ import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPOST, apiPATCH} from '../../../apis/apiService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { forgot_password, get_updated_user_data, login_user, register_user } from '../../endpoints';
+import { forgot_password, get_otp_code, get_updated_user_data, login_user, register_user, verify_otp_code } from '../../endpoints';
 
 const initialState = {
     userData:null,
     token:null,
     religion:null,
+    otp_id:null,                //received in get otp code
+    isOTPVerified:false,
+    isOTPObtained:false,
+
     isLoadingLogin:false,
     isLoadingRegister:false,
     isLoadingGetUserData:false,
@@ -18,7 +22,13 @@ const initialState = {
     isLoadingGetUpdatedUserData:false,
     hasErrorGetUpdatedUserData:false,
 
-    hasError:false,
+    isLoadingGetOTPCode:false,
+    hasErrorGetOTPCode:false,
+
+    isLoadingVerifyOTP:false,
+    hasErrorVerifyOTP:false,
+
+    hasError:false, 
     hasRecoveredForgetPassword:false,
 }
 
@@ -26,6 +36,23 @@ export const registerUser = createAsyncThunk(
     'registerUser',
     async (body)=>{
        const result =  await apiPOST(register_user,body)
+       return result  
+    }
+)
+
+export const getOTPCode = createAsyncThunk(
+    'getOTPCode',
+    async (mobileNumber)=>{
+        console.log(`Mobile Number ${mobileNumber}`)
+       const result =  await apiPOST(get_otp_code,mobileNumber)
+       return result  
+    }
+)
+
+export const verifyOTPCode = createAsyncThunk(
+    'verifyOTPCode',
+    async (otpNumber)=>{
+       const result =  await apiPOST(verify_otp_code,otpNumber)
        return result  
     }
 )
@@ -142,6 +169,44 @@ const authSlice = createSlice({
             state.hasError=false
         },
 
+        [getOTPCode.fulfilled]:(state,action)=>{
+            state.hasErrorGetOTPCode=false
+            state.isLoadingGetOTPCode=false
+            state.otp_id=action.payload.data
+            if(state.otp_id){
+                state.hasErrorGetOTPCode=false
+                state.isOTPObtained=true
+            }
+            else{
+                state.hasErrorGetOTPCode=true
+            }
+
+        },
+        [getOTPCode.rejected]:(state,action)=>{
+            state.isLoadingGetOTPCode=false
+            state.hasErrorGetOTPCode=true
+            
+        },
+        [getOTPCode.pending]:(state,action)=>{
+            state.isLoadingGetOTPCode=true
+            state.hasErrorGetOTPCode=false
+        },
+
+        [verifyOTPCode.fulfilled]:(state,action)=>{
+            state.hasErrorVerifyOTP=false
+            state.isLoadingVerifyOTP=false
+            state.isOTPVerified=true
+        },
+        [verifyOTPCode.rejected]:(state,action)=>{
+            state.isLoadingVerifyOTP=false
+            state.hasErrorVerifyOTP=true
+
+        },
+        [verifyOTPCode.pending]:(state,action)=>{
+            state.isLoadingVerifyOTP=true
+            state.hasErrorVerifyOTP=false
+        },
+
         [getToken.fulfilled]:(state,action)=>{
             state.hasError=false
             state.isLoadingGetToken=false
@@ -251,11 +316,18 @@ export const selectIsLoadingGetToken=(state)=>state.user.isLoadingGetToken
 export const selectIsLoadingGetReligion=(state)=>state.user.isLoadingGetReligion
 export const selectIsLoadingForgotPassword=(state)=>state.user.isLoadingForgotPassword
 
+export const selectIsLoadingVerifyOTPCode=(state)=>state.user.isLoadingVerifyOTP
+export const selectIsLoadingGetOTPCode=(state)=>state.user.isLoadingGetOTPCode
+export const selectIsOTPVerified=(state)=>state.user.isOTPVerified
+export const selectHasErrorVerifyOTP=(state)=>state.user.hasErrorVerifyOTP
+export const selectHasErrorGetOTPCode=(state)=>state.user.hasErrorGetOTPCode
+export const selectIsObtainedOTP=(state)=>state.user.isOTPObtained
+
 export const selectHasErrorGetUpdatedUserData=(state)=>state.user.hasErrorGetUpdatedUserData
 export const selectIsLoadingGetUpdatedUserData=(state)=>state.user.isLoadingGetUpdatedUserData
 
 export const selectHasError=(state)=>state.user.hasError
 export const selectHasRecoveredForgetPassword=(state)=>state.user.hasRecoveredForgetPassword
 export const selectUserData=(state)=>state.user.userData
-
+export const selectOtpId=(state)=>state.user.otp_id
 export default authSlice.reducer

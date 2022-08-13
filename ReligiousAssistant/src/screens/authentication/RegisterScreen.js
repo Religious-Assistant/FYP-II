@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   ImageBackground,
@@ -34,41 +34,58 @@ import {
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser} from '../../redux/slices/auth_slices/authSlice';
+import {getOTPCode, registerUser, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 
-// const registerValidationSchema = yup.object().shape({
-//   username: yup.string(),
-//   password: yup.string(),
-//   mobile: yup.string(),
-//   religion: yup.number(),
-// });
-
 const registerValidationSchema = yup.object().shape({
-  username: yup.string().required('username is required'),
-  password: yup.string().min(8).required('Password is required'),
-  mobile: yup
-    .string()
-    .required('Phone number is required')
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .min(11),
-  religion: yup.number().required('Religion is Required'),
+  username: yup.string(),
+  password: yup.string(),
+  mobile: yup.string(),
+  religion: yup.number(),
 });
+
+// const registerValidationSchema = yup.object().shape({
+//   username: yup.string().required('username is required'),
+//   password: yup.string().min(8).required('Password is required'),
+//   mobile: yup
+//     .string()
+//     .required('Phone number is required')
+//     .matches(phoneRegExp, 'Phone number is not valid')
+//     .min(11),
+//   religion: yup.number().required('Religion is Required'),
+// });
 
 function RegisterScreen() {
   const navigator = useNavigation();
-  const dispatch = useDispatch();
+
+  const dispatch=useDispatch()
+  const hasErrorGetOtpCode=useSelector(selectHasErrorGetOTPCode)
+  const isObtainedOTP=useSelector(selectIsObtainedOTP)
+
+  const [registerValues, setRegisterValues]=useState()
 
   function signupHandler(values) {
-    dispatch(registerUser(values));
-    navigator.navigate(OTP_VERIFICATION);
+    dispatch(getOTPCode({mobile:values.mobile}))
+    setRegisterValues(values)
+
   }
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
   }
+
+  useEffect(()=>{
+
+    if(!hasErrorGetOtpCode && isObtainedOTP){
+      navigator.navigate(OTP_VERIFICATION,{values:registerValues});
+    }
+    if(hasErrorGetOtpCode && !isObtainedOTP){
+      alert(`Number already in use, or error while getting OTP`)
+    }
+
+  },[dispatch,hasErrorGetOtpCode, isObtainedOTP])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -86,6 +103,7 @@ function RegisterScreen() {
                   password: '',
                   mobile: '',
                   religion: 1,
+                  
                 }}
                 onSubmit={values => {
                   signupHandler(values);
