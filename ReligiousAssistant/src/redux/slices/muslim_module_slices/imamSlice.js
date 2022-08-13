@@ -4,8 +4,11 @@ import {become_imam} from '../../endpoints';
 
 
 const initialState = {
-    isLoading:true,
-    hasError:false,
+
+    hasBecomeImam:false,
+    isLoadingBecomeImam:false,
+    hasErrorBecomeImam:false,
+
 }
 
 export const becomeImam = createAsyncThunk(
@@ -16,27 +19,32 @@ export const becomeImam = createAsyncThunk(
     }
 )
 
+
 const imamSlice = createSlice({
     name:"imam",
     initialState,
     reducers:{},
     extraReducers:{
         [becomeImam.fulfilled]:(state,action)=>{
-            state.hasError = false
-            state.isLoading = false
+            state.isLoadingBecomeImam = false
+            state.hasErrorBecomeImam = false
         },
         [becomeImam.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingBecomeImam=true
+            state.hasErrorBecomeImam=false
+            state.hasBecomeImam=true            //succeefulle applied to become imam
         },
         [becomeImam.rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
+            state.isLoadingBecomeImam = false
+            state.hasErrorBecomeImam = true
+
         },
     }
 })
 
-export const selectIsLoading=(state)=>state.imam.isLoading
-export const selectHasError=(state)=>state.imam.hasError
+export const selectIsLoadingBecomeImam=(state)=>state.imam.isLoadingBecomeImam
+export const selectHasErrorBecomingImam=(state)=>state.imam.hasErrorBecomeImam
+export const selectHasBecomeImam=(state)=>state.imam.hasBecomeImam
+
 
 export default imamSlice.reducer

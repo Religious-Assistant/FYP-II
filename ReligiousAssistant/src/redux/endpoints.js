@@ -70,6 +70,7 @@ const delete_muslim_notification='delete-muslim-notification'
 
 //Imam
 const become_imam='become-imam'
+const update_namaz_times='update-namaz-times'
 
 //Announcements
 const make_announcement='make-announcement'
@@ -95,6 +96,7 @@ export {
     verify_otp_code,
     get_updated_user_data,
 
+    update_namaz_times,
     update_tasbih,
     get_recitation_stats,
     mark_surah_as_read,
