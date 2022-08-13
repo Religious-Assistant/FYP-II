@@ -1,14 +1,15 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const admin = require("firebase-admin");
-const fs=require('fs')
 const User = require("../../models/common_models/userModel");
 const MuslimNotification = require("../../models/muslim_user_models/muslimUserNotificationModel");
 const HinduNotification = require("../../models/hindu_user_models/hinduUserNotificationModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 
+require("dotenv").config();
+
 const jwt_secret = process.env.JWT_KEY;
-const { TOKEN_EXPIRE, directoryPath, base_url } = require("./constants");
+const { TOKEN_EXPIRE } = require("./constants");
 
 async function hashPassword(password) {
   const newPass = await bcrypt.hash(password, 5);
@@ -30,7 +31,7 @@ const findNearByPeople = async (longitude, latitude) => {
           coordinates: [parseFloat(longitude), parseFloat(latitude)],
         },
         key: "location",
-        maxDistance: 1000 * 50, //Get users in 50KM
+        maxDistance: 1000 * process.env.CLOSEST_DISTANCE, //Get users in 50KM
         distanceField: "dist.calculated",
         spherical: true,
       },
@@ -46,33 +47,34 @@ const findNearByPeople = async (longitude, latitude) => {
 };
 
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
-  
   // Send a message to devices with the registered tokens
 
-  const resp=await admin
-    .messaging()
-    .sendMulticast({
-      tokens: targetDevices.map(token=>token.deviceToken),
-      data: {
-        notification: JSON.stringify({
-          body: body,
-          title: title,
-          channelId:channelId+"",
-          largeIcon:senderImage
-        }),
-      },
-    })
+  const resp = await admin.messaging().sendMulticast({
+    tokens: targetDevices.map((token) => token.deviceToken),
+    data: {
+      notification: JSON.stringify({
+        body: body,
+        title: title,
+        channelId: channelId + "",
+        largeIcon: senderImage,
+      }),
+    },
+  });
 
-    return resp.successCount
+  return resp.successCount;
 }
 
-
-const saveNotificationForMuslimUser=(recepients,title,statement,category, notifictionId)=>{
-
+const saveNotificationForMuslimUser = (
+  recepients,
+  title,
+  statement,
+  category,
+  notifictionId
+) => {
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       MuslimNotification.create({
-        _id:notifictionId,
+        _id: notifictionId,
         title: title,
         description: statement,
         receivedBy: one_receiver.username,
@@ -122,12 +124,14 @@ const saveNotificationForMuslimUser=(recepients,title,statement,category, notifi
         resolve(null);
       });
   });
+};
 
-}
-
-
-const saveNotificationForHinduUser=(recepients,title,statement,category)=>{
-
+const saveNotificationForHinduUser = (
+  recepients,
+  title,
+  statement,
+  category
+) => {
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       HinduNotification.create({
@@ -180,30 +184,26 @@ const saveNotificationForHinduUser=(recepients,title,statement,category)=>{
         resolve(null);
       });
   });
+};
 
-}
+const getNotificationReceivers = async (targetAudience, audienceReligion) => {
+  const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
 
-const getNotificationReceivers=async (targetAudience, audienceReligion)=>{
-  const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 }); 
+  //We could send to only those who has subscribed to announcement notfs in preferences
 
-    //We could send to only those who has subscribed to announcement notfs in preferences
+  //#region
+  //1. Get only device tokens that are targeted i.e within range
+  //2. Mosque notification should be received by only muslim users religion===1 or religion===0
+  //3. Don't send to user himself
 
-    //#region
-    //1. Get only device tokens that are targeted i.e within range
-    //2. Mosque notification should be received by only muslim users religion===1 or religion===0
-    //3. Don't send to user himself
-
-    //#endregion
+  //#endregion
 
   return receivers.filter((receiver) => {
     // if (receiver.username !== announcedBy) {
     return targetAudience.includes(receiver.username);
     // }
   });
-
-  
-}
-
+};
 
 // const getProfileImage = async (username) => {
 //   return new Promise((resolve, reject) => {
@@ -229,6 +229,6 @@ module.exports = {
   notifyUsers,
   saveNotificationForMuslimUser,
   saveNotificationForHinduUser,
-  getNotificationReceivers
+  getNotificationReceivers,
   // getProfileImage
 };

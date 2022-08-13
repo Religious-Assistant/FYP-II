@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const bcrypt = require("bcrypt");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -15,19 +13,13 @@ const FastAccountability = require("../../models/muslim_user_models/fastAccounta
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 
 //common functions
-const {
-  hashPassword,
-  createToken,
-} = require("../utils/utils");
+const { hashPassword, createToken } = require("../utils/utils");
 
 const {
-  directoryPath,
   defaultAvatar,
-  D7_KEY,
   OTP_EXPIRY,
 } = require("../utils/constants");
 const {
-  avatarUploader,
   avatarRemover,
   getPublicId,
   base64Uploader,
@@ -52,6 +44,7 @@ const registerUser = async (req, res) => {
           coordinates: [parseFloat("68.8228"), parseFloat("27.7244")],
         },
         avatar: defaultAvatar,
+        verified: true,
       });
 
       if (user_data) {
@@ -167,18 +160,17 @@ const getUpdatedUserdata = async (req, res) => {
     });
 
     if (user_data) {
-
-        res.send({
-          success: true,
-          data: user_data,
-          msg: "Fetched Data Successfully",
-        });
-      } else {
-        res.status(400).send({
-          success: false,
-          msg: "Could not fetch data ",
-        });
-      }
+      res.send({
+        success: true,
+        data: user_data,
+        msg: "Fetched Data Successfully",
+      });
+    } else {
+      res.status(400).send({
+        success: false,
+        msg: "Could not fetch data ",
+      });
+    }
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -211,10 +203,10 @@ const forgotPassword = async (req, res) => {
 
 const updateProfileImage = async (req, res) => {
   console.log("Update Profile API hit");
- try {
+  try {
     const { username, profileImage } = req.body;
 
-    let image=`data:image/png;base64,${profileImage}`
+    let image = `data:image/png;base64,${profileImage}`;
 
     const user = await User.findOne({ username });
     if (user) {
@@ -229,16 +221,14 @@ const updateProfileImage = async (req, res) => {
                   const updated = await User.findOneAndUpdate(
                     { username: username },
                     { avatar: result.url },
-                    {new:true}
+                    { new: true }
                   );
 
-                  return res
-                    .status(200)
-                    .send({
-                      success: true,
-                      msg: "Updated Image successfully",
-                      data: updated,
-                    });
+                  return res.status(200).send({
+                    success: true,
+                    msg: "Updated Image successfully",
+                    data: updated,
+                  });
                 })
                 .catch((error) => {
                   return res.status(400).send({
@@ -263,19 +253,16 @@ const updateProfileImage = async (req, res) => {
       } else {
         await base64Uploader(image)
           .then(async (result) => {
-
             const updated = await User.findOneAndUpdate(
               { username: username },
               { avatar: result.url }
             );
 
-            return res
-              .status(200)
-              .send({
-                success: true,
-                msg: "Updated Image successfully",
-                data: updated,
-              });
+            return res.status(200).send({
+              success: true,
+              msg: "Updated Image successfully",
+              data: updated,
+            });
           })
           .catch((error) => {
             return res.status(400).send({
@@ -296,41 +283,43 @@ const updateProfileImage = async (req, res) => {
 const sendOTPCode = async (req, res) => {
   console.log("GET OTP Hit");
   try {
-    const {mobile } = req.body;
-    
-    const doesExist=await User.findOne({mobile:mobile})
+    const { mobile } = req.body;
 
-    if(!doesExist){
-      let number="92"+mobile.substring(1,11)
-    
+    const doesExist = await User.findOne({ mobile: mobile });
+
+    if (!doesExist) {
+      let number = "92" + mobile.substring(1, 11);
+
       fetch("https://d7networks.com/api/verifier/send", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Authorization: D7_KEY,
-          },
-          body: `
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: process.env.D7_KEY,
+        },
+        body: `
           {
               "expiry":${OTP_EXPIRY},
               "message":"Dear User, your OTP code is {code}. Valid for 25 minutes",
               "mobile":${number},
               "sender_id":"R-Assistant"}
           `,
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          res.send({ success: true, msg: "OTP sent", data: response });
         })
-          .then((response) => response.json())
-          .then((response) => {
-            console.log(response);
-            res.send({ success: true, msg: "OTP sent", data: response });
-          })
-          .catch((error) => {
-            res.send({ success: false, msg: "Could not sent OTP" });
-          });
-    }
-    else{
-      res.send({ success: false, msg: "User with this number already registered" });
+        .catch((error) => {
+          res.send({ success: false, msg: "Could not sent OTP" });
+        });
+    } else {
+      res.status(400).send({
+        success: false,
+        msg: "User with this number already registered",
+      });
     }
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({msg:error.message});
   }
 };
 
@@ -338,19 +327,19 @@ const verifyOTPCode = async (req, res) => {
   console.log("Verify OTP API Hit");
   try {
     const { otpId, otpCode } = req.body;
-    let otp_id=otpId.otp_id
+    let otp_id = otpId.otp_id;
     fetch("https://d7networks.com/api/verifier/verify", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization: D7_KEY,
+        Authorization: process.env.D7_KEY,
       },
       body: `{
             "otp_id":"${otp_id}",
             "otp_code":"${otpCode}"
-          }`
+          }`,
     })
-      .then((response) =>response.json())
+      .then((response) => response.json())
       .then((response) => {
         console.log(response);
         res.send({ success: true, msg: "OTP Verified", data: response });
@@ -371,24 +360,22 @@ const updatePassword = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       const securePassword = await hashPassword(newPassword);
-      const result=await User.updateOne(
+      const result = await User.updateOne(
         { username: username },
         { $set: { password: securePassword } }
       );
 
-      if(result.acknowledged){
+      if (result.acknowledged) {
         res.status(200).send({
           success: true,
           msg: "Password Updated Successfully!",
         });
-      }
-      else{
+      } else {
         res.status(200).send({
           success: false,
           msg: "Could not update password",
         });
       }
-
     } else {
       res.status(400).send({ success: false, msg: "No such user" });
     }
@@ -400,7 +387,6 @@ const updatePassword = async (req, res) => {
 const updateLocation = async (req, res) => {
   console.log("Update Location API hit", req.body);
   try {
-
     const { username, longitude, latitude } = req.body;
     const user = await User.findOne({ username });
     if (user) {

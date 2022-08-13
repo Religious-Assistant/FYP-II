@@ -1,5 +1,4 @@
 const directoryPath = "public/avatars";
-const D7_KEY = "Token b2cbcb18b68924ddf80dba013d180a817cbdf523";
 const OTP_EXPIRY = "1500"; //5 minutes
 const TOKEN_EXPIRE = 60 * 60 * 24 * 7; //7 days
 const defaultAvatar=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1659965386/religious-assistant/avatar3_l6smjt.png`
@@ -23,13 +22,11 @@ module.exports = {
   directoryPath,
   defaultAvatar,
   appLogo,
-  D7_KEY,
   OTP_EXPIRY,
   TOKEN_EXPIRE,
   ANNOUNCEMENT_CHANNEL_ID,
   NAMAZ_CHANNEL_ID,
   ADD_NEW_MOSQUE_CHANNEL_ID,
-
   MOSQUE_CONSENSUS,
   NEW_MOSQUE_ADDITION,
   IMAM_CONSENSUS,
