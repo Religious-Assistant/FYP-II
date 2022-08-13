@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
   console.log("Register API hit");
 
   try {
-    const { username } = await req.body;
+    const { username, mobile, password, religion,location } = await req.body;
     const duplicateUser = await User.findOne({ username: username });
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
@@ -38,10 +38,10 @@ const registerUser = async (req, res) => {
 
       //By default, Sukkur location is added
       const user_data = await User.create({
-        ...req.body,
+        username, mobile, password, religion,
         location: {
           type: "Point",
-          coordinates: [parseFloat("68.8228"), parseFloat("27.7244")],
+          coordinates: [parseFloat(location.longitude), parseFloat(location.latitude)],
         },
         avatar: defaultAvatar,
         verified: true,
