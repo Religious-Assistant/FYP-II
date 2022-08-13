@@ -22,7 +22,6 @@ const initialState = {
 
 }
 
-
 export const updatePassword = createAsyncThunk(
     'updatePassword',
     async (body)=>{

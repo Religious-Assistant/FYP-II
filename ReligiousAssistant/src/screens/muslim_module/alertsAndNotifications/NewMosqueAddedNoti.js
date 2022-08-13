@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
@@ -14,150 +14,197 @@ import {
   VStack,
   HStack,
   Divider,
-  ScrollView
+  ScrollView,
+  Box,
 } from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-
+import directionIcon from '../../../../assets/images/direction_ic.png';
 import mosqueIcon from '../../../../assets/images/closest_mosque_ic.png';
+import { useNavigation } from '@react-navigation/native';
 
 import CustomButton from '../../../components/CustomButton';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getMosqueById,
+  selectIsLoadingGetMosqueById,
+  selectMosqueById,
+} from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import Loader from '../../common/Loader';
+import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
+import { updatePrimaryMosque } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+import { getUpdatedUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
-export default function NewMosqueAddedNoti() {
-  const mosqueInfo = [
-    {
-      key: 1,
-      label: 'Mosque Name',
-      info: 'Sukkur Iba',
-    },
-    {
-      key: 2,
-      label: 'Location',
-      info: 'Sukkur IBA Uni',
-    },
-    {
-      key: 3,
-      label: 'Added By',
-      info: 'Nadir Hussain',
-    },
-    {
-      key: 4,
-      label: 'Distance from you',
-      info: '3km',
-    },
-  ];
+export default function NewMosqueAddedNoti({route, navigation}) {
+  const {mosqueId} = route.params;
+
+  const navigator=useNavigation()
+
+  const dispatch = useDispatch();
+  const mosqueById = useSelector(selectMosqueById);
+  const isLoadingGetMosqueById = useSelector(selectIsLoadingGetMosqueById);
+  const user=useSelector(selectUserData)
+
+  useEffect(() => {
+    dispatch(getMosqueById({mosqueId: mosqueId}));
+    console.log(mosqueById);
+  }, []);
+
+  const displayLocationOnMap = destinationCoordinates => {
+    navigator.navigate(GOOGLE_MAP_DIRECTIONS, {destinationCoordinates});
+  };
+
+  const makeMosquePrimary=()=>{
+
+    if(user && mosqueById){
+      dispatch(updatePrimaryMosque({username:user?.username,primaryMosque:mosqueById?._id}))
+      dispatch(getUpdatedUserData({username:user?.username}))
+      alert('Updated Primary Mosque')
+    }
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         flex={1}
         backgroundColor={colors.white}>
-      <View style={{flex: 1, backgroundColor: colors.white}}>
-        {/* Header */}
-        <View
-          style={{
-            flex: 0.17,
-            backgroundColor: colors.primary,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            position: 'absolute',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-            <Image
-              source={mosqueIcon}
-              style={{
-                marginTop: '10%',
-                marginRight: '5%',
-                marginBottom: '5%',
-                height: 80,
-                width: 80,
-              }}
-              alt="icon .."
-            />
-          </View>
-          <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-            <Heading color={colors.secondary} marginLeft="10%" marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>New Mosque </Text>
-              <Heading color={colors.white}>
-                <Text style={{fontFamily: fonts.Signika.bold}}>
-                  {'\n'}Information
-                </Text>
-              </Heading>
-            </Heading>
-          </View>
-        </View>
-        <View style={{flex: 0.83}} width="95%" alignItems="center">
-          <Center
-            width="90%"
-            space={2}
-            maxW="90%"
-            marginTop={'68%'}
-            marginLeft={'5%'}
-            marginBottom={'5%'}>
-            {mosqueInfo.map((mosque, index) => {
-              return (
-                <VStack
-                key={mosque.key}
-                  space={3}
-                  divider={<Divider />}
-                  w="90%"
-                  marginTop={'10%'}>
-                  <HStack justifyContent="space-between" flexWrap={'wrap'}>
-                    {/* label */}
-                    <Text style={styles.label}>{mosque.label}:</Text>
-                    {/* Mosque Information */}
-                    <Text style={styles.info}>{mosque.info}</Text>
-                  </HStack>
-                </VStack>
-              );
-            })}
+        <View style={{flex: 1, backgroundColor: colors.white}}>
+          {/* Header */}
 
-            <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
-              <HStack justifyContent="space-between">
-                {/* Button */}
-                <CustomButton
-                  title="Set as Primary Mosque"
-                  variant="solid"
-                  color="white"
-                  base="100%"
+          {isLoadingGetMosqueById ? (
+            <Loader msg="Getting mosque info ... " />
+          ) : (
+            <>
+              <View
+                style={{
+                  flex: 0.17,
+                  backgroundColor: colors.primary,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  position: 'absolute',
+                  alignItems: 'center',
+                }}>
+                <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+                  <Image
+                    source={mosqueIcon}
+                    style={{
+                      marginTop: '10%',
+                      marginRight: '5%',
+                      marginBottom: '5%',
+                      height: 80,
+                      width: 80,
+                    }}
+                    alt="icon .."
+                  />
+                </View>
+                <View
+                  style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+                  <Heading
+                    color={colors.secondary}
+                    marginLeft="10%"
+                    marginTop={'5%'}>
+                    <Text style={{fontFamily: fonts.Signika.bold}}>
+                      New Mosque{' '}
+                    </Text>
+                    <Heading color={colors.white}>
+                      <Text style={{fontFamily: fonts.Signika.bold}}>
+                        {'\n'}Information
+                      </Text>
+                    </Heading>
+                  </Heading>
+                </View>
+              </View>
+
+              <View style={styles.detailContainer}>
+                <DetailItem
+                  heading={'Mosque Name'}
+                  data={mosqueById?.mosqueName}
                 />
-              </HStack>
-            </VStack>
-          </Center>
+                                <DetailItem
+                  heading={'Added By'}
+                  data={`${mosqueById?.addedBy.toUpperCase()}`}
+                />
+
+            <View
+                style={{
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  marginTop:25,
+                }}>
+                <Text style={styles.heading}>
+                  Location
+                </Text>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    displayLocationOnMap(mosqueById?.location?.coordinates);
+                  }}
+                  activeOpacity={0.6}>
+                  <Image
+                    source={directionIcon}
+                    style={{
+                      height: 40,
+                      width: 40,
+                      tintColor: colors.primary,
+                    }}
+                    alt="Direction"
+                  />
+                </TouchableOpacity>
+              </View>
+
+
+                <View style={{justifyContent: 'center', marginTop: 40}}>
+                  <CustomButton
+                    title="Set as Primary Mosque"
+                    variant="solid"
+                    color="white"
+                    onPress={makeMosquePrimary}
+
+                    
+                  />
+                </View>
+              </View>
+            </>
+          )}
         </View>
-      </View>
       </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
 
+const DetailItem = ({heading, data}) => {
+  return (
+    <View style={styles.itemContainer}>
+      <Text style={styles.heading}>{heading}</Text>
+      <Text style={styles.data}>{data}</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
+  detailContainer: {
+    marginTop: 200,
+    padding: 20,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 5,
+    backgroundColor: colors.cover,
   },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 25,
   },
-  text: {
+  heading: {
+    fontFamily: fonts.Signika.bold,
+    fontSize: 20,
+    color: colors.info,
+  },
+  data: {
     fontFamily: fonts.Signika.medium,
+    fontSize: 18,
     color: colors.primary,
-    marginTop: '5%',
-  },
-  label: {
-    fontFamily: fonts.Signika.bold,
-    fontSize: 20,
-    padding: 5,
-    color: colors.primary,
-  },
-  info: {
-    fontFamily: fonts.Signika.bold,
-    fontSize: 20,
-    padding: 5,
-    color: colors.tertiary,
   },
 });

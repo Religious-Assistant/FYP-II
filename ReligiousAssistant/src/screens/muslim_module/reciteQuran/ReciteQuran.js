@@ -42,12 +42,14 @@ import {
 //Redux
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import RecitationStats from './RecitationStats';
+import { useIsFocused } from '@react-navigation/native'
 
 const ReciteQuran = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const isLoadingParahs = useSelector(selectIsLoadingParahs);
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     dispatch(getSurahs());

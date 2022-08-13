@@ -44,9 +44,8 @@ const VerificationScreen = ({route, navigation}) => {
 
   function verifyOTP(){
 
-    console.log(otpId)
     if(otpId){
-
+      console.log(otpId)
       let values=Object.values(otp)
       dispatch(verifyOTPCode({otpCode:values.toString().replaceAll(',',''), otpId:otpId}))
     }

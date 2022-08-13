@@ -5,8 +5,6 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
-  PermissionsAndroid,
 } from 'react-native';
 import {Center, VStack, FormControl, Button} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -41,28 +39,29 @@ import {getOTPCode, registerUser, selectHasErrorGetOTPCode, selectIsObtainedOTP}
 // import {}
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
-const registerValidationSchema = yup.object().shape({
-  username: yup.string(),
-  password: yup.string(),
-  mobile: yup.string(),
-  religion: yup.number(),
-});
-
 // const registerValidationSchema = yup.object().shape({
-//   username: yup.string().required('username is required'),
-//   password: yup.string().min(8).required('Password is required'),
-//   mobile: yup
-//     .string()
-//     .required('Phone number is required')
-//     .matches(phoneRegExp, 'Phone number is not valid')
-//     .min(11),
-//   religion: yup.number().required('Religion is Required'),
+//   username: yup.string(),
+//   password: yup.string(),
+//   mobile: yup.string(),
+//   religion: yup.number(),
 // });
+
+const registerValidationSchema = yup.object().shape({
+  username: yup.string().required('username is required'),
+  password: yup.string().min(8).required('Password is required'),
+  mobile: yup
+    .string()
+    .required('Phone number is required')
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(11),
+  religion: yup.number().required('Religion is Required'),
+});
 
 function RegisterScreen() {
 
   const navigator = useNavigation();
   const dispatch=useDispatch()
+
   const hasErrorGetOtpCode=useSelector(selectHasErrorGetOTPCode)
   const isObtainedOTP=useSelector(selectIsObtainedOTP)
 

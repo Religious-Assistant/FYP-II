@@ -30,6 +30,7 @@ import fonts from '../../../theme/fonts';
 import CustomBox from '../../../components/CustomBox';
 import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
+import { useIsFocused } from '@react-navigation/native'
 
 //Redux
 
@@ -37,6 +38,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { getClosestMosques, selectClosestMosques } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 import { useNavigation } from '@react-navigation/native';
 import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
+import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
 
 export default function FindMosque() {
@@ -46,12 +48,19 @@ export default function FindMosque() {
   const navigator=useNavigation()
 
   const closesMosques=useSelector(selectClosestMosques)
-
-  const[sourceCoordinates,setSourceCoordinates]=useState()
+  const user=useSelector(selectUserData)
+  const isFocused = useIsFocused()
 
   useEffect(()=>{
-    getLocation()
-  },[])
+
+    if(!user){
+      dispatch(getUserData())
+    }
+
+    if(user){
+        dispatch(getClosestMosques({longitude:user?.location?.coordinates[0], latitude:user?.location?.coordinates[1]}))
+    }
+  },[dispatch, isFocused])
   
   getLocation = async () => {
     try {

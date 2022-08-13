@@ -35,6 +35,7 @@ import {
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import CATEGORIES from '../UIConstants';
 import { IMAM_CONSENSUS, MOSQUE_CONSENSUS, MUSLIM_ANNOUNCEMENTS, NEW_MOSQUE_ADDITION } from '../../../navigation/constants';
+import { useIsFocused } from '@react-navigation/native'
 
 export default function Alerts({navigation}) {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ export default function Alerts({navigation}) {
     selectHasErrorInGettingNotifications,
   );
   const user = useSelector(selectUserData);
-
+  const isFocused = useIsFocused()
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
     if (user) {
@@ -57,7 +58,7 @@ export default function Alerts({navigation}) {
 
     //unsubscribe on unmount
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, dispatch, isFocused]);
 
   //Handle delete
   const handleDelete = item => {
@@ -117,7 +118,7 @@ const ListItem = props => {
   const notification = props.item.item;
   const navigator=useNavigation()
 
-  const gotoRespectiveScreen=(category, notificationId)=>{
+  const gotoRespectiveScreen=(category, causedBy)=>{
     
     if(category==CATEGORIES.EID_NAMAZ){
       navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
@@ -126,11 +127,11 @@ const ListItem = props => {
         navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
     }
     else if(category===CATEGORIES.NEW_MOSQUE_ADDITION){
-      navigator.navigate(NEW_MOSQUE_ADDITION)
+      navigator.navigate(NEW_MOSQUE_ADDITION,{mosqueId:causedBy})
     }
     else if(category===CATEGORIES.MOSQUE_CONSENSUS){
       
-      navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:notificationId})  
+      navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:causedBy})  
 
     }
     //Go to no where when Namaz Alert Notification clicked
@@ -157,7 +158,7 @@ const ListItem = props => {
     <GestureHandlerRootView>
       <Swipeable renderRightActions={rightSwipe} key={notification._id}>
         <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={()=>{
-          gotoRespectiveScreen(notification.category, notification._id)
+          gotoRespectiveScreen(notification.category, notification.causedBy)
         }}>
           <Image
             source={{uri: notification.icon}}

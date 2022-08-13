@@ -211,7 +211,9 @@ export default function Settings({route, navigation}) {
     }
   }
 
-  function updatePrimaryMosqueSetting(item) {}
+  function updatePrimaryMosqueSetting(item) {
+    
+  }
 
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: MUSLIM_SETTINGS});
