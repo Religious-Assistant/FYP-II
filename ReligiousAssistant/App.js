@@ -19,6 +19,7 @@
 
  import UpdatePrayerTimes from './src/screens/muslim_module/imam/UpdatePrayerTimes'
 import AutoSilent from './src/screens/muslim_module/preferences/AutoSilent';
+import PushNoti from './src/screens/muslim_module/preferences/PushNoti';
 
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
@@ -99,7 +100,7 @@ import AutoSilent from './src/screens/muslim_module/preferences/AutoSilent';
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <AutoSilent/>
+         <PushNoti/>
        </NativeBaseProvider>
      </Provider>
    );
