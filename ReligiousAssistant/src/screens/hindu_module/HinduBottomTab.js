@@ -9,10 +9,10 @@ import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Notifications from './Notifications';
-import Settings from './Settings';
+import Settings from './preferences/Settings';
 import fonts from '../../theme/fonts';
 import Home from './Home';
-import FindTemple from './temples/FindTemple';
+import FindTemple from './temple/FindTemple';
 import Prayers from './Prayers';
 //import all screens
 
