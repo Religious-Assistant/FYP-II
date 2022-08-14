@@ -16,7 +16,7 @@ import {
   VIEW_HINDU_CALANDER,
 } from './constants';
 
-import RegisteredHinduDashboard from '../screens/hindu_module/RegisteredHinduDashboard';
+import RegisteredHinduDashboard from '../screens/hindu_module/dashboard/RegisteredHinduDashboard';
 import FindTemple from '../screens/hindu_module/temple/FindTemple';
 import Calander from '../screens/hindu_module/calander/Calander';
 import Announcements from '../screens/hindu_module/announcements/Announcements';

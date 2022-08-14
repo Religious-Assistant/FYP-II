@@ -7,6 +7,7 @@ const colors={
     black:'#000000',            //For black Text
     danger:'#9f1239',          //For delete, update buttons
     error:'#b91c1c',            //For network, input erros
+    red:'#E55451',
     
     success:{                   //For completion of action
         light:'#4ade80',
