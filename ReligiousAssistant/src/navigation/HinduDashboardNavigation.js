@@ -22,7 +22,7 @@ import Calander from '../screens/hindu_module/calander/Calander';
 import Announcements from '../screens/hindu_module/announcements/Announcements';
 import AutoSilent from '../screens/hindu_module/preferences/AutoSilent';
 import AddTemple from '../screens/hindu_module/temple/AddTemple'
-import ReciteGita from '../screens/hindu_module/ReciteGita';
+import ReciteGita from '../screens/hindu_module/reciteGita/ReciteGita';
 
 const HomeStack = createNativeStackNavigator();
 
