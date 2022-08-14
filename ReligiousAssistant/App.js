@@ -16,6 +16,10 @@
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
+
+ import UpdatePrayerTimes from './src/screens/muslim_module/imam/UpdatePrayerTimes'
+import AutoSilent from './src/screens/muslim_module/preferences/AutoSilent';
+
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
  
@@ -95,7 +99,7 @@
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <EntryPoint />
+         <AutoSilent/>
        </NativeBaseProvider>
      </Provider>
    );

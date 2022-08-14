@@ -57,7 +57,7 @@ export default function UpdatePrayerTimes() {
   }
   const fajrStartTime = useInput(new Date());
   const fajrEndTime = useInput(new Date());
-  
+
   const duhrStartTime = useInput(new Date());
   const duhrEndTime = useInput(new Date());
 
@@ -119,7 +119,7 @@ export default function UpdatePrayerTimes() {
       onChangeStart: asrStartTime.onChange,
       onChangeEnd: asrEndTime.onChange,
     },
-    
+
     {
       key: 4,
       label: 'Maghrib',
@@ -136,7 +136,7 @@ export default function UpdatePrayerTimes() {
       onChangeStart: maghribStartTime.onChange,
       onChangeEnd: maghribEndTime.onChange,
     },
-    
+
     {
       key: 5,
       label: 'Isha',
@@ -284,11 +284,36 @@ export default function UpdatePrayerTimes() {
                   title={'Update Namaz Times'}
                   mt="5%"
                   onPress={() => {
-                    console.log("Fajr: ",fajrStartTime.text," ",fajrEndTime.text );
-                    console.log("Duhr: ",duhrStartTime.text," ",duhrEndTime.text );
-                    console.log("Asr: ",asrStartTime.text," ",asrEndTime.text );
-                    console.log("Maghrib: ",maghribStartTime.text," ",maghribEndTime.text );
-                    console.log("Isha: ",ishaStartTime.text," ",ishaEndTime.text );
+                    console.log(
+                      'Fajr: ',
+                      fajrStartTime.text,
+                      ' ',
+                      fajrEndTime.text,
+                    );
+                    console.log(
+                      'Duhr: ',
+                      duhrStartTime.text,
+                      ' ',
+                      duhrEndTime.text,
+                    );
+                    console.log(
+                      'Asr: ',
+                      asrStartTime.text,
+                      ' ',
+                      asrEndTime.text,
+                    );
+                    console.log(
+                      'Maghrib: ',
+                      maghribStartTime.text,
+                      ' ',
+                      maghribEndTime.text,
+                    );
+                    console.log(
+                      'Isha: ',
+                      ishaStartTime.text,
+                      ' ',
+                      ishaEndTime.text,
+                    );
                   }}
                 />
               </VStack>
