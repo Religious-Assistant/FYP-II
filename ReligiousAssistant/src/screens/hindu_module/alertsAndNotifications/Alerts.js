@@ -31,7 +31,6 @@ import Empty from '../../common/Empty';
 import CATEGORIES from '../UIContants';
 // import { IMAM_CONSENSUS, MOSQUE_CONSENSUS, MUSLIM_ANNOUNCEMENTS, NEW_MOSQUE_ADDITION } from '../../../navigation/constants';
 
-
 export default function Alerts() {
   // const dispatch = useDispatch();
 
@@ -70,7 +69,7 @@ export default function Alerts() {
   // };
   return (
     <>
-    {/* <View style={styles.root}>
+      {/* <View style={styles.root}>
         {isLoadingNotification ? (
           <Loader msg="Loagding Notifications" />
         ) : (
@@ -113,27 +112,27 @@ export default function Alerts() {
 //   const navigator=useNavigation()
 
 //   const gotoRespectiveScreen=(category, notificationId)=>{
-    
+
 //     if(category==CATEGORIES.EID_NAMAZ){
-//       navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
+//       navigator.navigate(MUSLIM_ANNOUNCEMENTS)
 //     }
 //     else if(category==CATEGORIES.OTHER){
-//         navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
+//         navigator.navigate(MUSLIM_ANNOUNCEMENTS)
 //     }
 //     else if(category===CATEGORIES.NEW_MOSQUE_ADDITION){
 //       navigator.navigate(NEW_MOSQUE_ADDITION)
 //     }
 //     else if(category===CATEGORIES.MOSQUE_CONSENSUS){
-      
-//       navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:notificationId})  
+
+//       navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:notificationId})
 
 //     }
 //     //Go to no where when Namaz Alert Notification clicked
 //     else if(category===CATEGORIES.NAMAZ_ALERT){
-        
+
 //     }
 //     else if(category===CATEGORIES.IMAM_CONSENSUS){
-//       navigator.navigate(IMAM_CONSENSUS)  
+//       navigator.navigate(IMAM_CONSENSUS)
 //     }
 
 //   }
