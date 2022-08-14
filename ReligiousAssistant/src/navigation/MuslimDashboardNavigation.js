@@ -37,6 +37,7 @@
    SHARE_APP,
    SURAH_RECITATION_AREA,
    TASBIH_COUNTER,
+   UPDATE_NAMAZ_TIMES_IN_MOSQUE,
    VIEW_CALANDER,
  } from './constants';
  
@@ -71,6 +72,7 @@
  import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/NewMosqueAddedNoti';
  import UserManual from '../screens/common/UserManual';
 import SetPrayerTimes from '../screens/muslim_module/namazTimings/SetPrayerTimes';
+import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
  
  const HomeStack = createNativeStackNavigator();
  
@@ -180,6 +182,13 @@ import SetPrayerTimes from '../screens/muslim_module/namazTimings/SetPrayerTimes
          component={SetPrayerTimes}
          options={{title: 'Set Namaz Times'}}
        />
+
+<HomeStack.Screen
+         name={UPDATE_NAMAZ_TIMES_IN_MOSQUE}
+         component={UpdatePrayerTimes}
+         options={{title: 'Update Times'}}
+       />
+
        
        <HomeStack.Screen
          name={ADD_MOSQUE}

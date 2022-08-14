@@ -24,6 +24,13 @@ import {useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getNamazTimesForUser,
+  selectIsLoadingNamazTimesForUser,
+  selectNamazTimesForUser,
+} from '../../../redux/slices/muslim_module_slices/namazTimingsSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function UpdatePrayerTimes() {
   function useInput() {
@@ -57,7 +64,7 @@ export default function UpdatePrayerTimes() {
   }
   const fajrStartTime = useInput(new Date());
   const fajrEndTime = useInput(new Date());
-  
+
   const duhrStartTime = useInput(new Date());
   const duhrEndTime = useInput(new Date());
 
@@ -119,7 +126,7 @@ export default function UpdatePrayerTimes() {
       onChangeStart: asrStartTime.onChange,
       onChangeEnd: asrEndTime.onChange,
     },
-    
+
     {
       key: 4,
       label: 'Maghrib',
@@ -136,7 +143,7 @@ export default function UpdatePrayerTimes() {
       onChangeStart: maghribStartTime.onChange,
       onChangeEnd: maghribEndTime.onChange,
     },
-    
+
     {
       key: 5,
       label: 'Isha',
@@ -154,6 +161,24 @@ export default function UpdatePrayerTimes() {
       onChangeEnd: ishaEndTime.onChange,
     },
   ];
+
+  //redux
+  const dispatch = useDispatch();
+  const namazTimes = useSelector(selectNamazTimesForUser);
+  const isLoadingNamazTimes = useSelector(selectIsLoadingNamazTimesForUser);
+  const user = useSelector(selectUserData);
+
+  const updatePrayerTimes = (fajr, zuhr, asr, maghrib, isha) => {
+    if (user?.preferences?.primaryMosque !== 'NONE') {
+      console.log(fajr, zuhr, maghrib, isha, asr);
+      dispatch(
+        getNamazTimesForUser({mosqueId: user?.preferences.primaryMosque}),
+      );
+    } else {
+      alert('No Primary Mosque');
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -284,11 +309,13 @@ export default function UpdatePrayerTimes() {
                   title={'Update Namaz Times'}
                   mt="5%"
                   onPress={() => {
-                    console.log("Fajr: ",fajrStartTime.text," ",fajrEndTime.text );
-                    console.log("Duhr: ",duhrStartTime.text," ",duhrEndTime.text );
-                    console.log("Asr: ",asrStartTime.text," ",asrEndTime.text );
-                    console.log("Maghrib: ",maghribStartTime.text," ",maghribEndTime.text );
-                    console.log("Isha: ",ishaStartTime.text," ",ishaEndTime.text );
+                    updatePrayerTimes({
+                      fajr: [fajrStartTime.text, fajrEndTime.text],
+                      zuhr: [duhrStartTime.text, duhrEndTime.text],
+                      asr: [asrStartTime.text, asrEndTime.text],
+                      maghrib: [maghribStartTime.text, maghribEndTime.text],
+                      isha: [ishaStartTime.text, ishaEndTime.text],
+                    });
                   }}
                 />
               </VStack>

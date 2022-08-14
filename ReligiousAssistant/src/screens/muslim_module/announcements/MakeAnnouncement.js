@@ -158,6 +158,11 @@ export default function MakeAnnouncement() {
                       color={'white'}
                     />
                     <Select.Item
+                      label="Funeral Prayer"
+                      value={CATEGORIES.FUNERAL}
+                      color={'white'}
+                    />
+                    <Select.Item
                       label="Other"
                       value={CATEGORIES.OTHER}
                       color={'white'}

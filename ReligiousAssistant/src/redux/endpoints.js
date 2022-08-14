@@ -71,7 +71,6 @@ const delete_muslim_notification='delete-muslim-notification'
 //Imam
 const become_imam='become-imam'
 const get_imam_by_id='get-imam-by-id'
-const update_namaz_times='update-namaz-times'
 const cast_up_vote_for_imam='cast-up-vote-for-imam'
 const cast_down_vote_for_imam='cast-down-vote-for-imam'
 
@@ -79,6 +78,10 @@ const cast_down_vote_for_imam='cast-down-vote-for-imam'
 const make_announcement='make-announcement'
 const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
+
+//Namaz timing
+const update_namaz_times='update-namaz-times'
+const get_times_for_user='get-times-for-user'
 
 //QuranInfo
 
@@ -144,5 +147,6 @@ export {
     update_accountability_notifications_setting,
     get_tasbih_count,
     get_user_notifications,
-    delete_muslim_notification
+    delete_muslim_notification,
+    get_times_for_user
 }

@@ -25,6 +25,7 @@ import {
   MUSLIM_DUAS,
   ALLAH_99_NAME,
   SET_PRAYER_TIMES,
+  UPDATE_NAMAZ_TIMES_IN_MOSQUE,
 } from '../../../navigation/constants';
 
 //Redux
@@ -34,6 +35,7 @@ import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 export default function FeatureContainer() {
   const navigator = useNavigation();
   const user = useSelector(selectUserData);
+
   const featureArray1 = [
     {
       title: 'Recite Quran',
@@ -122,17 +124,39 @@ export default function FeatureContainer() {
     user
       ? {
           disabled: false,
-          title: 'Set PrayerTimes',
+          title: 'Namaz Alarms',
           image: require('../../../../assets/images/namazTimes_ic.png'),
           screen: SET_PRAYER_TIMES,
           key: 7,
         }
       : {
           disabled: true,
-          title: 'Set PrayerTimes',
+          title: 'Namaz Alarms',
           image: require('../../../../assets/images/namazTimes_ic.png'),
           screen: SET_PRAYER_TIMES,
+          key: 13,
+        },
+        user?.isImam
+      ? {
+          disabled: false,
+          title: 'Update Times',
+          image: require('../../../../assets/images/update_time_ic.png'),
+          screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
+          key: 13,
+        }
+      : {
+          disabled: true,
+          title: 'Update Times',
+          image: require('../../../../assets/images/update_time_ic.png'),
+          screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
           key: 7,
+        },
+        {
+          disabled: false,
+          title: 'Tasbih Counter',
+          image: require('../../../../assets/images/tasbih1_ic.png'),
+          screen: TASBIH_COUNTER,
+          key: 9,
         },
     {
       disabled: false,
@@ -140,13 +164,6 @@ export default function FeatureContainer() {
       image: require('../../../../assets/images/islamic_calendar1_ic.png'),
       screen: VIEW_CALANDER,
       key: 8,
-    },
-    {
-      disabled: false,
-      title: 'Tasbih Counter',
-      image: require('../../../../assets/images/tasbih1_ic.png'),
-      screen: TASBIH_COUNTER,
-      key: 9,
     },
     {
       disabled: false,
@@ -233,7 +250,7 @@ export default function FeatureContainer() {
                       navigator.navigate(item.screen);
                     }}
                     disabled={item.disabled}>
-                    <FeatureCard key={item.key}>
+                    <FeatureCard key={item.key} disabled={item.disabled}>
                       <Image
                         source={item.image}
                         style={{
@@ -268,7 +285,7 @@ export default function FeatureContainer() {
                       navigator.navigate(item.screen);
                     }}
                     disabled={item.disabled}>
-                    <MoreFeaturesCard key={item.key}>
+                    <MoreFeaturesCard key={item.key} disabled={item.disabled}>
                       <Image
                         source={item.image}
                         style={{
@@ -294,17 +311,36 @@ export default function FeatureContainer() {
 
 function FeatureCard(props) {
   return (
-    <Center key={props.key} style={styles.card}>
-      {props.children}
-    </Center>
+    <>
+      {
+        props.disabled?
+        <Center key={props.key} style={[styles.card,{borderColor:colors.error, borderWidth:2}]}>
+        {props.children}
+      </Center>
+        :
+        <Center key={props.key} style={styles.card}>
+        {props.children}
+      </Center>
+      }
+    </>
+
   );
 }
 
 function MoreFeaturesCard(props) {
   return (
-    <Center key={props.key} style={styles.moreFeaturesCard}>
-      {props.children}
-    </Center>
+      <>
+        {
+          props.disabled?
+          <Center key={props.key} style={[styles.moreFeaturesCard,{borderColor:colors.error, borderWidth:2}]}>
+          {props.children}
+        </Center>
+          :
+          <Center key={props.key} style={styles.moreFeaturesCard}>
+          {props.children}
+        </Center>
+        }
+      </>
   );
 }
 

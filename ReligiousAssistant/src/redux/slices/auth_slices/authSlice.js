@@ -11,7 +11,7 @@ const initialState = {
     otp_id:null,                //received in get otp code
     isOTPVerified:false,
     isOTPObtained:false,
-
+    
     isLoadingLogin:false,
     isLoadingRegister:false,
     isLoadingGetUserData:false,

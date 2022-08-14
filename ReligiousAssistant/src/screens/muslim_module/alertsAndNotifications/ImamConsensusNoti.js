@@ -45,7 +45,7 @@ import { castDownvoteForImam, castUpvoteForImam, getImamById, selectImamById, se
        dispatch(getImamById({imamId: imamId}));
        dispatch(getUserData());
      }
-   }, [dispatch]);
+   }, [dispatch, imamId]);
  
  
    const cast_upVote=()=>{

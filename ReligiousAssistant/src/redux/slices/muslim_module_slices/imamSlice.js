@@ -42,6 +42,7 @@ export const castUpvoteForImam = createAsyncThunk(
     'castUpvoteForImam',
     async (body)=>{
        const result =  await apiPATCH(cast_up_vote_for_imam,body)   //body with required info
+       
        return result  
     }
 )
