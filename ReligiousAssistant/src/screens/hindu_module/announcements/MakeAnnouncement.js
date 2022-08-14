@@ -8,19 +8,43 @@ import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center, TextArea, Select, CheckIcon} from 'native-base';
 
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 
-import timeICon from '../../../assets/images/announce_ic.png';
-import CustomButton from '../../components/CustomButton';
+import timeICon from '../../../../assets/images/announce_ic.png';
+import CustomButton from '../../../components/CustomButton';
 
 import {Formik} from 'formik';
-import CATEGORIES from '../muslim_module/UIConstants';
+import CATEGORIES from '../UIContants';
+
+//redux
+// import {useSelector, useDispatch} from 'react-redux';
+// import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+// import {getAnnouncements, makeAnnouncement, selectHasErrorInMakeAnnouncement, selectIsLoadingMakeAnnouncement} from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
+// import Loader from '../../common/Loader';
 
 export default function MakeAnnouncement() {
-  function announce(values) {
-    console.log(values);
-  }
+  // const dispatch = useDispatch();
+  // const user = useSelector(selectUserData);
+  // const isMakingAnnouncement=useSelector(selectIsLoadingMakeAnnouncement)
+  // const hasErrorinMakeAnnouncement=useSelector(selectHasErrorInMakeAnnouncement)
+
+  // function announce(values) {
+  //   if (user) {
+  //     console.log(user)
+  //     dispatch(
+  //       makeAnnouncement({
+  //         announcedBy: user.username,
+  //         statement: values.description,
+  //         category: values.category,
+  //         longitude:user.location?.coordinates[0],          //this shoud come from user.pref.location.longitude
+  //         latitude:user.location?.coordinates[1],
+  //         avatar:user.avatar          //Url of image, may cause problem on Heroku
+  //       }),
+  //     );
+  //     dispatch(getAnnouncements({username:user.username}))
+  //   }
+  // }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -59,7 +83,10 @@ export default function MakeAnnouncement() {
             </Heading>
           </View>
         </View>
-        <View style={{flex: 0.83}} width="95%">
+        {/* {
+          isMakingAnnouncement?<Loader msg="Announcing to people ..." />:
+          
+          <View style={{flex: 0.83}} width="95%">
           <Center
             width="88%"
             space={2}
@@ -83,7 +110,8 @@ export default function MakeAnnouncement() {
                 setFieldValue,
               }) => (
                 <>
-                  <TextArea
+                  {/* Statement */}
+        {/* <TextArea
                     name="description"
                     onChangeText={handleChange('description')}
                     onBlur={handleBlur('description')}
@@ -99,9 +127,9 @@ export default function MakeAnnouncement() {
                     autoCorrect={true}
                     maxLength={500}
                     multiline={true}
-                  />
-
-                  <Select
+                  /> */}
+        {/* Announcement Category */}
+        {/* <Select
                     _text={styles.text}
                     color={colors.white}
                     mt={'3%'}
@@ -124,7 +152,7 @@ export default function MakeAnnouncement() {
                     }}
                     onValueChange={item => setFieldValue('category', item)}>
                     <Select.Item
-                      label="Funeral Prayer"
+                      label="Eid Namaz"
                       value={CATEGORIES.EID_NAMAZ}
                       color={'white'}
                     />
@@ -133,21 +161,23 @@ export default function MakeAnnouncement() {
                       value={CATEGORIES.OTHER}
                       color={'white'}
                     />
-                  </Select>
-
-                  <CustomButton
+                  </Select> */}
+        {/* button */}
+        {/* <CustomButton
                     title="Announce Now"
                     variant="solid"
                     mt="8%"
                     onPress={handleSubmit}
                     color="white"
                     base="99%"
-                  />
-                </>
+                  /> */}
+        {/* </>
               )}
             </Formik>
           </Center>
         </View>
+        }
+         */}
       </View>
     </TouchableWithoutFeedback>
   );
