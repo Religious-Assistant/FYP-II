@@ -19,7 +19,7 @@ import {
 import RegisteredHinduDashboard from '../screens/hindu_module/RegisteredHinduDashboard';
 import FindTemple from '../screens/hindu_module/temples/FindTemple';
 import Calander from '../screens/hindu_module/Calander';
-import Announcements from '../screens/hindu_module/Announcements';
+import Announcements from '../screens/hindu_module/announcements/Announcements';
 import AutoSilent from '../screens/hindu_module/AutoSilent';
 import AddTemple from '../screens/hindu_module/temples/AddTemple'
 import ReciteGita from '../screens/hindu_module/ReciteGita';

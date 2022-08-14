@@ -57,7 +57,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 export default function Announcements() {
   
-const [connectStatus, setConnectStatus] = useState(false);
+  const [connectStatus, setConnectStatus] = useState(false);
   const dispatch = useDispatch();
 
   let announcements = useSelector(selectAnnouncements);
