@@ -12,7 +12,7 @@ import Notifications from './Notifications';
 import Settings from './Settings';
 import fonts from '../../theme/fonts';
 import Home from './Home';
-import FindTemple from './FindTemple';
+import FindTemple from './temples/FindTemple';
 import Prayers from './Prayers';
 //import all screens
 
