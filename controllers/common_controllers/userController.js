@@ -12,6 +12,7 @@ const QuranRecitation = require("../../models/muslim_user_models/reciteQuranMode
 const NamazAccountability = require("../../models/muslim_user_models/namazAccountabilityModel");
 const FastAccountability = require("../../models/muslim_user_models/fastAccountabilityModel");
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
+const Imam = require("../../models/muslim_user_models/imamModel");
 
 //common functions
 const { hashPassword, createToken } = require("../utils/utils");
@@ -110,10 +111,13 @@ const loginUser = async (req, res) => {
         const token = await createToken(user_data.username);
 
         let userPreferences;
+        let imam=null;
         if (user_data.religion == 1) {
           userPreferences = await MuslimPreference.findOne({
             username: username,
           });
+
+          imam=await Imam.findOne({username:username})
         }
         // else{//Hindu Prefs
         //   userPreferences = await MuslimPreference.findOne({username:username})
@@ -123,6 +127,7 @@ const loginUser = async (req, res) => {
           ...user_data._doc,
           token: token,
           preferences: userPreferences,
+          isImam:imam?true:false
         };
         await DeviceToken.findOneAndUpdate(
           { username: username },
@@ -202,6 +207,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+//TODO: GET updated data does not return preferences, isImam , what to do?
 const updateProfileImage = async (req, res) => {
   console.log("Update Profile API hit");
   try {

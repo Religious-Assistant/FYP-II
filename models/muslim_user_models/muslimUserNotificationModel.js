@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { appLogo } = require("../../controllers/utils/constants");
 
 const notificationSchema = mongoose.Schema(
   {

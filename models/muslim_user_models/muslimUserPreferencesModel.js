@@ -23,7 +23,7 @@ const muslimUserPreferencesSchema=mongoose.Schema({
         type:Boolean,
         default:true
     },
-   
+    namazTimes:[],
 })
 
  

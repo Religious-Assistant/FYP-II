@@ -15,6 +15,8 @@ dotenv.config()
 const database_url=process.env.DATABASE_URL;
 
 const app=express()
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}));
@@ -54,6 +56,7 @@ const imam_route=require('./routes/muslim_user_routes/imamRoute')
 const recite_quran_route=require('./routes/muslim_user_routes/reciteQuranRoute')
 const muslim_pref_route=require('./routes/muslim_user_routes/muslimUserPreferenceRoute')
 const quranInfo_route=require('./routes/muslim_user_routes/quranInfoRoute')
+const namaz_timings_route=require('./routes/muslim_user_routes/namazTimingsRoute')
 
 //Hindu routes
 const temple_routes=require('./routes/hindu_user_routes/templeRoute')
@@ -75,15 +78,31 @@ app.use('/api', recite_quran_route)
 app.use('/api', muslim_pref_route)
 app.use('/api', quranInfo_route)
 app.use('/api', muslim_notification_route)
+app.use('/api', namaz_timings_route)
 
 //Hindu endpoints
 app.use('/api', temple_routes)
 
 // FCM: Notification configuration
 
+
+io.on('connection', function(socket) {
+    console.log('Client connected...');
+    client.on('join', function(data) {
+      console.log(data);
+    });
+
+    socket.on('new message',msg=>{
+        console.log(`New Message on server ${msg}`)
+    })
+
+    
+});
+
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://religious-assistant.firebaseio.com",
 });
 
-module.exports=app;
+module.exports=server;

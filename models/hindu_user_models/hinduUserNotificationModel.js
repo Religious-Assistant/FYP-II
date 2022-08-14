@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { appLogo } = require("../../controllers/utils/constants");
 
 const notificationSchema = mongoose.Schema(
   {
@@ -21,10 +20,8 @@ const notificationSchema = mongoose.Schema(
       required: true,
     },
     receivedBy: {
-      //username here
       type: String,
       required: true,
-      ref: "User",
     },
     isOpenedByUser: {
       type: Boolean,
@@ -32,8 +29,9 @@ const notificationSchema = mongoose.Schema(
     },
     icon:{
       type:String,
-      default:appLogo
-    }
+    },
+    causedBy:{type:String,default:""} //It may be caused by announcement, mosque consensus, mosque addition, rejection
+      //So place announcement, mosque id
   },
   { timestamps: true }
 );

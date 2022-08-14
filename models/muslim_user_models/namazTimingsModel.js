@@ -3,63 +3,18 @@ const mongoose=require('mongoose')
 const namazTimingsSchema=mongoose.Schema({
 
     mosqueId:{
-        type:mongoose.Types.ObjectId,
+        type:String,
         required:true,
     },
     updatedBy:{                  //Updated By a user
         type:String,
         required:true,
     },
-    fajr:{
-        startTime:{
-            type:Date,
-            required:true
-        },
-        endTime:{
-            type:Date,
-            required:true
-        },
-    },
-    zuhr:{
-        startTime:{
-            type:Date,
-            required:true
-        },
-        endTime:{
-            type:Date,
-            required:true
-        },
-    },
-    asr:{
-        startTime:{
-            type:Date,
-            required:true
-        },
-        endTime:{
-            type:Date,
-            required:true
-        },
-    },
-    maghrib:{
-        startTime:{
-            type:Date,
-            required:true
-        },
-        endTime:{
-            type:Date,
-            required:true
-        },
-    },
-    isha:{
-        startTime:{
-            type:Date,
-            required:true
-        },
-        endTime:{
-            type:Date,
-            required:true
-        },
-    },
+    fajr:[],    //0:startTime 1: endTime
+    zuhr:[],
+    asr:[],
+    maghrib:[],
+    isha:[]         
 })
  
 module.exports=mongoose.model('NamazTiming', namazTimingsSchema)

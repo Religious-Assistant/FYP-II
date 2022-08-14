@@ -1,6 +1,7 @@
 const Imam = require("../../models/muslim_user_models/imamModel");
 const User = require("../../models/common_models/userModel");
 const Mosque = require("../../models/muslim_user_models/mosqueModel");
+const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 
 const {
   findNearByPeople,
@@ -41,6 +42,10 @@ const becomeImam = async (req, res) => {
     });
 
     if (imamaData) {
+
+      //TODO: Discuss about: Made this Mosque as primary of Imam to which he want ti become imam
+      await MuslimPreference.findOneAndUpdate({ username },{$set:{primaryMosque:imamaData.mosqueId}},{new:true});
+
       //Sign a notification for users
       const title = `IMAM FOR ${mosque.mosqueName}`.toUpperCase();
       const body = `${username.toUpperCase()} claims that he is Imam of ${mosque.mosqueName.toUpperCase()}.`;
@@ -78,16 +83,6 @@ const becomeImam = async (req, res) => {
     } else {
       res.status(200).send({ msg: "Could not apply for Imam", success: false });
     }
-  } catch (err) {
-    res.status(400).send({ success: false, msg: "Could not Become Imam" });
-  }
-};
-
-const updateNamazTimes = async (req, res) => {
-  console.log("Become Imam API hit");
-
-  try {
-    const { username, mosqueId } = req.body;
   } catch (err) {
     res.status(400).send({ success: false, msg: "Could not Become Imam" });
   }
@@ -312,7 +307,6 @@ const castDownvoteForImam = async (req, res) => {
 
 module.exports = {
   becomeImam,
-  updateNamazTimes,
   getImamById,
   casteUpVoteForImam,
   castDownvoteForImam

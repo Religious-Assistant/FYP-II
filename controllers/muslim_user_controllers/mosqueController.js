@@ -1,6 +1,11 @@
 const Mosque = require("../../models/muslim_user_models/mosqueModel");
+const NamazTiming = require("../../models/muslim_user_models/namazTimingsModel");
 const User = require("../../models/common_models/userModel");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
 require("dotenv").config();
+const moment=require('moment')
 
 const {
   findNearByPeople,
@@ -151,7 +156,7 @@ const addMosque = async (req, res) => {
 
           //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
-          console.log(consensus_notificaion_logo)
+          console.log(consensus_notificaion_logo);
           saveNotificationForMuslimUser(
             recepients,
             title,
@@ -203,6 +208,7 @@ const castUpvote = async (req, res) => {
       _id: mosqueId,
       "receivers.username": username,
     });
+
     const index = await mosqueToBeAdded.receivers.findIndex(
       (candidate) => candidate.username === username
     );
@@ -225,6 +231,31 @@ const castUpvote = async (req, res) => {
         );
 
         if (verifiedMosque) {
+
+          //TODO: Set Default prayer times
+
+          const date=new Date().toLocaleDateString().replaceAll('/','-')
+          let namazTimes=await fetch(
+            `https://api.aladhan.com/v1/timings/${date}?latitude=${mosqueToBeAdded.location.coordinates[1]}&longitude=${mosqueToBeAdded.location.coordinates[0]}&method=2`
+          )
+          namazTimes=await namazTimes.json()
+          let timings=namazTimes.data.timings
+
+          const updateNamazTimes=await NamazTiming.create({
+            mosqueId:mosqueId,
+            updatedBy:'default',
+            fajr:[timings.Fajr,moment(timings.Fajr,'HH:mm').add(30,'minutes').format('HH:mm')],
+            zuhr:[timings.Dhuhr,moment(timings.Dhuhr,'HH:mm').add(60,'minutes').format('HH:mm')],
+            asr:[timings.Asr,moment(timings.Asr,'HH:mm').add(40,'minutes').format('HH:mm')],
+            maghrib:[timings.Maghrib,moment(timings.Maghrib,'HH:mm').add(30,'minutes').format('HH:mm')],
+            isha:[timings.Isha,moment(timings.Isha,'HH:mm').add(60,'minutes').format('HH:mm')],
+
+          })
+
+          console.log(updateNamazTimes)
+
+
+
           //Sign a notification for users
           const title = `New Mosque Added`.toUpperCase();
           const body = `MOSQUE: ${mosqueToBeAdded.mosqueName} was added to system. You may consider making it as primary.`;
@@ -242,9 +273,8 @@ const castUpvote = async (req, res) => {
             body,
             NEW_MOSQUE_ADDITION,
             mosqueToBeAdded._id,
-            new_mosque_notification_logo,
+            new_mosque_notification_logo
           )
-
             .then(async (data) => {
               const totalReceivers = await notifyUsers(
                 title,
