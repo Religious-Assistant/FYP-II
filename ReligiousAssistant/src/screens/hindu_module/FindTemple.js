@@ -30,7 +30,69 @@ import fonts from '../../theme/fonts';
 
 import CustomBox from '../../components/CustomBox';
 
+import {PermissionsAndroid} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
+//Redux
+
+// import {useSelector, useDispatch} from 'react-redux'
+// import { getClosestMosques, selectClosestMosques } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+// import { useNavigation } from '@react-navigation/native';
+// import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
+
 export default function FindTemple() {
+  // const dispatch=useDispatch()
+  // const navigator=useNavigation()
+
+  // const closesMosques=useSelector(selectClosestMosques)
+
+  // const[sourceCoordinates,setSourceCoordinates]=useState()
+
+  // useEffect(()=>{
+  //   getLocation()
+  // },[])
+
+  // getLocation = async () => {
+  //   try {
+  //     const granted = await PermissionsAndroid.request(
+  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //       {
+  //         title: 'Geolocation Permission',
+  //         message: "App needs access to your phone's location.",
+  //       },
+  //     );
+
+  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //       Geolocation.getCurrentPosition(
+  //         position => {
+  //           dispatch(getClosestMosques(position.coords))
+  //           setSourceCoordinates(position.coords)
+  //         },
+  //         error => {
+  //           alert(`Error while seeking Permission. ${error.code}`)
+  //         },
+  //         {enableHighAccuracy: false, timeout: 15000},
+  //       );
+  //     } else {
+  //       console.log('Location permission not granted!');
+  //     }
+  //   } catch (err) {
+  //     console.log('Location permission not granted!', err);
+  //   }
+  // };
+
+  // function getDirections(destinationCoordinates){
+
+  //   if(destinationCoordinates){
+
+  //     navigator.navigate(GOOGLE_MAP_DIRECTIONS,{
+  //       destinationCoordinates
+  //     })
+  //   }
+  //   else{
+  //     alert('Error while fetching current or desination location')
+  //   }
+  // }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -75,7 +137,7 @@ export default function FindTemple() {
           <View style={{flex: 0.83}} width="95%" marginTop={'90%'}>
             <Center w="110%" mt={'-30%'} ml="-3%" h="95%" maxW="110%">
               <VStack width="80%" space={2} maxW="80%">
-                <Input
+              <Input
                   placeholder="search"
                   _text={styles.text}
                   color={colors.white}
@@ -93,28 +155,18 @@ export default function FindTemple() {
                     />
                   }
                 />
+                {/* {closesMosques?closesMosques.map((mosque,index)=>{
 
-                <CustomBox
-                  mt={'20%'}
-                  text="Temple 1
-                  "
-                  distance="2.3 km"
-                  ml="20%"
+                  return(
+                    <CustomBox
+                    mt={'5%'}
+                    mb={index==closesMosques.length-1?"15%":"0%"}
+                    text={mosque.mosqueName}
+                    distance={Math.round((mosque.dist.calculated/1000 + Number.EPSILON) * 100) / 100+" KM "}
+                    onPress={()=>{getDirections(mosque.location.coordinates)}}
                 />
-
-                <CustomBox
-                  mt={'2%'}
-                  text="Temple 2"
-                  distance="2.3 km"
-                  ml="20%"
-                />
-
-                <CustomBox
-                  mt={'2%'}
-                  text="Temple 3"
-                  distance="2.3 km"
-                  ml="20%"
-                />
+                  )
+                }):<></>} */}
               </VStack>
             </Center>
           </View>
