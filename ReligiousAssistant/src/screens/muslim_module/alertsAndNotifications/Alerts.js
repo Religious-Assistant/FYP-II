@@ -34,8 +34,13 @@ import {
 } from '../../../redux/slices/muslim_module_slices/muslimNotificationSlice';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import CATEGORIES from '../UIConstants';
-import { IMAM_CONSENSUS, MOSQUE_CONSENSUS, MUSLIM_ANNOUNCEMENTS, NEW_MOSQUE_ADDITION } from '../../../navigation/constants';
-import { useIsFocused } from '@react-navigation/native'
+import {
+  IMAM_CONSENSUS,
+  MOSQUE_CONSENSUS,
+  MUSLIM_ANNOUNCEMENTS,
+  NEW_MOSQUE_ADDITION,
+} from '../../../navigation/constants';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function Alerts({navigation}) {
   const dispatch = useDispatch();
@@ -46,7 +51,7 @@ export default function Alerts({navigation}) {
     selectHasErrorInGettingNotifications,
   );
   const user = useSelector(selectUserData);
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
     if (user) {
@@ -116,33 +121,24 @@ export default function Alerts({navigation}) {
 
 const ListItem = props => {
   const notification = props.item.item;
-  const navigator=useNavigation()
+  const navigator = useNavigation();
 
-  const gotoRespectiveScreen=(category, causedBy)=>{
-    
-    if(category==CATEGORIES.EID_NAMAZ){
-      navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
-    }
-    else if(category==CATEGORIES.OTHER){
-        navigator.navigate(MUSLIM_ANNOUNCEMENTS)  
-    }
-    else if(category===CATEGORIES.NEW_MOSQUE_ADDITION){
-      navigator.navigate(NEW_MOSQUE_ADDITION,{mosqueId:causedBy})
-    }
-    else if(category===CATEGORIES.MOSQUE_CONSENSUS){
-      
-      navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:causedBy})  
-
+  const gotoRespectiveScreen = (category, causedBy) => {
+    if (category == CATEGORIES.EID_NAMAZ) {
+      navigator.navigate(MUSLIM_ANNOUNCEMENTS);
+    } else if (category == CATEGORIES.OTHER) {
+      navigator.navigate(MUSLIM_ANNOUNCEMENTS);
+    } else if (category === CATEGORIES.NEW_MOSQUE_ADDITION) {
+      navigator.navigate(NEW_MOSQUE_ADDITION, {mosqueId: causedBy});
+    } else if (category === CATEGORIES.MOSQUE_CONSENSUS) {
+      navigator.navigate(MOSQUE_CONSENSUS, {mosqueId: causedBy});
     }
     //Go to no where when Namaz Alert Notification clicked
-    else if(category===CATEGORIES.NAMAZ_ALERT){
-        
+    else if (category === CATEGORIES.NAMAZ_ALERT) {
+    } else if (category === CATEGORIES.IMAM_CONSENSUS) {
+      navigator.navigate(IMAM_CONSENSUS, {imamId: causedBy});
     }
-    else if(category===CATEGORIES.IMAM_CONSENSUS){
-      navigator.navigate(IMAM_CONSENSUS)  
-    }
-
-  }
+  };
   const rightSwipe = (progress, dragX) => {
     return (
       <TouchableOpacity
@@ -157,9 +153,12 @@ const ListItem = props => {
   return (
     <GestureHandlerRootView>
       <Swipeable renderRightActions={rightSwipe} key={notification._id}>
-        <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={()=>{
-          gotoRespectiveScreen(notification.category, notification.causedBy)
-        }}>
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={0.6}
+          onPress={() => {
+            gotoRespectiveScreen(notification.category, notification.causedBy);
+          }}>
           <Image
             source={{uri: notification.icon}}
             style={styles.avatar}
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: '#FFFFFF',
     // height:windowHeight,
+    marginBottom:50,
   },
   container: {
     padding: 16,

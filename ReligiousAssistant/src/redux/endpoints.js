@@ -70,7 +70,10 @@ const delete_muslim_notification='delete-muslim-notification'
 
 //Imam
 const become_imam='become-imam'
+const get_imam_by_id='get-imam-by-id'
 const update_namaz_times='update-namaz-times'
+const cast_up_vote_for_imam='cast-up-vote-for-imam'
+const cast_down_vote_for_imam='cast-down-vote-for-imam'
 
 //Announcements
 const make_announcement='make-announcement'
@@ -95,7 +98,7 @@ export {
     get_otp_code,
     verify_otp_code,
     get_updated_user_data,
-
+    get_imam_by_id,
     update_namaz_times,
     update_tasbih,
     get_recitation_stats,
@@ -123,6 +126,9 @@ export {
     get_mosque_by_id,
     cast_up_vote,
     cast_down_vote,
+
+    cast_up_vote_for_imam,
+    cast_down_vote_for_imam,
 
     get_learn_namaz_progress,
     update_learn_namaz_progress,

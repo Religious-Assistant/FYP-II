@@ -166,6 +166,17 @@ export default function FindMosque() {
                     />
                   }
                 />
+                {
+                  closesMosques?.length==0?
+                  <View style={{backgroundColor:colors.cover, marginTop:"20%", padding:15, width:"90%", alignSelf:'center'}}>
+                  <Text style={{color:colors.info, fontFamily:fonts.Signika.bold, fontSize:20, textAlign:'center', marginTop:10}}>No Mosque near you</Text>
+                  <Text style={{color:colors.secondary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>What to do?</Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>1. Add a mosque </Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>2. Wait for consensus </Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>3. It will appear in searches </Text>
+                </View>
+                :<>
+                
                 {closesMosques?closesMosques.map((mosque,index)=>{
 
                   return(
@@ -178,7 +189,8 @@ export default function FindMosque() {
                 />
                   )
                 }):<></>}
-                
+                 </>
+                }
               </VStack>
             </Center>
           </View>
