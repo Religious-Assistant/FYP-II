@@ -15,3 +15,10 @@ distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-all.zip
 
 YOU MAY need to link resources like icons, fonts after adding into project so run
 >npx react-native link
+
+
+//Bhagwat gita APIs
+https://github.com/vedicscriptures/bhagavad-gita-api
+
+//Namaz times with respect to longitude and latitude
+https://aladhan.com/prayer-times-api

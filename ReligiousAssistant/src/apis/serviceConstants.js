@@ -1,4 +1,4 @@
 // const BASE_URL=`https://religious-assistant-backend.herokuapp.com/api`
-const BASE_URL=`http://10.102.140.113:5000/api`
+const BASE_URL=`http://192.168.7.52:5000/api`
 
 module.exports={BASE_URL}
