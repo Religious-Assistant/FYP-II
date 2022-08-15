@@ -15,8 +15,6 @@ dotenv.config()
 const database_url=process.env.DATABASE_URL;
 
 const app=express()
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}));
@@ -86,23 +84,9 @@ app.use('/api', temple_routes)
 // FCM: Notification configuration
 
 
-io.on('connection', function(socket) {
-    console.log('Client connected...');
-    client.on('join', function(data) {
-      console.log(data);
-    });
-
-    socket.on('new message',msg=>{
-        console.log(`New Message on server ${msg}`)
-    })
-
-    
-});
-
-
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://religious-assistant.firebaseio.com",
 });
 
-module.exports=server;
+module.exports=app;
