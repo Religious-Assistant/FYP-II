@@ -11,17 +11,19 @@ import {Heading, Image, Text, Center, VStack, ScrollView} from 'native-base';
 import mosqueIcon from '../../../assets/images/Logo-combined.png';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+
 import registerScreenImg from '../../../assets/images/registerScreen.png';
 import muslimDashboardImg from '../../../assets/images/muslimDashboard.jpg';
-
+import hinduDashboardImg from '../../../assets/images/hinduDashboard.jpg'
 import settingsImg from '../../../assets/images/settingsScreen.jpg';
-
 import addMosqueImg from '../../../assets/images/addMosqueScreen.jpg';
-
 import namazAccImg from '../../../assets/images/namazAccountabilityScreen.jpg';
-
 import fastAccImg from '../../../assets/images/fastAccountabilityScreen.jpg';
 import consensusImg from '../../../assets/images/consensus.jpg';
+import findMosqueImg1 from '../../../assets/images/findMosque.jpg'
+import findMosqueImg2 from '../../../assets/images/findMosque2.jpg'
+
+
 export default function UserManual() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -260,7 +262,7 @@ export default function UserManual() {
                   dashboard of registered Hindu users
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={hinduDashboardImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -315,7 +317,7 @@ export default function UserManual() {
                     alignItems: 'center',
                   }}>
                   <Image
-                    source={registerScreenImg}
+                    source={findMosqueImg1}
                     style={{
                       marginTop: '5%',
                       marginRight: '5%',
@@ -330,7 +332,7 @@ export default function UserManual() {
                     alt="icon .."
                   />
                   <Image
-                    source={registerScreenImg}
+                    source={findMosqueImg2}
                     style={{
                       alignSelf: 'center',
                       marginTop: '5%',

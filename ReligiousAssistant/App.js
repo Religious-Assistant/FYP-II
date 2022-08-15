@@ -16,7 +16,6 @@
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
-import AutoSilent from './src/screens/muslim_module/preferences/AutoSilent';
 
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
@@ -97,7 +96,7 @@ import AutoSilent from './src/screens/muslim_module/preferences/AutoSilent';
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <AutoSilent/>
+         <EntryPoint/>
        </NativeBaseProvider>
      </Provider>
    );
