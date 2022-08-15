@@ -34,7 +34,10 @@ import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
 
 import Loader from '../../common/Loader';
-import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -43,22 +46,28 @@ const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 import {useNavigation} from '@react-navigation/native';
 import {NAMAZ_PLAY_AREA} from '../../../navigation/constants';
-import { useDispatch, useSelector } from 'react-redux';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getLearnNamazProgress,
+  selectIsLoadingGetNamazProgress,
+  selectLearnNamazProgress,
+} from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 
 export default function LearnNamaz() {
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
-  const username=user.username;
-  const avatar = user.avatar;
-  //console.log(avatar)
+  const namazProgress = useSelector(selectLearnNamazProgress);
+  const isLoadingGetNamazProgress = useSelector(
+    selectIsLoadingGetNamazProgress,
+  );
 
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(getAnnouncements({username: user.username}));
-  //   }
-  // }, []);
-  
+  useEffect(() => {
+    dispatch(getUserData());
+    if (user) {
+      dispatch(getLearnNamazProgress({username: user?.username}));
+    }
+  }, [dispatch]);
+
   const NAMAZ_TIMES = [
     {
       id: 1,
@@ -156,141 +165,153 @@ export default function LearnNamaz() {
 
   return (
     <SafeAreaView style={styles.MainContainer}>
-      <View style={{flex: 1, backgroundColor: colors.white}}>
-        <View
-          style={{
-            flex: 0.17,
-            backgroundColor: colors.primary,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            position: 'absolute',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-            <Image
-              source={{
-                uri: avatar,
-              }}
+      {isLoadingGetNamazProgress ? (
+        <Loader msg="Getting progress..." />
+      ) : (
+        <>
+          <View style={{flex: 1, backgroundColor: colors.white}}>
+            <View
               style={{
-                marginTop: '10%',
-                marginRight: '5%',
-                marginBottom: '5%',
-                height: 80,
-                width: 80,
-                resizeMode: 'cover',
-                borderRadius: 50,
-              }}
-              alt="icon .."
-            />
+                flex: 0.17,
+                backgroundColor: colors.primary,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                position: 'absolute',
+                alignItems: 'center',
+              }}>
+              <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+                <Image
+                  source={{
+                    uri: user?.avatar,
+                  }}
+                  style={{
+                    marginTop: '10%',
+                    marginRight: '5%',
+                    marginBottom: '5%',
+                    height: 80,
+                    width: 80,
+                    resizeMode: 'cover',
+                    borderRadius: 50,
+                  }}
+                  alt="icon .."
+                />
+              </View>
+              <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+                <Heading color={colors.secondary} marginTop={'5%'}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>
+                    {user?.username?.toUpperCase()}{' '}
+                  </Text>
+                </Heading>
+                <Heading color={colors.white}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>Level 1</Text>
+                </Heading>
+              </View>
+            </View>
           </View>
-          <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-            <Heading color={colors.secondary} marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>{username} </Text>
-            </Heading>
-            <Heading color={colors.white}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>Level 1</Text>
-            </Heading>
-          </View>
-        </View>
-      </View>
-      <Animated.FlatList
-        data={NAMAZ_TIMES}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={Separator}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        contentContainerStyle={{alignItems: 'center'}}
-        snapToAlignment="start"
-        snapToInterval={ITEM_SIZE}
-        decelerationRate={Platform.OS === 'ios' ? 0 : 0.85}
-        renderToHardwareTextureAndroid
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {x: scrollX}}}],
-          {useNativeDriver: false},
-        )}
-        scrollEventThrottle={16}
-        renderItem={({item, index}) => {
-          if (!item.poster) {
-            return <View style={{width: EMPTY_ITEM_SIZE}} />;
-          }
-          const inputRange = [
-            (index - 2) * ITEM_SIZE,
-            (index - 1) * ITEM_SIZE,
-            index * ITEM_SIZE,
-          ];
+          <Animated.FlatList
+            data={NAMAZ_TIMES}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={Separator}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+            contentContainerStyle={{alignItems: 'center'}}
+            snapToAlignment="start"
+            snapToInterval={ITEM_SIZE}
+            decelerationRate={Platform.OS === 'ios' ? 0 : 0.85}
+            renderToHardwareTextureAndroid
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: false},
+            )}
+            scrollEventThrottle={16}
+            renderItem={({item, index}) => {
+              if (!item.poster) {
+                return <View style={{width: EMPTY_ITEM_SIZE}} />;
+              }
+              const inputRange = [
+                (index - 2) * ITEM_SIZE,
+                (index - 1) * ITEM_SIZE,
+                index * ITEM_SIZE,
+              ];
 
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, -50, 0],
-            extrapolate: 'clamp',
-          });
-          // console.log(item.rakahs)
-          return (
-            <>
-              <Pressable
-                onPress={() => {
-                  detectPress(true, item.rakahs, item.name);
-                }}>
-                <View style={{width: ITEM_SIZE}}>
-                  <Animated.View
-                    style={{
-                      marginHorizontal: SPACING,
-                      padding: SPACING * 2,
-                      alignItems: 'center',
-                      transform: [{translateY}],
-                      backgroundColor: colors.cover,
-                      borderRadius: 34,
+              const translateY = scrollX.interpolate({
+                inputRange,
+                outputRange: [0, -50, 0],
+                extrapolate: 'clamp',
+              });
+              // console.log(item.rakahs)
+              return (
+                <>
+                  <Pressable
+                    onPress={() => {
+                      detectPress(true, item.rakahs, item.name);
                     }}>
-                    <Image source={item.poster} style={styles.posterImage} />
-                    <Text
-                      style={{
-                        fontSize: 26,
-                        color: colors.primary,
-                        fontFamily: fonts.Signika.bold,
-                      }}
-                      numberOfLines={1}>
-                      {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: colors.secondary,
-                        fontFamily: fonts.Signika.bold,
-                      }}
-                      numberOfLines={3}>
-                      {item.level}
-                    </Text>
-                  </Animated.View>
-                </View>
-              </Pressable>
+                    <View style={{width: ITEM_SIZE}}>
+                      <Animated.View
+                        style={{
+                          marginHorizontal: SPACING,
+                          padding: SPACING * 2,
+                          alignItems: 'center',
+                          transform: [{translateY}],
+                          backgroundColor: colors.cover,
+                          borderRadius: 34,
+                        }}>
+                        <Image
+                          source={item.poster}
+                          style={styles.posterImage}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 26,
+                            color: colors.primary,
+                            fontFamily: fonts.Signika.bold,
+                          }}
+                          numberOfLines={1}>
+                          {item.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: colors.secondary,
+                            fontFamily: fonts.Signika.bold,
+                          }}
+                          numberOfLines={3}>
+                          {item.level}
+                        </Text>
+                      </Animated.View>
+                    </View>
+                  </Pressable>
 
-              <Modal
-                isOpen={state.showModal}
-                onClose={() => setState({...state, showModal: false})}>
-                <Modal.Content maxWidth="400px">
-                  <Modal.CloseButton />
-                  <Modal.Header>Select Rakah to Learn</Modal.Header>
-                  <Modal.Body>
-                    <RakahList
-                      setModal={setModal}
-                      rakahs={state.rakahs}
-                      namazName={state.namazName}></RakahList>
-                  </Modal.Body>
-                </Modal.Content>
-              </Modal>
-            </>
-          );
-        }}
-      />
+                  <Modal
+                    isOpen={state.showModal}
+                    onClose={() => setState({...state, showModal: false})}>
+                    <Modal.Content maxWidth="400px">
+                      <Modal.CloseButton />
+                      <Modal.Header>Select Rakah to Learn</Modal.Header>
+                      <Modal.Body>
+                        <RakahList
+                          setModal={setModal}
+                          rakahs={state.rakahs}
+                          namazName={state.namazName}></RakahList>
+                      </Modal.Body>
+                    </Modal.Content>
+                  </Modal>
+                </>
+              );
+            }}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
 
 const RakahList = props => {
+  
   const {rakahs, namazName} = props;
-  console.log('Namaz NAME', namazName);
   const navigator = useNavigation();
+
   function navigateToGame(item) {
     props.setModal(false);
     navigator.navigate(NAMAZ_PLAY_AREA, {
@@ -309,6 +330,7 @@ const RakahList = props => {
       }}>
       <FlatList
         data={rakahs}
+        extraData={rakahs}
         keyboardDismissMode
         keyExtractor={item => item.id}
         renderItem={({item}) => (

@@ -18,10 +18,13 @@ import {
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoadingUpdateNamazProgress, updateLearnNamazProgress } from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
+import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
 const NamazPlayArea = ({route, navigation}) => {
   const {namazInfo, namazName} = route.params;
-  console.log(namazName);
+
   const namaz = checkRakat(namazInfo);
   const [scene, setScene] = useState(getScene(namaz, 0));
   const [progress, setProgress] = useState(1);
@@ -122,7 +125,17 @@ const NamazPlayArea = ({route, navigation}) => {
     }
   }
 
-  function markAsComplete() {}
+  //Redux
+  const dispatch=useDispatch()
+  const isLoadingUpdateNamazProgress=useSelector(selectIsLoadingUpdateNamazProgress)
+  const user=useSelector(selectUserData)
+  
+  function markAsComplete() {
+
+    const namaz={...namazInfo, namazName}
+    dispatch(updateLearnNamazProgress({username:user?.username,namaz}))
+
+  }
 
   return (
     <View style={styles.container}>

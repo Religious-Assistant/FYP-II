@@ -12,12 +12,6 @@
  import RootNavigator from './src/navigation/RootNavigator';
  import store from './src/redux/store';
  import {Provider} from 'react-redux';
- import { io } from "socket.io-client";
-
- const socket = io("http://localhost:5000", {
-  reconnectionDelayMax: fa,
-  timeout:1500,
-});
 
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';

@@ -1,18 +1,22 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPATCH, apiGET} from '../../../apis/apiService'
+import {apiPATCH, apiGET, apiPOST} from '../../../apis/apiService'
 import {get_learn_namaz_progress,update_learn_namaz_progress} from '../../endpoints';
 
 
 const initialState = {
-    learnNamazProgress:null,
-    isLoading:true,
-    hasError:false,
+    namazProgress:null,
+    isLoadingGetNamazProgress:false,
+    hasErroGetNamazProgress:false,
+
+    isLoadingUpdateNamazProgress:false,
+    hasErroUpdateNamazProgress:false,
+
 }
 
 export const getLearnNamazProgress = createAsyncThunk(
     'getLearnNamazProgress',
-    async ()=>{
-       const result =  await apiGET(get_learn_namaz_progress)
+    async (body)=>{
+       const result =  await apiPOST(get_learn_namaz_progress,body)
        return result  
     }
 )
@@ -31,43 +35,38 @@ const learnNamazSlice = createSlice({
     reducers:{},
     extraReducers:{
         [getLearnNamazProgress.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isPending=false
-            state.learnNamazProgress = action.payload.data
+            state.hasErroGetNamazProgress=false
+            state.isLoadingGetNamazProgress=false
+            state.namazProgress = action.payload.data
             
         },
         [getLearnNamazProgress.rejected]:(state,action)=>{
-            state.isLoading=false
-            state.hasError=true
+            state.isLoadingGetNamazProgress=false
+            state.hasErroGetNamazProgress=true
 
         },
         [getLearnNamazProgress.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingGetNamazProgress=true
+            state.hasErroGetNamazProgress=false
         },
-        [getLearnNamazProgress.fulfilled]:(state,action)=>{
-            state.hasError=false
-            state.isPending=false
-            state.closestTemples = action.payload.data
-            
-        },
+
         [updateLearnNamazProgress.fulfilled]:(state,action)=>{
-            state.hasError = false
-            state.isLoading = false
+            state.hasErroUpdateNamazProgress = false
+            state.isLoadingUpdateNamazProgress = false
         },
         [updateLearnNamazProgress.pending]:(state,action)=>{
-            state.isLoading=true
-            state.hasError=false
+            state.isLoadingUpdateNamazProgress=true
+            state.hasErroUpdateNamazProgress=false
         },
         [updateLearnNamazProgress.rejected]:(state,action)=>{
-            state.hasError = true
-            state.isLoading = false
+            state.hasErroUpdateNamazProgress = true
+            state.isLoadingUpdateNamazProgress = false
         },
     }
 })
 
-export const selectLearnNamazProgress=(state)=>state.learnNamaz.getLearnNamazProgress
-export const selectIsLoading=(state)=>state.learnNamaz.isLoading
-export const selectHasError=(state)=>state.learnNamaz.hasError
+export const selectLearnNamazProgress=(state)=>state.learnNamaz.namazProgress
+export const selectIsLoadingGetNamazProgress=(state)=>state.learnNamaz.isLoadingGetNamazProgress
+export const selectIsLoadingUpdateNamazProgress=(state)=>state.learnNamaz.isLoadingUpdateNamazProgress
 
 export default learnNamazSlice.reducer
