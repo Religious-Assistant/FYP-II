@@ -34,17 +34,12 @@ import {
 
 import Geolocation from '@react-native-community/geolocation';
 //Redux
+
 import {useDispatch, useSelector} from 'react-redux';
-import {getOTPCode, registerUser, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
-// import {}
+import {getOTPCode, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
+
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
-// const registerValidationSchema = yup.object().shape({
-//   username: yup.string(),
-//   password: yup.string(),
-//   mobile: yup.string(),
-//   religion: yup.number(),
-// });
 
 const registerValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
@@ -83,6 +78,8 @@ function RegisterScreen() {
 
 
   function signupHandler(values) {
+
+
     dispatch(getOTPCode({mobile:values.mobile}))
     setRegisterValues({...values,location:position})
   

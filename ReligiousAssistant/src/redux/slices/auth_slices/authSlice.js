@@ -9,7 +9,7 @@ const initialState = {
     token:null,
     religion:null,
     otp_id:null,                //received in get otp code
-    isOTPVerified:false,
+    isOTPVerified:null,
     isOTPObtained:false,
     
     isLoadingLogin:false,
@@ -195,12 +195,19 @@ const authSlice = createSlice({
         [verifyOTPCode.fulfilled]:(state,action)=>{
             state.hasErrorVerifyOTP=false
             state.isLoadingVerifyOTP=false
-            state.isOTPVerified=true
+
+            if(action.payload.data.error){
+                state.isOTPVerified=false
+            }
+            else{
+                state.isOTPVerified=true
+            }
+
         },
         [verifyOTPCode.rejected]:(state,action)=>{
             state.isLoadingVerifyOTP=false
             state.hasErrorVerifyOTP=true
-
+            state.isOTPVerified=false
         },
         [verifyOTPCode.pending]:(state,action)=>{
             state.isLoadingVerifyOTP=true

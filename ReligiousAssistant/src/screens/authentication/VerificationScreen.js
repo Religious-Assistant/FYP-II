@@ -45,17 +45,14 @@ const VerificationScreen = ({route, navigation}) => {
   function verifyOTP(){
 
     if(otpId){
-      console.log(otpId)
+
       let values=Object.values(otp)
       dispatch(verifyOTPCode({otpCode:values.toString().replaceAll(',',''), otpId:otpId}))
     }
     else{
       alert('Could not get OTP Id, Try again')
     }
-    
-    if(otpVerifyError){
-      alert(`Verification failed. Try again`)
-    }
+
   }
 
   useEffect(()=>{
@@ -65,8 +62,11 @@ const VerificationScreen = ({route, navigation}) => {
       dispatch(registerUser(values))
       navigator.navigate(LOGIN)
     }
+    if(isOTPVerified==false){
+      alert(`Verification failed. Try again`)
+    }
 
-  },[dispatch, isOTPVerified, otpVerifyError])
+  },[dispatch, isOTPVerified])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
