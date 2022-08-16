@@ -443,17 +443,14 @@ export default function Settings({route, navigation}) {
                           ml="-1"
                           style={{fontFamily: fonts.Signika.bold}}
                           color={colors.primary}>
-                          Namaz Notifications
+                          Veg Notifications
                         </Heading>
-                        <Text style={styles.info} mt="-1">
-                          w.r.t Primary Temple
-                        </Text>
                       </Stack>
                       <Text
                         fontWeight="400"
                         style={{fontFamily: fonts.Signika.regular}}>
-                        After enabling namaz notifications, you will be able to
-                        get notification about each prayer
+                        After enabling Veg notifications, you will be able to
+                        get notification for each veg days before the perefered time
                       </Text>
                       <HStack
                         flexDirection={'row'}
