@@ -16,13 +16,13 @@ import {
   VIEW_HINDU_CALANDER,
 } from './constants';
 
-import RegisteredHinduDashboard from '../screens/hindu_module/RegisteredHinduDashboard';
-import FindTemple from '../screens/hindu_module/FindTemple';
-import Calander from '../screens/hindu_module/Calander';
-import Announcements from '../screens/hindu_module/Announcements';
-import AutoSilent from '../screens/hindu_module/AutoSilent';
-import AddTemple from '../screens/hindu_module/AddTemple';
-import ReciteGita from '../screens/hindu_module/ReciteGita';
+import RegisteredHinduDashboard from '../screens/hindu_module/dashboard/RegisteredHinduDashboard';
+import FindTemple from '../screens/hindu_module/temple/FindTemple';
+import Calander from '../screens/hindu_module/calander/Calander';
+import Announcements from '../screens/hindu_module/announcements/Announcements';
+import AutoSilent from '../screens/hindu_module/preferences/AutoSilent';
+import AddTemple from '../screens/hindu_module/temple/AddTemple'
+import ReciteGita from '../screens/hindu_module/reciteGita/ReciteGita';
 
 const HomeStack = createNativeStackNavigator();
 

@@ -9,7 +9,7 @@ import React from 'react';
 export default function Notifications() {
   return (
     <View>
-      <Text>Alerts Screen</Text>
+      <Text>Change this navigation, this is Notifications.js screen</Text>
     </View>
   );
 }

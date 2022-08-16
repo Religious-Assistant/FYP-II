@@ -11,9 +11,20 @@ import {Heading, Image, Text, Center, VStack, ScrollView} from 'native-base';
 import mosqueIcon from '../../../assets/images/Logo-combined.png';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+
 import registerScreenImg from '../../../assets/images/registerScreen.png';
+import muslimDashboardImg from '../../../assets/images/muslimDashboard.jpg';
+import hinduDashboardImg from '../../../assets/images/hinduDashboard.jpg'
+import settingsImg from '../../../assets/images/settingsScreen.jpg';
+import addMosqueImg from '../../../assets/images/addMosqueScreen.jpg';
+import namazAccImg from '../../../assets/images/namazAccountabilityScreen.jpg';
+import fastAccImg from '../../../assets/images/fastAccountabilityScreen.jpg';
+import consensusImg from '../../../assets/images/consensus.jpg';
+import findMosqueImg1 from '../../../assets/images/findMosque.jpg'
+import findMosqueImg2 from '../../../assets/images/findMosque2.jpg'
+
+
 export default function UserManual() {
-  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -188,6 +199,9 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 10,
                   }}
                   alt="icon .."
                 />
@@ -214,7 +228,7 @@ export default function UserManual() {
                   profile.
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={muslimDashboardImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -222,6 +236,10 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 10,
                   }}
                   alt="icon .."
                 />
@@ -244,7 +262,7 @@ export default function UserManual() {
                   dashboard of registered Hindu users
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={hinduDashboardImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -252,6 +270,10 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 10,
                   }}
                   alt="icon .."
                 />
@@ -264,7 +286,7 @@ export default function UserManual() {
                   Namaz notifications
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={settingsImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -272,6 +294,9 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 15,
                   }}
                   alt="icon .."
                 />
@@ -292,7 +317,7 @@ export default function UserManual() {
                     alignItems: 'center',
                   }}>
                   <Image
-                    source={registerScreenImg}
+                    source={findMosqueImg1}
                     style={{
                       marginTop: '5%',
                       marginRight: '5%',
@@ -300,11 +325,14 @@ export default function UserManual() {
                       height: 380,
                       width: 182,
                       marginLeft: '-2%',
+                      borderColor: colors.primary,
+                      borderWidth: 0.5,
+                      borderRadius: 10,
                     }}
                     alt="icon .."
                   />
                   <Image
-                    source={registerScreenImg}
+                    source={findMosqueImg2}
                     style={{
                       alignSelf: 'center',
                       marginTop: '5%',
@@ -313,6 +341,9 @@ export default function UserManual() {
                       marginLeft: '-4%',
                       height: 380,
                       width: 182,
+                      borderColor: colors.primary,
+                      borderWidth: 0.5,
+                      borderRadius: 10,
                     }}
                     alt="icon .."
                   />
@@ -332,7 +363,7 @@ export default function UserManual() {
                   information is correct the Mosque or Temple will be added.
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={addMosqueImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -340,6 +371,9 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 10,
                   }}
                   alt="icon .."
                 />
@@ -362,7 +396,7 @@ export default function UserManual() {
                     alignItems: 'center',
                   }}>
                   <Image
-                    source={registerScreenImg}
+                    source={namazAccImg}
                     style={{
                       marginTop: '5%',
                       marginRight: '5%',
@@ -370,11 +404,14 @@ export default function UserManual() {
                       height: 380,
                       width: 182,
                       marginLeft: '-2%',
+                      borderColor: colors.primary,
+                      borderWidth: 0.5,
+                      borderRadius: 10,
                     }}
                     alt="icon .."
                   />
                   <Image
-                    source={registerScreenImg}
+                    source={fastAccImg}
                     style={{
                       alignSelf: 'center',
                       marginTop: '5%',
@@ -383,6 +420,9 @@ export default function UserManual() {
                       marginLeft: '-4%',
                       height: 380,
                       width: 182,
+                      borderColor: colors.primary,
+                      borderWidth: 0.5,
+                      borderRadius: 10,
                     }}
                     alt="icon .."
                   />
@@ -395,7 +435,7 @@ export default function UserManual() {
                   notifications to which you have to give correct response.
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={consensusImg}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -403,6 +443,9 @@ export default function UserManual() {
                     marginBottom: '5%',
                     height: 400,
                     width: 200,
+                    borderColor: colors.primary,
+                    borderWidth: 0.5,
+                    borderRadius: 10,
                   }}
                   alt="icon .."
                 />

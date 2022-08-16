@@ -17,12 +17,12 @@ import {
   ScrollView,
 } from 'native-base';
 
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 
 import templeIcon from '../../../assets/images/newTemple_ic.png';
 
-import CustomButton from '../../components/CustomButton';
+import CustomButton from '../../../components/CustomButton';
 
 export default function NewTempleAddedNoti() {
   const templeInfo = [

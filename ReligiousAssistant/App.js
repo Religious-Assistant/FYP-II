@@ -16,6 +16,7 @@
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
+
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
  
@@ -95,7 +96,7 @@
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <EntryPoint />
+         <EntryPoint/>
        </NativeBaseProvider>
      </Provider>
    );
