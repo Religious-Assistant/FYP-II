@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { FUNERAL, OTHER } = require("../../controllers/utils/constants");
 
 const announcementSchema = mongoose.Schema(
   {
@@ -8,7 +9,7 @@ const announcementSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["FUNERAL", "OTHER"],
+      enum: [FUNERAL,OTHER],
       required: true,
     },
     announcedBy: {
@@ -28,4 +29,4 @@ const announcementSchema = mongoose.Schema(
 );
 
 announcementSchema.index({ location: "2dsphere" });
-module.exports = mongoose.model("MuslimAnnouncement", announcementSchema);
+module.exports = mongoose.model("HinduAnnouncement", announcementSchema);

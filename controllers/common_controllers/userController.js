@@ -1,56 +1,63 @@
 const bcrypt = require("bcrypt");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+require("dotenv").config();
 
-  require('dotenv').config()
 //Models
 const User = require("../../models/common_models/userModel");
 const Tasbih = require("../../models/muslim_user_models/tasbihModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 const QuranRecitation = require("../../models/muslim_user_models/reciteQuranModel");
-const NamazAccountability = require("../../models/muslim_user_models/namazAccountabilityModel");
-const FastAccountability = require("../../models/muslim_user_models/fastAccountabilityModel");
+const LearnNamaz = require("../../models/muslim_user_models/learnNamazModel");
+
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 const Imam = require("../../models/muslim_user_models/imamModel");
+const HinduPreference = require("../../models/hindu_user_models/hinduUserPreferencesModel");
 
 //common functions
 const { hashPassword, createToken } = require("../utils/utils");
 
-const {
-  defaultAvatar,
-  OTP_EXPIRY,
-} = require("../utils/constants");
+const { defaultAvatar, OTP_EXPIRY } = require("../utils/constants");
 const {
   avatarRemover,
   getPublicId,
   base64Uploader,
 } = require("../../utils/cloudinaryUtils");
 
+
+//Controllers
+
 const registerUser = async (req, res) => {
   console.log("Register API hit");
 
   try {
-    const { username, mobile, password, religion,location } = await req.body;
+    const { username, mobile, password, religion, location } = await req.body;
     const duplicateUser = await User.findOne({ username: username });
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
-      // const img_url = base_url + defaultAvatar;
 
-      //By default, Sukkur location is added
       const user_data = await User.create({
-        username, mobile, password, religion,
+        username,
+        mobile,
+        password,
+        religion,
         location: {
           type: "Point",
-          coordinates: [parseFloat(location.longitude), parseFloat(location.latitude)],
+          coordinates: [
+            parseFloat(location.longitude),
+            parseFloat(location.latitude),
+          ],
         },
         avatar: defaultAvatar,
         verified: true,
       });
 
       if (user_data) {
+        
         //Create a Tasbih for each Muslim user, check religion
+
         if (user_data.religion == 1) {
           await Tasbih.create({ username: username, count: 0 });
           await MuslimPreference.create({ username: username });
@@ -80,8 +87,10 @@ const registerUser = async (req, res) => {
               parahNumber: 0,
             },
           });
-
           await quranRecitation.save((err, result) => {});
+          await LearnNamaz.create({username})
+        } else {
+          await HinduPreference.create({ username });
         }
 
         res.send({ success: true, data: user_data });
@@ -111,29 +120,33 @@ const loginUser = async (req, res) => {
         const token = await createToken(user_data.username);
 
         let userPreferences;
-        let imam=null;
+        let imam = null;
         if (user_data.religion == 1) {
           userPreferences = await MuslimPreference.findOne({
             username: username,
           });
 
-          imam=await Imam.findOne({username:username})
+          imam = await Imam.findOne({ username: username });
         }
-        // else{//Hindu Prefs
-        //   userPreferences = await MuslimPreference.findOne({username:username})
-        // }
+        else{
+          userPreferences = await HinduPreference.findOne({
+            username: username,
+          });
+        }
 
         const resultData = {
           ...user_data._doc,
           token: token,
           preferences: userPreferences,
-          isImam:imam?true:false
+          isImam: imam ? true : false,
         };
+
         await DeviceToken.findOneAndUpdate(
           { username: username },
           { username, deviceToken },
           { upsert: true }
         );
+
         res.send({
           success: true,
           data: resultData,
@@ -155,6 +168,8 @@ const loginUser = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
+//TODO: GET updated data does not return preferences, isImam , what to do?
 
 const getUpdatedUserdata = async (req, res) => {
   console.log("Get Updated User Data hit", req.body);
@@ -207,7 +222,6 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-//TODO: GET updated data does not return preferences, isImam , what to do?
 const updateProfileImage = async (req, res) => {
   console.log("Update Profile API hit");
   try {
@@ -292,7 +306,7 @@ const sendOTPCode = async (req, res) => {
   try {
     const { mobile } = req.body;
 
-    console.log(mobile)
+    console.log(mobile);
     const doesExist = await User.findOne({ mobile: mobile });
 
     if (!doesExist) {
@@ -302,7 +316,7 @@ const sendOTPCode = async (req, res) => {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization:`Token ${process.env.D7_KEY}`,
+          Authorization: `Token ${process.env.D7_KEY}`,
         },
         body: `
           {
@@ -327,7 +341,7 @@ const sendOTPCode = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).send({msg:error.message});
+    res.status(400).send({ msg: error.message });
   }
 };
 
@@ -340,7 +354,7 @@ const verifyOTPCode = async (req, res) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization:`Token ${process.env.D7_KEY}`,
+        Authorization: `Token ${process.env.D7_KEY}`,
       },
       body: `{
             "otp_id":"${otp_id}",
@@ -429,6 +443,7 @@ const updateLocation = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
 
 const deleteUser = async (req, res) => {
   console.log("Delete User API hit");

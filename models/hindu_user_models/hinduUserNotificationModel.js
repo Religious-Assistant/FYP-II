@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { FUNERAL, TEMPLE_CONSENSUS, NEW_TEMPLE_ADDITION, NEW_TEMPLE_UNVERIFIED } = require("../../controllers/utils/constants");
 
 const notificationSchema = mongoose.Schema(
   {
@@ -13,9 +14,10 @@ const notificationSchema = mongoose.Schema(
     category: {
       type: String,
       enum: [
-        "NEW_ANNOUNCEMENT",
-        "TEMPLE_ADDED",
-        "TEMPLE_CONSENSUS",
+        FUNERAL,
+        TEMPLE_CONSENSUS,
+        NEW_TEMPLE_ADDITION,
+        NEW_TEMPLE_UNVERIFIED,
       ],
       required: true,
     },
@@ -30,8 +32,7 @@ const notificationSchema = mongoose.Schema(
     icon:{
       type:String,
     },
-    causedBy:{type:String,default:""} //It may be caused by announcement, mosque consensus, mosque addition, rejection
-      //So place announcement, mosque id
+    causedBy:{type:String,default:""}
   },
   { timestamps: true }
 );

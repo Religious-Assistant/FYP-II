@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { EID_NAMAZ, FUNERAL, OTHER } = require("../../controllers/utils/constants");
 
 const announcementSchema = mongoose.Schema(
   {
@@ -8,7 +9,7 @@ const announcementSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["EID_NAMAZ", "FUNERAL", "OTHER"],
+      enum: [EID_NAMAZ, FUNERAL, OTHER],
       required: true,
     },
     announcedBy: {

@@ -10,6 +10,3 @@ announcementRoute.post('/get-all-announcements',authMiddleWare, getAllAnnounceme
 announcementRoute.delete('/delete-all-announcements', deleteAllAnnouncements)
 
 module.exports=announcementRoute
-
-
-//403 471

@@ -58,8 +58,9 @@ const namaz_timings_route=require('./routes/muslim_user_routes/namazTimingsRoute
 
 //Hindu routes
 const temple_routes=require('./routes/hindu_user_routes/templeRoute')
-
-
+const hindu_pref_route=require('./routes/hindu_user_routes/hinduUserPreferenceRoute')
+const hindu_announdement_route=require('./routes/hindu_user_routes/hinduAnnouncementRoute')
+const hindu_notification_route=require('./routes/hindu_user_routes/hinduNotificationRoute')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -80,6 +81,10 @@ app.use('/api', namaz_timings_route)
 
 //Hindu endpoints
 app.use('/api', temple_routes)
+app.use('/api', hindu_announdement_route)
+app.use('/api', hindu_pref_route)
+app.use('/api', hindu_notification_route)
+
 
 // FCM: Notification configuration
 

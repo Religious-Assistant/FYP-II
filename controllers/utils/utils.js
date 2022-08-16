@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const admin = require("firebase-admin");
+
 const User = require("../../models/common_models/userModel");
 const MuslimNotification = require("../../models/muslim_user_models/muslimUserNotificationModel");
 const HinduNotification = require("../../models/hindu_user_models/hinduUserNotificationModel");
@@ -16,7 +17,7 @@ async function hashPassword(password) {
   return newPass;
 }
 
-//Must get username and device token
+//Must get user _id
 async function createToken(id) {
   return jwt.sign({ _id: id }, jwt_secret, { expiresIn: TOKEN_EXPIRE });
 }
@@ -31,7 +32,7 @@ const findNearByPeople = async (longitude, latitude) => {
           coordinates: [parseFloat(longitude), parseFloat(latitude)],
         },
         key: "location",
-        maxDistance: 1000 * process.env.CLOSEST_DISTANCE, //Get users in 50KM
+        maxDistance: 1000 * process.env.CLOSEST_DISTANCE, //Get CLOSEST_DISTANCE KM
         distanceField: "dist.calculated",
         spherical: true,
       },
@@ -46,9 +47,8 @@ const findNearByPeople = async (longitude, latitude) => {
   return usernames;
 };
 
+// Send a message to devices with the registered tokens
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
-  // Send a message to devices with the registered tokens
-
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
     data: {
@@ -72,8 +72,6 @@ const saveNotificationForMuslimUser = (
   notifictionId,
   icon
 ) => {
-
-  console.log(icon)
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       MuslimNotification.create({
@@ -82,7 +80,7 @@ const saveNotificationForMuslimUser = (
         description: statement,
         receivedBy: one_receiver.username,
         category: category,
-        icon:icon
+        icon: icon,
       })
         .then((data) => {
           resolve(data);
@@ -128,22 +126,25 @@ const saveNotificationForMuslimUser = (
         resolve(null);
       });
   });
-
 };
 
 const saveNotificationForHinduUser = (
   recepients,
   title,
   statement,
-  category
+  category,
+  notifictionId,
+  icon
 ) => {
   const createOne = (one_receiver) => {
     return new Promise((resolve, reject) => {
       HinduNotification.create({
+        causedBy: notifictionId,
         title: title,
         description: statement,
         receivedBy: one_receiver.username,
         category: category,
+        icon: icon,
       })
         .then((data) => {
           resolve(data);
@@ -194,13 +195,12 @@ const saveNotificationForHinduUser = (
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
 
-  //We could send to only those who has subscribed to announcement notfs in preferences
+  //TODO:We have to send to only those who has subscribed to announcement notfs in preferences
 
   //#region
   //1. Get only device tokens that are targeted i.e within range
   //2. Mosque notification should be received by only muslim users religion===1 or religion===0
   //3. Don't send to user himself
-
   //#endregion
 
   return receivers.filter((receiver) => {
@@ -210,23 +210,6 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   });
 };
 
-// const getProfileImage = async (username) => {
-//   return new Promise((resolve, reject) => {
-//     fs.readdir(directoryPath, function (err, files) {
-//       if (err) {
-//         reject(err);
-//       }
-//       files.forEach(function (file) {
-//         const splittedName = file.split("-");
-//         if (splittedName[0] == username) {
-//           resolve(base_url + file);
-//         }
-//       });
-//       reject("Image Not found");
-//     });
-//   });
-// };
-
 module.exports = {
   hashPassword,
   createToken,
@@ -235,5 +218,4 @@ module.exports = {
   saveNotificationForMuslimUser,
   saveNotificationForHinduUser,
   getNotificationReceivers,
-  // getProfileImage
 };

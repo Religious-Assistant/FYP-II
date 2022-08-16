@@ -7,23 +7,26 @@ const markSurahAsRead = async (req, res) => {
     const { username, surahNumber, surahName } = req.body;
     const user_data = await User.findOne({ username: username });
     if (user_data) {
-      
-      const surahsAfterMarkASRead=await QuranRecitation.findOneAndUpdate(
+      const surahsAfterMarkASRead = await QuranRecitation.findOneAndUpdate(
         {
           username: username,
-          'recitedSurahs.surahName':{$ne:surahName}
+          "recitedSurahs.surahName": { $ne: surahName },
         },
         {
-          $addToSet:{
-            recitedSurahs:{
-              surahName:surahName,
-              surahNumber:surahNumber
-            }
-          } 
-        },
+          $addToSet: {
+            recitedSurahs: {
+              surahName: surahName,
+              surahNumber: surahNumber,
+            },
+          },
+        }
       );
 
-      res.send({ success: true, msg: `Surah ${surahName} marked as completed`, data:surahsAfterMarkASRead });
+      res.send({
+        success: true,
+        msg: `Surah ${surahName} marked as completed`,
+        data: surahsAfterMarkASRead,
+      });
     } else {
       res.send({ success: false, msg: "User does not exist" });
     }
@@ -39,31 +42,35 @@ const markSurahAsUnRead = async (req, res) => {
     const user_data = await User.findOne({ username: username });
 
     if (user_data) {
-      
-      const recitedSurahs=await QuranRecitation.updateOne(
+      const recitedSurahs = await QuranRecitation.updateOne(
         {
           username: username,
-          'recitedSurahs.surahName':surahName
+          "recitedSurahs.surahName": surahName,
         },
         {
-          $pull:{
-            recitedSurahs:{
-              surahName:surahName,
-              surahNumber:surahNumber
-            }
-          } 
-        },
+          $pull: {
+            recitedSurahs: {
+              surahName: surahName,
+              surahNumber: surahNumber,
+            },
+          },
+        }
       );
 
-      res.send({ success: true, msg: `Surah ${surahName} marked as Incomplete`, data:recitedSurahs });
+      res.send({
+        success: true,
+        msg: `Surah ${surahName} marked as Incomplete`,
+        data: recitedSurahs,
+      });
     } else {
       res.send({ success: false, msg: "User does not exist" });
     }
   } catch (err) {
-    res.status(400).send({ success: false, msg: "Could not Mark as incomplete" });
+    res
+      .status(400)
+      .send({ success: false, msg: "Could not Mark as incomplete" });
   }
 };
-
 
 const markParahAsRead = async (req, res) => {
   console.log("Mark Parah as Read progress API hit");
@@ -72,23 +79,26 @@ const markParahAsRead = async (req, res) => {
     const user_data = await User.findOne({ username: username });
 
     if (user_data) {
-      
-      const recitedParahs=await QuranRecitation.findOneAndUpdate(
+      const recitedParahs = await QuranRecitation.findOneAndUpdate(
         {
           username: username,
-          'recitedParahs.parahName':{$ne:parahName}
+          "recitedParahs.parahName": { $ne: parahName },
         },
         {
-          $addToSet:{
-            recitedParahs:{
-              parahName:parahName,
-              parahNumber:parahNumber
-            }
-          } 
-        },
+          $addToSet: {
+            recitedParahs: {
+              parahName: parahName,
+              parahNumber: parahNumber,
+            },
+          },
+        }
       );
 
-      res.send({ success: true, msg: `Parah ${parahName} marked as completed`, data:recitedParahs });
+      res.send({
+        success: true,
+        msg: `Parah ${parahName} marked as completed`,
+        data: recitedParahs,
+      });
     } else {
       res.send({ success: false, msg: "User does not exist" });
     }
@@ -97,7 +107,6 @@ const markParahAsRead = async (req, res) => {
   }
 };
 
-
 const markParahAsUnRead = async (req, res) => {
   console.log("Mark Parah as Un Read progress API hit");
   try {
@@ -105,28 +114,33 @@ const markParahAsUnRead = async (req, res) => {
     const user_data = await User.findOne({ username: username });
 
     if (user_data) {
-      
-      const recitedParahs=await QuranRecitation.updateOne(
+      const recitedParahs = await QuranRecitation.updateOne(
         {
           username: username,
-          'recitedParahs.parahName':parahName
+          "recitedParahs.parahName": parahName,
         },
         {
-          $pull:{
-            recitedParahs:{
-              parahName:parahName,
-              parahNumber:parahNumber
-            }
-          } 
-        },
+          $pull: {
+            recitedParahs: {
+              parahName: parahName,
+              parahNumber: parahNumber,
+            },
+          },
+        }
       );
 
-      res.send({ success: true, msg: `Parah ${parahName} marked as Incomplete`, data:recitedParahs });
+      res.send({
+        success: true,
+        msg: `Parah ${parahName} marked as Incomplete`,
+        data: recitedParahs,
+      });
     } else {
       res.send({ success: false, msg: "User does not exist" });
     }
   } catch (err) {
-    res.status(400).send({ success: false, msg: "Could not Mark as incomplete" });
+    res
+      .status(400)
+      .send({ success: false, msg: "Could not Mark as incomplete" });
   }
 };
 
@@ -134,32 +148,39 @@ const markParahAsUnRead = async (req, res) => {
 const updateLastReadSurah = async (req, res) => {
   console.log("Last Read Surah progress API hit");
   try {
-
-    const {username, surahNumber, verseNumber}=req.body
-    const isUpdatedLastReadSurah=await QuranRecitation.updateOne(
+    const { username, surahNumber, verseNumber } = req.body;
+    const isUpdatedLastReadSurah = await QuranRecitation.updateOne(
       {
         username: username,
-      }, 
-      {
-        $set:{
-          surahLastRead:{
-            verseNumber:verseNumber,
-            surahNumber:surahNumber
-          }
-        }
       },
+      {
+        $set: {
+          surahLastRead: {
+            verseNumber: verseNumber,
+            surahNumber: surahNumber,
+          },
+        },
+      }
     );
 
-    if(isUpdatedLastReadSurah.acknowledged){
-      const surahLastRead= await QuranRecitation.findOne({
-        username:username,
-      },{
-          surahLastRead:1, _id:0
-      }) 
-      res.send({ success: true, msg: `Updated ${surahNumber} Parah as last read`, data:surahLastRead});
+    if (isUpdatedLastReadSurah.acknowledged) {
+      const surahLastRead = await QuranRecitation.findOne(
+        {
+          username: username,
+        },
+        {
+          surahLastRead: 1,
+          _id: 0,
+        }
+      );
+      res.send({
+        success: true,
+        msg: `Updated ${surahNumber} Parah as last read`,
+        data: surahLastRead,
+      });
       return;
-    } 
-    res.send({ success: true, msg: `Already saved as last read`, data:null});
+    }
+    res.send({ success: true, msg: `Already saved as last read`, data: null });
   } catch (err) {
     res
       .status(400)
@@ -170,37 +191,41 @@ const updateLastReadSurah = async (req, res) => {
 const updateLastReadParah = async (req, res) => {
   console.log("Last Read Parah progress API hit");
   try {
-
-    const {username, surahNumber, verseNumber, parahNumber}=req.body
-    console.log(req.body)
-    const isUpdatedLastReadParah=await QuranRecitation.updateOne(
+    const { username, surahNumber, verseNumber, parahNumber } = req.body;
+    console.log(req.body);
+    const isUpdatedLastReadParah = await QuranRecitation.updateOne(
       {
         username: username,
-      }, 
-      {
-        $set:{
-          parahLastRead:{
-            verseNumber:verseNumber,
-            surahNumber:surahNumber,
-            parahNumber:parahNumber,
-            
-          }
-        }
       },
+      {
+        $set: {
+          parahLastRead: {
+            verseNumber: verseNumber,
+            surahNumber: surahNumber,
+            parahNumber: parahNumber,
+          },
+        },
+      }
     );
 
-    if(isUpdatedLastReadParah){
-
-      const parahLastRead= await QuranRecitation.findOne({
-        username:username,
-      },{
-          parahLastRead:1, _id:0
-      }) 
-      res.send({ success: true, msg: `Updated ${parahNumber} Parah as last read`, data:parahLastRead});
+    if (isUpdatedLastReadParah) {
+      const parahLastRead = await QuranRecitation.findOne(
+        {
+          username: username,
+        },
+        {
+          parahLastRead: 1,
+          _id: 0,
+        }
+      );
+      res.send({
+        success: true,
+        msg: `Updated ${parahNumber} Parah as last read`,
+        data: parahLastRead,
+      });
       return;
-    } 
-    res.send({ success: true, msg: `Already saved as last read`, data:null});
-
+    }
+    res.send({ success: true, msg: `Already saved as last read`, data: null });
   } catch (err) {
     res
       .status(400)
@@ -208,24 +233,28 @@ const updateLastReadParah = async (req, res) => {
   }
 };
 
-
 //Take username and return record for that user
 const getRecitationStats = async (req, res) => {
   console.log("GET recitation stats API hit");
   try {
+    const { username } = req.body;
+    const record = await QuranRecitation.find({
+      username: username,
+    });
 
-    const {username}=req.body
-    const record=await QuranRecitation.find({
-      username:username
-    })
-
-    if(record){
-      res.send({success:true, msg:'Fetched Stats Successfully', data:record})
-    }
-    else{
+    if (record) {
+      res.send({
+        success: true,
+        msg: "Fetched Stats Successfully",
+        data: record,
+      });
+    } else {
       res
-      .status(400)
-      .send({ success: false, msg: `Could not get Recitation Stats for user ${username}` });
+        .status(400)
+        .send({
+          success: false,
+          msg: `Could not get Recitation Stats for user ${username}`,
+        });
     }
   } catch (err) {
     res
@@ -238,17 +267,28 @@ const getRecitationStats = async (req, res) => {
 const checkSurahIsRead = async (req, res) => {
   console.log("CHECK SURAH is read API hit");
   try {
+    const { username, surahName } = req.body;
+    const record = await QuranRecitation.find({
+      username: username,
+      "recitedSurahs.surahName": surahName,
+    });
 
-    const {username,surahName}=req.body
-    const record=await QuranRecitation.find({
-      username:username,
-      'recitedSurahs.surahName':surahName
-    })
-
-    if(record.length==0){
-      return res.status(200).send({success:true, msg:'Fetched Surah Read Status Successfully', data:null})    
+    if (record.length == 0) {
+      return res
+        .status(200)
+        .send({
+          success: true,
+          msg: "Fetched Surah Read Status Successfully",
+          data: null,
+        });
     }
-    res.status(200).send({success:true, msg:'Fetched Surah Read Status Successfully', data:record})
+    res
+      .status(200)
+      .send({
+        success: true,
+        msg: "Fetched Surah Read Status Successfully",
+        data: record,
+      });
     return;
   } catch (err) {
     res
@@ -261,17 +301,28 @@ const checkSurahIsRead = async (req, res) => {
 const checkParahIsRead = async (req, res) => {
   console.log("CHECK PARAH is read API hit");
   try {
+    const { username, parahName } = req.body;
+    const record = await QuranRecitation.find({
+      username: username,
+      "recitedParahs.parahName": parahName,
+    });
 
-    const {username, parahName}=req.body
-    const record=await QuranRecitation.find({
-      username:username,
-      'recitedParahs.parahName':parahName
-    })
-
-    if(record.length==0){
-      return res.status(200).send({success:true, msg:'Fetched Parah Read Status Successfully', data:null})    
+    if (record.length == 0) {
+      return res
+        .status(200)
+        .send({
+          success: true,
+          msg: "Fetched Parah Read Status Successfully",
+          data: null,
+        });
     }
-    res.status(200).send({success:true, msg:'Fetched Parah Read Status Successfully', data:record})
+    res
+      .status(200)
+      .send({
+        success: true,
+        msg: "Fetched Parah Read Status Successfully",
+        data: record,
+      });
     return;
   } catch (err) {
     res
@@ -283,15 +334,22 @@ const checkParahIsRead = async (req, res) => {
 const getLastReadSurah = async (req, res) => {
   console.log("GET LAST READ SURAH API hit");
   try {
+    const { username } = req.body;
+    const surahLastRead = await QuranRecitation.findOne(
+      {
+        username: username,
+      },
+      {
+        surahLastRead: 1,
+        _id: 0,
+      }
+    );
 
-    const {username}=req.body
-    const surahLastRead= await QuranRecitation.findOne({
-      username:username,
-    },{
-        surahLastRead:1, _id:0
-    }) 
-
-      res.send({ success: true, msg: `Fetched Last read Surah`, data:surahLastRead});
+    res.send({
+      success: true,
+      msg: `Fetched Last read Surah`,
+      data: surahLastRead,
+    });
   } catch (err) {
     res
       .status(400)
@@ -302,15 +360,22 @@ const getLastReadSurah = async (req, res) => {
 const getLastReadParah = async (req, res) => {
   console.log("GET LAST READ PARAH API hit");
   try {
+    const { username } = req.body;
+    const parahLastRead = await QuranRecitation.findOne(
+      {
+        username: username,
+      },
+      {
+        parahLastRead: 1,
+        _id: 0,
+      }
+    );
 
-    const {username}=req.body
-    const parahLastRead= await QuranRecitation.findOne({
-      username:username,
-    },{
-        parahLastRead:1, _id:0
-    }) 
-
-      res.send({ success: true, msg: `Fetched Last read Parah`, data:parahLastRead});
+    res.send({
+      success: true,
+      msg: `Fetched Last read Parah`,
+      data: parahLastRead,
+    });
   } catch (err) {
     res
       .status(400)
@@ -329,5 +394,5 @@ module.exports = {
   checkSurahIsRead,
   checkParahIsRead,
   getLastReadSurah,
-  getLastReadParah
+  getLastReadParah,
 };

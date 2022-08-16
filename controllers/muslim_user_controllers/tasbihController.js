@@ -10,13 +10,11 @@ const updateTasbih = async (req, res) => {
       await Tasbih.updateOne({ username: username }, { $set: { count: count } })
         .then((updated) => {
           if (updated.acknowledged) {
-            res
-              .status(200)
-              .send({
-                success: true,
-                msg: "Updated Tasbih",
-                data: { count: count },
-              });
+            res.status(200).send({
+              success: true,
+              msg: "Updated Tasbih",
+              data: { count: count },
+            });
           } else {
             res
               .status(400)
