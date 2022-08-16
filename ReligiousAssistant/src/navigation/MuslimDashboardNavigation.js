@@ -25,7 +25,6 @@
    MUSLIM_DUAS,
    MUSLIM_USER_ANNOUNCEMENT_DETAILS,
    MUSLIM_VIEW_PROFILE,
-   NAMAZ_ALERT_NOTIFICATION,
    NAMAZ_PLAY_AREA,
    NEW_MOSQUE_ADDITION,
    PARAH_RECITATION_AREA,
@@ -34,7 +33,6 @@
    RECITE_QURAN,
    REGISTERED_MUSLIM_HOME_STACK,
    SET_PRAYER_TIMES,
-   SHARE_APP,
    SURAH_RECITATION_AREA,
    TASBIH_COUNTER,
    UPDATE_NAMAZ_TIMES_IN_MOSQUE,
@@ -158,13 +156,6 @@ import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
          options={{title: 'New Mosque'}}
        />
  
- {/* //Go to no where when Namaz alert notifiation clicked  */}
- {/* <HomeStack.Screen
-         name={NAMAZ_ALERT_NOTIFICATION}
-         component={ImamConsensusNoti}
-         options={{title: 'Imam Consensus'}}
-       /> */}
- 
      <HomeStack.Screen
          name={MAKE_ANNOUNCEMENT_SCREEN}
          component={MakeAnnouncement}
@@ -183,7 +174,7 @@ import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
          options={{title: 'Set Namaz Times'}}
        />
 
-<HomeStack.Screen
+      <HomeStack.Screen
          name={UPDATE_NAMAZ_TIMES_IN_MOSQUE}
          component={UpdatePrayerTimes}
          options={{title: 'Update Times'}}
@@ -234,12 +225,6 @@ import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
          name={APPLY_AS_IMAM}
          component={ApplyAsImam}
          options={{title: 'Apply As Imam'}}
-       />
-       
-       <HomeStack.Screen
-         name={SHARE_APP}
-         component={ShareApp}
-         options={{title: 'Share App'}}
        />
        
        <HomeStack.Screen

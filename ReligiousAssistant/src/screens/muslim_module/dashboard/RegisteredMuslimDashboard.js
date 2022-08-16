@@ -40,7 +40,6 @@ import {
   AUTH_STACK,
   HELP,
   MUSLIM_VIEW_PROFILE,
-  SHARE_APP,
 } from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -104,7 +103,7 @@ export default function RegisteredMuslimDashboard() {
                 marginTop: 15,
                 fontFamily: fonts.Signika.bold,
               }}>
-              {user ? user.username : 'Loading name ... '}
+              {user ? user.username.toUpperCase() : 'Loading name ... '}
             </Text>
           </View>
 
@@ -239,17 +238,13 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE);
-          // setCurrentTab(title);
+          
         } else if (title == 'about') {
           navigator.navigate(ABOUT);
-          // setCurrentTab(title);
         } else if (title == 'apply as imam') {
           navigator.navigate(APPLY_AS_IMAM);
-          // setCurrentTab(title);
         } else if (title == 'share app') {
           onShare();
-          // navigator.navigate(SHARE_APP)
-          // // setCurrentTab(title);
         } else if (title == 'help') {
           navigator.navigate(HELP);
         }

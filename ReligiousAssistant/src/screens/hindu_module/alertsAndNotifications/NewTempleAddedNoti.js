@@ -20,7 +20,7 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import templeIcon from '../../../assets/images/newTemple_ic.png';
+import templeIcon from '../../../../assets/images/newTemple_ic.png';
 
 import CustomButton from '../../../components/CustomButton';
 

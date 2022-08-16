@@ -22,7 +22,7 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import vegDays from '../../../assets/images/vegDays_ic.png';
+import vegDays from '../../../../assets/images/vegDays_ic.png';
 
 import CustomButton from '../../../components/CustomButton';
 

@@ -1,13 +1,17 @@
-//User
+//#region General Endpoints
 const register_user='register-user'
 const login_user='login-user'
 const forgot_password='forgot-password'
 const update_profile_image='update-profile-image'
 const update_location='update-location'
+const update_password='update-password'
 const get_otp_code='get-OTP-code'
 const verify_otp_code='verify-otp-code'
 const get_updated_user_data='get-updated-user-data'
 
+//#endregion
+
+//#region Muslim user endpoints
 //Tasbih
 const update_tasbih='update-tasbih'
 const get_tasbih_count='get-tasbih-count'
@@ -39,7 +43,7 @@ const update_primary_mosque='update-primary-mosque'
 const update_auto_silent_settings='update-auto-silent-setting'
 const update_namaz_notifications_setting='update-namaz-notifications-setting'
 const update_accountability_notifications_setting='update-accountability-notifications-setting'
-const update_password='update-password'
+
 
 // const update_auto_silent_settings='update-auto-silent-settings'
 
@@ -51,12 +55,6 @@ const add_mosque='add-mosque'
 const get_mosque_by_id='get-mosque-by-id'
 const cast_up_vote='cast-up-vote'
 const cast_down_vote='cast-down-vote'
-
-//Temples
-const get_all_temples='get-all-temples'
-const get_closest_temples='get-closest-temples'
-const get_unverified_temples_around_user='get-unverified-temples-around-user'
-const add_temple='add-temple'
 
 //Learn Namaz
 const get_learn_namaz_progress='get-learn-namaz-progress'
@@ -84,14 +82,34 @@ const update_namaz_times='update-namaz-times'
 const get_times_for_user='get-times-for-user'
 
 //QuranInfo
-
 const get_parahs='get-parahs'
 
-export{
-    get_parahs
-}
+//#endregion
 
-export {
+//#region Hindu User endpoints
+
+//Temples
+const get_all_temples='get-all-temples'
+const get_closest_temples='get-closest-temples'
+const get_unverified_temples_around_user='get-unverified-temples-around-user'
+const add_temple='add-temple'
+const get_temple_by_id='get-temple-by-id'
+const cast_up_vote_for_temple='cast-up-vote-for-temple'
+const cast_down_vote_for_temple='cast-down-vote-for-temple'
+
+//Notifications
+const get_hindu_user_notifications='get-hindu-user-notifications'
+const delete_hindu_notification='delete-hindu-notification'
+
+//Preferences
+const update_primary_temple='update-primary-temple'
+const update_auto_silent_settings_for_hindu_user='update-auto-silent-settings-for-hindu-user'
+const update_veg_notifications_setting='update-veg-notifications-setting'
+
+//#endregion
+
+////#region General endpoints
+export{
     register_user,
     login_user,
     update_password,
@@ -101,6 +119,31 @@ export {
     get_otp_code,
     verify_otp_code,
     get_updated_user_data,
+}
+
+//#endregion
+
+//#region For Hindus
+export{
+    get_temple_by_id,
+    get_all_temples,
+    get_closest_temples,
+    get_unverified_temples_around_user,
+    add_temple,
+    cast_up_vote_for_temple,
+    cast_down_vote_for_temple,
+    update_primary_temple,
+    update_veg_notifications_setting,
+    update_auto_silent_settings_for_hindu_user,
+    get_hindu_user_notifications,
+    delete_hindu_notification
+}
+
+//#endregion
+
+//#region Endpoints for Muslim Users
+export {
+    
     get_imam_by_id,
     update_namaz_times,
     update_tasbih,
@@ -115,6 +158,8 @@ export {
     check_parah_is_read,
     get_last_read_parah,
     get_last_read_surah,
+    get_parahs,
+
     get_namaz_accountability,
     update_namaz_accountability,
     update_fast_accountability,
@@ -139,10 +184,6 @@ export {
     make_announcement,
     delete_announcement,
     get_announcements,
-    get_all_temples,
-    get_closest_temples,
-    get_unverified_temples_around_user,
-    add_temple,
     update_namaz_notifications_setting,
     update_accountability_notifications_setting,
     get_tasbih_count,
@@ -150,3 +191,4 @@ export {
     delete_muslim_notification,
     get_times_for_user
 }
+//#endregion

@@ -17,6 +17,11 @@ import imamReducer from './slices/muslim_module_slices/imamSlice';
 import muslimNotificationReducer from './slices/muslim_module_slices/muslimNotificationSlice';
 import namazTimesReducer from './slices/muslim_module_slices/namazTimingsSlice'
 
+//Hindu user slice
+import hinduBottomNavReducer from './slices/hindu_module_slices/bottomNavSlice'
+import hinduNotificationReducer from './slices/hindu_module_slices/hinduNotificationSlice';
+import hinduPreferencesSliceReducer from './slices/hindu_module_slices/hinduPreferencesSlice';
+
 const store = configureStore({
   reducer: {
     user:authReducer,  
@@ -32,7 +37,12 @@ const store = configureStore({
     learnNamaz: learnNamazReducer,
     imam:imamReducer,
     muslim_notifications:muslimNotificationReducer,
-    namaztimes:namazTimesReducer
+    namaztimes:namazTimesReducer,
+
+    // Hindu user reducers
+    hindu_bottom_nav:hinduBottomNavReducer,
+    hindu_notifications:hinduNotificationReducer,
+    hindupreferences:hinduPreferencesSliceReducer,
   },
 })
 

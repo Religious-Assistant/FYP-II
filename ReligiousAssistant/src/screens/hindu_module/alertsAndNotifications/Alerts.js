@@ -3,73 +3,69 @@
  * @version 1.0
  */
 
-import React, {useState} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
-
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, FlatList, RefreshControl} from 'react-native';
 import {Text, Image} from 'native-base';
+import {useNavigation} from '@react-navigation/native';
+import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
 
-import colors from '../../../theme/colors';
-import hinduLogo from '../../../assets/images/hinduLogo.png';
-
-// import {useNavigation} from '@react-navigation/native';
-
-// import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
-// import fonts from '../../../theme/fonts';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
-// import {dateDifference} from '../../../utils/helpers';
-// import {
-//   deleteNotification,
-//   getUserNotifications,
-//   selectHasErrorInGettingNotifications,
-//   selectIsLoadingNotification,
-//   selectMuslimNotifications,
-// } from '../../../redux/slices/muslim_module_slices/muslimNotificationSlice';
-// import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {dateDifference} from '../../../utils/helpers';
+import {
+  deleteNotification,
+  getUserNotifications,
+  selectHasErrorInGettingNotifications,
+  selectHinduNotifications,
+  selectIsLoadingNotification,
+} from '../../../redux/slices/hindu_module_slices/hinduNotificationSlice';
+
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
+import { setTab } from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
 import CATEGORIES from '../UIContants';
-// import { IMAM_CONSENSUS, MOSQUE_CONSENSUS, MUSLIM_ANNOUNCEMENTS, NEW_MOSQUE_ADDITION } from '../../../navigation/constants';
+import { HINDU_ANNOUNCEMENTS, NEW_TEMPLE_ADDITION, TEMPLE_CONSENSUS } from '../../../navigation/constants';
 
-export default function Alerts() {
-  // const dispatch = useDispatch();
+export default function Alerts({route, navigation}) {
+  const dispatch = useDispatch();
 
-  // let notifications = useSelector(selectMuslimNotifications);
-  // const isLoadingNotification = useSelector(selectIsLoadingNotification);
-  // const hasErrorInAnnouncements = useSelector(
-  //   selectHasErrorInGettingNotifications,
-  // );
-  // const user = useSelector(selectUserData);
+  let notifications = useSelector(selectHinduNotifications);
+  const isLoadingNotification = useSelector(selectIsLoadingNotification);
 
-  // //when tab is focused in MuslimBottomTab.js, this will be called
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(getUserNotifications({username: user?.username}));
-  //   }
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     dispatch(setTab('Alerts'));
-  //   });
+  const user = useSelector(selectUserData);
 
-  //   //unsubscribe on unmount
-  //   return unsubscribe;
-  // }, [navigation]);
+  //when tab is focused in MuslimBottomTab.js, this will be called
+  useEffect(() => {
+    if (user) {
+      dispatch(getUserNotifications({username: user?.username}));
+    }
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(setTab('Alerts'));
+    });
 
-  // //Handle delete
-  // const handleDelete = item => {
-  //   if (user) {
-  //     dispatch(
-  //       deleteNotification({
-  //         username: user?.username,
-  //         notificationId: item.item._id,
-  //       }),
-  //     );
+    //unsubscribe on unmount
+    return unsubscribe;
+  }, [navigation]);
 
-  //     dispatch(getUserNotifications({username: user?.username}));
-  //   }
-  // };
+  //Handle delete
+  const handleDelete = item => {
+    if (user) {
+      dispatch(
+        deleteNotification({
+          username: user?.username,
+          notificationId: item.item._id,
+        }),
+      );
+
+      dispatch(getUserNotifications({username: user?.username}));
+    }
+  };
+
   return (
     <>
-      {/* <View style={styles.root}>
+      <View style={styles.root}>
         {isLoadingNotification ? (
           <Loader msg="Loagding Notifications" />
         ) : (
@@ -102,80 +98,70 @@ export default function Alerts() {
             ListEmptyComponent={<Empty message={'No Notifications yet'} />}
           />
         )}
-      </View> */}
+      </View>
     </>
   );
 }
 
-// const ListItem = props => {
-//   const notification = props.item.item;
-//   const navigator=useNavigation()
+const ListItem = props => {
+  const notification = props.item.item;
+  const navigator = useNavigation();
 
-//   const gotoRespectiveScreen=(category, notificationId)=>{
+  const gotoRespectiveScreen = (category, notificationId) => {
+    if (category == CATEGORIES.FUNERAL_PRAYER) {
+      navigator.navigate(HINDU_ANNOUNCEMENTS);
+    } else if (category == CATEGORIES.OTHER) {
+      navigator.navigate(HINDU_ANNOUNCEMENTS);
+    } else if (category === CATEGORIES.NEW_TEMPLE_ADDITION) {
+      navigator.navigate(NEW_TEMPLE_ADDITION);
+    } else if (category === CATEGORIES.TEMPLE_CONSENSUS) {
+      navigator.navigate(TEMPLE_CONSENSUS, {templeId: notificationId});
+    }
 
-//     if(category==CATEGORIES.EID_NAMAZ){
-//       navigator.navigate(MUSLIM_ANNOUNCEMENTS)
-//     }
-//     else if(category==CATEGORIES.OTHER){
-//         navigator.navigate(MUSLIM_ANNOUNCEMENTS)
-//     }
-//     else if(category===CATEGORIES.NEW_MOSQUE_ADDITION){
-//       navigator.navigate(NEW_MOSQUE_ADDITION)
-//     }
-//     else if(category===CATEGORIES.MOSQUE_CONSENSUS){
+  };
+  const rightSwipe = (progress, dragX) => {
+    return (
+      <TouchableOpacity
+        onPress={props.handleDelete}
+        style={styles.deleteContainer}
+        activeOpacity={0.7}>
+        <Text style={styles.deleteBtnText}>Delete</Text>
+      </TouchableOpacity>
+    );
+  };
 
-//       navigator.navigate(MOSQUE_CONSENSUS,{mosqueId:notificationId})
-
-//     }
-//     //Go to no where when Namaz Alert Notification clicked
-//     else if(category===CATEGORIES.NAMAZ_ALERT){
-
-//     }
-//     else if(category===CATEGORIES.IMAM_CONSENSUS){
-//       navigator.navigate(IMAM_CONSENSUS)
-//     }
-
-//   }
-//   const rightSwipe = (progress, dragX) => {
-//     return (
-//       <TouchableOpacity
-//         onPress={props.handleDelete}
-//         style={styles.deleteContainer}
-//         activeOpacity={0.7}>
-//         <Text style={styles.deleteBtnText}>Delete</Text>
-//       </TouchableOpacity>
-//     );
-//   };
-
-//   return (
-//     <GestureHandlerRootView>
-//       <Swipeable renderRightActions={rightSwipe} key={notification._id}>
-//         <TouchableOpacity style={styles.container} activeOpacity={0.6} onPress={()=>{
-//           gotoRespectiveScreen(notification.category, notification._id)
-//         }}>
-//           <Image
-//             source={{uri: notification.icon}}
-//             style={styles.avatar}
-//             alt="image.."
-//           />
-//           <View style={styles.content}>
-//             <View>
-//               <View style={styles.text}>
-//                 <Text style={styles.name}>
-//                   {notification?.title.toUpperCase()}
-//                 </Text>
-//                 <Text style={styles.timeAgo}>
-//                   {dateDifference(notification?.createdAt)} ago
-//                 </Text>
-//               </View>
-//               <Text numberOfLines={2}>{notification.description}</Text>
-//             </View>
-//           </View>
-//         </TouchableOpacity>
-//       </Swipeable>
-//     </GestureHandlerRootView>
-//   );
-// };
+  return (
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={rightSwipe} key={notification._id}>
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={0.6}
+          onPress={() => {
+            gotoRespectiveScreen(notification.category, notification._id);
+          }}>
+          <Image
+            source={{uri: notification.icon}}
+            style={styles.avatar}
+            alt="image.."
+          />
+          <View style={styles.content}>
+            <View>
+              <View style={styles.text}>
+                <Text style={styles.name}>
+                  {notification?.title.toUpperCase()}
+                </Text>
+                <Text style={styles.timeAgo}>
+                  {dateDifference(notification?.createdAt)} ago
+                </Text>
+              </View>
+              <Text numberOfLines={2}>{notification.description}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Swipeable>
+    </GestureHandlerRootView>
+  );
+};
 
 const styles = StyleSheet.create({
   root: {

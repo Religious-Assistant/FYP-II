@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   Animated,
   SafeAreaView,
@@ -32,13 +32,26 @@ import fonts from '../../../theme/fonts';
 
 import {useNavigation} from '@react-navigation/native';
 
-import {AUTH_STACK} from '../../../navigation/constants';
+import {
+  ABOUT,
+  AUTH_STACK,
+  HELP,
+  HINDU_VIEW_PROFILE,
+} from '../../../navigation/constants';
 import HinduBottomTab from './HinduBottomTab';
-import {useDispatch} from 'react-redux';
-import {logout} from '../../../redux/slices/auth_slices/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getUserData,
+  logout,
+  selectHasError,
+  selectIsLoadingGetUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {selectCurrentTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
+import Loader from '../../common/Loader';
 
 export default function RegisteredHinduDashboard() {
-  const [currentTab, setCurrentTab] = useState('Home');
+  const [currentTab, setCurrentTab] = useState('View Profile');
 
   // To get the curretn Status of menu ...
   const [showMenu, setShowMenu] = useState(false);
@@ -50,50 +63,65 @@ export default function RegisteredHinduDashboard() {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
+  const dispatch = useDispatch();
+  const selectedTab = useSelector(selectCurrentTab);
+  const user = useSelector(selectUserData);
+  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+  const hasError = useSelector(selectHasError);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserData());
+    }
+  }, [dispatch, selectedTab]);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{justifyContent: 'flex-start', padding: 15}}>
-        <View style={{}}>
-          <Image
-            source={profile}
+      {isLoadingGetUserData || hasError ? (
+        <Loader msg="Loading Dashboard ..." />
+      ) : (
+        <View style={{justifyContent: 'flex-start', padding: 15}}>
+          <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 50,
-              marginTop: 8,
-              left: 32,
-            }}
-            alt="Profile image"></Image>
-
-          <Text
-            style={{
-              fontSize: 20,
-              color: 'white',
-              marginTop: 20,
-              left: 15,
-              fontFamily: fonts.Signika.bold,
+              alignItems: 'center',
             }}>
-            Akash Kumar
-          </Text>
+            <Image
+              source={{uri: user?.avatar}}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 50,
+                marginTop: 8,
+              }}
+              resizeMode={'cover'}
+              alt="Profile image"></Image>
+
+            <Text
+              style={{
+                fontSize: 20,
+                color: 'white',
+                marginTop: 15,
+                fontFamily: fonts.Signika.bold,
+              }}>
+              {user ? user.username.toUpperCase() : 'Loading name ... '}
+            </Text>
+          </View>
+
+          <View style={{flexGrow: 1, marginTop: 50}}>
+            {
+              // Tab Bar Buttons....
+            }
+
+            {TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)}
+            {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
+            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
+            {TabButton(currentTab, setCurrentTab, 'Help', help)}
+          </View>
+
+          <View>
+            {TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}
+          </View>
         </View>
-
-        <View style={{flexGrow: 1, marginTop: 50}}>
-          {
-            // Tab Bar Buttons....
-          }
-
-          {TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)}
-          {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
-          {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
-          {TabButton(currentTab, setCurrentTab, 'Help', help)}
-        </View>
-
-        <View>{TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}</View>
-      </View>
-
-      {
-        // Over lay View...
-      }
+      )}
 
       <Animated.View
         style={{
@@ -120,48 +148,49 @@ export default function RegisteredHinduDashboard() {
               },
             ],
           }}>
-          <View style={styles.appBar}>
-            <TouchableOpacity
-              onPress={() => {
-                // Do Actions Here....
-                // Scaling the view...
-                Animated.timing(scaleValue, {
-                  toValue: showMenu ? 1 : 0.88,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+          {selectedTab == 'Home' ? (
+            <View style={styles.appBar}>
+              <TouchableOpacity
+                onPress={() => {
+                  Animated.timing(scaleValue, {
+                    toValue: showMenu ? 1 : 0.88,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                Animated.timing(offsetValue, {
-                  // YOur Random Value...
-                  toValue: showMenu ? 0 : 230,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+                  Animated.timing(offsetValue, {
+                    toValue: showMenu ? 0 : 230,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                Animated.timing(closeButtonOffset, {
-                  // YOur Random Value...
-                  toValue: !showMenu ? -30 : 0,
-                  duration: 200,
-                  useNativeDriver: true,
-                }).start();
+                  Animated.timing(closeButtonOffset, {
+                    toValue: !showMenu ? -30 : 0,
+                    duration: 200,
+                    useNativeDriver: true,
+                  }).start();
 
-                setShowMenu(!showMenu);
-              }}>
-              <Image
-                source={showMenu ? close : menu}
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: colors.white,
-                  marginTop: showMenu ? 40 : 15,
-                  marginLeft: showMenu ? 10 : 10,
-                }}
-                alt={showMenu ? 'Close' : 'Open'}></Image>
-            </TouchableOpacity>
-            <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
-              Home
-            </Text>
-          </View>
+                  setShowMenu(!showMenu);
+                }}>
+                <Image
+                  source={showMenu ? close : menu}
+                  key={showMenu}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: colors.white,
+                    marginTop: showMenu ? 40 : 15,
+                    marginLeft: showMenu ? 10 : 10,
+                  }}
+                  alt={showMenu ? 'Close' : 'Open'}></Image>
+              </TouchableOpacity>
+              <Text style={[styles.titleText, {marginTop: showMenu ? 40 : 15}]}>
+                {selectedTab}
+              </Text>
+            </View>
+          ) : (
+            <></>
+          )}
         </Animated.View>
         <HinduBottomTab />
       </Animated.View>
@@ -173,6 +202,7 @@ export default function RegisteredHinduDashboard() {
 const TabButton = (currentTab, setCurrentTab, title, image) => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
+
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -192,30 +222,24 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
       alert(error.message);
     }
   };
+
   return (
     <TouchableOpacity
       onPress={() => {
         title = title.toLowerCase();
 
         if (title == 'logout') {
-          //Remove token from async storage
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
-          //navigator.navigate(MUSLIM_VIEW_PROFILE);
-          // setCurrentTab(title);
+          navigator.navigate(HINDU_VIEW_PROFILE);
         } else if (title == 'about') {
-          //navigator.navigate(ABOUT);
-          // setCurrentTab(title);
-        } else if (title == 'apply as imam') {
-          //navigator.navigate(APPLY_AS_IMAM);
-          // setCurrentTab(title);
+          navigator.navigate(ABOUT);
         } else if (title == 'share app') {
           onShare();
-          // navigator.navigate(SHARE_APP)
           // // setCurrentTab(title);
         } else if (title == 'help') {
-          //navigator.navigate(HELP);
+          navigator.navigate(HELP);
         }
       }}>
       <View

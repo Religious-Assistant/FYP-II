@@ -48,10 +48,6 @@ const AddMosqueButton = ({children, onPress}) => {
 
 export default function MuslimBottomTab() {
   
-  // const token=useSelector(selectToken) 
-
-  const [showBadge, setShowBadge]=useState(true)
-
   const dispatch=useDispatch()
   const notifications=useSelector(selectMuslimNotifications)
   const user=useSelector(selectUserData)

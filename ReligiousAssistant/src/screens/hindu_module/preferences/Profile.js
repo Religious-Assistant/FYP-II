@@ -9,8 +9,7 @@ import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-
-import avatar from '../../../assets/images/avatar.png';
+import avatar from '../../../../assets/images/avatar.png';
 
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
