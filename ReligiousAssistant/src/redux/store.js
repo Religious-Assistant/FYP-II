@@ -22,6 +22,7 @@ import hinduNotificationReducer from './slices/hindu_module_slices/hinduNotifica
 import hinduPreferencesSliceReducer from './slices/hindu_module_slices/hinduPreferencesSlice';
 import templeReducer from './slices/hindu_module_slices/templeSlice'
 import hinduAnnouncementReducer from './slices/hindu_module_slices/hinduAnnouncementSlice'
+import gitarecitationReducer from './slices/hindu_module_slices/reciteGitaSlice'
 
 const store = configureStore({
   reducer: {
@@ -45,6 +46,7 @@ const store = configureStore({
     hindupreferences:hinduPreferencesSliceReducer,
     temple:templeReducer,
     hindu_announcement:hinduAnnouncementReducer,
+    gitarecitation:gitarecitationReducer,
   },
 })
 

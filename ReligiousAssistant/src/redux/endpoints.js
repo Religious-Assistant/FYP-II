@@ -112,6 +112,21 @@ const delete_announcement_for_hindu_users='delete-announcement-for-hindu-users'
 const get_announcements_for_hindu_users='get-all-announcements-for-hindu-users'
 
 
+//Gita Recitation
+const get_gita_recitation_stats='get-gita-recitation-stats'
+
+const mark_summary_as_read='mark-summary-as-read'
+const mark_summary_as_unread='mark-summary-as-unread'
+const update_last_read_summary='update-last-read-summary'
+const get_last_read_summary='get-last-read-summary'
+const check_summary_is_read='check-summary-is-read'
+
+const get_last_read_chapter='get-last-read-chapter'
+const check_chapter_is_read='check-chapter-is-read'
+const update_last_read_chapter='update-last-read-chapter'
+const mark_chapter_as_unread='mark-chapter-as-unread'
+const mark_chapter_as_read='mark-chapter-as-read'
+
 //#endregion
 
 ////#region General endpoints
@@ -131,6 +146,7 @@ export{
 
 //#region For Hindus
 export{
+
     get_temple_by_id,
     get_all_temples,
     get_closest_temples,
@@ -145,7 +161,18 @@ export{
     delete_hindu_notification,
     make_announcement_for_hindu_users,
     get_announcements_for_hindu_users,
-    delete_announcement_for_hindu_users
+    delete_announcement_for_hindu_users,
+    mark_summary_as_read,
+    mark_summary_as_unread,
+    update_last_read_summary,
+    get_last_read_summary,
+    check_summary_is_read,
+    get_last_read_chapter,
+    check_chapter_is_read,
+    update_last_read_chapter,
+    mark_chapter_as_unread,
+    mark_chapter_as_read,
+
 }
 
 //#endregion

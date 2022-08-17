@@ -10,6 +10,8 @@ import {
   ABOUT,
   ADD_TEMPLE,
   FIND_TEMPLE,
+  GITA_CHAPTER_RECITATION_AREA,
+  GITA_SUMMARY_RECITATION_AREA,
   GOOGLE_MAP,
   GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS,
   HELP,
@@ -41,6 +43,8 @@ import Map from '../components/Map';
 import MapDirectionForHindus from '../components/MapDirectionForHindus';
 import UserManual from '../screens/common/UserManual';
 import VegNonVegDays from '../screens/hindu_module/vegNonVegDays/VegNonVegDays';
+import ChapterRecitationArea from '../screens/hindu_module/reciteGita/ChapterRecitationArea';
+import SummaryRecitationArea from '../screens/hindu_module/reciteGita/SummaryRecitationArea';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -139,6 +143,18 @@ function HinduDashboardNavigation() {
         name={HELP}
         component={UserManual}
         options={{title: 'Help'}}
+      />
+
+      <HomeStack.Screen
+        name={GITA_CHAPTER_RECITATION_AREA}
+        component={ChapterRecitationArea}
+        options={{title: 'Chapter'}}
+      />
+
+      <HomeStack.Screen
+        name={GITA_SUMMARY_RECITATION_AREA}
+        component={SummaryRecitationArea}
+        options={{title: 'Summary'}}
       />
     </HomeStack.Navigator>
   );
