@@ -9,11 +9,13 @@ const Tasbih = require("../../models/muslim_user_models/tasbihModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 const QuranRecitation = require("../../models/muslim_user_models/reciteQuranModel");
+
 const LearnNamaz = require("../../models/muslim_user_models/learnNamazModel");
 
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 const Imam = require("../../models/muslim_user_models/imamModel");
 const HinduPreference = require("../../models/hindu_user_models/hinduUserPreferencesModel");
+const GitaRecitation = require("../../models/hindu_user_models/reciteGitaModel");
 
 //common functions
 const { hashPassword, createToken } = require("../utils/utils");
@@ -91,6 +93,29 @@ const registerUser = async (req, res) => {
           await LearnNamaz.create({username})
         } else {
           await HinduPreference.create({ username });
+
+          //Create Recitation record for Muslim User
+          const gitaRecitation = new GitaRecitation({
+            username: username,
+            recitedChapters: [
+              {
+                chapterNumber: 0,
+                chapterName: "NONE",
+              },
+            ],
+            recitedSummaries: [
+              {
+                summaryNumber: 0,
+                summaryName: "NONE",
+              },
+            ],
+            chapterLastRead: {
+              verseNumber: 0,
+              chapterNumber: 0,
+            },
+            summaryLastRead:0
+          });
+          await gitaRecitation.save((err, result) => {});
         }
 
         res.send({ success: true, data: user_data });

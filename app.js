@@ -61,6 +61,7 @@ const temple_routes=require('./routes/hindu_user_routes/templeRoute')
 const hindu_pref_route=require('./routes/hindu_user_routes/hinduUserPreferenceRoute')
 const hindu_announdement_route=require('./routes/hindu_user_routes/hinduAnnouncementRoute')
 const hindu_notification_route=require('./routes/hindu_user_routes/hinduNotificationRoute')
+const recite_gita_route = require('./routes/hindu_user_routes/reciteGitaRoute')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -84,6 +85,7 @@ app.use('/api', temple_routes)
 app.use('/api', hindu_announdement_route)
 app.use('/api', hindu_pref_route)
 app.use('/api', hindu_notification_route)
+app.use('/api', recite_gita_route)
 
 
 // FCM: Notification configuration
