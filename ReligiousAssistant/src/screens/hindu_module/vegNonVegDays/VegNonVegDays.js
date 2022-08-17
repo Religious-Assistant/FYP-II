@@ -57,10 +57,15 @@ const VegNonVegDays = () => {
       dayName: 'Sunday',
     },
   ];
+  
   function handlePress() {
     var today = new Date();
     const day = today.toDateString().split(' ')[0];
     console.log(day);
+  }
+
+  const handleDayChange=(value)=>{
+    console.log(value)
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -102,44 +107,24 @@ const VegNonVegDays = () => {
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.8}} width="95%" maxW="80%" alignItems="center">
+          <View style={{flex: 0.8, marginTop:'20%'}} width="95%" maxW="80%" alignItems="center">
             <Center
               width="90%"
               space={2}
               maxW="90%"
-              marginTop={'35%'}
               marginLeft={'6%'}
+              marginTop="8"
               marginBottom={'5%'}>
               <Heading color={colors.primary}>
                 <Text style={{fontFamily: fonts.Signika.bold}}>
                   {'\n'}Select your Veg Days
                 </Text>
               </Heading>
-              <View style={{marginTop: '15%', width: '94%'}}>
+              <View style={{marginTop: '4%', width: '94%'}}>
                 <FormControl>
                   {days.map(day => {
                     return (
-                      <Box
-                        key={day.key}
-                        style={styles.subBox}
-                        _text={styles.text}
-                        shadow={3}
-                        px="3">
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}>
-                          <Text style={styles.text}>{day.dayName}</Text>
-                          <Checkbox
-                            name="day"
-                            my={2}
-                            colorScheme="green"
-                            accessibilityLabel="Namaz time"
-                          />
-                        </View>
-                      </Box>
+                      <Item day={day} key={day.id} handleDayChange={handleDayChange}/>
                     );
                   })}
 
@@ -159,42 +144,41 @@ const VegNonVegDays = () => {
   );
 };
 
+const Item=({day, handleDayChange})=>{
+  return(
+    <Box
+    key={day.key}
+    style={styles.subBox}
+    _text={styles.text}
+    px="3">
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+      <Text style={styles.text}>{day.dayName}</Text>
+      <Checkbox
+        name="day"
+        my={2}
+        colorScheme="green"
+        accessibilityLabel="Namaz time"
+        onChange={handleDayChange}
+      />
+    </View>
+  </Box>
+  )
+}
 export default VegNonVegDays;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.3,
-    backgroundColor: colors.white,
-    marginTop: '31%',
-    fontFamily: fonts.Signika.regular,
-  },
   text: {
     fontSize: 20,
     fontFamily: fonts.Signika.regular,
   },
-  mainBox: {
-    border: 1,
-    borderWidth: 4,
-    backgroundColor: colors.white,
-    borderColor: colors.white,
-  },
   subBox: {
-    borderWidth: 5,
-    borderColor: colors.white,
-    borderRadius: 6,
-    backgroundColor: colors.white,
+    backgroundColor: colors.cover,
+    padding:5,
     marginTop: '5%',
-  },
-  buttonStyle: {
-    w: {
-      base: '20%',
-    },
-    _text: {
-      fontSize: 'md',
-      fontFamily: fonts.Signika.medium,
-      color: colors.white,
-    },
-    colorScheme: 'yellow',
-    variant: 'solid',
   },
 });

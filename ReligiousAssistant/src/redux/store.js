@@ -11,7 +11,6 @@ import announcementReducer from './slices/muslim_module_slices/muslimAnnouncemen
 import tasbihReducer from './slices/muslim_module_slices/tasbihSlice'
 import namazAccountabilityReducer from './slices/muslim_module_slices/namazAccountabilitySlice'
 import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccountability';
-import templeReducer from './slices/hindu_module_slices/templeSlice';
 import learnNamazReducer from './slices/muslim_module_slices/learnNamazSlice';
 import imamReducer from './slices/muslim_module_slices/imamSlice';
 import muslimNotificationReducer from './slices/muslim_module_slices/muslimNotificationSlice';
@@ -21,6 +20,8 @@ import namazTimesReducer from './slices/muslim_module_slices/namazTimingsSlice'
 import hinduBottomNavReducer from './slices/hindu_module_slices/bottomNavSlice'
 import hinduNotificationReducer from './slices/hindu_module_slices/hinduNotificationSlice';
 import hinduPreferencesSliceReducer from './slices/hindu_module_slices/hinduPreferencesSlice';
+import templeReducer from './slices/hindu_module_slices/templeSlice'
+import hinduAnnouncementReducer from './slices/hindu_module_slices/hinduAnnouncementSlice'
 
 const store = configureStore({
   reducer: {
@@ -33,7 +34,6 @@ const store = configureStore({
     tasbih: tasbihReducer,
     namazAccountability: namazAccountabilityReducer,
     fastAccountability: fastAccountabilityReducer,
-    temple: templeReducer,
     learnNamaz: learnNamazReducer,
     imam:imamReducer,
     muslim_notifications:muslimNotificationReducer,
@@ -43,6 +43,8 @@ const store = configureStore({
     hindu_bottom_nav:hinduBottomNavReducer,
     hindu_notifications:hinduNotificationReducer,
     hindupreferences:hinduPreferencesSliceReducer,
+    temple:templeReducer,
+    hindu_announcement:hinduAnnouncementReducer,
   },
 })
 

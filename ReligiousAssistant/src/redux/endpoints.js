@@ -106,6 +106,12 @@ const update_primary_temple='update-primary-temple'
 const update_auto_silent_settings_for_hindu_user='update-auto-silent-settings-for-hindu-user'
 const update_veg_notifications_setting='update-veg-notifications-setting'
 
+//Announcements
+const make_announcement_for_hindu_users='make-announcement-for-hindu-users'
+const delete_announcement_for_hindu_users='delete-announcement-for-hindu-users'
+const get_announcements_for_hindu_users='get-all-announcements-for-hindu-users'
+
+
 //#endregion
 
 ////#region General endpoints
@@ -136,7 +142,10 @@ export{
     update_veg_notifications_setting,
     update_auto_silent_settings_for_hindu_user,
     get_hindu_user_notifications,
-    delete_hindu_notification
+    delete_hindu_notification,
+    make_announcement_for_hindu_users,
+    get_announcements_for_hindu_users,
+    delete_announcement_for_hindu_users
 }
 
 //#endregion

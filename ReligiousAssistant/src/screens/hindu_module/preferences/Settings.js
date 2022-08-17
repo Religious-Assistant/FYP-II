@@ -3,59 +3,66 @@
  * @version 1.0
  */
 
- import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
- import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
- 
- import ImagePicker from 'react-native-image-crop-picker';
- import {
-   Image,
-   Text,
-   View,
-   VStack,
-   HStack,
-   Divider,
-   Box,
-   Stack,
-   Heading,
-   Switch,
-   Modal,
-   FormControl,
-   Input,
-   Button,
-   Actionsheet,
-   useDisclose,
-   ScrollView,
-   FlatList,
- } from 'native-base';
- import SearchableDropdown from 'react-native-searchable-dropdown';
- 
- //theme
- import colors from '../../../theme/colors';
- import fonts from '../../../theme/fonts';
- import editIcon from '../../../../assets/images/edit_ic.png';
- import cameraIcon from '../../../../assets/images/camera_ic.png';
- import galleryIcon from '../../../../assets/images/gallery_ic.png';
- import edit from '../../../../assets/images/edit.png';
- 
- //Redux
- import {useDispatch, useSelector} from 'react-redux';
- import {setTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
- import {
-   getUpdatedUserData,
-   getUserData,
-   selectIsLoadingGetUserData,
-   selectUserData,
- } from '../../../redux/slices/auth_slices/authSlice';
+import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
 
- import {GOOGLE_MAP, HINDU_SETTINGS} from '../../../navigation/constants';
- import Loader from '../../common/Loader'; 
- import {useNavigation} from '@react-navigation/native';
-import { selectHasUpdatedAutosilentSetting, selectHasUpdatedPassword, selectHasUpdatedVegNotifications, selectIsUploadingProfileImage, updateAutoSilentSetting, updatePassword, updateProfileImage, updateVegNotifications } from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
+import ImagePicker from 'react-native-image-crop-picker';
+import {
+  Image,
+  Text,
+  View,
+  VStack,
+  HStack,
+  Divider,
+  Box,
+  Stack,
+  Heading,
+  Switch,
+  Modal,
+  FormControl,
+  Input,
+  Button,
+  Actionsheet,
+  useDisclose,
+  ScrollView,
+  FlatList,
+} from 'native-base';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
+//theme
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
+import editIcon from '../../../../assets/images/edit_ic.png';
+import cameraIcon from '../../../../assets/images/camera_ic.png';
+import galleryIcon from '../../../../assets/images/gallery_ic.png';
+import edit from '../../../../assets/images/edit.png';
+
+//Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {setTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
+import {
+  getUpdatedUserData,
+  getUserData,
+  selectIsLoadingGetUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+
+import {GOOGLE_MAP, HINDU_SETTINGS} from '../../../navigation/constants';
+import Loader from '../../common/Loader';
+import {useNavigation} from '@react-navigation/native';
+import {
+  selectHasUpdatedAutosilentSetting,
+  selectHasUpdatedPassword,
+  selectHasUpdatedVegNotifications,
+  selectIsUploadingProfileImage,
+  updateAutoSilentSetting,
+  updatePassword,
+  updateProfileImage,
+  updateVegNotifications,
+} from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
 
 export default function Settings({route, navigation}) {
-
   const navigator = useNavigation();
 
   //Modal
@@ -82,9 +89,7 @@ export default function Settings({route, navigation}) {
   const hasUpdatedAutoSilentSettings = useSelector(
     selectHasUpdatedAutosilentSetting,
   );
-  const hasUpdatedVegSettings = useSelector(
-    selectHasUpdatedVegNotifications,
-  );
+  const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
 
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
 
@@ -188,7 +193,6 @@ export default function Settings({route, navigation}) {
       alert(`Updated Auto-Silent Settings`);
     }
   }
-
 
   function updatePrimaryTemple(item) {}
 
@@ -450,7 +454,8 @@ export default function Settings({route, navigation}) {
                         fontWeight="400"
                         style={{fontFamily: fonts.Signika.regular}}>
                         After enabling Veg notifications, you will be able to
-                        get notification for each veg days before the perefered time
+                        get notification for each veg days before the perefered
+                        time
                       </Text>
                       <HStack
                         flexDirection={'row'}
@@ -528,58 +533,6 @@ export default function Settings({route, navigation}) {
                   </Box>
                 </Box>
 
-                {/* Accountability Notification */}
-                <Box alignItems="center">
-                  <Box
-                    maxW="80"
-                    rounded="lg"
-                    overflow="hidden"
-                    borderColor={colors.cover}
-                    borderWidth="1"
-                    marginBottom={'3'}
-                    _light={{
-                      backgroundColor: colors.cover,
-                    }}>
-                    <Stack p="4" space={3}>
-                      <Stack space={2}>
-                        <Heading
-                          size="md"
-                          ml="-1"
-                          style={{fontFamily: fonts.Signika.bold}}
-                          color={colors.primary}>
-                          Accountability Notifications
-                        </Heading>
-                      </Stack>
-                      <Text
-                        fontWeight="400"
-                        style={{fontFamily: fonts.Signika.regular}}>
-                        After enabling Accountability notifications, you will
-                        get notification every day at 10 pm to keep track of
-                        your Namaz
-                      </Text>
-                      <HStack
-                        flexDirection={'row'}
-                        space={4}
-                        justifyContent="space-between">
-                        {/* switch for Accountability Notification */}
-                        <HStack>
-                          <Switch
-                            offTrackColor="rose.300"
-                            onTrackColor="lime.300"
-                            size="lg"
-                            onValueChange={value => {
-                              updateAccountabilityNotificarions(value);
-                            }}
-                            defaultIsChecked={
-                              user?.preferences?.accountabilityNotifications
-                            }
-                            marginLeft={'80%'}
-                          />
-                        </HStack>
-                      </HStack>
-                    </Stack>
-                  </Box>
-                </Box>
               </VStack>
 
               {/* Modals */}
@@ -816,6 +769,5 @@ const styles = StyleSheet.create({
     marginLeft: '38%',
     padding: 8,
     color: colors.primary,
-    //marginLeft:"92%"
   },
 });
