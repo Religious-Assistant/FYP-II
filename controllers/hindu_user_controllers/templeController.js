@@ -112,8 +112,10 @@ const getUnverifiedTemplesAroundUser = async (req, res) => {
 };
 
 const addTemple = async (req, res) => {
-  console.log("Add Temple API hit");
-  const { latitude, longitude, templeName, addedBy } = req.body;
+
+  console.log("Add Temple API hit", req.body);
+
+  const { latitude, longitude, templeName, addedBy } = req.body;  
 
   try {
     const user = await User.findOne({ username: addedBy });
