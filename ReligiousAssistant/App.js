@@ -16,7 +16,6 @@
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
-
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
  

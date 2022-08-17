@@ -4,7 +4,7 @@
  */
 
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { View, Text, Button } from 'react-native';
 import { useRingerMode,
@@ -18,8 +18,27 @@ const modeText = {
   [RINGER_MODE.normal]: 'Normal',
   [RINGER_MODE.vibrate]: 'Vibrate',
 };
+import Geolocation from '@react-native-community/geolocation';
 const AutoSilent = () => {
+  const [position, setPosition] = useState();
   const { mode, setMode } = useRingerMode();
+
+  useEffect(() => {
+    setInterval(()=>{
+      Geolocation.getCurrentPosition((pos) => {
+        const crd = pos.coords;
+        console.log(crd.latitude," ",crd.longitude)
+        setPosition({
+          latitude: crd.latitude,
+          longitude: crd.longitude,
+          latitudeDelta: 0.0421,
+          longitudeDelta: 0.0421,
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+  },1000)
+  }, []);
 
   const changeMode = async (newMode) => {
     // From N onward, ringer mode adjustments that would toggle Do Not Disturb
@@ -39,11 +58,12 @@ const AutoSilent = () => {
   };
   return (
     <View>
-      <Text>{mode}</Text>
+      {/* <Text>{mode}</Text>
       <Button title="Silent" onPress={() => changeMode(RINGER_MODE.silent)} />
       <Button title="Vibrate" onPress={() => changeMode(RINGER_MODE.vibrate)} />
       <Button title="Normal" onPress={() => changeMode(RINGER_MODE.normal)} />
-      
+       */}
+       {position?<Text>{position.latitude+" "+position.longitude}</Text>:<Text>No</Text>}
     </View>
   );
 };
