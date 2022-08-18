@@ -25,48 +25,86 @@ import fonts from '../../../theme/fonts';
 import vegDays from '../../../../assets/images/vegDays_ic.png';
 
 import CustomButton from '../../../components/CustomButton';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {useEffect} from 'react';
+import {
+  getVegData,
+  selectVegData,
+  setVegData,
+} from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
 
 const VegNonVegDays = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const vegData = useSelector(selectVegData);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserData());
+    }
+    dispatch(getVegData({username: user?.username}));
+  }, [dispatch]);
+
   const days = [
     {
       key: 1,
       dayName: 'Monday',
+      value: vegData?.monday,
     },
     {
       key: 2,
       dayName: 'Tuesday',
+      value: vegData?.tuesday,
     },
     {
       key: 3,
       dayName: 'Wednesday',
+      value: vegData?.wednesday,
     },
     {
       key: 4,
       dayName: 'Thursday',
+      value: vegData?.thursday,
     },
     {
       key: 5,
       dayName: 'Friday',
+      value: vegData?.friday,
     },
     {
       key: 6,
       dayName: 'Saturday',
+      value: vegData?.saturday,
     },
     {
       key: 7,
       dayName: 'Sunday',
+      value: vegData?.sunday,
     },
   ];
-  
+
+  let vegSubscription = {
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
+    saturday: false,
+    sunday: false,
+  };
+
   function handlePress() {
-    var today = new Date();
-    const day = today.toDateString().split(' ')[0];
-    console.log(day);
+    dispatch(setVegData({username: user?.username, vegSubscription}));
   }
 
-  const handleDayChange=(value)=>{
-    console.log(value)
-  }
+  const handleDayChange = (value, day) => {
+    let targetDat = day.dayName.toLowerCase();
+    vegSubscription[targetDat] = value;
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -107,7 +145,11 @@ const VegNonVegDays = () => {
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.8, marginTop:'20%'}} width="95%" maxW="80%" alignItems="center">
+          <View
+            style={{flex: 0.8, marginTop: '20%'}}
+            width="95%"
+            maxW="80%"
+            alignItems="center">
             <Center
               width="90%"
               space={2}
@@ -124,7 +166,11 @@ const VegNonVegDays = () => {
                 <FormControl>
                   {days.map(day => {
                     return (
-                      <Item day={day} key={day.id} handleDayChange={handleDayChange}/>
+                      <Item
+                        day={day}
+                        key={day.id}
+                        handleDayChange={handleDayChange}
+                      />
                     );
                   })}
 
@@ -144,31 +190,31 @@ const VegNonVegDays = () => {
   );
 };
 
-const Item=({day, handleDayChange})=>{
-  return(
-    <Box
-    key={day.key}
-    style={styles.subBox}
-    _text={styles.text}
-    px="3">
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-      <Text style={styles.text}>{day.dayName}</Text>
-      <Checkbox
-        name="day"
-        my={2}
-        colorScheme="green"
-        accessibilityLabel="Namaz time"
-        onChange={handleDayChange}
-      />
-    </View>
-  </Box>
-  )
-}
+const Item = ({day, handleDayChange}) => {
+  return (
+    <Box key={day.key} style={styles.subBox} _text={styles.text} px="3">
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Text style={styles.text}>{day.dayName}</Text>
+        <Checkbox
+          name="day"
+          my={2}
+          colorScheme="green"
+          accessibilityLabel="Namaz time"
+          value={day}
+          defaultIsChecked={day?.value}
+          onChange={v => {
+            handleDayChange(v, day);
+          }}
+        />
+      </View>
+    </Box>
+  );
+};
 export default VegNonVegDays;
 
 const styles = StyleSheet.create({
@@ -178,7 +224,7 @@ const styles = StyleSheet.create({
   },
   subBox: {
     backgroundColor: colors.cover,
-    padding:5,
+    padding: 5,
     marginTop: '5%',
   },
 });

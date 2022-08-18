@@ -126,7 +126,7 @@ const authSlice = createSlice({
             state.userData=null
             state.token=null
             state.religion=null
-
+            
             AsyncStorage.removeItem('user')
             AsyncStorage.removeItem('religion')
             AsyncStorage.removeItem('token')
@@ -138,10 +138,11 @@ const authSlice = createSlice({
         [getUpdatedUserData.fulfilled]:(state,action)=>{
             state.hasErrorGetUpdatedUserData=false
             state.isLoadingGetUpdatedUserData=false
-            state.userData = action.payload.data
 
-            const user=JSON.stringify(action.payload.data)
-            AsyncStorage.setItem('user',user)
+            if(action.payload){
+                const user=JSON.stringify(action.payload.data)
+                AsyncStorage.setItem('user',user)
+            }
 
         },
         [getUpdatedUserData.rejected]:(state,action)=>{

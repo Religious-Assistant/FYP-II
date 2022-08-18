@@ -50,7 +50,7 @@ import {
 
 import {GOOGLE_MAP, HINDU_SETTINGS} from '../../../navigation/constants';
 import Loader from '../../common/Loader';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   selectHasUpdatedAutosilentSetting,
   selectHasUpdatedPassword,
@@ -61,9 +61,12 @@ import {
   updateProfileImage,
   updateVegNotifications,
 } from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
+import { getClosestTemples, getTempleById, selectClosestTemples, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 export default function Settings({route, navigation}) {
+
   const navigator = useNavigation();
+  const isFocused = useIsFocused();
 
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
@@ -84,17 +87,40 @@ export default function Settings({route, navigation}) {
 
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
+  const closestTemples=useSelector(selectClosestTemples)
+
+  const [templeData, settempleData] = useState([]);
+  const [selectedTemple, setSelectedTemple] = useState(null);
+
+  useEffect(() => {
+    dispatch(
+      getClosestTemples({
+        longitude: user?.location?.coordinates[0],
+        latitude: user?.location?.coordinates[1],
+      }),
+    );
+
+    if (closestTemples) {
+      const temples = [];
+      closestTemples.map(temple => {
+        temples.push({id: temple._id, name: temple.templeName});
+      });
+
+      settempleData(temples);
+    }
+  }, [dispatch, isFocused, closestTemples?.length]);
+
+
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
 
   const hasUpdatedAutoSilentSettings = useSelector(
     selectHasUpdatedAutosilentSetting,
   );
   const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
-
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
-
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
 
+  const templeById=useSelector(selectTempleById)
   //when tab is focused in MuslimBottomTab.js, this will be called
 
   useEffect(() => {
@@ -103,6 +129,9 @@ export default function Settings({route, navigation}) {
       setAvatar({image: user?.avatar, key: 0});
     }
 
+    if(user){
+      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+    }
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Settings'));
     });
@@ -173,6 +202,18 @@ export default function Settings({route, navigation}) {
     }
   }
 
+  function makeTempleAsPrimary(){
+
+    if(selectedTemple){
+      dispatch(updatePrimaryTemple({username:user?.username,primaryTemple:templeById?._id}))
+      dispatch(getUpdatedUserData({username:user?.username}))
+      alert('Updated Primary Temple')
+    }
+    else{
+      alert('Please select temple')
+    }
+
+  }
   function updateVegNotificationsSettings(state) {
     dispatch(
       updateVegNotifications({
@@ -200,7 +241,6 @@ export default function Settings({route, navigation}) {
     navigator.navigate(GOOGLE_MAP, {screen: HINDU_SETTINGS});
   }
   //Rough Data
-  const [serverData, setServerData] = React.useState([]);
 
   const [password, setPassword] = useState();
   const handlePassword = text => {
@@ -238,7 +278,9 @@ export default function Settings({route, navigation}) {
           <ScrollView
             keyboardShouldPersistTaps="handled"
             flex={1}
-            maxHeight={'57%'}>
+            nestedScrollEnabled={true}
+            maxHeight={"55%"}
+            >
             <View
               style={{
                 flex: 0.7,
@@ -332,7 +374,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {user?.preferences?.primaryTemple}
+                        {templeById?.templeName}
                       </Text>
                       <HStack
                         flexDirection={'row'}
@@ -541,7 +583,10 @@ export default function Settings({route, navigation}) {
                 closeModal={closeModal}
                 headerText={modalHeader}
                 newPassword={password}
-                updateUserPassword={updateUserPassword}>
+                updateUserPassword={updateUserPassword}
+                isPasswordModal={isPasswordModal}
+                makeTempleAsPrimary={makeTempleAsPrimary}
+                >
                 {isPasswordModal ? (
                   <FormControl>
                     <FormControl.Label
@@ -556,35 +601,57 @@ export default function Settings({route, navigation}) {
                     />
                   </FormControl>
                 ) : (
-                  <SearchableDropdown
-                    onTextChange={text => console.log(text)}
-                    onItemSelect={item => {
-                      console.log('Item');
-                      // updatePrimaryMosqueSetting(item)
-                    }}
-                    setSort
-                    containerStyle={{padding: 5}}
-                    textInputStyle={{
-                      padding: 5,
-                      borderWidth: 1,
-                      fontFamily: fonts.Signika.medium,
-                    }}
-                    itemStyle={{
-                      padding: 10,
-                      marginTop: 2,
-                      backgroundColor: colors.cover,
-                      borderColor: '#bbb',
-                    }}
-                    itemTextStyle={{
-                      color: colors.black,
-                      fontFamily: fonts.Signika.medium,
-                    }}
-                    itemsContainerStyle={{
-                      maxHeight: '100%',
-                    }}
-                    items={serverData}
-                    placeholder="Select Mosque"
-                  />
+                  <>
+                    {
+                      templeData?.length>0?
+
+                      <SearchableDropdown
+                      maxW="90%"
+                      width="100"
+                      onTextChange={text => console.log(text)}
+                      
+                      onItemSelect={item => {
+                        console.log(item)
+                        // setSelectedTemple(item);
+                        alert(
+                          JSON.stringify(
+                            `You selected ${item?.name?.toUpperCase()}`,
+                          ),
+                        );
+                      }}
+                      containerStyle={{padding: 5}}
+                      textInputStyle={{
+                        padding: 12,
+                        borderWidth: 1,
+                        borderColor: colors.white,
+                        backgroundColor: colors.tertiary,
+                        fontFamily: fonts.Signika.medium,
+                      }}
+                      itemStyle={{
+                        padding: 10,
+                        marginTop: 2,
+                        backgroundColor: colors.cover,
+                        borderColor: '#bbb',
+                        borderWidth: 1,
+                      }}
+                      itemTextStyle={{
+                        color: colors.black,
+                        fontFamily: fonts.Signika.medium,
+                      }}
+                      itemsContainerStyle={{
+                        maxHeight: '50%',
+                      }}
+                      items={templeData}
+                      defaultIndex={0}
+                      placeholder="Select Temple"
+                      placeholderTextColor={colors.white}
+                      resetValue={false}
+                      
+                      underlineColorAndroid="transparent"
+                    />
+                      :<><Text style={{fontFamily:fonts.Signika.medium}}>No closest Temple found</Text></>
+                    }
+                  </>
                 )}
               </CommonModal>
 
@@ -663,7 +730,7 @@ export default function Settings({route, navigation}) {
 }
 
 const CommonModal = props => {
-  const {open, headerText, newPassword, updateUserPassword} = props;
+  const {open, headerText, newPassword, updateUserPassword, isPasswordModal, makeTempleAsPrimary} = props;
   //console.log(headerText);
   function closeModal() {
     props.closeModal();
@@ -686,27 +753,22 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-            {headerText == 'Change Password' ? (
               <Button
                 _text={{fontFamily: fonts.Signika.regular}}
                 color={colors.white}
                 colorScheme="yellow"
                 onPress={() => {
-                  updateUserPassword(newPassword);
+
+                  if(isPasswordModal){
+                    updateUserPassword(newPassword);
+                  }
+                  else{
+                    makeTempleAsPrimary()
+                  }
                 }}
                 type="submit">
                 Save
               </Button>
-            ) : (
-              <Button
-                _text={{fontFamily: fonts.Signika.regular}}
-                color={colors.white}
-                colorScheme="yellow"
-                onPress={closeModal}
-                type="submit">
-                Save
-              </Button>
-            )}
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

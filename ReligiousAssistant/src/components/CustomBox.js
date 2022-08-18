@@ -36,7 +36,7 @@ export default function CustomBox(props) {
           flexWrap: 'wrap',
         }}>
         <Image
-          source={mosqueIcon}
+          source={props.templeic?props.templeic:mosqueIcon}
           style={{
             height: 40,
             width: 40,

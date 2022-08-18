@@ -60,6 +60,9 @@
  
    useEffect(()=>{
    
+    //Disable warnings
+    // console.disableYellowBox = true;
+
      //For Ios Ask permisson for notification
      const askPermission=async ()=>await messaging().requestPermission()
      askPermission()

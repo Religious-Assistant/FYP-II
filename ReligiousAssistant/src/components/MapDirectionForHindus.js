@@ -16,9 +16,8 @@ import {GOOGLE_MAPS_APIKEY} from './componentsConstants';
 import MosqueIc from '../../assets/images/temple_ic.png';
 import colors from '../theme/colors';
 
-export default function MapDirectionForHindus({route, navigation}) {
+export default function MapDirectionForHindus({route}) {
   const [position, setPosition] = useState();
-  const [reg, setReg] = useState();
 
   const [sourceCoordinates, setSourceCoordinates] = useState();
   const [destinationCoordinates, setDestinationCoordinates] = useState({

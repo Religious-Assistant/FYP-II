@@ -110,7 +110,9 @@ export default function HinduBottomTab() {
             ),
           }}
         />
-        <BottomTab.Screen
+        {
+          user?
+          <BottomTab.Screen
           name={HINDU_ALERTS}
           component={Alerts}
           options={{
@@ -144,6 +146,9 @@ export default function HinduBottomTab() {
             ),
           }}
         />
+        :<></>
+        }
+
         <BottomTab.Screen
           name={FIND_TEMPLE}
           component={FindTemple}
@@ -196,7 +201,10 @@ export default function HinduBottomTab() {
             ),
           }}
         />
-        <BottomTab.Screen
+
+        {
+          user?
+          <BottomTab.Screen
           name={HINDU_SETTINGS}
           component={Settings}
           options={{
@@ -227,7 +235,9 @@ export default function HinduBottomTab() {
               </View>
             ),
           }}
-        />
+        /> 
+          :<></>
+        }
       </BottomTab.Navigator>
     </>
   );

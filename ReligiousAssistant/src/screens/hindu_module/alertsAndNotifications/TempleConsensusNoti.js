@@ -4,86 +4,101 @@
  */
 
 import {View} from 'react-native';
-import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import React, {useEffect} from 'react';
 import {
-  Heading,
-  Image,
-  Text,
-  Center,
-  VStack,
-  HStack,
-  Divider,
-  ScrollView,
-} from 'native-base';
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
+import {Heading, Image, Text, VStack, Box, HStack, Divider} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
 import voteIcon from '../../../../assets/images/vote_ic.png';
-import CustomButton from '../../../components/CustomButton';
-//  import directionIcon from '../../../assets/images/direction_ic.png';
 
-// import {useDispatch, useSelector} from 'react-redux';
-// import {
-//   selectMosqueById,
-//   getMosqueById,
-//   selectIsLoadingGetMosqueById,
-//   castUpvote,
-//   castDownvote,
-// } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import CustomButton from '../../../components/CustomButton';
+import directionIcon from '../../../../assets/images/direction_ic.png';
+
+import {useDispatch, useSelector} from 'react-redux';
 import Loader from '../../common/Loader';
 import {useNavigation} from '@react-navigation/native';
-// import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
-// import { useState } from 'react';
-// import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constants';
+
+import {useState} from 'react';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  castDownvote,
+  castUpvote,
+  getTempleById,
+  selectIsLoadingGetTempleById,
+  selectTempleById,
+} from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 export default function TempleConsensusNoti({route, navigation}) {
-  // const {mosqueId} = route.params;
+  const {templeId} = route.params;
 
-  // const dispatch = useDispatch();
-  // const navigator = useNavigation();
-  // const[isAlreadyCasted, setIsAlreadyCasted]=useState(false)
+  const dispatch = useDispatch();
+  const navigator = useNavigation();
+  const [isAlreadyCasted, setIsAlreadyCasted] = useState(false);
 
-  // const isLoadingGetMosqueById = useSelector(selectIsLoadingGetMosqueById);
-  // const mosqueById = useSelector(selectMosqueById);
-  // const user=useSelector(selectUserData)
+  const isLoadingGetTempleById = useSelector(selectIsLoadingGetTempleById);
+  const templeById = useSelector(selectTempleById);
+  const user = useSelector(selectUserData);
 
-  // useEffect(() => {
-  //   if (mosqueId) {
-  //     dispatch(getMosqueById({mosqueId: mosqueId}));
-  //     dispatch(getUserData());
-  //   }
-  // }, [dispatch]);
+  useEffect(() => {
+    if (templeId) {
+      dispatch(getTempleById({templeId: templeId}));
+      dispatch(getUserData());
+    }
+  }, [dispatch]);
 
-  // const displayLocationOnMap = destinationCoordinates => {
-  //   navigator.navigate(GOOGLE_MAP_DIRECTIONS, {destinationCoordinates});
-  // };
+  const displayLocationOnMap = destinationCoordinates => {
+    navigator.navigate(GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS, {
+      destinationCoordinates,
+    });
+  };
 
-  // const cast_upVote=()=>{
-    
-  //   const index=mosqueById?.receivers.findIndex(candidate=>candidate.username===user?.username)
+  const cast_upVote = () => {
+    const index = templeById?.receivers.findIndex(
+      candidate => candidate.username === user?.username,
+    );
 
-  //   if(mosqueId && !isAlreadyCasted && user && !mosqueById?.receivers[index].hasVoted){
-  //     dispatch(castUpvote({mosqueId:mosqueId, username:user?.username}))
-  //     setIsAlreadyCasted(true)
-  //   }
-  //   else{
-  //     alert(`Vote already casted or error occured`)
-  //   }
-  // }
+    if (
+      templeId &&
+      !isAlreadyCasted &&
+      user &&
+      !templeById?.receivers[index].hasVoted
+    ) {
+      dispatch(castUpvote({templeId: templeId, username: user?.username}));
+      setIsAlreadyCasted(true);
+    } else {
+      alert(`Vote already casted or error occured`);
+    }
+  };
 
-  // const cast_downVote=()=>{
-  //   const index=mosqueById?.receivers.findIndex(candidate=>candidate.username===user?.username)
+  const cast_downVote = () => {
+    const index = templeById?.receivers.findIndex(
+      candidate => candidate.username === user?.username,
+    );
 
-  //   if(mosqueId && !isAlreadyCasted && user && !mosqueById?.receivers[index].hasVoted){
-  //     dispatch(castDownvote({mosqueId:mosqueId, username:user?.username}))
-  //     setIsAlreadyCasted(true)
-  //   }
-  //   else{
-  //     alert(`Vote already casted or error occured`)
-  //   }
-  // }
+    if (
+      templeId &&
+      !isAlreadyCasted &&
+      user &&
+      !templeById?.receivers[index].hasVoted
+    ) {
+      dispatch(castDownvote({templeId: templeId, username: user?.username}));
+      setIsAlreadyCasted(true);
+    } else {
+      alert(`Vote already casted or error occured`);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.maincontainer}>
@@ -122,8 +137,8 @@ export default function TempleConsensusNoti({route, navigation}) {
           </View>
         </View>
 
-        {/* {isLoadingGetMosqueById ? (
-          <Loader msg="Loading Mosque Data ... " />
+        {isLoadingGetTempleById ? (
+          <Loader msg="Loading Temple Data ... " />
         ) : (
           <Box
             style={{
@@ -143,35 +158,36 @@ export default function TempleConsensusNoti({route, navigation}) {
                 backgroundColor: colors.cover,
               }}>
               <DetailItem
-                heading={'Mosque Name'}
-                data={mosqueById?.mosqueName}
+                heading={'Temple Name'}
+                data={templeById?.templeName}
               />
-              <DetailItem heading={'Added By'} data={mosqueById?.addedBy.toUpperCase()} />
+              <DetailItem
+                heading={'Added By'}
+                data={templeById?.addedBy.toUpperCase()}
+              />
               <DetailItem
                 heading={`Total Upvotes`}
-                data={`${mosqueById?.upVotes}/${mosqueById?.receivers?.length}`}
+                data={`${templeById?.upVotes}/${templeById?.receivers?.length}`}
               />
               <DetailItem
                 heading={'Total Down Votes'}
-                data={mosqueById?.downVotes}
+                data={templeById?.downVotes}
               />
 
               <View
                 style={{
                   justifyContent: 'space-between',
                   flexDirection: 'row',
-                  marginTop:15,
+                  marginTop: 15,
                 }}>
-                <Text style={styles.heading}>
-                  Location
-                </Text>
+                <Text style={styles.heading}>Location</Text>
 
                 <TouchableOpacity
                   style={{
                     right: -10,
                   }}
                   onPress={() => {
-                    displayLocationOnMap(mosqueById.location.coordinates);
+                    displayLocationOnMap(templeById.location.coordinates);
                   }}
                   activeOpacity={0.6}>
                   <Image
@@ -188,20 +204,20 @@ export default function TempleConsensusNoti({route, navigation}) {
 
               <Text style={styles.statement}>
                 Do you think the above information is correct? Should we add
-                Sukkur IBA mosque?
+                {templeById?.templeName.toUpperCase()}?
               </Text>
             </Box>
 
             <VStack space={3} divider={<Divider />} w="90%" marginTop={'10%'}>
               <HStack justifyContent="space-between">
                 {/* Yes or No button */}
-                {/* <CustomButton
+                <CustomButton
                   title="Yes"
                   variant="solid"
                   color="white"
                   base="40%"
                   onPress={() => {
-                    cast_upVote()
+                    cast_upVote();
                   }}
                 />
                 <CustomButton
@@ -210,13 +226,13 @@ export default function TempleConsensusNoti({route, navigation}) {
                   color="white"
                   base="40%"
                   onPress={() => {
-                    cast_downVote()
+                    cast_downVote();
                   }}
                 />
               </HStack>
             </VStack>
           </Box>
-        )} */} 
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -252,10 +268,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.primary,
   },
-  statement:{
-      marginTop:10,
-      fontFamily:fonts.Signika.medium,
-      fontSize:18
-  }
+  statement: {
+    marginTop: 10,
+    fontFamily: fonts.Signika.medium,
+    fontSize: 18,
+  },
 });
-

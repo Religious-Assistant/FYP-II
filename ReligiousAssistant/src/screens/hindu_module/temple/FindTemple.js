@@ -24,6 +24,7 @@ import {
 
 import Ioicons from 'react-native-vector-icons/Ionicons';
 import templeIcon from '../../../../assets/images/temple2_ic.png';
+import templeic from '../../../../assets/images/temple_ic.png';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -231,11 +232,13 @@ export default function FindTemple() {
                     {closesTemples ? (
                       closesTemples.map((temple, index) => {
                         return (
+                          <View key={temple._id}>
                           <CustomBox
                             mt={'5%'}
                             mb={
                               index == closesTemples.length - 1 ? '15%' : '0%'
                             }
+                            templeic={templeic}
                             text={temple.templeName}
                             distance={
                               Math.round(
@@ -250,6 +253,7 @@ export default function FindTemple() {
                               getDirections(temple.location.coordinates);
                             }}
                           />
+                          </View>
                         );
                       })
                     ) : (

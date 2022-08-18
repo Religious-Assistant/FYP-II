@@ -127,6 +127,11 @@ const update_last_read_chapter='update-last-read-chapter'
 const mark_chapter_as_unread='mark-chapter-as-unread'
 const mark_chapter_as_read='mark-chapter-as-read'
 
+//Veg non-veg
+
+const set_veg_days='set-veg-days'
+const get_veg_days='get-veg-days'
+
 //#endregion
 
 ////#region General endpoints
@@ -140,6 +145,8 @@ export{
     get_otp_code,
     verify_otp_code,
     get_updated_user_data,
+    set_veg_days,
+    get_veg_days
 }
 
 //#endregion

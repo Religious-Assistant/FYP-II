@@ -4,7 +4,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList, Dimensions, RefreshControl} from 'react-native';
+import {StyleSheet, View, FlatList, Dimensions, RefreshControl, TouchableOpacity} from 'react-native';
 
 import {
   Icon,
@@ -135,7 +135,7 @@ const ListItem = props => {
   const announcement = props.item.item;
 
   const navigator = useNavigation();
-
+  
   const rightSwipe = (progress, dragX) => {
     return (
       <TouchableOpacity

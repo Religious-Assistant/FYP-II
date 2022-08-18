@@ -61,7 +61,7 @@ export const getUnverifiedTemplesAroundUser = createAsyncThunk(
 );
 
 export const addTemple = createAsyncThunk('addTemple', async body => {
-  const result = await apiPOST(add_temple, body); //body with required info
+  const result = await apiPOST(add_temple, body);
   return result;
 });
 

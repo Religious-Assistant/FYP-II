@@ -4,7 +4,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList, RefreshControl} from 'react-native';
+import {StyleSheet, View, FlatList, RefreshControl, TouchableOpacity} from 'react-native';
 import {Text, Image} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
@@ -107,15 +107,15 @@ const ListItem = props => {
   const notification = props.item.item;
   const navigator = useNavigation();
 
-  const gotoRespectiveScreen = (category, notificationId) => {
+  const gotoRespectiveScreen = (category, causedBy) => {
     if (category == CATEGORIES.FUNERAL_PRAYER) {
       navigator.navigate(HINDU_ANNOUNCEMENTS);
     } else if (category == CATEGORIES.OTHER) {
       navigator.navigate(HINDU_ANNOUNCEMENTS);
     } else if (category === CATEGORIES.NEW_TEMPLE_ADDITION) {
-      navigator.navigate(NEW_TEMPLE_ADDITION);
+      navigator.navigate(NEW_TEMPLE_ADDITION,{templeId:causedBy});
     } else if (category === CATEGORIES.TEMPLE_CONSENSUS) {
-      navigator.navigate(TEMPLE_CONSENSUS, {templeId: notificationId});
+      navigator.navigate(TEMPLE_CONSENSUS, {templeId: causedBy});
     }
 
   };
@@ -137,7 +137,7 @@ const ListItem = props => {
           style={styles.container}
           activeOpacity={0.6}
           onPress={() => {
-            gotoRespectiveScreen(notification.category, notification._id);
+            gotoRespectiveScreen(notification.category, notification.causedBy);
           }}>
           <Image
             source={{uri: notification.icon}}

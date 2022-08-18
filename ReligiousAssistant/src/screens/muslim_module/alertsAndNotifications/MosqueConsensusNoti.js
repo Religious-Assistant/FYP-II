@@ -201,7 +201,7 @@ export default function MosqueConsensusNoti({route, navigation}) {
 
               <Text style={styles.statement}>
                 Do you think the above information is correct? Should we add
-                Sukkur IBA mosque?
+                {mosqueById?.mosqueName.toUpperCase()}
               </Text>
             </Box>
 

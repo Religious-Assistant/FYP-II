@@ -1,7 +1,9 @@
 import React from 'react';
-import {View} from 'native-base';
+import {StyleSheet} from 'react-native';
 import {
   Box,
+  Image,
+  View,
   Heading,
   Text,
   Center,
@@ -11,26 +13,25 @@ import {
 } from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {dateDifference} from '../../../utils/helpers';
-import {StyleSheet} from 'react-native';
+import {dateDifference} from '../../../utils/helpers'
 
 export default function AnnouncementNoti({route, navigation}) {
-  // const {announcement} = route.params;
-  // console.log(announcement);
+  const {announcement} = route.params;
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
       flex={1}
       backgroundColor={colors.white}>
       {/* Main view */}
-      {/* <View style={styles.root}>
+      <View style={styles.root}>
         <View>
           <Image
             source={{uri: announcement?.avatar}}
             style={styles.avatar}
             alt="Announcer image"
           />
-          <Text style={styles.userText}>{announcement.announcedBy}</Text>
+          <Text style={styles.userText}>{announcement?.announcedBy.toUpperCase()}</Text>
         </View>
 
         <Box
@@ -55,7 +56,7 @@ export default function AnnouncementNoti({route, navigation}) {
               color={colors.muted}
               style={{fontFamily: fonts.Signika.regular}}
               fontWeight="400">
-              {dateDifference(announcement.createdAt)} mins ago
+              {dateDifference(announcement.createdAt)} ago
             </Text>
           </View>
 
@@ -64,7 +65,7 @@ export default function AnnouncementNoti({route, navigation}) {
                 {announcement.statement}
               </Text>
         </Box>
-      </View> */}
+      </View>
     </ScrollView>
   );
 }
@@ -85,17 +86,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: fonts.Signika.medium,
     fontSize: 24,
+    padding:5,
     marginTop: 15,
   },
   boxContainer: {
     minWidth: '90%',
     padding: 15,
-    marginTop: 20,
+    marginTop:20,
   },
-  statement: {
-    marginTop: 20,
-    padding: 2,
+  statement:{
+    marginTop:20,
+    padding:2,
     fontFamily: fonts.Signika.regular,
-    fontSize: 18,
-  },
+    fontSize:18,
+  }
 });

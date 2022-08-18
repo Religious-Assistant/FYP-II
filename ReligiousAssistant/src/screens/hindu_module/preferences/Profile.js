@@ -9,37 +9,42 @@ import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import avatar from '../../../../assets/images/avatar.png';
 
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {getUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
+import { getTempleById, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
 
 export default function Profile() {
+
   const [location, setLocation] = useState(null);
   const user = useSelector(selectUserData);
-  const [userData, setUserData] = useState();
-
+  const templeById=useSelector(selectTempleById)
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (user) {
-      setUserData(user);
+
+  useEffect(()=>{
+    dispatch(getUserData())
+    if(user){
+      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
     }
+  },[dispatch])
+
+
+  useEffect(() => {
     {
       user
         ? Geocoder.from(
-            user.location?.coordinates[1],
-            user.location?.coordinates[0],
+            user?.location?.coordinates[1],
+            user?.location?.coordinates[0],
           )
             .then(json => {
               var addressComponent = json.results[0].address_components;
-              //setReg({address: addressComponent});
               setLocation(addressComponent[1].long_name);
             })
 
@@ -48,36 +53,26 @@ export default function Profile() {
     }
   }, []);
 
-
   const userInfo = [
-    userData
-      ? {
+    
+      user? {
           id: 1,
           label: 'User Name',
-          info: userData.username,
+          info: user?.username,
           icon: <EvilIcons name="user" />,
           iconSize: '8',
         }
       : undefined,
-    userData
-      ? {
-          id: 2,
-          label: 'Password',
-          info: 'Password is hashed',
-          icon: <EvilIcons name="eye" />,
-          iconSize: '8',
-        }
-      : undefined,
-    userData
+    user
       ? {
           id: 3,
           label: 'Phone Number',
-          info: userData.mobile,
+          info: user?.mobile,
           icon: <AntDesign name="phone" />,
           iconSize: '6',
         }
       : undefined,
-    userData
+    user
       ? {
           id: 4,
           label: 'Location',
@@ -86,18 +81,18 @@ export default function Profile() {
           iconSize: '6',
         }
       : undefined,
-    userData
+    user
       ? {
           id: 6,
           label: 'Primary Temple',
-          info: userData.primaryTemple ? userData.primaryTemple : 'None',
+          info: templeById?templeById.templeName: 'Not Set',
           icon: <MaterialCommunityIcons name="mosque" />,
           iconSize: '6',
         }
       : undefined,
   ];
 
-  return user && userData ? (
+  return user && user ? (
     <View style={styles.container}>
       <View style={styles.header}></View>
       <Image style={styles.avatar} source={{uri: user?.avatar}} />
@@ -114,11 +109,11 @@ export default function Profile() {
             maxWidth: '88%',
           }}>
           <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-            {userInfo.map((user, index) => {
+            {userInfo.map((currentUser, index) => {
               return (
                 <HStack
                   justifyContent="space-between"
-                  key={user.id}
+                  key={currentUser.id}
                   flexWrap="wrap">
                   <View
                     style={{
@@ -127,17 +122,17 @@ export default function Profile() {
                     }}>
                     {/* Icon */}
                     <Icon
-                      as={user.icon}
-                      size={user.iconSize}
+                      as={currentUser.icon}
+                      size={currentUser.iconSize}
                       ml="2%"
                       mt="-1"
                       color={colors.primary}
                     />
                     {/* label */}
-                    <Text style={styles.label}>{user.label}:</Text>
+                    <Text style={styles.label}>{currentUser.label}:</Text>
                   </View>
-                  {/* user information */}
-                  <Text style={styles.info}>{user.info}</Text>
+                  {/* currentUser information */}
+                  <Text style={styles.info}>{currentUser.info}</Text>
                 </HStack>
               );
             })}

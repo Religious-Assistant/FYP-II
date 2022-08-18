@@ -16,7 +16,7 @@ import BottomText from '../../components/BottomText';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-import {REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../../navigation/constants';
+import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../../navigation/constants';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -102,6 +102,13 @@ export default function ConnectAsGuest() {
               color={colors.white}
               destination={SIGNUP}
               mt="25%"
+            />
+            <BottomText
+              text="Already have an account?"
+              goTo="Login"
+              color={colors.white}
+              destination={LOGIN}
+              mt="10%"
             />
           </Box>
         </Center>

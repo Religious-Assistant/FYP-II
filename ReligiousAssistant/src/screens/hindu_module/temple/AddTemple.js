@@ -12,7 +12,6 @@ import fonts from '../../../theme/fonts';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import templeICon from '../../../../assets/images/temple2_ic.png';
 import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';

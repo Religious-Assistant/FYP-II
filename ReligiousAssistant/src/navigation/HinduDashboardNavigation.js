@@ -17,6 +17,7 @@ import {
   HELP,
   HINDU_ANNOUNCEMENTS,
   HINDU_AUTO_SILENT,
+  HINDU_USER_ANNOUNCEMENT_DETAILS,
   HINDU_USER_MAKE_ANNOUNCEMENT_SCREEN,
   HINDU_VIEW_PROFILE,
   NEW_TEMPLE_ADDITION,
@@ -45,6 +46,7 @@ import UserManual from '../screens/common/UserManual';
 import VegNonVegDays from '../screens/hindu_module/vegNonVegDays/VegNonVegDays';
 import ChapterRecitationArea from '../screens/hindu_module/reciteGita/ChapterRecitationArea';
 import SummaryRecitationArea from '../screens/hindu_module/reciteGita/SummaryRecitationArea';
+import AnnouncementNoti from '../screens/hindu_module/alertsAndNotifications/AnnouncementNoti';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -84,6 +86,12 @@ function HinduDashboardNavigation() {
       <HomeStack.Screen
         name={HINDU_ANNOUNCEMENTS}
         component={Announcements}
+        options={{title: 'Announcements'}}
+      />
+
+      <HomeStack.Screen
+        name={HINDU_USER_ANNOUNCEMENT_DETAILS}
+        component={AnnouncementNoti}
         options={{title: 'Announcements'}}
       />
 
