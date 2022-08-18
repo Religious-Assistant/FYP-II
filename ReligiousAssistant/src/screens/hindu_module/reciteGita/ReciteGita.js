@@ -1,3 +1,8 @@
+/**
+ * @author Nadir 
+ * @version 1.0
+ */
+
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -7,7 +12,7 @@ import {
 } from 'react-native';
 
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {Text, View, Center, FlatList} from 'native-base';
+import {Text, View, FlatList} from 'native-base';
 //Theme
 import Header from '../../../components/Header';
 import img from '../../../../assets/images/gita2_ic.png';
@@ -28,24 +33,22 @@ import {
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import RecitationStats from './RecitationStats';
 import { useIsFocused } from '@react-navigation/native'
-import { getChapters, getLastReadChapter, getLastReadSummary, getRecitationStats, getSummaries, selectChapters, selectIsLoadingChapters, selectIsLoadingLastReadChapter, selectIsLoadingLastReadSummary, selectIsLoadingSummaries, selectLastReadChapter, selectLastReadSummary, selectSummaries } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
+import { getChapters, getLastReadChapter, getLastReadSummary, getRecitationStats, selectChapters, selectIsLoadingChapters, selectIsLoadingLastReadChapter, selectIsLoadingLastReadSummary, selectIsLoadingSummaries, selectLastReadChapter, selectLastReadSummary, selectSummaries } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
 
 const ReciteGita = () => {
 
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const isLoadingChapters = useSelector(selectIsLoadingChapters);
-  // const isLoadingSummaries = useSelector(selectIsLoadingSummaries);
   const isFocused = useIsFocused()
 
   useEffect(() => {
     dispatch(getChapters());
-    // dispatch(getSummaries());
     if (userData) {
 
       dispatch(getRecitationStats({username:userData.username}))
       dispatch(getLastReadChapter({username:userData.username}));
-      // dispatch(getLastReadSummary({username:userData.username}));
+      dispatch(getLastReadSummary({username:userData.username}));
     }
   }, [dispatch, userData]);
 
@@ -65,7 +68,7 @@ const ReciteGita = () => {
       />
 
       <View style={{backgroundColor: colors.white, flex: 0.8}}>
-        {/*isLoadingSummaries || */isLoadingChapters ? (
+        {isLoadingChapters ? (
           <Loader msg="Loading Chapters and Verses ... " />
         ) : (
           <Tab />
@@ -98,6 +101,7 @@ const ChaptersRoute = () => {
         renderItem={({item, index}) => {
           //Get last read verse number and highlish that card
 
+          console.log(lastReadChapter)
           //Jump to this card with initialSCrollIndex
           if (item.chapter_number == lastReadChapter?.chapterLastRead?.chapterNumber) {
             setScrollIndexForChapter(index);
@@ -156,7 +160,7 @@ const SummaryRoute = () => {
           // Get last read verse number and highlish that card
 
           // //Jump to this card with initialSCrollIndex
-          if (item.chapter_number == lastReadSummary?.summaryLastRead?.summaryNumber) {
+          if (item.chapter_number == lastReadSummary?.summaryLastRead) {
             setScrollIndexForSummary(index);
           }
 
@@ -173,12 +177,12 @@ const SummaryRoute = () => {
                     summary={item}
                     key={index}
                     backgroundColor={
-                      item.chapter_number == lastReadSummary?.summaryLastRead?.summaryNumber
+                      item.chapter_number == lastReadSummary?.summaryLastRead
                         ? colors.tertiary
                         : colors.white
                     }
                     fontColor={
-                      item.chapter_number == lastReadSummary?.summaryLastRead?.summaryNumber ? colors.white : colors.primary
+                      item.chapter_number == lastReadSummary?.summaryLastRead ? colors.white : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -192,7 +196,6 @@ const SummaryRoute = () => {
 
 const StatsRoute = () => {
   return (
-
     <RecitationStats />
   );
 };

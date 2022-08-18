@@ -1,3 +1,8 @@
+/**
+ * @author Nadir
+ * @version 1.0
+ */
+
 import {
   Pressable,
   StyleSheet,
@@ -39,6 +44,7 @@ const ChapterRecitationArea = ({route, navigation}) => {
 
   const chapterByNumber = useSelector(selectChapterByNumber);
   const isLoadingChapterByNumber = useSelector(selectIsLoadingChapterByNumber);
+
   const isLoadingMarkChapterAsRead = useSelector(
     selectIsLoadingMarkChapterAsRead,
   );
@@ -60,7 +66,10 @@ const ChapterRecitationArea = ({route, navigation}) => {
     dispatch(getChapterByNumber(chapter.chapter_number));
     if (username) {
       dispatch(
-        checkChapterIsRead({username: username, chapterName: chapter.meaning.en}),
+        checkChapterIsRead({
+          username: username,
+          chapterName: chapter.meaning.en,
+        }),
       );
     }
   }, [dispatch, username]);
@@ -104,14 +113,8 @@ const ChapterRecitationArea = ({route, navigation}) => {
                 <TouchableOpacity
                   onPress={() => {
                     chapterRecitationStatus
-                      ? markChapterAsInComplete(
-                          chapter.number,
-                          chapter.name,
-                        )
-                      : markChapterAsComplete(
-                          chapter.number,
-                          chapter.name,
-                        );
+                      ? markChapterAsInComplete(chapter.chapter_number, chapter.meaning.en)
+                      : markChapterAsComplete(chapter.chapter_number, chapter.meaning.en);
                   }}>
                   <Text
                     style={{
@@ -142,33 +145,33 @@ const ChapterRecitationArea = ({route, navigation}) => {
             initialScrollIndex={scrollIndexForVerse}
             mb={'25%'}
             renderItem={({item, index}) => {
-              //Get last read verse number and highlish that card
-              // const {verseNumber} = lastReadChapter.chapterLastRead;
-              const verseNumber=0
+              // Get last read verse number and highlish that card
+              const {verseNumber, chapterNumber} = lastReadChapter.chapterLastRead;
+
               //Jump to this card with initialSCrollIndex
-              if (item.verse_number == verseNumber) {
+              if (item.verse_number == verseNumber && chapterNumber==chapter.chapter_number) {
                 setScrollIndexForVerse(index);
               }
 
               return (
                 <>
-                    <VerseCard
-                      verse={item}
-                      chapterNumber={chapter.number}
-                      key={index}
-                      username={username}
-                      backgroundColor={
-                        item.verse_number == verseNumber
-                          ? colors.tertiary
-                          : colors.cover
-                      }
-                      fontColor={
-                        item.verse_number == verseNumber
-                          ? colors.white
-                          : colors.success.deep
-                      }
-                      tintColor={colors.info}
-                    />
+                  <VerseCard
+                    verse={item}
+                    chapterNumber={chapter.chapter_number}
+                    key={index}
+                    username={username}
+                    backgroundColor={
+                      item.verse_number == verseNumber && chapterNumber==chapter.chapter_number
+                        ? colors.tertiary
+                        : colors.cover
+                    }
+                    fontColor={
+                      item.verse_number == verseNumber && chapterNumber==chapter.chapter_number
+                        ? colors.white
+                        : colors.success.deep
+                    }
+                    tintColor={colors.info}
+                  />
                 </>
               );
             }}></FlatList>
@@ -179,23 +182,25 @@ const ChapterRecitationArea = ({route, navigation}) => {
 };
 
 const VerseCard = props => {
-  const {verse, chapterNumber, username, backgroundColor, fontColor, tintColor} =
-    props;
+  const {
+    verse,
+    chapterNumber,
+    username,
+    backgroundColor,
+    fontColor,
+    tintColor,
+  } = props;
 
   const dispatch = useDispatch();
-  let isLoadingUpdateLastReadChapter = useSelector(
-    selectIsLoadingUpdateLastReadChapter,
-  );
 
   function saveLastRead(chapterNumber, verseNumber) {
     dispatch(updateLastReadChapter({username, chapterNumber, verseNumber}));
-    dispatch(getLastReadChapter({username}));
-    dispatch(getRecitationStats({username}));
+    // dispatch(getLastReadChapter({username}));
+    // dispatch(getRecitationStats({username}));
   }
 
   return (
-    <View
-      style={[styles.verseContainer, {backgroundColor: backgroundColor}]}>
+    <View style={[styles.verseContainer, {backgroundColor: backgroundColor}]}>
       <View style={styles.meta}>
         <Text style={[styles.metaText, {color: tintColor}]}>
           Verse {verse.verse_number}
@@ -245,7 +250,7 @@ const styles = StyleSheet.create({
   meta: {
     flexDirection: 'row',
     marginLeft: 10,
-    justifyContent:'space-between'
+    justifyContent: 'space-between',
   },
   metaText: {
     fontFamily: fonts.Signika.bold,

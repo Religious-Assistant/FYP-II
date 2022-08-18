@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {apiGET, apiPATCH, apiPOST} from '../../../apis/apiService'
+import {apiPATCH, apiPOST} from '../../../apis/apiService';
 
 import {
   mark_summary_as_read,
@@ -7,7 +7,6 @@ import {
   update_last_read_summary,
   get_last_read_summary,
   check_summary_is_read,
-
   get_last_read_chapter,
   check_chapter_is_read,
   update_last_read_chapter,
@@ -57,12 +56,15 @@ export const getChapters = createAsyncThunk('getChapters', async () => {
 export const getChapterByNumber = createAsyncThunk(
   'getChapterByNumber',
   async number => {
-
-    const chapter=await fetch(`https://bhagavad-gita3.p.rapidapi.com/v2/chapters/${number}/verses/`,{
-      headers:{
-        'X-RapidAPI-Key':'6b01d2ba32mshfccc1a5f7bcfd3dp1e6767jsn702683ff7204'  
-      }
-    })
+    const chapter = await fetch(
+      `https://bhagavad-gita3.p.rapidapi.com/v2/chapters/${number}/verses/`,
+      {
+        headers: {
+          'X-RapidAPI-Key':
+            '6b01d2ba32mshfccc1a5f7bcfd3dp1e6767jsn702683ff7204',
+        },
+      },
+    );
     const data = await chapter.json();
     return data;
   },
@@ -71,7 +73,7 @@ export const getChapterByNumber = createAsyncThunk(
 export const updateLastReadChapter = createAsyncThunk(
   'updateLastReadChapter',
   async body => {
-    const result = await apiPATCH(update_last_read_surah, body);
+    const result = await apiPATCH(update_last_read_chapter, body);
     return result;
   },
 );
@@ -118,7 +120,7 @@ export const updateLastReadSummary = createAsyncThunk(
 
 export const getRecitationStats = createAsyncThunk(
   'getRecitationStats',
-  async (username) => {
+  async username => {
     const result = await apiPOST(get_gita_recitation_stats, username);
     return result;
   },
@@ -135,7 +137,7 @@ export const checkChapterIsRead = createAsyncThunk(
 //To be updated as ChapterIsRead
 export const checkSummaryIsRead = createAsyncThunk(
   'checkSummaryIsRead',
-  async (body) => {
+  async body => {
     const result = await apiPOST(check_summary_is_read, body);
     return result;
   },
@@ -162,7 +164,6 @@ const reciteGitaSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    
     [getRecitationStats.fulfilled]: (state, action) => {
       state.hasError = false;
       state.isLoadingGetRecitationStats = false;
@@ -360,12 +361,16 @@ const reciteGitaSlice = createSlice({
 });
 
 export const selectChapters = state => state.gitarecitation.chapters;
-export const selectRecitedChapters = state => state.gitarecitation.recitedChapters;
-export const selectRecitedSummaries = state => state.gitarecitation.recitedSummaries;
+export const selectRecitedChapters = state =>
+  state.gitarecitation.recitedChapters;
+export const selectRecitedSummaries = state =>
+  state.gitarecitation.recitedSummaries;
 export const selectChapterByNumber = state => state.gitarecitation.chapterById;
 
-export const selectLastReadChapter = state => state.gitarecitation.lastReadChapter;
-export const selectLastReadSummary = state => state.gitarecitation.lastReadSummary;
+export const selectLastReadChapter = state =>
+  state.gitarecitation.lastReadChapter;
+export const selectLastReadSummary = state =>
+  state.gitarecitation.lastReadSummary;
 
 export const selectChapterRecitationStatus = state =>
   state.gitarecitation.chapterRecitationStatus;
@@ -404,6 +409,7 @@ export const selectIsLoadingLastReadChapter = state =>
   state.gitarecitation.isLoadingLastReadChapter;
 
 export const selectHasError = state => state.gitarecitation.hasError;
-export const selectRecitationStats = state => state.gitarecitation.recitationStats;
+export const selectRecitationStats = state =>
+  state.gitarecitation.recitationStats;
 
 export default reciteGitaSlice.reducer;

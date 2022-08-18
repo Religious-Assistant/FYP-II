@@ -43,14 +43,12 @@ const RecitationStats = () => {
     useShadowColorFromDataset: false, // optional
   };
 
-  recitationStats[0]?.chapterLastRead;
-
   const data = {
     labels: ['Summaries', 'Chapters'],
     legend: ['Recited', 'Remaining'],
     data: [
-      [recitationStats[0]?.recitedSummaries?.length - 1, 18],
-      [recitationStats[0]?.recitedChapters?.length - 1, 18],
+      [recitationStats?recitationStats[0]?.recitedSummaries?.length - 1:0, 18],
+      [recitationStats?recitationStats[0]?.recitedChapters?.length - 1:0, 18],
     ],
 
     barColors: [colors.success.light, colors.error],
@@ -70,8 +68,8 @@ const RecitationStats = () => {
 
         <StatsCardForChapter
           screenWidth={screenWidth}
-          summaryLastRead={recitationStats[0]?.summaryLastRead}
-          chapterLastRead={recitationStats[0]?.chapterLastRead}
+          summaryLastRead={recitationStats[0]?recitationStats[0]?.summaryLastRead:0}
+          chapterLastRead={recitationStats[0]?recitationStats[0]?.chapterLastRead:0}
         />
       </ScrollView>
     </>
