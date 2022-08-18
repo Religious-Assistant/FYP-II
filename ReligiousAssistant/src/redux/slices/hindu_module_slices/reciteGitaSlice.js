@@ -7,11 +7,13 @@ import {
   update_last_read_summary,
   get_last_read_summary,
   check_summary_is_read,
+
   get_last_read_chapter,
   check_chapter_is_read,
   update_last_read_chapter,
   mark_chapter_as_unread,
   mark_chapter_as_read,
+  get_gita_recitation_stats,
 } from '../../endpoints';
 
 const initialState = {
@@ -77,7 +79,7 @@ export const updateLastReadChapter = createAsyncThunk(
 export const markChapterAsRead = createAsyncThunk(
   'markChapterAsRead',
   async body => {
-    const result = await apiPATCH(mark_surah_as_read, body);
+    const result = await apiPATCH(mark_chapter_as_read, body);
     return result;
   },
 );
@@ -85,7 +87,7 @@ export const markChapterAsRead = createAsyncThunk(
 export const markChapterAsUnRead = createAsyncThunk(
   'markChapterAsUnRead',
   async body => {
-    const result = await apiPATCH(mark_surah_as_unread, body);
+    const result = await apiPATCH(mark_chapter_as_unread, body);
     return result;
   },
 );
@@ -93,7 +95,7 @@ export const markChapterAsUnRead = createAsyncThunk(
 export const markSummaryAsRead = createAsyncThunk(
   'markSummaryAsRead',
   async body => {
-    const result = await apiPATCH(mark_parah_as_read, body);
+    const result = await apiPATCH(mark_summary_as_read, body);
     return result;
   },
 );
@@ -101,7 +103,7 @@ export const markSummaryAsRead = createAsyncThunk(
 export const markSummaryAsUnRead = createAsyncThunk(
   'markSummaryAsUnRead',
   async body => {
-    const result = await apiPATCH(mark_parah_as_unread, body);
+    const result = await apiPATCH(mark_summary_as_unread, body);
     return result;
   },
 );
@@ -109,7 +111,7 @@ export const markSummaryAsUnRead = createAsyncThunk(
 export const updateLastReadSummary = createAsyncThunk(
   'updateLastReadSummary',
   async body => {
-    const result = await apiPATCH(update_last_read_parah, body);
+    const result = await apiPATCH(update_last_read_summary, body);
     return result;
   },
 );
@@ -117,7 +119,7 @@ export const updateLastReadSummary = createAsyncThunk(
 export const getRecitationStats = createAsyncThunk(
   'getRecitationStats',
   async (username) => {
-    const result = await apiPOST(get_recitation_stats, username);
+    const result = await apiPOST(get_gita_recitation_stats, username);
     return result;
   },
 );
@@ -125,7 +127,7 @@ export const getRecitationStats = createAsyncThunk(
 export const checkChapterIsRead = createAsyncThunk(
   'checkChapterIsRead',
   async body => {
-    const result = await apiPOST(check_surah_is_read, body);
+    const result = await apiPOST(check_chapter_is_read, body);
     return result;
   },
 );
@@ -134,7 +136,7 @@ export const checkChapterIsRead = createAsyncThunk(
 export const checkSummaryIsRead = createAsyncThunk(
   'checkSummaryIsRead',
   async (body) => {
-    const result = await apiPOST(check_parah_is_read, body);
+    const result = await apiPOST(check_summary_is_read, body);
     return result;
   },
 );
@@ -142,7 +144,7 @@ export const checkSummaryIsRead = createAsyncThunk(
 export const getLastReadChapter = createAsyncThunk(
   'getLastReadChapter',
   async body => {
-    const result = await apiPOST(get_last_read_surah, body);
+    const result = await apiPOST(get_last_read_chapter, body);
     return result;
   },
 );
@@ -150,7 +152,7 @@ export const getLastReadChapter = createAsyncThunk(
 export const getLastReadSummary = createAsyncThunk(
   'getLastReadSummary',
   async body => {
-    const result = await apiPOST(get_last_read_parah, body);
+    const result = await apiPOST(get_last_read_summary, body);
     return result;
   },
 );
@@ -160,6 +162,7 @@ const reciteGitaSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    
     [getRecitationStats.fulfilled]: (state, action) => {
       state.hasError = false;
       state.isLoadingGetRecitationStats = false;

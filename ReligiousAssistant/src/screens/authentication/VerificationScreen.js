@@ -44,29 +44,35 @@ const VerificationScreen = ({route, navigation}) => {
 
   function verifyOTP(){
 
-    if(otpId){
+    //TODO: Remove when otp verification to be enabled
+    dispatch(registerUser(values))
+    navigator.navigate(LOGIN)
 
-      let values=Object.values(otp)
-      dispatch(verifyOTPCode({otpCode:values.toString().replaceAll(',',''), otpId:otpId}))
-    }
-    else{
-      alert('Could not get OTP Id, Try again')
-    }
+    //TODO: Uncomment when otp needed
+    // if(otpId){
+
+    //   let values=Object.values(otp)
+    //   dispatch(verifyOTPCode({otpCode:values.toString().replaceAll(',',''), otpId:otpId}))
+    // }
+    // else{
+    //   alert('Could not get OTP Id, Try again')
+    // }
 
   }
 
-  useEffect(()=>{
+  //TODO: Uncomment when otp needed
+  // useEffect(()=>{
 
-    if(isOTPVerified){
+  //   if(isOTPVerified){
 
-      dispatch(registerUser(values))
-      navigator.navigate(LOGIN)
-    }
-    if(isOTPVerified==false){
-      alert(`Verification failed. Try again`)
-    }
+  //     dispatch(registerUser(values))
+  //     navigator.navigate(LOGIN)
+  //   }
+  //   if(isOTPVerified==false){
+  //     alert(`Verification failed. Try again`)
+  //   }
 
-  },[dispatch, isOTPVerified])
+  // },[dispatch, isOTPVerified])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

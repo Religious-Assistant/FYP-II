@@ -192,8 +192,8 @@ const SummaryRoute = () => {
 
 const StatsRoute = () => {
   return (
-    <Text>Stats</Text>
-    // <RecitationStats />
+
+    <RecitationStats />
   );
 };
 

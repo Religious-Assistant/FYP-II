@@ -172,6 +172,7 @@ export{
     update_last_read_chapter,
     mark_chapter_as_unread,
     mark_chapter_as_read,
+    get_gita_recitation_stats
 
 }
 

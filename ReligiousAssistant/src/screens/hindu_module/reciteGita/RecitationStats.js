@@ -1,23 +1,38 @@
-import React, { useEffect } from 'react';
+/**
+ * @author Nadir
+ * @version 1.0
+ *
+ */
+
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView} from 'react-native';
-import {ProgressChart, StackedBarChart} from 'react-native-chart-kit';
-import { Center, Heading } from 'native-base';
+import {StackedBarChart} from 'react-native-chart-kit';
+import {Heading} from 'native-base';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {getRecitationStats, selectRecitationStats} from '../../../redux/slices/muslim_module_slices/reciteQuranSlice';
+import {
+  getRecitationStats,
+  selectRecitationStats,
+} from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
+
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
 const RecitationStats = () => {
   const dispatch = useDispatch();
+  
   const recitationStats = useSelector(selectRecitationStats);
-  const {username} = useSelector(selectUserData);
-
+  const user = useSelector(selectUserData);
   const screenWidth = Dimensions.get('window').width - 10;
 
-  
+  useEffect(() => {
+    if (user) {
+      dispatch(getRecitationStats({username: user?.username}));
+    }
+  }, [dispatch]);
+
   const chartConfig = {
     backgroundGradientFrom: colors.primary,
     backgroundGradientTo: colors.primary,
@@ -28,87 +43,86 @@ const RecitationStats = () => {
     useShadowColorFromDataset: false, // optional
   };
 
-  const recitedParahs=recitationStats[0].recitedParahs
-  const recitedSurahs=recitationStats[0].recitedSurahs
-  const parahLastRead=recitationStats[0].parahLastRead
-  const surahLastRead=recitationStats[0].surahLastRead
+  recitationStats[0]?.chapterLastRead;
 
   const data = {
-    labels: ['Parahs', 'Surahs', 'Ayahs'],
+    labels: ['Summaries', 'Chapters'],
     legend: ['Recited', 'Remaining'],
     data: [
-      [recitedParahs.length-1, 30 - recitedParahs.length+1],
-      [recitedSurahs.length-1, 114 - recitedSurahs.length+1],
-      [parahLastRead.verseNumber/100, (6666 - parahLastRead.verseNumber) / 100],
+      [recitationStats[0]?.recitedSummaries?.length - 1, 18],
+      [recitationStats[0]?.recitedChapters?.length - 1, 18],
     ],
 
     barColors: [colors.success.light, colors.error],
   };
 
-  useEffect(()=>{
-    if(username){
-        dispatch(getRecitationStats({username}))
-    }
-  },[dispatch])
-
   return (
     <>
-    <ScrollView>
-    <StackedBarChart
-        style={{marginTop: 20, borderRadius: 16, alignSelf: 'center'}}
-        data={data}
-        width={screenWidth}
-        height={300}
-        chartConfig={chartConfig}
-        withHorizontalLabels={false}
-      />
+      <ScrollView>
+        <StackedBarChart
+          style={{marginTop: 20, borderRadius: 16, alignSelf: 'center'}}
+          data={data}
+          width={screenWidth}
+          height={300}
+          chartConfig={chartConfig}
+          withHorizontalLabels={false}
+        />
 
-        <StatsCardForParah screenWidth={screenWidth} parahLastRead={parahLastRead}/>
-        <StatsCardForSurah screenWidth={screenWidth} surahLastRead={surahLastRead}/>
-    </ScrollView>      
+        <StatsCardForChapter
+          screenWidth={screenWidth}
+          summaryLastRead={recitationStats[0]?.summaryLastRead}
+          chapterLastRead={recitationStats[0]?.chapterLastRead}
+        />
+      </ScrollView>
     </>
   );
 };
 
-function StatsCardForParah(props) {
-    const {screenWidth, parahLastRead}=props
+function StatsCardForChapter(props) {
+  const {screenWidth, chapterLastRead, summaryLastRead} = props;
 
-    return(
-        <Center style={[styles.card,{width:screenWidth}]}>
-            <Heading style={{color:colors.primary}}>Last Recitation: BY PARAH</Heading>
-            <Text style={[styles.text,{color:colors.info}]}>Parah #: {parahLastRead.parahNumber}</Text>
-            <Text style={[styles.text,{color:colors.info}]}>Surah #: {parahLastRead.surahNumber}</Text>
-            <Text style={[styles.text,{color:colors.info}]}>Verse #: {parahLastRead.verseNumber}</Text>
-    </Center>
-    ) 
-  }
-  
-  function StatsCardForSurah(props) {
-    const {screenWidth, surahLastRead}=props
-
-    return(
-        <Center style={[styles.card,{width:screenWidth}]}>
-            <Heading style={{color:colors.primary}}>Last Recitation: BY SURAH</Heading>
-            <Text style={[styles.text,{color:colors.info}]}>Surah #: {surahLastRead.surahNumber}</Text>
-            <Text style={[styles.text,{color:colors.info}]}>Verse #: {surahLastRead.verseNumber}</Text>
-    </Center>
-    ) 
-  }
+  return (
+    <View style={[styles.card, {width: screenWidth}]}>
+      <Heading style={styles.heading}>Last Recitation Stats</Heading>
+      <View style={styles.dataContainer}>
+        <Text style={[styles.text]}>Chapter </Text>
+        <Text style={[styles.text]}>{chapterLastRead.chapterNumber}</Text>
+      </View>
+      <View style={styles.dataContainer}>
+        <Text style={[styles.text]}>Verse</Text>
+        <Text style={[styles.text]}>{chapterLastRead.verseNumber}</Text>
+      </View>
+      <View style={styles.dataContainer}>
+        <Text style={[styles.text]}>Summary</Text>
+        <Text style={[styles.text]}>{summaryLastRead}</Text>
+      </View>
+    </View>
+  );
+}
 export default RecitationStats;
 
 const styles = StyleSheet.create({
-    card: {
-        height: 150,
-        borderRadius: 10,
-        marginTop:10,
-        elevation:2,
-        shadowOffset: {height: 1, width: 1},
-        backgroundColor: colors.white,
-        alignSelf:'center'
-      },
-      text:{
-        fontSize:20,
-        fontFamily:fonts.Signika.medium,
-        marginTop:5,
-      }
+  heading: {
+    color: colors.primary,
+    fontFamily: fonts.Signika.bold,
+  },
+  dataContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  card: {
+    borderRadius: 10,
+    marginTop: 10,
+    elevation: 2,
+    padding: 10,
+    shadowOffset: {height: 1, width: 1},
+    backgroundColor: colors.cover,
+    alignSelf: 'center',
+  },
+  text: {
+    fontSize: 20,
+    fontFamily: fonts.Signika.medium,
+    marginTop: 5,
+    color: colors.red,
+  },
 });

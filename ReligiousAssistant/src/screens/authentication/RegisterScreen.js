@@ -80,8 +80,12 @@ function RegisterScreen() {
   function signupHandler(values) {
 
 
-    dispatch(getOTPCode({mobile:values.mobile}))
-    setRegisterValues({...values,location:position})
+    //TODO: Un comment when OTP verification to be enabled
+    // dispatch(getOTPCode({mobile:values.mobile})) 
+    // setRegisterValues({...values,location:position})
+
+    //TODO: Remove when OTP verification to be enabled
+    navigator.navigate(OTP_VERIFICATION,{values:{...values, location:{longitude:68.5953277, latitude:27.3027566}}});
   
   }
 
@@ -89,16 +93,17 @@ function RegisterScreen() {
     navigator.navigate(ENTER_AS_GUEST);
   }
 
-  useEffect(()=>{
+  //TODO: Un comment when OTP verification to be enabled
+  // useEffect(()=>{
 
-    if(!hasErrorGetOtpCode && isObtainedOTP){
-      navigator.navigate(OTP_VERIFICATION,{values:registerValues});
-    }
-    if(hasErrorGetOtpCode && !isObtainedOTP){
-      alert(`Number already in use, or error while getting OTP`)
-    }
+  //   if(!hasErrorGetOtpCode && isObtainedOTP){
+  //     navigator.navigate(OTP_VERIFICATION,{values:registerValues});
+  //   }
+  //   if(hasErrorGetOtpCode && !isObtainedOTP){
+  //     alert(`Number already in use, or error while getting OTP`)
+  //   }
 
-  },[dispatch,hasErrorGetOtpCode, isObtainedOTP])
+  // },[dispatch,hasErrorGetOtpCode, isObtainedOTP])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
