@@ -91,8 +91,13 @@ const registerUser = async (req, res) => {
           });
           await quranRecitation.save((err, result) => {});
           await LearnNamaz.create({username})
+          
+          res.send({ success: true, data: user_data });
+          return;
+
         } else {
-          await HinduPreference.create({ username });
+
+          const preference=await HinduPreference.create({ username });
 
           //Create Recitation record for Muslim User
           const gitaRecitation = new GitaRecitation({
@@ -115,11 +120,13 @@ const registerUser = async (req, res) => {
             },
             summaryLastRead:0
           });
-          await gitaRecitation.save((err, result) => {});
+          await gitaRecitation.save((err, result) => {
+            
+          });
+        
+          res.send({ success: true, data: user_data });
+          return;
         }
-
-        res.send({ success: true, data: user_data });
-        return;
       }
       res.send({ success: false });
     }
@@ -205,12 +212,25 @@ const getUpdatedUserdata = async (req, res) => {
       username: username,
     });
 
+
     if (user_data) {
-      res.send({
-        success: true,
-        data: user_data,
-        msg: "Fetched Data Successfully",
-      });
+      if(user_data.religion==1){
+        
+        const preferences=await MuslimPreference.findOne({username})
+        res.send({
+          success: true,
+          data: {...user_data._doc, preferences},
+          msg: "Fetched Data Successfully",
+        });
+      }
+      else{
+        const preferences=await HinduPreference.findOne({username})
+        res.send({
+          success: true,
+          data: {...user_data._doc, preferences},
+          msg: "Fetched Data Successfully",
+        });
+      }
     } else {
       res.status(400).send({
         success: false,

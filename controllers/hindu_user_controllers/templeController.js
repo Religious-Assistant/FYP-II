@@ -36,10 +36,11 @@ const getAllTemples = async (req, res) => {
 };
 
 const getTempleById = async (req, res) => {
-  console.log("Get Temple By ID API Hit");
+  console.log("Get Temple By ID API Hit", req.body);
   try {
     const { templeId } = req.body;
     const temple = await Temple.findOne({ _id: templeId });
+
     if (temple) {
       res.status(200).send({ success: true, data: temple });
     } else {
@@ -113,7 +114,7 @@ const getUnverifiedTemplesAroundUser = async (req, res) => {
 
 const addTemple = async (req, res) => {
 
-  console.log("Add Temple API hit", req.body);
+  console.log("Add Temple API hit");
 
   const { latitude, longitude, templeName, addedBy } = req.body;  
 
@@ -135,6 +136,7 @@ const addTemple = async (req, res) => {
       });
 
       if (longitude && latitude) {
+
         const newTempleData = await Temple.create({
           templeName: templeName,
           addedBy: addedBy,
@@ -148,9 +150,7 @@ const addTemple = async (req, res) => {
         if (newTempleData) {
           //Sign a notification for users
           const title = `New Temple`.toUpperCase();
-          const body = `${addedBy.toUpperCase()} feels that Temple ${templeName} is not yet present in the system and asks you to upvote so new temple could be added. Total ${
-            peopleAround.length
-          } people are notified! Be true to the good cause, give your perfect vote`;
+          const body = `${addedBy.toUpperCase()} feels that Temple ${templeName} is not yet present in the system and asks you to upvote so new temple could be added`
 
           //TODO: Should return only Hindu users
           const recepients = await getNotificationReceivers(peopleAround, 0);

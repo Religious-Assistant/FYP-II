@@ -204,8 +204,8 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   //#endregion
 
   return receivers.filter((receiver) => {
-    // if (receiver.username !== announcedBy) {
-    return targetAudience.includes(receiver.username);
+    // if (receiver.username !== announcedBy) {   //TODO: Don't send to self
+    return targetAudience.includes(receiver.username);    //TODO: Send to muslim when announced by muslim ---
     // }
   });
 };

@@ -13,7 +13,7 @@ const { ANNOUNCEMENT_CHANNEL_ID, announcement_notification_logo } = require("../
 
 //Take announcement Data and make it available to everyone
 const makeAnnouncement = async (req, res) => {
-  console.log("Make Hindu Announcement API hit");
+  console.log("Make Hindu Announcement API hit", req.body);
   const { latitude, longitude, category, announcedBy, statement, avatar } =
     req.body;
 
@@ -45,9 +45,10 @@ const makeAnnouncement = async (req, res) => {
           const title = `Announcement by ${announcedBy.toUpperCase()}`;
           const body = `${statement}`;
 
-          //Returns muslim users in range
-          const recepients=await getNotificationReceivers(targetAudience,1) 
+          //Returns hindu users in range
+          const recepients=await getNotificationReceivers(targetAudience,0) 
 
+          console.log('recepients', recepients)
           saveNotificationForHinduUser(recepients, title, statement,category, newAnnouncement._id, announcement_notification_logo).then(async (data) => {
               const totalReceivers = await notifyUsers(
                 title,

@@ -147,7 +147,7 @@ const markSummaryAsUnRead = async (req, res) => {
 
 //Take chapterNumber, verserNum
 const updateLastReadChapter = async (req, res) => {
-  console.log("Last Read Chapter progress API hit");
+  console.log("Update Last Read Chapter API hit", req.body);
   try {
     const { username, chapterNumber, verseNumber } = req.body;
     const isUpdatedLastReadChapter = await GitaRecitation.updateOne(

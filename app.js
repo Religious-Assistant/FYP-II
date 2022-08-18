@@ -62,6 +62,7 @@ const hindu_pref_route=require('./routes/hindu_user_routes/hinduUserPreferenceRo
 const hindu_announdement_route=require('./routes/hindu_user_routes/hinduAnnouncementRoute')
 const hindu_notification_route=require('./routes/hindu_user_routes/hinduNotificationRoute')
 const recite_gita_route = require('./routes/hindu_user_routes/reciteGitaRoute')
+const veg_non_veg_route = require('./routes/hindu_user_routes/vegNonVegRoute')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -86,6 +87,7 @@ app.use('/api', hindu_announdement_route)
 app.use('/api', hindu_pref_route)
 app.use('/api', hindu_notification_route)
 app.use('/api', recite_gita_route)
+app.use('/api', veg_non_veg_route)
 
 
 // FCM: Notification configuration
@@ -97,3 +99,6 @@ admin.initializeApp({
 });
 
 module.exports=app;
+
+
+//TODO: Remove all hard coded variables outside of files

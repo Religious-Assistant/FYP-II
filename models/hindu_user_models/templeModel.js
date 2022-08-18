@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 
 const templeSchema=mongoose.Schema({
     
-    mosqueName:{
+    templeName:{
         type:String,
         required:true
     },

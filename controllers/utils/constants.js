@@ -12,7 +12,7 @@ const new_mosque_notification_logo=`https://res.cloudinary.com/nadirhussainnn/im
 const namaz_alert_notification_logo='https://res.cloudinary.com/nadirhussainnn/image/upload/v1660431651/religious-assistant/clock_ic_vhxtzg.png'
 const consensus_notificaion_logo='https://res.cloudinary.com/nadirhussainnn/image/upload/v1660431723/religious-assistant/vote_ic_puas0i.png'
 const rejected_notification_logo='https://res.cloudinary.com/nadirhussainnn/image/upload/v1660432110/religious-assistant/rejected_ic_qo4bf4.png'
-const new_temple_notification_logo=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1660431552/religious-assistant/mosque1_ic_yw4vz4.png`
+const new_temple_notification_logo=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1660842229/religious-assistant/temple3_ic_ihvv3d.png`
 
 
 //Muslim notification channels
@@ -25,7 +25,7 @@ const ADD_NEW_TEMPLE_CHANNEL_ID = 10;
 //Categories: Synced with Frotnend
 const EID_NAMAZ='EID_NAMAZ'         //Alread received in request
 const OTHER='OTHER'                 //Alread received in request
-const FUNERAL='FUNERAL'                 //Alread received in request
+const FUNERAL='FUNERAL_PRAYER'                 //Alread received in request
 
 const NAMAZ_ALERT='NAMAZ_ALERT'                     //Not received in request, therefore defined here
 const MOSQUE_CONSENSUS='MOSQUE_CONSENSUS'           //Not received in request, therefore defined here
