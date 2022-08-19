@@ -18,20 +18,22 @@
  import messaging from '@react-native-firebase/messaging';
 
  async function onMessageReceived(message) {
-   const data = await JSON.parse(message.data.notification);
- 
+   const notification = await JSON.parse(message.notification);
+   
+   const data=await JSON.parse(message.data)    //To be set in async storage
+
    const channelId = await notifee.createChannel({
-     id: data["channelId"],
+     id: notification["channelId"],
      name: 'Default Channel',
    });
  
-   notifee.displayNotification({
-     body: data['body'],
-     title: data['title'],
+ notifee.displayNotification({
+     body: notification['body'],
+     title: notification['title'],
      android: {
        channelId,
        smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher',
-       largeIcon:data['largeIcon'],
+       largeIcon:notification['largeIcon'],
        autoCancel:false,
        // color:colors.secondary,
        actions:[

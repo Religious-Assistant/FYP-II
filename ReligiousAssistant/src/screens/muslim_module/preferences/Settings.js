@@ -253,7 +253,7 @@ export default function Settings({route, navigation}) {
               alt="icon .."
             />
           </TouchableOpacity>
-          <Text style={styles.username}>{user?.username}</Text>
+          <Text style={styles.username}>{user?.username?.toUpperCase()}</Text>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             flex={1}
@@ -839,9 +839,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
     fontSize: 30,
     marginTop: '5%',
-    marginLeft: '38%',
+    justifyContent:'center',
     padding: 8,
     color: colors.primary,
-    //marginLeft:"92%"
+    alignSelf:'center',
+    
   },
 });

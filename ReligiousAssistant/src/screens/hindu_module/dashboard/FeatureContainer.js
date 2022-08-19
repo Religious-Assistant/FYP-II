@@ -11,7 +11,7 @@ import {TouchableOpacity} from 'react-native';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 import {useNavigation} from '@react-navigation/native';
-import lock from '../../../../assets/images/lock_ic.png'
+import lock from '../../../../assets/images/lock_ic.png';
 
 import {
   RECITE_GITA,
@@ -25,13 +25,16 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
+  selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+import Loader from '../../common/Loader';
 
 export default function FeatureContainer() {
   const navigator = useNavigation();
 
   const user = useSelector(selectUserData);
+  const isLoadingUserData = useSelector(selectIsLoadingGetUserData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,13 +46,13 @@ export default function FeatureContainer() {
       title: 'Recite Gita',
       image: require('../../../../assets/images/gita2_ic.png'),
       screen: RECITE_GITA,
-      disabled: false
+      disabled: false,
     },
     {
       title: 'Closest Temple',
       image: require('../../../../assets/images/temple3_ic.png'),
       screen: FIND_TEMPLE,
-      disabled: false
+      disabled: false,
     },
     {
       title: 'Veg Days',
@@ -91,130 +94,126 @@ export default function FeatureContainer() {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: colors.white,
-          flex: 0.5,
-          borderTopLeftRadius: 25,
-        }}>
-        <View
-          style={{
-            flex: 0.5,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            marginTop: 10,
-          }}>
-          {featureArray1.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={item.title}
-                onPress={() => {
-                  if(!item?.disabled){
-                    navigator.navigate(item.screen);
-                  }
-                  else{
-                    alert(`Created account to access`)
-                  }
-                }}>
-                <FeatureCard>
-                  <Image
-                    source={item?.disabled?lock:item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
-                    }}
-                    alt="Icon..."
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </FeatureCard>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        <View
-          style={{
-            flex: 0.5,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            marginTop: -20,
-          }}>
-          {featureArray2.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={item.title}
-                onPress={() => {
-                  if(!item?.disabled){
-                    navigator.navigate(item.screen);
-                  }
-                  else{
-                    alert(`Created account to access`)
-                  }
-                }}>
-                <FeatureCard>
-                  <Image
-                    source={item?.disabled?lock:item.image}
-                    style={{
-                      height: 50,
-                      width: 50,
-                    }}
-                    alt="Icon..."
-                  />
-                  <Text style={styles.cardTitle}>{item.title}</Text>
-                </FeatureCard>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </View>
-
-      <View
-        style={{
-          flex: 0.5,
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          marginTop: -20,
-        }}>
-        {featureArray3.map((item, index) => {
-          return (
-            <TouchableOpacity
-              key={item.title}
-              onPress={() => {
-                if(!item?.disabled){
-                  navigator.navigate(item.screen);
-                }
-                else{
-                  alert(`Created account to access`)
-                }
+      {isLoadingUserData ? (
+        <Loader msg="Loading Dashboard..." />
+      ) : (
+        <>
+          <View
+            style={{
+              backgroundColor: colors.white,
+              flex: 0.5,
+              borderTopLeftRadius: 25,
+            }}>
+            <View
+              style={{
+                flex: 0.5,
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginTop: 10,
               }}>
-              <FeatureCard>
-                <Image
-                  source={item?.disabled?lock:item.image}
-                  style={{
-                    height: 50,
-                    width: 50,
-                  }}
-                  alt="Icon..."
-                />
-                <Text style={styles.cardTitle}>{item.title}</Text>
-              </FeatureCard>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+              {featureArray1.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={item.title}
+                    onPress={() => {
+                      if (!item?.disabled) {
+                        navigator.navigate(item.screen);
+                      } else {
+                        alert(`Created account to access`);
+                      }
+                    }}>
+                    <FeatureCard>
+                      <Image
+                        source={item?.disabled ? lock : item.image}
+                        style={{
+                          height: 50,
+                          width: 50,
+                        }}
+                        alt="Icon..."
+                      />
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                    </FeatureCard>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <View
+              style={{
+                flex: 0.5,
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginTop: -20,
+              }}>
+              {featureArray2.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={item.title}
+                    onPress={() => {
+                      if (!item?.disabled) {
+                        navigator.navigate(item.screen);
+                      } else {
+                        alert(`Created account to access`);
+                      }
+                    }}>
+                    <FeatureCard>
+                      <Image
+                        source={item?.disabled ? lock : item.image}
+                        style={{
+                          height: 50,
+                          width: 50,
+                        }}
+                        alt="Icon..."
+                      />
+                      <Text style={styles.cardTitle}>{item.title}</Text>
+                    </FeatureCard>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
+          <View
+            style={{
+              flex: 0.5,
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginTop: -20,
+            }}>
+            {featureArray3.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={item.title}
+                  onPress={() => {
+                    if (!item?.disabled) {
+                      navigator.navigate(item.screen);
+                    } else {
+                      alert(`Created account to access`);
+                    }
+                  }}>
+                  <FeatureCard>
+                    <Image
+                      source={item?.disabled ? lock : item.image}
+                      style={{
+                        height: 50,
+                        width: 50,
+                      }}
+                      alt="Icon..."
+                    />
+                    <Text style={styles.cardTitle}>{item.title}</Text>
+                  </FeatureCard>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </>
+      )}
     </View>
   );
 }
 
 function FeatureCard(props) {
-  return (
-    <Center
-      style={[
-        styles.card,
-      ]}>
-        {props.children}
-    </Center>
-  );
+  return <Center style={[styles.card]}>{props.children}</Center>;
 }
 
 function MoreFeaturesCard(props) {

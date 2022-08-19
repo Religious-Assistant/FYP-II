@@ -68,12 +68,57 @@ export default function Settings({route, navigation}) {
   const navigator = useNavigation();
   const isFocused = useIsFocused();
 
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const closestTemples=useSelector(selectClosestTemples)
+  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+
+  const hasUpdatedAutoSilentSettings = useSelector(
+    selectHasUpdatedAutosilentSetting,
+  );
+  const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
+  const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
+  const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
+
+  const templeById=useSelector(selectTempleById)
+  //when tab is focused in MuslimBottomTab.js, this will be called
+
+  
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [open, setOpen] = useState(false);
   const [isPasswordModal, setIspasswordModal] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
+  const [templeData, settempleData] = useState([]);
+  const [selectedTemple, setSelectedTemple] = useState(null);
+    //avatar state
+    const [avatar, setAvatar] = useState({
+      image: `${user?.avatar}`,
+      key: 1,
+    });
+
+    const [password, setPassword] = useState();
+    const handlePassword = text => {
+      setPassword(text);
+    };
+  
+
+    useEffect(() => {
+      dispatch(getUserData());
+      if (user?.avatar) {
+        setAvatar({image: user?.avatar, key: 0});
+      }
+  
+      if(user){
+        dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+      }
+      const unsubscribe = navigation.addListener('focus', () => {
+        dispatch(setTab('Settings'));
+      });
+  
+      return unsubscribe;
+    }, [navigation, dispatch]);
 
   function closeModal() {
     setOpen(false);
@@ -85,12 +130,7 @@ export default function Settings({route, navigation}) {
     setIspasswordModal(passwordModalFlag);
   }
 
-  const dispatch = useDispatch();
-  const user = useSelector(selectUserData);
-  const closestTemples=useSelector(selectClosestTemples)
 
-  const [templeData, settempleData] = useState([]);
-  const [selectedTemple, setSelectedTemple] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -111,39 +151,57 @@ export default function Settings({route, navigation}) {
   }, [dispatch, isFocused, closestTemples?.length]);
 
 
-  const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
+  function updateUserPassword(newPassword) {
+    dispatch(
+      updatePassword({
+        username: user.username,
+        newPassword: newPassword,
+      }),
+    );
+    if (hasUpdatedPassword) {
+      alert('Updated Password');
+    }
+  }
 
-  const hasUpdatedAutoSilentSettings = useSelector(
-    selectHasUpdatedAutosilentSetting,
-  );
-  const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
-  const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
-  const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
+  function makeTempleAsPrimary(){
 
-  const templeById=useSelector(selectTempleById)
-  //when tab is focused in MuslimBottomTab.js, this will be called
-
-  useEffect(() => {
-    dispatch(getUserData());
-    if (user?.avatar) {
-      setAvatar({image: user?.avatar, key: 0});
+    if(selectedTemple){
+      dispatch(updatePrimaryTemple({username:user?.username,primaryTemple:templeById?._id}))
+      dispatch(getUpdatedUserData({username:user?.username}))
+      alert('Updated Primary Temple')
+    }
+    else{
+      alert('Please select temple')
     }
 
-    if(user){
-      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+  }
+
+  function updateVegNotificationsSettings(state) {
+    dispatch(
+      updateVegNotifications({
+        username: user.username,
+        state: state,
+      }),
+    );
+
+    if (hasUpdatedVegSettings) {
+      alert(`Updated Veg Notification Settings`);
     }
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(setTab('Settings'));
-    });
+  }
 
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  function updateAutoSilent(state) {
+    dispatch(updateAutoSilentSetting({username: user.username, state: state}));
 
-  //avatar state
-  const [avatar, setAvatar] = useState({
-    image: `${user?.avatar}`,
-    key: 1,
-  });
+    if (hasUpdatedAutoSilentSettings) {
+      alert(`Updated Auto-Silent Settings`);
+    }
+  }
+
+  function updatePrimaryTemple(item) {}
+
+  function openMap() {
+    navigator.navigate(GOOGLE_MAP, {screen: HINDU_SETTINGS});
+  }
 
   const sendFileToBackend = image => {
     dispatch(
@@ -190,62 +248,6 @@ export default function Settings({route, navigation}) {
       });
   };
 
-  function updateUserPassword(newPassword) {
-    dispatch(
-      updatePassword({
-        username: user.username,
-        newPassword: newPassword,
-      }),
-    );
-    if (hasUpdatedPassword) {
-      alert('Updated Password');
-    }
-  }
-
-  function makeTempleAsPrimary(){
-
-    if(selectedTemple){
-      dispatch(updatePrimaryTemple({username:user?.username,primaryTemple:templeById?._id}))
-      dispatch(getUpdatedUserData({username:user?.username}))
-      alert('Updated Primary Temple')
-    }
-    else{
-      alert('Please select temple')
-    }
-
-  }
-  function updateVegNotificationsSettings(state) {
-    dispatch(
-      updateVegNotifications({
-        username: user.username,
-        state: state,
-      }),
-    );
-
-    if (hasUpdatedVegSettings) {
-      alert(`Updated Veg Notification Settings`);
-    }
-  }
-
-  function updateAutoSilent(state) {
-    dispatch(updateAutoSilentSetting({username: user.username, state: state}));
-
-    if (hasUpdatedAutoSilentSettings) {
-      alert(`Updated Auto-Silent Settings`);
-    }
-  }
-
-  function updatePrimaryTemple(item) {}
-
-  function openMap() {
-    navigator.navigate(GOOGLE_MAP, {screen: HINDU_SETTINGS});
-  }
-  //Rough Data
-
-  const [password, setPassword] = useState();
-  const handlePassword = text => {
-    setPassword(text);
-  };
 
   return (
     <View style={styles.container}>
@@ -274,7 +276,7 @@ export default function Settings({route, navigation}) {
               alt="icon .."
             />
           </TouchableOpacity>
-          <Text style={styles.username}>{user?.username}</Text>
+          <Text style={styles.username}>{user?.username?.toUpperCase()}</Text>
           <ScrollView
             keyboardShouldPersistTaps="handled"
             flex={1}
@@ -471,7 +473,7 @@ export default function Settings({route, navigation}) {
                   </Box>
                 </Box>
 
-                {/* Namaz Noti */}
+                {/* Veg Noti */}
                 <Box alignItems="center">
                   <Box
                     maxW="80"
@@ -511,10 +513,10 @@ export default function Settings({route, navigation}) {
                             size="lg"
                             marginLeft={'80%'}
                             onValueChange={value => {
-                              updateNamazNotification(value);
+                              updateVegNotificationsSettings(value);
                             }}
                             defaultIsChecked={
-                              user?.preferences?.namazNotifications
+                              user?.preferences?.vegNotifications
                             }
                           />
                         </HStack>
@@ -828,8 +830,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
     fontSize: 30,
     marginTop: '5%',
-    marginLeft: '38%',
+    justifyContent:'center',
     padding: 8,
     color: colors.primary,
+    alignSelf:'center',
+    
   },
 });
