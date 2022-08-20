@@ -16,6 +16,7 @@
  //Notifee
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
+import PushNoti from './src/screens/muslim_module/preferences/PushNoti';
  async function onMessageReceived(message) {
    const notification = await JSON.parse(message.notification);
    
@@ -100,7 +101,8 @@
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <EntryPoint/>
+         {/* <EntryPoint/> */}
+         <PushNoti />
        </NativeBaseProvider>
      </Provider>
    );
