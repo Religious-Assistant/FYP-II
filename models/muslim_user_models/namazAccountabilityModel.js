@@ -14,7 +14,10 @@ const namazAccountabilitySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  prayers:[],
+  prayers:{
+    type:Boolean,
+    required:true
+  },
   date:{
     type:Date,
     required:true,

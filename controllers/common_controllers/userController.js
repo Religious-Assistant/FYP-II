@@ -9,9 +9,7 @@ const Tasbih = require("../../models/muslim_user_models/tasbihModel");
 const DeviceToken = require("../../models/common_models/deviceTokenModel");
 const MuslimPreference = require("../../models/muslim_user_models/muslimUserPreferencesModel");
 const QuranRecitation = require("../../models/muslim_user_models/reciteQuranModel");
-
 const LearnNamaz = require("../../models/muslim_user_models/learnNamazModel");
-
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
 const Imam = require("../../models/muslim_user_models/imamModel");
 const HinduPreference = require("../../models/hindu_user_models/hinduUserPreferencesModel");
@@ -27,7 +25,6 @@ const {
   base64Uploader,
 } = require("../../utils/cloudinaryUtils");
 
-
 //Controllers
 
 const registerUser = async (req, res) => {
@@ -39,7 +36,6 @@ const registerUser = async (req, res) => {
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
-
       const user_data = await User.create({
         username,
         mobile,
@@ -57,7 +53,6 @@ const registerUser = async (req, res) => {
       });
 
       if (user_data) {
-        
         //Create a Tasbih for each Muslim user, check religion
 
         if (user_data.religion == 1) {
@@ -90,14 +85,12 @@ const registerUser = async (req, res) => {
             },
           });
           await quranRecitation.save((err, result) => {});
-          await LearnNamaz.create({username})
-          
+          await LearnNamaz.create({ username });
+
           res.send({ success: true, data: user_data });
           return;
-
         } else {
-
-          const preference=await HinduPreference.create({ username });
+          const preference = await HinduPreference.create({ username });
 
           //Create Recitation record for Muslim User
           const gitaRecitation = new GitaRecitation({
@@ -118,17 +111,17 @@ const registerUser = async (req, res) => {
               verseNumber: 0,
               chapterNumber: 0,
             },
-            summaryLastRead:0
+            summaryLastRead: 0,
           });
-          await gitaRecitation.save((err, result) => {
-            
-          });
-        
+          await gitaRecitation.save((err, result) => {});
+
           res.send({ success: true, data: user_data });
           return;
         }
       }
-      res.send({ success: false });
+      else{
+        res.send({ success: false, msg:"No user found" });
+      }
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -159,8 +152,7 @@ const loginUser = async (req, res) => {
           });
 
           imam = await Imam.findOne({ username: username });
-        }
-        else{
+        } else {
           userPreferences = await HinduPreference.findOne({
             username: username,
           });
@@ -212,22 +204,19 @@ const getUpdatedUserdata = async (req, res) => {
       username: username,
     });
 
-
     if (user_data) {
-      if(user_data.religion==1){
-        
-        const preferences=await MuslimPreference.findOne({username})
+      if (user_data.religion == 1) {
+        const preferences = await MuslimPreference.findOne({ username });
         res.send({
           success: true,
-          data: {...user_data._doc, preferences},
+          data: { ...user_data._doc, preferences },
           msg: "Fetched Data Successfully",
         });
-      }
-      else{
-        const preferences=await HinduPreference.findOne({username})
+      } else {
+        const preferences = await HinduPreference.findOne({ username });
         res.send({
           success: true,
-          data: {...user_data._doc, preferences},
+          data: { ...user_data._doc, preferences },
           msg: "Fetched Data Successfully",
         });
       }
@@ -488,7 +477,6 @@ const updateLocation = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 const deleteUser = async (req, res) => {
   console.log("Delete User API hit");
