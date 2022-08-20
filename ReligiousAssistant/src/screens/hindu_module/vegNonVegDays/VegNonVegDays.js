@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Heading,
@@ -15,16 +15,15 @@ import {
   Checkbox,
   ScrollView,
   FormControl,
+  Input,
 } from 'native-base';
+
 // import {Formik} from 'formik';
 // import * as yup from 'yup';
-
+import vegDays from '../../../../assets/images/vegDays_ic.png';
+import CustomButton from '../../../components/CustomButton';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-
-import vegDays from '../../../assets/images/vegDays_ic.png';
-
-import CustomButton from '../../../components/CustomButton';
 
 const VegNonVegDays = () => {
   const days = [
@@ -57,11 +56,30 @@ const VegNonVegDays = () => {
       dayName: 'Sunday',
     },
   ];
+  const [daysData, setDaysData] = useState({
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    Thursday: false,
+    Friday: false,
+    Saturday: false,
+    Sunday: false,
+  });
+
   function handlePress() {
     var today = new Date();
     const day = today.toDateString().split(' ')[0];
-    console.log(day);
+    //console.log(day)
+    const data = JSON.stringify(daysData);
+    console.log(data);
   }
+  const update = (state, day) => {
+    //console.log(state, day);
+    setDaysData(prevState => ({
+      ...prevState,
+      [day]: state,
+    }));
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -117,7 +135,7 @@ const VegNonVegDays = () => {
               </Heading>
               <View style={{marginTop: '15%', width: '94%'}}>
                 <FormControl>
-                  {days.map(day => {
+                  {days.map((day, index) => {
                     return (
                       <Box
                         key={day.key}
@@ -133,11 +151,14 @@ const VegNonVegDays = () => {
                           }}>
                           <Text style={styles.text}>{day.dayName}</Text>
                           <Checkbox
+                            value={day.dayName}
                             name="day"
                             my={2}
                             colorScheme="green"
                             accessibilityLabel="Namaz time"
-                          />
+                            onChange={state => {
+                              update(state, day.dayName);
+                            }}></Checkbox>
                         </View>
                       </Box>
                     );
@@ -156,6 +177,22 @@ const VegNonVegDays = () => {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+  );
+};
+
+const Example = () => {
+  const [groupValues, setGroupValues] = React.useState([]);
+  return (
+    <Checkbox.Group
+      onChange={setGroupValues}
+      value={groupValues}
+      accessibilityLabel="choose numbers">
+      <Checkbox value="one" my={2}>
+        UX Research
+      </Checkbox>
+      <Checkbox value="two">Software Development</Checkbox>
+      <Text>{groupValues}</Text>
+    </Checkbox.Group>
   );
 };
 
