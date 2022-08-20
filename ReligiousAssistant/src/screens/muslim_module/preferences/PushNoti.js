@@ -12,21 +12,17 @@ import appIcon from '../../../../assets/images/Logo-muslim.png';
 import moment from 'moment';
 
 const PushNoti = () => {
-  const time1 = moment('6:40:00 AM', 'HH:mm: A').diff(
-    moment().startOf('day'),
-    'seconds',
-  );
-  const time2 = moment('6:37 pM', 'HH:mm: A').diff(
-    moment().startOf('day'),
-    'seconds',
-  );
-  var hms = '07:01:00'; // your input string
-  var a = hms.split(':'); // split it at the colons
-
-  // minutes are worth 60 seconds. Hours are worth 60 minutes.
-  var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-  //console.log(Date.now() + 20 * 1000);
-  const azan = 'https://www.islamcan.com/audio/adhan/azan1.mp3';
+  function setHours(dt, h) {
+    var s = /(\d+):(\d+)(.+)/.exec(h);
+    dt.setHours(s[3] === "pm" ? 
+      12 + parseInt(s[1], 10) : 
+      parseInt(s[1], 10));
+    dt.setMinutes(parseInt(s[2],10));
+  }
+  
+  var d = new Date();
+  setHours(d, "5:09pm");
+  //console.log(d);
   useEffect(() => {
     createChannels();
     console.log('done');
@@ -47,6 +43,7 @@ const PushNoti = () => {
   };
   function handleNoti() {
     console.log('pressed');
+    
 
     PushNotification.localNotificationSchedule({
       channelId: 'checkNotification1',
@@ -56,9 +53,9 @@ const PushNoti = () => {
       importance: 4,
       vibrate: true,
       smallIcon: appIcon,
-      date: new Date(Date.now() + 10 * 1000),
+      date: d,
       allowWhileIdle: true,
-      // repeatType:'day'
+      repeatType:'day'
     });
   }
   return (

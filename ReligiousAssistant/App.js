@@ -17,6 +17,7 @@
  import notifee, {EventType } from '@notifee/react-native';
  import messaging from '@react-native-firebase/messaging';
 import VegNonVegDays from './src/screens/hindu_module/vegNonVegDays/VegNonVegDays';
+import PushNoti from './src/screens/muslim_module/preferences/PushNoti';
  async function onMessageReceived(message) {
    const data = await JSON.parse(message.data.notification);
  
@@ -96,7 +97,7 @@ import VegNonVegDays from './src/screens/hindu_module/vegNonVegDays/VegNonVegDay
      <Provider store={store} serverState={preloadedState}>
        <NativeBaseProvider>
          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-         <VegNonVegDays/>
+         <PushNoti/>
        </NativeBaseProvider>
      </Provider>
    );
