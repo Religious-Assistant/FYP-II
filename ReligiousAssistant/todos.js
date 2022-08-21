@@ -6,3 +6,10 @@
 //TODO: Resolve loggedin user feature lock issue in Hindu module
 //TODO: Check network availability for all API calls
 //TODO: 
+
+//LEARN NAMAZ
+
+//TODO: Display progress
+//TODO: Give reward for Namaz, Display coins
+//TODO: Lock levels
+//TODO: 

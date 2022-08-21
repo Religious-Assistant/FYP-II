@@ -59,7 +59,7 @@ const cast_down_vote='cast-down-vote'
 //Learn Namaz
 const get_learn_namaz_progress='get-learn-namaz-progress'
 const update_learn_namaz_progress='update-learn-namaz-progress'
-
+const get_particular_rakat_info='get-particular-rakat-info'
 
 //Notifications
 
@@ -233,6 +233,7 @@ export {
     get_tasbih_count,
     get_user_notifications,
     delete_muslim_notification,
-    get_times_for_user
+    get_times_for_user,
+    get_particular_rakat_info
 }
 //#endregion

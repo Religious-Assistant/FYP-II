@@ -23,6 +23,7 @@ import {
   Spacer,
   Modal,
 } from 'native-base';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -32,6 +33,7 @@ import duhrImg from '../../../../assets/images/duhr_game.png';
 import asrImg from '../../../../assets/images/asr_game.png';
 import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
+import level_lock_ic from '../../../../assets/images/level_lock_ic.gif';
 
 import Loader from '../../common/Loader';
 import {
@@ -57,12 +59,14 @@ export default function LearnNamaz() {
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const namazProgress = useSelector(selectLearnNamazProgress);
+
   const isLoadingGetNamazProgress = useSelector(
     selectIsLoadingGetNamazProgress,
   );
 
   useEffect(() => {
     dispatch(getUserData());
+
     if (user) {
       dispatch(getLearnNamazProgress({username: user?.username}));
     }
@@ -72,6 +76,7 @@ export default function LearnNamaz() {
     {
       id: 1,
       name: 'EmptyLeft',
+      disabled: false,
     },
     {
       id: 2,
@@ -82,6 +87,7 @@ export default function LearnNamaz() {
         {key: 1, rakatName: 'Sunnat', rakats: '2'},
         {key: 2, rakatName: 'Farz', rakats: '2'},
       ],
+      disabled: false,
     },
     {
       id: 3,
@@ -94,6 +100,12 @@ export default function LearnNamaz() {
         {key: 5, rakatName: 'Sunnat', rakats: '2'},
         {key: 6, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.fajr?.hasLearned2Sunnah &&
+        namazProgress?.fajr?.hasLearned2Farz &&
+        namazProgress.score >= 20
+          ? false
+          : true,
     },
     {
       id: 4,
@@ -104,6 +116,14 @@ export default function LearnNamaz() {
         {key: 7, rakatName: 'Sunnat', rakats: '4'},
         {key: 8, rakatName: 'Farz', rakats: '4'},
       ],
+      disabled:
+        namazProgress?.zuhr?.hasLearned2Sunnah &&
+        namazProgress?.zuhr?.hasLearned4Sunnah &&
+        namazProgress?.zuhr?.hasLearned4Farz &&
+        namazProgress?.zuhr?.hasLearned2Nafl &&
+        namazProgress?.score >= 60
+          ? false
+          : true,
     },
     {
       id: 5,
@@ -115,6 +135,12 @@ export default function LearnNamaz() {
         {key: 10, rakatName: 'Sunnat', rakats: '2'},
         {key: 11, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.asr?.hasLearned4Sunnah &&
+        namazProgress?.asr?.hasLearned4Farz &&
+        namazProgress.score >= 80
+          ? false
+          : true,
     },
     {
       id: 6,
@@ -129,10 +155,18 @@ export default function LearnNamaz() {
         {key: 16, rakatName: 'Witr', rakats: '3'},
         {key: 17, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.maghrib?.hasLearned2Sunnah &&
+        namazProgress?.maghrib?.hasLearned3Farz &&
+        namazProgress?.maghrib?.hasLearned2Nafl &&
+        namazProgress.score >= 110
+          ? false
+          : true,
     },
     {
       id: 7,
       name: 'EmptyRight',
+      disabled: false,
     },
   ];
 
@@ -179,14 +213,13 @@ export default function LearnNamaz() {
                 position: 'absolute',
                 alignItems: 'center',
               }}>
-              <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+              <View style={{flex: 0.5, left:5}}>
                 <Image
                   source={{
                     uri: user?.avatar,
                   }}
                   style={{
                     marginTop: '10%',
-                    marginRight: '5%',
                     marginBottom: '5%',
                     height: 80,
                     width: 80,
@@ -196,15 +229,44 @@ export default function LearnNamaz() {
                   alt="icon .."
                 />
               </View>
-              <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+              <View style={{flex: 0.9, marginLeft: '10%'}}>
                 <Heading color={colors.secondary} marginTop={'5%'}>
                   <Text style={{fontFamily: fonts.Signika.bold}}>
                     {user?.username?.toUpperCase()}{' '}
                   </Text>
                 </Heading>
                 <Heading color={colors.white}>
-                  <Text style={{fontFamily: fonts.Signika.bold}}>Level 1</Text>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>
+                    Level {namazProgress?.level}
+                  </Text>
                 </Heading>
+              </View>
+
+              <View style={{flexDirection: 'row', right:5}}>
+                <Text
+                  style={{
+                    textAlignVertical: 'center',
+                    fontFamily: fonts.Signika.bold,
+                    color: colors.white,
+                    padding: 10,
+                  }}>
+                  Progress %
+                </Text>
+                <CircularProgress
+                  value={namazProgress?.score-10}
+                  radius={40}
+                  inActiveStrokeOpacity={0.5}
+                  activeStrokeWidth={15}
+                  inActiveStrokeWidth={20}
+                  progressValueStyle={{fontWeight: '100', color: 'white'}}
+                  activeStrokeSecondaryColor={colors.secondary}
+                  inActiveStrokeColor={colors.cover}
+                  duration={1000}
+                  dashedStrokeConfig={{
+                    count: 50,
+                    width: 4,
+                  }}
+                />
               </View>
             </View>
           </View>
@@ -246,7 +308,8 @@ export default function LearnNamaz() {
                   <Pressable
                     onPress={() => {
                       detectPress(true, item.rakahs, item.name);
-                    }}>
+                    }}
+                    disabled={item.disabled}>
                     <View style={{width: ITEM_SIZE}}>
                       <Animated.View
                         style={{
@@ -258,7 +321,7 @@ export default function LearnNamaz() {
                           borderRadius: 34,
                         }}>
                         <Image
-                          source={item.poster}
+                          source={item.disabled ? level_lock_ic : item.poster}
                           style={styles.posterImage}
                         />
                         <Text
@@ -308,7 +371,6 @@ export default function LearnNamaz() {
 }
 
 const RakahList = props => {
-  
   const {rakahs, namazName} = props;
   const navigator = useNavigation();
 
