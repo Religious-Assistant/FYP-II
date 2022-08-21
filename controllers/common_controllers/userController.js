@@ -488,6 +488,7 @@ const deleteUser = async (req, res) => {
     await QuranRecitation.findOneAndDelete({ username });
     await DeviceToken.findOneAndDelete({ username });
     await MuslimPreference.findOneAndDelete({ username });
+    await LearnNamaz.findOneAndDelete({ username });
 
     // await .findOneAndDelete({ username }); Hindu Prefs
 

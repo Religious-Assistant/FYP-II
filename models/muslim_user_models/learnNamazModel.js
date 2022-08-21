@@ -11,6 +11,10 @@ const learnNamazSchema = mongoose.Schema({
     type: Number,
     default: 1,
   },
+  score:{
+    type:Number,
+    default:0,
+  },
   fajr: {
     hasLearned2Sunnah: {
       type: Boolean,

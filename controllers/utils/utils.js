@@ -51,15 +51,17 @@ const findNearByPeople = async (longitude, latitude) => {
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
-      notification: JSON.stringify({
+      data:{
+        notification: JSON.stringify({
         body: body,
         title: title,
         channelId: channelId + "",
         largeIcon: senderImage,
-      }),
-      data:{
+      })
+    },
+      // data:{
         
-      },
+      // },
   });
 
   return resp.successCount;
