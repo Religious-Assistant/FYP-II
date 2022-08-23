@@ -8,8 +8,3 @@
 //TODO: 
 
 //LEARN NAMAZ
-
-//TODO: Display progress
-//TODO: Give reward for Namaz, Display coins
-//TODO: Lock levels
-//TODO: 
