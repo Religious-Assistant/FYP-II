@@ -1,19 +1,18 @@
 const NamazAccountability = require("../../models/muslim_user_models/namazAccountabilityModel");
 
 const updateNamazAccuntability = async (req, res) => {
-  console.log(`Updated namaz Accountability API hit`, req.body);
+  console.log(`Updated namaz Accountability API hit`);
   try {
     const { namazInfo, username, date } = req.body;
-    //namazInfo should look as {fajr:false, asr:true}
+
     const updatedAccountability=await NamazAccountability.findOneAndUpdate(
       { username, date },
-      { prayers: namazInfo, date },
-      { upsert: true }
+      { ...namazInfo, date, username },
+      { upsert: true, new:true }
     ).catch((err) => {
       console.log(err);
     });
 
-    console.log(updatedAccountability)
     if(updatedAccountability){
       res.status(200).send({ success: true, msg: "Updated Successfully", data:updatedAccountability });
     }
@@ -33,46 +32,14 @@ const getNamazAccuntability = async (req, res) => {
   console.log(`GET accountability API hit`);
   try {
     const { username, date } = req.body;
-    const accountability = await NamazAccountability.find({ username, date });
+    const accountability = await NamazAccountability.findOne({ username, date });
 
-    if (accountability.length > 0) {
-
+    if (accountability) {
       res.status(200).send({ success: true, data: accountability });
     } else {
-      //Send default values
       res.status(200).send({
         success: true,
-        data: [
-          {
-            prayers: [
-              {
-                time: "Fajr",
-                id: 0,
-                hasPrayed: false,
-              },
-              {
-                time: "Zuhr",
-                id: 1,
-                hasPrayed: false,
-              },
-              {
-                time: "Asr",
-                id: 2,
-                hasPrayed: false,
-              },
-              {
-                time: "Maghrib",
-                id: 3,
-                hasPrayed: false,
-              },
-              {
-                time: "Isha",
-                id: 4,
-                hasPrayed: false,
-              },
-            ],
-          },
-        ],
+        data: [{username:username, date:date, fajr:false, zuhr:false,asr:false,maghrib:false, isha:false}],
       });
     }
   } catch (err) {

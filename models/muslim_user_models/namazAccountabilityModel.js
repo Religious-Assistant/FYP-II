@@ -14,9 +14,25 @@ const namazAccountabilitySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  prayers:{
+  fajr:{
     type:Boolean,
-    required:true
+    default:false,
+  },
+  zuhr:{
+    type:Boolean,
+    default:false,
+  },
+  asr:{
+    type:Boolean,
+    default:false,
+  },
+  maghrib:{
+    type:Boolean,
+    default:false,
+  },
+  isha:{
+    type:Boolean,
+    default:false,
   },
   date:{
     type:Date,

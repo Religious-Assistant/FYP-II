@@ -10,8 +10,11 @@ const fastAccountabilitySchema=mongoose.Schema({
         default:false,
         type:Boolean,
         required:true,
+    },
+    date:{
+        type:Date,
+        required:true
     }
-
-},{timestamps: true })
+})
  
 module.exports=mongoose.model('FastAccountability', fastAccountabilitySchema)
