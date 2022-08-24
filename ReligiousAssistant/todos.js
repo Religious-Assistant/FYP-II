@@ -7,4 +7,7 @@
 //TODO: Check network availability for all API calls
 //TODO: 
 
-//LEARN NAMAZ
+//TODO: Select primary mosque/temple in Settings
+//TODO: Complete Namaz and Fast Accountability
+//TODO: Complete Set Namaz times/alarms 
+//TODO: Complete Update Namaz times in Mosque
