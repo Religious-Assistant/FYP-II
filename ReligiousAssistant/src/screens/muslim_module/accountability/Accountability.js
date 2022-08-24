@@ -1,34 +1,25 @@
 /**
- * @author Kinza Kiran
+ * @author Kinza Kiran && Nadir
  * @version 1.0
  */
 
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import moment from 'moment';
 import {Box, Text, Heading, HStack, Center, Pressable} from 'native-base';
-import CalendarPicker from 'react-native-calendar-picker';
 
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
-import Namaz from '../../../components/Namaz';
-import Fast from '../../../components/Fast';
+import Namaz from './Namaz';
+import Fast from './Fast';
 
 export default function Accountability() {
 
-  const [state, setState] = useState({
-    selectedStartDate: Date('DD-MM-YYYY'),
-    selected: 0,
-  });
-
-  function onDateChange(date) {
-    setState({...state, selectedStartDate: date});
-  }
+  const [namazOfFast, setNamazOrFast] = useState(0);
 
   //This is used in footer, when the value 0 is used for Pryaer while 1 is used for fast
   function setSelectedFeature(selectedFeature) {
-    setState({selected: selectedFeature});
+    setNamazOrFast(selectedFeature);
   }
 
   return (
@@ -39,32 +30,14 @@ export default function Accountability() {
         </Heading>
       </View>
 
-      <View style={styles.container}>
-        <CalendarPicker
-          previousTitle="Previous"
-          nextTitle="Next"
-          previousTitleStyle={{
-            fontFamily: fonts.Signika.medium,
-          }}
-          nextTitleStyle={{
-            fontFamily: fonts.Signika.medium,
-          }}
-          dayShape="square" //circle
-          onDateChange={onDateChange}
-          selectedDayColor={colors.secondary}
-          todayBackgroundColor={colors.primary}
-          todayTextStyle={{color: 'white'}}
-        />
-      </View>
-
-      {state.selected == 0 ? (
-        <Namaz selectedDate={state.selectedStartDate} />
+      {namazOfFast == 0 ? (
+        <Namaz />
       ) : (
-        <Fast selectedDate={state.selectedStartDate} />
+        <Fast />
       )}
       <FooterOptions
         setSelectedFeature={setSelectedFeature}
-        selected={state.selected}
+        selected={namazOfFast}
       />
     </View>
   );
