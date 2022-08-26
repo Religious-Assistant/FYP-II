@@ -27,6 +27,8 @@ import {
   useDisclose,
   ScrollView,
   FlatList,
+  Select,
+  CheckIcon,
 } from 'native-base';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
@@ -58,10 +60,11 @@ import {
   selectIsUploadingProfileImage,
   updateAutoSilentSetting,
   updatePassword,
+  updatePrimaryTemple,
   updateProfileImage,
   updateVegNotifications,
 } from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
-import { getClosestTemples, getTempleById, selectClosestTemples, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
+import { getClosestTemples, getTempleById, selectClosestTemples, selectIsLoadingClosestTemple, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 export default function Settings({route, navigation}) {
 
@@ -70,7 +73,6 @@ export default function Settings({route, navigation}) {
 
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
-  const closestTemples=useSelector(selectClosestTemples)
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
 
   const hasUpdatedAutoSilentSettings = useSelector(
@@ -88,11 +90,8 @@ export default function Settings({route, navigation}) {
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [open, setOpen] = useState(false);
-  const [isPasswordModal, setIspasswordModal] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
-  const [templeData, settempleData] = useState([]);
-  const [selectedTemple, setSelectedTemple] = useState(null);
-    //avatar state
+
     const [avatar, setAvatar] = useState({
       image: `${user?.avatar}`,
       key: 1,
@@ -118,7 +117,7 @@ export default function Settings({route, navigation}) {
       });
   
       return unsubscribe;
-    }, [navigation, dispatch]);
+    }, [navigation, dispatch, isFocused]);
 
   function closeModal() {
     setOpen(false);
@@ -132,23 +131,22 @@ export default function Settings({route, navigation}) {
 
 
 
+  const temples = useSelector(selectClosestTemples);
+  const isLoadingClosestTemples = useSelector(selectIsLoadingClosestTemple);
+
+
   useEffect(() => {
-    dispatch(
-      getClosestTemples({
-        longitude: user?.location?.coordinates[0],
-        latitude: user?.location?.coordinates[1],
-      }),
-    );
+    if (user) {
+      dispatch(
+        getClosestTemples({
+          longitude: user?.location.coordinates[0],
+          latitude: user?.location.coordinates[1],
+        }),
+      );
 
-    if (closestTemples) {
-      const temples = [];
-      closestTemples.map(temple => {
-        temples.push({id: temple._id, name: temple.templeName});
-      });
-
-      settempleData(temples);
+      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
     }
-  }, [dispatch, isFocused, closestTemples?.length]);
+  }, [dispatch]);
 
 
   function updateUserPassword(newPassword) {
@@ -163,18 +161,6 @@ export default function Settings({route, navigation}) {
     }
   }
 
-  function makeTempleAsPrimary(){
-
-    if(selectedTemple){
-      dispatch(updatePrimaryTemple({username:user?.username,primaryTemple:templeById?._id}))
-      dispatch(getUpdatedUserData({username:user?.username}))
-      alert('Updated Primary Temple')
-    }
-    else{
-      alert('Please select temple')
-    }
-
-  }
 
   function updateVegNotificationsSettings(state) {
     dispatch(
@@ -196,8 +182,6 @@ export default function Settings({route, navigation}) {
       alert(`Updated Auto-Silent Settings`);
     }
   }
-
-  function updatePrimaryTemple(item) {}
 
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: HINDU_SETTINGS});
@@ -254,7 +238,7 @@ export default function Settings({route, navigation}) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
-      {isLoadingGetUserData || isUploadingProfileImage ? (
+      {isLoadingGetUserData || isUploadingProfileImage || isLoadingClosestTemples ? (
         <Loader msg="Loading ..." />
       ) : (
         <>
@@ -378,30 +362,46 @@ export default function Settings({route, navigation}) {
                       <Text fontWeight="400" style={styles.text}>
                         {templeById?.templeName}
                       </Text>
-                      <HStack
-                        flexDirection={'row'}
-                        space={4}
-                        justifyContent="space-between">
-                        <HStack></HStack>
-                        {/* Edit Primary Temple */}
-                        <TouchableHighlight
-                          activeOpacity={0.8}
-                          underlayColor={colors.cover}
-                          onPress={() =>
-                            openeModal('Change Primary Temple', false)
-                          }>
-                          <Image
-                            marginLeft="6%"
-                            source={editIcon}
-                            style={{
-                              height: 30,
-                              width: 33,
-                              tintColor: colors.secondary,
-                            }}
-                            alt="icon .."
-                          />
-                        </TouchableHighlight>
-                      </HStack>
+                      {temples ? (
+                        <Select
+                          _text={styles.text}
+                          color={colors.white}
+                          mt={'3%'}
+                          selectedValue={templeById?.templeName}
+                          accessibilityLabel="Select New Temple"
+                          placeholder="Select New Temple"
+                          w={{
+                            base: '98%',
+                          }}
+                          _selectedItem={{
+                            bg: colors.secondary,
+                            endIcon: <CheckIcon size="5" />,
+                          }}
+                          _light={{
+                            bg: colors.tertiary,
+                            _text: {color: colors.white},
+                          }}
+                          _dark={{
+                            bg: colors.white,
+                          }}
+                          onValueChange={item => {
+                            dispatch(updatePrimaryTemple({username:user?.username, primaryTemple:item}))
+                            dispatch(getUpdatedUserData({username:user?.username}))
+                          }}
+                        >
+                          {temples.map((temple, index) => {
+                            return (
+                              <Select.Item
+                                label={temple.templeName}
+                                value={temple._id}
+                                color={'white'}
+                              />
+                            );
+                          })}
+                        </Select>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Box>
                 </Box>
@@ -586,10 +586,7 @@ export default function Settings({route, navigation}) {
                 headerText={modalHeader}
                 newPassword={password}
                 updateUserPassword={updateUserPassword}
-                isPasswordModal={isPasswordModal}
-                makeTempleAsPrimary={makeTempleAsPrimary}
                 >
-                {isPasswordModal ? (
                   <FormControl>
                     <FormControl.Label
                       _text={{fontFamily: fonts.Signika.medium}}>
@@ -602,59 +599,6 @@ export default function Settings({route, navigation}) {
                       onChangeText={handlePassword}
                     />
                   </FormControl>
-                ) : (
-                  <>
-                    {
-                      templeData?.length>0?
-
-                      <SearchableDropdown
-                      maxW="90%"
-                      width="100"
-                      onTextChange={text => console.log(text)}
-                      
-                      onItemSelect={item => {
-                        console.log(item)
-                        // setSelectedTemple(item);
-                        alert(
-                          JSON.stringify(
-                            `You selected ${item?.name?.toUpperCase()}`,
-                          ),
-                        );
-                      }}
-                      containerStyle={{padding: 5}}
-                      textInputStyle={{
-                        padding: 12,
-                        borderWidth: 1,
-                        borderColor: colors.white,
-                        backgroundColor: colors.tertiary,
-                        fontFamily: fonts.Signika.medium,
-                      }}
-                      itemStyle={{
-                        padding: 10,
-                        marginTop: 2,
-                        backgroundColor: colors.cover,
-                        borderColor: '#bbb',
-                        borderWidth: 1,
-                      }}
-                      itemTextStyle={{
-                        color: colors.black,
-                        fontFamily: fonts.Signika.medium,
-                      }}
-                      itemsContainerStyle={{
-                        maxHeight: '50%',
-                      }}
-                      items={templeData}
-                      defaultIndex={0}
-                      placeholder="Select Temple"
-                      placeholderTextColor={colors.white}
-                      resetValue={false}
-                      
-                      underlineColorAndroid="transparent"
-                    />
-                      :<><Text style={{fontFamily:fonts.Signika.medium}}>No closest Temple found</Text></>
-                    }
-                  </>
-                )}
               </CommonModal>
 
               {/* Image ActionSheet */}
@@ -732,7 +676,7 @@ export default function Settings({route, navigation}) {
 }
 
 const CommonModal = props => {
-  const {open, headerText, newPassword, updateUserPassword, isPasswordModal, makeTempleAsPrimary} = props;
+  const {open, headerText, newPassword, updateUserPassword} = props;
   //console.log(headerText);
   function closeModal() {
     props.closeModal();
@@ -760,13 +704,7 @@ const CommonModal = props => {
                 color={colors.white}
                 colorScheme="yellow"
                 onPress={() => {
-
-                  if(isPasswordModal){
                     updateUserPassword(newPassword);
-                  }
-                  else{
-                    makeTempleAsPrimary()
-                  }
                 }}
                 type="submit">
                 Save

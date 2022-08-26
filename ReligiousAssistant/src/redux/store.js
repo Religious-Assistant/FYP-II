@@ -14,7 +14,8 @@ import fastAccountabilityReducer from './slices/muslim_module_slices/fastAccount
 import learnNamazReducer from './slices/muslim_module_slices/learnNamazSlice';
 import imamReducer from './slices/muslim_module_slices/imamSlice';
 import muslimNotificationReducer from './slices/muslim_module_slices/muslimNotificationSlice';
-import namazTimesReducer from './slices/muslim_module_slices/namazTimingsSlice'
+import msqueNamzTimesReducer from './slices/muslim_module_slices/mosqueNamazTimingsSlice'
+import namazAlarmTimesReducer from './slices/muslim_module_slices/namazAlarmsSlice'
 
 //Hindu user slice
 import hinduBottomNavReducer from './slices/hindu_module_slices/bottomNavSlice'
@@ -39,7 +40,8 @@ const store = configureStore({
     learnNamaz: learnNamazReducer,
     imam:imamReducer,
     muslim_notifications:muslimNotificationReducer,
-    namaztimes:namazTimesReducer,
+    mosque_namaz_times:msqueNamzTimesReducer,
+    namaz_alarms:namazAlarmTimesReducer,
 
     // Hindu user reducers
     hindu_bottom_nav:hinduBottomNavReducer,

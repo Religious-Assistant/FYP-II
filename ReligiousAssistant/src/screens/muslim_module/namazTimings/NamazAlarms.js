@@ -25,11 +25,72 @@ import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getNamazAlarmsForUser,
+  selectIsLoadingNamazAlarmTimesForUser,
+  selectIsLoadingUpdateNamazAlarmTimes,
+  selectNamazAlarmTimesForUser,
+  selectUpdatedNamazAlarmTimes,
+  updateNamazAlarmTimes,
+} from '../../../redux/slices/muslim_module_slices/namazAlarmsSlice';
+import {useEffect} from 'react';
+import Loader from '../../common/Loader';
 
 export default function NamazAlarms() {
-  
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const alarmTimes = useSelector(selectNamazAlarmTimesForUser);
+
+  const isLoadingAlarmTimes = useSelector(
+    selectIsLoadingNamazAlarmTimesForUser,
+  );
+
+  const isLoadingUpdatedAlarmTimes = useSelector(
+    selectIsLoadingUpdateNamazAlarmTimes,
+  );
+
+  const hasUpdatedAlarms = useSelector(selectUpdatedNamazAlarmTimes);
+
+  const fajrTime = useInput(new Date());
+  const duhrTime = useInput(new Date());
+  const asrTime = useInput(new Date());
+  const maghribTime = useInput(new Date());
+  const ishaTime = useInput(new Date());
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserData());
+    }
+
+    if (user) {
+      dispatch(getNamazAlarmsForUser({username: user?.username}));
+    }
+  }, [dispatch]);
+
+  function updateNamazAlarms() {
+
+    if (user) {
+      dispatch(
+        updateNamazAlarmTimes({
+          username: user?.username,
+          fajr: fajrTime.text,
+          zuhr: duhrTime.text,
+          asr: asrTime.text,
+          maghrib: maghribTime.text,
+          isha: ishaTime.text,
+        }),
+      );
+    } else {
+      alert(`Error occured. Get back Later`);
+    }
+  }
+
   function useInput() {
-    
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -58,17 +119,11 @@ export default function NamazAlarms() {
     };
   }
 
-  const fajrTime = useInput(new Date());
-  const duhrTime = useInput(new Date());
-  const asrTime = useInput(new Date());
-  const maghribTime = useInput(new Date());
-  const ishaTime = useInput(new Date());
-
   const data = [
     {
       key: 1,
       label: 'Fajr',
-      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
+      defaultTime: alarmTimes?.fajr,
       updatedTime: fajrTime.text,
       showMode: () => fajrTime.showMode('time'),
       show: fajrTime.show,
@@ -78,7 +133,7 @@ export default function NamazAlarms() {
     {
       key: 2,
       label: 'Duhr',
-      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
+      defaultTime: alarmTimes?.zuhr,
       updatedTime: duhrTime.text,
       showMode: () => duhrTime.showMode('time'),
       show: duhrTime.show,
@@ -88,7 +143,7 @@ export default function NamazAlarms() {
     {
       key: 3,
       label: 'Asr',
-      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
+      defaultTime: alarmTimes?.asr,
       updatedTime: asrTime.text,
       showMode: () => asrTime.showMode('time'),
       show: asrTime.show,
@@ -98,7 +153,7 @@ export default function NamazAlarms() {
     {
       key: 4,
       label: 'Maghrib',
-      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
+      defaultTime: alarmTimes?.maghrib,
       updatedTime: maghribTime.text,
       showMode: () => maghribTime.showMode('time'),
       show: maghribTime.show,
@@ -108,7 +163,7 @@ export default function NamazAlarms() {
     {
       key: 5,
       label: 'Isha',
-      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
+      defaultTime: alarmTimes?.isha,
       updatedTime: ishaTime.text,
       showMode: () => ishaTime.showMode('time'),
       show: ishaTime.show,
@@ -116,119 +171,122 @@ export default function NamazAlarms() {
       onChange: ishaTime.onChange,
     },
   ];
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        flex={1}
-        backgroundColor={colors.white}>
-        <View style={{flex: 1, backgroundColor: colors.white}}>
-          {/* Header */}
-          <View
-            style={{
-              flex: 0.17,
-              backgroundColor: colors.primary,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              position: 'absolute',
-              alignItems: 'center',
-            }}>
-            <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-              <Image
-                source={clockIcon}
-                style={{
-                  marginTop: '10%',
-                  marginRight: '5%',
-                  marginBottom: '5%',
-                  height: 80,
-                  width: 80,
-                }}
-                alt="icon .."
-              />
-            </View>
-            <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-              <Heading
-                color={colors.secondary}
-                marginLeft="10%"
-                marginTop={'5%'}>
-                <Text style={{fontFamily: fonts.Signika.bold}}>
-                  Set Prayer{' '}
-                </Text>
-                <Heading color={colors.white}>
-                  <Text style={{fontFamily: fonts.Signika.bold}}>
-                    {'\n'}Times
-                  </Text>
-                </Heading>
-              </Heading>
-            </View>
-          </View>
-          <View style={{flex: 0.83}} width="95%" alignItems="center">
-            <Center
-              width="95%"
-              space={2}
-              maxW="95%"
-              marginTop={'26%'}
-              marginLeft={'5%'}
-              marginBottom={'5%'}>
-              <VStack space={3} w="100%" marginTop={'10%'}>
-                <Text style={styles.boldHeading}>
-                  You can set Prayer Times to get Namaz Notifications
-                </Text>
-                {data ? (
-                  data.map(itm => {
-                    return (
-                      <Card
-                        key={itm.key}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '3%',
-                          backgroundColor: colors.cover,
-                          elevation: 0.0,
-                        }}>
-                        <Text style={styles.label}>{itm.label}</Text>
-                        <Text style={styles.secondHeading}>
-                          {itm.updatedTime ? itm.updatedTime : itm.defaultTime}
-                        </Text>
-                        <MaterialCommunityIcons
-                          name="clock-edit"
-                          size={36}
-                          color={colors.primary}
-                          onPress={itm.showMode}
-                          style={{alignSelf: 'center'}}
-                        />
-                        {itm.show && (
-                          <DateTimePicker
-                            value={new Date()}
-                            mode={itm.mode}
-                            is24Hour={false}
-                            display="default"
-                            onChange={itm.onChange}
-                          />
-                        )}
-                      </Card>
-                    );
-                  })
-                ) : (
-                  <></>
-                )}
-
-                <CustomButton
-                  title={'Update Namaz Times'}
-                  mt="5%"
-                  onPress={() => {
-                    console.log('Fajr: ', fajrTime.text);
-                    console.log('Duhr: ', duhrTime.text);
-                    console.log('Asr: ', asrTime.text);
-                    console.log('Maghrib: ', maghribTime.text);
-                    console.log('Isha: ', ishaTime.text);
+      {isLoadingAlarmTimes || isLoadingUpdatedAlarmTimes ? (
+        <Loader msg="Loading/Updating ..." />
+      ) : (
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          flex={1}
+          backgroundColor={colors.white}>
+          <View style={{flex: 1, backgroundColor: colors.white}}>
+            {/* Header */}
+            <View
+              style={{
+                flex: 0.17,
+                backgroundColor: colors.primary,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                position: 'absolute',
+                alignItems: 'center',
+              }}>
+              <View style={{flex: 0.5, alignItems: 'flex-end'}}>
+                <Image
+                  source={clockIcon}
+                  style={{
+                    marginTop: '10%',
+                    marginRight: '5%',
+                    marginBottom: '5%',
+                    height: 80,
+                    width: 80,
                   }}
+                  alt="icon .."
                 />
-              </VStack>
-            </Center>
+              </View>
+              <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
+                <Heading
+                  color={colors.secondary}
+                  marginLeft="10%"
+                  marginTop={'5%'}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>
+                    Set Prayer{' '}
+                  </Text>
+                  <Heading color={colors.white}>
+                    <Text style={{fontFamily: fonts.Signika.bold}}>
+                      {'\n'}Times
+                    </Text>
+                  </Heading>
+                </Heading>
+              </View>
+            </View>
+            <View style={{flex: 0.83}} width="95%" alignItems="center">
+              <Center
+                width="95%"
+                space={2}
+                maxW="95%"
+                marginTop={'26%'}
+                marginLeft={'5%'}
+                marginBottom={'5%'}>
+                <VStack space={3} w="100%" marginTop={'10%'}>
+                  <Text style={styles.boldHeading}>
+                    You can set Prayer Times to get Namaz Notifications
+                  </Text>
+                  {data ? (
+                    data.map(itm => {
+                      return (
+                        <Card
+                          key={itm.key}
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: '3%',
+                            backgroundColor: colors.cover,
+                            elevation: 0.0,
+                          }}>
+                          <Text style={styles.label}>{itm.label}</Text>
+                          <Text style={styles.secondHeading}>
+                            {itm.updatedTime
+                              ? itm.updatedTime
+                              : itm.defaultTime}
+                          </Text>
+                          <MaterialCommunityIcons
+                            name="clock-edit"
+                            size={36}
+                            color={colors.primary}
+                            onPress={itm.showMode}
+                            style={{alignSelf: 'center'}}
+                          />
+                          {itm.show && (
+                            <DateTimePicker
+                              value={new Date()}
+                              mode={itm.mode}
+                              is24Hour={false}
+                              display="default"
+                              onChange={itm.onChange}
+                            />
+                          )}
+                        </Card>
+                      );
+                    })
+                  ) : (
+                    <></>
+                  )}
+
+                  <CustomButton
+                    title={'Update Namaz Times'}
+                    mt="5%"
+                    onPress={() => {
+                      updateNamazAlarms();
+                    }}
+                  />
+                </VStack>
+              </Center>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </TouchableWithoutFeedback>
   );
 }

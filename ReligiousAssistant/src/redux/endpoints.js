@@ -78,8 +78,13 @@ const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
 
 //Namaz timing
+const update_namaz_alarm_times='update-namaz-alarm-times'
+const get_namaz_alarms_for_user='get-namaz-alarms-for-user'
+
+//Namaz Alarms
 const update_namaz_times='update-namaz-times'
 const get_times_for_user='get-times-for-user'
+
 
 //QuranInfo
 const get_parahs='get-parahs'
@@ -234,6 +239,9 @@ export {
     get_user_notifications,
     delete_muslim_notification,
     get_times_for_user,
-    get_particular_rakat_info
+    get_particular_rakat_info,
+
+    update_namaz_alarm_times,
+    get_namaz_alarms_for_user
 }
 //#endregion

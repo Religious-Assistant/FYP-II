@@ -52,7 +52,7 @@ import {
 import {GOOGLE_MAP, MUSLIM_SETTINGS} from '../../../navigation/constants';
 import Loader from '../../common/Loader';
 
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   selectHasUpdatedAutosilentSetting,
   selectHasUpdatedNamazAccountabilityNotificationSettings,
@@ -76,22 +76,21 @@ import {
 
 export default function Settings({route, navigation}) {
   const navigator = useNavigation();
-
+  const isFocused = useIsFocused();
+  
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
 
   const [open, setOpen] = useState(false);
-  const [isPasswordModal, setIspasswordModal] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
 
   function closeModal() {
     setOpen(false);
   }
 
-  function openeModal(header, passwordModalFlag) {
+  function openeModal(header) {
     setOpen(true);
     setModalHeader(header);
-    setIspasswordModal(passwordModalFlag);
   }
 
   const dispatch = useDispatch();
@@ -109,10 +108,7 @@ export default function Settings({route, navigation}) {
   );
 
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
-
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
-
-  //when tab is focused in MuslimBottomTab.js, this will be called
 
   useEffect(() => {
     dispatch(getUserData());
@@ -125,7 +121,7 @@ export default function Settings({route, navigation}) {
     });
 
     return unsubscribe;
-  }, [navigation, dispatch]);
+  }, [navigation, dispatch, isFocused]);
 
   //avatar state
   const [avatar, setAvatar] = useState({
@@ -334,7 +330,7 @@ export default function Settings({route, navigation}) {
                         <TouchableHighlight
                           activeOpacity={0.8}
                           underlayColor={colors.cover}
-                          onPress={() => openeModal('Change Password', true)}>
+                          onPress={() => openeModal('Change Password')}>
                           <Image
                             marginLeft="6%"
                             source={editIcon}
