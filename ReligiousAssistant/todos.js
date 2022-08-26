@@ -11,3 +11,4 @@
 //TODO: Complete Namaz and Fast Accountability
 //TODO: Complete Set Namaz times/alarms 
 //TODO: Complete Update Namaz times in Mosque
+//TODO: In Settings->Location display name rather than Longitude and Latitude

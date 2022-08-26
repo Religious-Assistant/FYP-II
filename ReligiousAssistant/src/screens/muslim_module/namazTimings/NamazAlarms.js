@@ -24,13 +24,17 @@ import {useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import moment from 'moment';
 
-export default function SetPrayerTimes() {
+export default function NamazAlarms() {
+  
   function useInput() {
+    
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
+
     const onChange = (event, selectedDate) => {
       const currDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
@@ -64,7 +68,7 @@ export default function SetPrayerTimes() {
     {
       key: 1,
       label: 'Fajr',
-      defaultTime: '4:30:00 am',
+      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
       updatedTime: fajrTime.text,
       showMode: () => fajrTime.showMode('time'),
       show: fajrTime.show,
@@ -74,7 +78,7 @@ export default function SetPrayerTimes() {
     {
       key: 2,
       label: 'Duhr',
-      defaultTime: '1:30:00 pm',
+      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
       updatedTime: duhrTime.text,
       showMode: () => duhrTime.showMode('time'),
       show: duhrTime.show,
@@ -84,7 +88,7 @@ export default function SetPrayerTimes() {
     {
       key: 3,
       label: 'Asr',
-      defaultTime: '5:00:00 pm',
+      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
       updatedTime: asrTime.text,
       showMode: () => asrTime.showMode('time'),
       show: asrTime.show,
@@ -94,7 +98,7 @@ export default function SetPrayerTimes() {
     {
       key: 4,
       label: 'Maghrib',
-      defaultTime: '7:00:00 pm',
+      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
       updatedTime: maghribTime.text,
       showMode: () => maghribTime.showMode('time'),
       show: maghribTime.show,
@@ -104,7 +108,7 @@ export default function SetPrayerTimes() {
     {
       key: 5,
       label: 'Isha',
-      defaultTime: '8:30:00 pm',
+      defaultTime: moment(Date.now()).format("hh:mm:ss a"),
       updatedTime: ishaTime.text,
       showMode: () => ishaTime.showMode('time'),
       show: ishaTime.show,

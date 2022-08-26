@@ -69,7 +69,7 @@
  import ImamConsensusNoti from '../screens/muslim_module/alertsAndNotifications/ImamConsensusNoti';
  import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/NewMosqueAddedNoti';
  import UserManual from '../screens/common/UserManual';
-import SetPrayerTimes from '../screens/muslim_module/namazTimings/SetPrayerTimes';
+import NamazAlarms from '../screens/muslim_module/namazTimings/NamazAlarms';
 import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
  
  const HomeStack = createNativeStackNavigator();
@@ -170,7 +170,7 @@ import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
 
       <HomeStack.Screen
          name={SET_PRAYER_TIMES}
-         component={SetPrayerTimes}
+         component={NamazAlarms}
          options={{title: 'Set Namaz Times'}}
        />
 

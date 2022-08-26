@@ -27,6 +27,8 @@ import {
   useDisclose,
   ScrollView,
   FlatList,
+  Select,
+  CheckIcon,
 } from 'native-base';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
@@ -62,8 +64,15 @@ import {
   updateNamazNotificationSettings,
   updateProfileImage,
   updatePassword,
+  updatePrimaryMosque,
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  getClosestMosques,
+  getMosqueById,
+  selectClosestMosques,
+  selectIsLoadingClosestMosques,
+  selectMosqueById,
+} from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 
 export default function Settings({route, navigation}) {
   const navigator = useNavigation();
@@ -211,17 +220,32 @@ export default function Settings({route, navigation}) {
     }
   }
 
-  function updatePrimaryMosqueSetting(item) {
-    
-  }
+  function updatePrimaryMosqueSetting(item) {}
 
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: MUSLIM_SETTINGS});
   }
-  //Rough Data
-  const [serverData, setServerData] = React.useState([]);
 
+  //Rough Data
+  const mosques = useSelector(selectClosestMosques);
+  const isLoadingClosestMosques = useSelector(selectIsLoadingClosestMosques);
+  const mosqueById=useSelector(selectMosqueById)
+  
   const [password, setPassword] = useState();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(
+        getClosestMosques({
+          longitude: user?.location.coordinates[0],
+          latitude: user?.location.coordinates[1],
+        }),
+      );
+
+      dispatch(getMosqueById({mosqueId:user?.preferences?.primaryMosque}))
+    }
+  }, [dispatch]);
+
   const handlePassword = text => {
     setPassword(text);
   };
@@ -231,7 +255,9 @@ export default function Settings({route, navigation}) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
-      {isLoadingGetUserData || isUploadingProfileImage ? (
+      {isLoadingGetUserData ||
+      isUploadingProfileImage ||
+      isLoadingClosestMosques ? (
         <Loader msg="Loading ..." />
       ) : (
         <>
@@ -351,32 +377,48 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {user?.preferences?.primaryMosque}
+                        {mosqueById?.mosqueName}
                       </Text>
-                      <HStack
-                        flexDirection={'row'}
-                        space={4}
-                        justifyContent="space-between">
-                        <HStack></HStack>
-                        {/* Edit Primary Mosque */}
-                        <TouchableHighlight
-                          activeOpacity={0.8}
-                          underlayColor={colors.cover}
-                          onPress={() =>
-                            openeModal('Change Primary Mosque', false)
-                          }>
-                          <Image
-                            marginLeft="6%"
-                            source={editIcon}
-                            style={{
-                              height: 30,
-                              width: 33,
-                              tintColor: colors.secondary,
-                            }}
-                            alt="icon .."
-                          />
-                        </TouchableHighlight>
-                      </HStack>
+                      {mosques ? (
+                        <Select
+                          _text={styles.text}
+                          color={colors.white}
+                          mt={'3%'}
+                          selectedValue={mosqueById?.mosqueName}
+                          accessibilityLabel="Select New Mosque"
+                          placeholder="Select New Mosque"
+                          w={{
+                            base: '98%',
+                          }}
+                          _selectedItem={{
+                            bg: colors.secondary,
+                            endIcon: <CheckIcon size="5" />,
+                          }}
+                          _light={{
+                            bg: colors.tertiary,
+                            _text: {color: colors.white},
+                          }}
+                          _dark={{
+                            bg: colors.white,
+                          }}
+                          onValueChange={item => {
+                            dispatch(updatePrimaryMosque({username:user?.username, primaryMosque:item}))
+                            dispatch(getUpdatedUserData({username:user?.username}))
+                          }}
+                        >
+                          {mosques.map((mosque, index) => {
+                            return (
+                              <Select.Item
+                                label={mosque.mosqueName}
+                                value={mosque._id}
+                                color={'white'}
+                              />
+                            );
+                          })}
+                        </Select>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Box>
                 </Box>
@@ -615,50 +657,17 @@ export default function Settings({route, navigation}) {
                 headerText={modalHeader}
                 newPassword={password}
                 updateUserPassword={updateUserPassword}>
-                {isPasswordModal ? (
-                  <FormControl>
-                    <FormControl.Label
-                      _text={{fontFamily: fonts.Signika.medium}}>
-                      New Password
-                    </FormControl.Label>
-                    <Input
-                      type="password"
-                      name="password"
-                      value={password}
-                      onChangeText={handlePassword}
-                    />
-                  </FormControl>
-                ) : (
-                  <SearchableDropdown
-                    onTextChange={text => console.log(text)}
-                    onItemSelect={item => {
-                      console.log('Item');
-                      // updatePrimaryMosqueSetting(item)
-                    }}
-                    setSort
-                    containerStyle={{padding: 5}}
-                    textInputStyle={{
-                      padding: 5,
-                      borderWidth: 1,
-                      fontFamily: fonts.Signika.medium,
-                    }}
-                    itemStyle={{
-                      padding: 10,
-                      marginTop: 2,
-                      backgroundColor: colors.cover,
-                      borderColor: '#bbb',
-                    }}
-                    itemTextStyle={{
-                      color: colors.black,
-                      fontFamily: fonts.Signika.medium,
-                    }}
-                    itemsContainerStyle={{
-                      maxHeight: '100%',
-                    }}
-                    items={serverData}
-                    placeholder="Select Mosque"
+                <FormControl>
+                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
+                    New Password
+                  </FormControl.Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChangeText={handlePassword}
                   />
-                )}
+                </FormControl>
               </CommonModal>
 
               {/* Image ActionSheet */}
@@ -737,7 +746,7 @@ export default function Settings({route, navigation}) {
 
 const CommonModal = props => {
   const {open, headerText, newPassword, updateUserPassword} = props;
-  //console.log(headerText);
+
   function closeModal() {
     props.closeModal();
   }
@@ -759,27 +768,17 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-            {headerText == 'Change Password' ? (
-              <Button
-                _text={{fontFamily: fonts.Signika.regular}}
-                color={colors.white}
-                colorScheme="yellow"
-                onPress={() => {
-                  updateUserPassword(newPassword);
-                }}
-                type="submit">
-                Save
-              </Button>
-            ) : (
-              <Button
-                _text={{fontFamily: fonts.Signika.regular}}
-                color={colors.white}
-                colorScheme="yellow"
-                onPress={closeModal}
-                type="submit">
-                Save
-              </Button>
-            )}
+
+            <Button
+              _text={{fontFamily: fonts.Signika.regular}}
+              color={colors.white}
+              colorScheme="yellow"
+              onPress={() => {
+                updateUserPassword(newPassword);
+              }}
+              type="submit">
+              Save
+            </Button>
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>
@@ -839,10 +838,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
     fontSize: 30,
     marginTop: '5%',
-    justifyContent:'center',
+    justifyContent: 'center',
     padding: 8,
     color: colors.primary,
-    alignSelf:'center',
-    
+    alignSelf: 'center',
   },
 });

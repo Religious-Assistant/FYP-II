@@ -15,7 +15,7 @@ import fonts from '../../../theme/fonts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
-export default function NamazTimings({navigation}) {
+export default function NamazTimeByMoque({navigation}) {
 
   const dispatch=useDispatch()
   //when tab is focused in MuslimBottomTab.js, this will be called 
