@@ -1,8 +1,8 @@
-const NamazTimings = require("../../models/muslim_user_models/namazTimingsModel");
+const MosqueNamazTimes = require("../../models/muslim_user_models/mosqueNamazTimesModel");
 
 const updateNamazTimes = async (req, res) => {
   
-    console.log('Update Namaz times API hit')
+    console.log('Update Namaz times API hit', req.body)
     try {
 
     res.status(200).send({ success: true, msg: ``, data: [] });

@@ -1,11 +1,12 @@
 const Mosque = require("../../models/muslim_user_models/mosqueModel");
-const NamazTiming = require("../../models/muslim_user_models/namazTimingsModel");
+const MosqueNamazTimes = require("../../models/muslim_user_models/mosqueNamazTimesModel");
 const User = require("../../models/common_models/userModel");
+
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 require("dotenv").config();
-const moment=require('moment')
+const moment = require("moment");
 
 const {
   findNearByPeople,
@@ -231,30 +232,48 @@ const castUpvote = async (req, res) => {
         );
 
         if (verifiedMosque) {
-
-          //TODO: Set Default prayer times
-
-          const date=new Date().toLocaleDateString().replaceAll('/','-')
-          let namazTimes=await fetch(
+          const date = new Date().toLocaleDateString().replaceAll("/", "-");
+          let namazTimes = await fetch(
             `https://api.aladhan.com/v1/timings/${date}?latitude=${mosqueToBeAdded.location.coordinates[1]}&longitude=${mosqueToBeAdded.location.coordinates[0]}&method=2`
-          )
-          namazTimes=await namazTimes.json()
-          let timings=namazTimes.data.timings
+          );
 
-          const updateNamazTimes=await NamazTiming.create({
-            mosqueId:mosqueId,
-            updatedBy:'default',
-            fajr:[timings.Fajr,moment(timings.Fajr,'HH:mm').add(30,'minutes').format('HH:mm')],
-            zuhr:[timings.Dhuhr,moment(timings.Dhuhr,'HH:mm').add(60,'minutes').format('HH:mm')],
-            asr:[timings.Asr,moment(timings.Asr,'HH:mm').add(40,'minutes').format('HH:mm')],
-            maghrib:[timings.Maghrib,moment(timings.Maghrib,'HH:mm').add(30,'minutes').format('HH:mm')],
-            isha:[timings.Isha,moment(timings.Isha,'HH:mm').add(60,'minutes').format('HH:mm')],
+          namazTimes = await namazTimes.json();
+          let timings = namazTimes.data.timings;
 
-          })
-
-          console.log(updateNamazTimes)
-
-
+          const updateNamazTimes = await MosqueNamazTimes.create({
+            mosqueId: mosqueId,
+            updatedBy: "default",
+            fajr: {
+              startTime: timings.Fajr,
+              endTime: moment(timings.Fajr, "HH:mm")
+                .add(30, "minutes")
+                .format("HH:mm"),
+            },
+            zuhr: {
+              startTime: timings.Dhuhr,
+              endTime: moment(timings.Dhuhr, "HH:mm")
+                .add(60, "minutes")
+                .format("HH:mm"),
+            },
+            asr: {
+              startTime: timings.Asr,
+              endTime: moment(timings.Asr, "HH:mm")
+                .add(40, "minutes")
+                .format("HH:mm"),
+            },
+            maghrib: {
+              startTime: timings.Maghrib,
+              endTime: moment(timings.Maghrib, "HH:mm")
+                .add(30, "minutes")
+                .format("HH:mm"),
+            },
+            isha: {
+              startTime: timings.Isha,
+              endTime: moment(timings.Isha, "HH:mm")
+                .add(60, "minutes")
+                .format("HH:mm"),
+            },
+          });
 
           //Sign a notification for users
           const title = `New Mosque Added`.toUpperCase();

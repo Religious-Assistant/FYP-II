@@ -11,6 +11,8 @@ const MuslimPreference = require("../../models/muslim_user_models/muslimUserPref
 const QuranRecitation = require("../../models/muslim_user_models/reciteQuranModel");
 const LearnNamaz = require("../../models/muslim_user_models/learnNamazModel");
 const QuranInfo = require("../../models/muslim_user_models/quranInfo");
+const NamazAlarms = require("../../models/muslim_user_models/namazAlarmsModel");
+
 const Imam = require("../../models/muslim_user_models/imamModel");
 const HinduPreference = require("../../models/hindu_user_models/hinduUserPreferencesModel");
 const GitaRecitation = require("../../models/hindu_user_models/reciteGitaModel");
@@ -58,6 +60,7 @@ const registerUser = async (req, res) => {
         if (user_data.religion == 1) {
           await Tasbih.create({ username: username, count: 0 });
           await MuslimPreference.create({ username: username });
+          await NamazAlarms.create({username:username})
 
           //Create Recitation record for Muslim User
           const quranRecitation = new QuranRecitation({
@@ -145,11 +148,13 @@ const loginUser = async (req, res) => {
         const token = await createToken(user_data.username);
 
         let userPreferences;
+        let alarms;
         let imam = null;
         if (user_data.religion == 1) {
           userPreferences = await MuslimPreference.findOne({
             username: username,
           });
+          alarms=await NamazAlarms.findOne({username})
 
           imam = await Imam.findOne({ username: username });
         } else {
@@ -162,6 +167,7 @@ const loginUser = async (req, res) => {
           ...user_data._doc,
           token: token,
           preferences: userPreferences,
+          alarms:alarms,
           isImam: imam ? true : false,
         };
 

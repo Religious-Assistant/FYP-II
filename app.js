@@ -63,6 +63,7 @@ const hindu_announdement_route=require('./routes/hindu_user_routes/hinduAnnounce
 const hindu_notification_route=require('./routes/hindu_user_routes/hinduNotificationRoute')
 const recite_gita_route = require('./routes/hindu_user_routes/reciteGitaRoute')
 const veg_non_veg_route = require('./routes/hindu_user_routes/vegNonVegRoute')
+const namaz_alarms_route = require('./routes/muslim_user_routes/namazAlarmsRoute')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -80,6 +81,7 @@ app.use('/api', muslim_pref_route)
 app.use('/api', quranInfo_route)
 app.use('/api', muslim_notification_route)
 app.use('/api', namaz_timings_route)
+app.use('/api', namaz_alarms_route)
 
 //Hindu endpoints
 app.use('/api', temple_routes)

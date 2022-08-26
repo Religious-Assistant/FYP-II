@@ -1,26 +1,28 @@
 const User = require("../../models/common_models/userModel");
 const MuslimPreferences = require("../../models/muslim_user_models/muslimUserPreferencesModel");
-const NamazTimings = require("../../models/muslim_user_models/namazTimingsModel");
+const NamazAlarmTimes = require("../../models/muslim_user_models/namazAlarmsModel");
 
 const updatePrimaryMosque = async (req, res) => {
-  console.log("Update primary mosque API hit");
+  console.log("Update primary mosque API hit", req.body);
   try {
     const { username, primaryMosque } = req.body;
 
-    const mosqueNamazTimes = await NamazTimings.findOne({
-      mosqueId: primaryMosque,
-    });
-    let times = [
-      mosqueNamazTimes.fajr,
-      mosqueNamazTimes.zuhr,
-      mosqueNamazTimes.asr,
-      mosqueNamazTimes.maghrib,
-      mosqueNamazTimes.isha,
-    ];
+    //TODO: Update User times while updating primary mosque
+
+    // const mosqueNamazTimes = await NamazTimings.findOne({
+    //   mosqueId: primaryMosque,
+    // });
+    // let times = [
+    //   mosqueNamazTimes.fajr,
+    //   mosqueNamazTimes.zuhr,
+    //   mosqueNamazTimes.asr,
+    //   mosqueNamazTimes.maghrib,
+    //   mosqueNamazTimes.isha,
+    // ];
 
     const updateMosque = await MuslimPreferences.findOneAndUpdate(
       { username },
-      { $set: { primaryMosque: primaryMosque,namazTimes:times } },
+      { $set: { primaryMosque: primaryMosque,/*namazTimes:times*/ } },
       { new: true }
     );
 

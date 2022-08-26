@@ -52,6 +52,7 @@ const becomeImam = async (req, res) => {
 
       //TODO: Should return only Muslim users
       const recepients = await getNotificationReceivers(peopleAround, 1);
+      console.log(recepients)
       saveNotificationForMuslimUser(
         recepients,
         title,
