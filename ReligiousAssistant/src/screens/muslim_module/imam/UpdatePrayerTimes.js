@@ -29,7 +29,7 @@ import {
   getNamazTimesForUser,
   selectIsLoadingNamazTimesForUser,
   selectNamazTimesForUser,
-} from '../../../redux/slices/muslim_module_slices/namazTimingsSlice';
+} from '../../../redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function UpdatePrayerTimes() {

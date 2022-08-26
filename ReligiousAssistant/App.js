@@ -11,12 +11,14 @@ import {NativeBaseProvider} from 'native-base';
 import useColorScheme from 'react-native/Libraries/Utilities/useColorScheme';
 import RootNavigator from './src/navigation/RootNavigator';
 import store from './src/redux/store';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
 
 //Notifee
 import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
-import PushNoti from './src/screens/muslim_module/preferences/PushNoti';
+import {
+  getUserData,
+} from './src/redux/slices/auth_slices/authSlice';
 
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
@@ -60,6 +62,15 @@ messaging().onMessage(onMessageReceived);
 messaging().setBackgroundMessageHandler(onMessageReceived);
 
 const EntryPoint = () => {
+  //Namaz Notifications + Alarm if User is Muslim
+
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(getUserData());
+  }, [dispatch]);
+
   useEffect(() => {
     //Disable warnings
     // console.disableYellowBox = true;
@@ -88,6 +99,7 @@ const EntryPoint = () => {
       }
     });
   }, []);
+
   return <RootNavigator />;
 };
 
@@ -95,6 +107,7 @@ const preloadedState = window.__PRELOADED_STATE__;
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+
   return (
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>

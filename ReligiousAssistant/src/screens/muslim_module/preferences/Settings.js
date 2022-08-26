@@ -30,7 +30,6 @@ import {
   Select,
   CheckIcon,
 } from 'native-base';
-import SearchableDropdown from 'react-native-searchable-dropdown';
 
 //theme
 import colors from '../../../theme/colors';
@@ -39,6 +38,7 @@ import editIcon from '../../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../../assets/images/gallery_ic.png';
 import edit from '../../../../assets/images/edit.png';
+
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
@@ -73,6 +73,7 @@ import {
   selectIsLoadingClosestMosques,
   selectMosqueById,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import { setHours } from '../../../utils/helpers';
 
 export default function Settings({route, navigation}) {
   const navigator = useNavigation();
@@ -216,18 +217,15 @@ export default function Settings({route, navigation}) {
     }
   }
 
-  function updatePrimaryMosqueSetting(item) {}
-
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: MUSLIM_SETTINGS});
   }
 
-  //Rough Data
+  //Primary Mosque
   const mosques = useSelector(selectClosestMosques);
   const isLoadingClosestMosques = useSelector(selectIsLoadingClosestMosques);
   const mosqueById=useSelector(selectMosqueById)
-  
-  const [password, setPassword] = useState();
+
 
   useEffect(() => {
     if (user) {
@@ -242,6 +240,8 @@ export default function Settings({route, navigation}) {
     }
   }, [dispatch]);
 
+
+  const [password, setPassword] = useState();
   const handlePassword = text => {
     setPassword(text);
   };

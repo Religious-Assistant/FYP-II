@@ -8,6 +8,9 @@ import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
+import PushNotification from 'react-native-push-notification';
+import appIcon from '../../../assets/images/Logo-muslim.png';
+
 import bg_gif from '../../../assets/images/splash.gif';
 import {
   LOGIN,
@@ -20,10 +23,12 @@ import {
   logout,
   selectReligion,
   selectToken,
+  selectUserData,
 } from '../../redux/slices/auth_slices/authSlice';
 
 //Logout user if token is expired in AsyncStorage
 import jwtDecode from 'jwt-decode';
+import {setHours} from '../../utils/helpers';
 
 function SplashScreeen() {
   const navigator = useNavigation();
@@ -31,13 +36,11 @@ function SplashScreeen() {
 
   const token = useSelector(selectToken);
   const religion = useSelector(selectReligion);
-
-  console.log(`User Token: ${token}  \nUser Religion: ${religion}`);
+  const user = useSelector(selectUserData);
 
   useEffect(() => {
     dispatch(getToken());
     dispatch(getReligion());
-    // dispatch(getUserData())
 
     setTimeout(() => {
       if (religion == 1 && token) {
@@ -61,6 +64,61 @@ function SplashScreeen() {
       }
     }, 2000);
   }, [token, religion]);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user?.alarms);
+      if (user?.religion == 1) {
+        createChannels().then(() => {
+          if (user?.preferences?.namazNotifications) {
+            createNotification(user?.alarms?.fajr);
+            createNotification(user?.alarms?.zuhr);
+            createNotification(user?.alarms?.asr);
+            createNotification(user?.alarms?.maghrib);
+            createNotification(user?.alarms?.isha);
+          }
+        });
+      } else {
+        //Hindus Alarms here
+      }
+    }
+  }, [dispatch]);
+
+  const createChannels = async () => {
+    await PushNotification.createChannel(
+      {
+        channelId: 'namaz_notification',
+        channelName: 'My channel',
+        channelDescription: 'A channel to categorise your notifications',
+        soundName: 'azan2.mp3',
+        importance: 4,
+        vibrate: true,
+      },
+      created => console.log(`createChannel returned '${created}'`),
+    );
+  };
+
+  const createNotification = time => {
+    if (time.toUpperCase() == 'NONE') {
+      return;
+    }
+    var alarm = new Date();
+    //   setHours(alarm,`${user?.alarms.fajr}`) ////1:31:03 am   //imported from helpers.js
+    setHours(alarm, time);
+
+    PushNotification.localNotificationSchedule({
+      channelId: 'namaz_notification',
+      title: 'Namaz Notification',
+      message: 'Alarm 1',
+      soundName: 'azan2.mp3',
+      importance: 4,
+      vibrate: true,
+      smallIcon: appIcon,
+      date: alarm,
+      allowWhileIdle: true,
+      repeatType: 'day',
+    });
+  };
 
   return (
     <ImageBackground
