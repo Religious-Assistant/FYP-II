@@ -121,11 +121,11 @@ export default function NamazAlarms() {
           if (user?.preferences?.namazNotifications) {
             getAlarmTimes().then(alarms=>{
               console.log(alarms);
-            createNotification(alarms?.fajr);
-            createNotification(alarms?.zuhr);
-            createNotification(alarms?.asr);
-            createNotification(alarms?.maghrib);
-            createNotification(alarms?.isha);
+            alarms?.fajr!=='NONE'?createNotification(alarms?.fajr):"";
+            alarms?.zuhr!=='NONE'?createNotification(alarms?.zuhr):"";
+            alarms?.asr!=='NONE'?createNotification(alarms?.asr):"";
+            alarms?.maghrib!=='NONE'?createNotification(alarms?.maghrib):"";
+            alarms?.isha!=='NONE'?createNotification(alarms?.isha):"";
 
             PushNotification.getScheduledLocalNotifications(scheduled => {
               console.log(scheduled.length);
