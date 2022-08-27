@@ -20,8 +20,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
+import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
 
-Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
+Geocoder.init(GOOGLE_MAPS_APIKEY);
 export default function Profile() {
   const [location, setLocation] = useState(null);
   const user = useSelector(selectUserData);

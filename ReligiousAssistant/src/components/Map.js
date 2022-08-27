@@ -23,6 +23,7 @@ import {
   selectUserData,
 } from '../redux/slices/auth_slices/authSlice';
 import {updateLocation} from '../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+import { GOOGLE_MAPS_APIKEY } from './componentsConstants';
 
 const Map = ({route, navigation}) => {
   const {screen} = route.params;
@@ -32,7 +33,7 @@ const Map = ({route, navigation}) => {
   const dispatch = useDispatch();
 
   const navigator = useNavigation();
-  Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
+  Geocoder.init(GOOGLE_MAPS_APIKEY);
 
   const user = useSelector(selectUserData);
 

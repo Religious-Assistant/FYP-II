@@ -31,8 +31,11 @@
 
         </activity>
         <!-- You will only need to add this meta-data tag, but make sure it's a child of application -->
+        
         <meta-data
-        android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE"/>
+        android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCBmqrdG4QQUNNSOIPtxt2CD7rBmj_wPTI"/>
+        <!-- <meta-data
+        android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE"/> -->
         <!-- Change the value to true to enable pop-up for in foreground on receiving remote notifications (for prevent duplicating while showing local notifications set this to false) -->
         <meta-data
         android:name="com.dieam.reactnativepushnotification.notification_foreground" android:value="false"/>
