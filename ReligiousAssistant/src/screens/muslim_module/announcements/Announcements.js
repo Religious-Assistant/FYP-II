@@ -50,6 +50,7 @@ import Empty from '../../common/Empty';
 import { dateDifference } from '../../../utils/helpers';
 import { checkConnected } from '../../common/CheckConnection';
 import NoConnectionScreen from '../../common/NoConnectionScreen';  
+import { useIsFocused } from '@react-navigation/native'
   
 
 //Screen dimensions
@@ -64,6 +65,7 @@ export default function Announcements() {
   const isLoadingAnnouncements = useSelector(selectIsLoadingAnnouncements);
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     checkConnected().then(res => {
@@ -72,7 +74,7 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-  }, [connectStatus]);
+  }, [connectStatus, dispatch, isFocused ]);
   
   //Handle delete
   const handleDelete = item => {

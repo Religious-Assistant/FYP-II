@@ -19,9 +19,12 @@ const initialState = {
     isLoading:true,
     hasError:false,
 
+    primaryMosqueData:null,
+    isLoadingGetPrimaryMosqueData:false,
+    hasErrorGetPrimaryMosqueData:false,
+
 
 }
-
 
 export const updatePassword = createAsyncThunk(
     'updatePassword',
@@ -79,6 +82,21 @@ export const updateLocation = createAsyncThunk(
     }
 )
 
+export const getPrimaryMosqueData = createAsyncThunk(
+    'getPrimaryMosqueData',
+    async ()=>{
+        try{
+            const result =  await AsyncStorage.getItem('primarymosque') 
+            console.log('PM')
+            console.log(result)
+            return result!=null?JSON.parse(result):null  
+        }catch(e){
+            console.log('ERROR while Retrieving Primary Mosque Data', e)
+        }
+    }
+)
+
+
 const muslimPreferencesSlice = createSlice({
     name:"muslimpreferences",
     initialState,
@@ -116,7 +134,6 @@ const muslimPreferencesSlice = createSlice({
         [updateLocation.rejected]:(state,action)=>{
             state.isUpdatingLocation=false
             state.hasErrorUpdatingLocation=true
-
 
         },
 
@@ -188,6 +205,10 @@ const muslimPreferencesSlice = createSlice({
             state.isLoading = false
             state.hasError=false
             state.hasUpdatedPrimaryMosque=true
+
+            if(action.payload.data){
+                AsyncStorage.setItem('primarymosque',JSON.stringify(action.payload.data))
+            }
         },
         [updatePrimaryMosque.pending]:(state,action)=>{
             state.isLoading = true
@@ -198,6 +219,22 @@ const muslimPreferencesSlice = createSlice({
             state.hasError=true
             state.isLoading=false
             state.hasUpdatedPrimaryMosque=false
+        },
+
+        [getPrimaryMosqueData.fulfilled]:(state,action)=>{
+            state.isLoadingGetPrimaryMosqueData = false
+            state.hasErrorGetPrimaryMosqueData=false
+            state.primaryMosqueData=action.payload
+        },
+        [getPrimaryMosqueData.pending]:(state,action)=>{
+            state.isLoadingGetPrimaryMosqueData = true
+            state.hasErrorGetPrimaryMosqueData=false
+
+        },
+        [getPrimaryMosqueData.rejected]:(state,action)=>{
+            state.hasErrorGetPrimaryMosqueData=true
+            state.isLoadingGetPrimaryMosqueData=false
+
         },
 
 
@@ -215,6 +252,11 @@ export const selectHasErrorInUploadingProfileImage=(state)=>state.muslimpreferen
 
 export const selectIsUpdatingLocation=(state)=>state.muslimpreferences.isUpdatingLocation
 export const selectHasErrorUpdatingLocation=(state)=>state.muslimpreferences.hasErrorUpdatingLocation
+
+export const selectPrimaryMosqueData=(state)=>state.muslimpreferences.primaryMosqueData
+export const selectHasErrorGetPrimaryMosqueData=(state)=>state.muslimpreferences.hasErrorGetPrimaryMosqueData
+export const selectIsLoadingGetPrimaryMosqueData=(state)=>state.muslimpreferences.isLoadingGetPrimaryMosqueData
+
 
 export const selectIsLoading=(state)=>state.muslimpreferences.isLoading
 export const selectHasError=(state)=>state.muslimpreferences.hasError

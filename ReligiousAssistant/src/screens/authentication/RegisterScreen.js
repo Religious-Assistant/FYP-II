@@ -5,8 +5,6 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
-  PermissionsAndroid,
 } from 'react-native';
 import {Center, VStack, FormControl, Button} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -36,17 +34,12 @@ import {
 
 import Geolocation from '@react-native-community/geolocation';
 //Redux
+
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser} from '../../redux/slices/auth_slices/authSlice';
-// import {}
+import {getOTPCode, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
+
 
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
-// const registerValidationSchema = yup.object().shape({
-//   username: yup.string(),
-//   password: yup.string(),
-//   mobile: yup.string(),
-//   religion: yup.number(),
-// });
 
 const registerValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
@@ -60,46 +53,57 @@ const registerValidationSchema = yup.object().shape({
 });
 
 function RegisterScreen() {
+
   const navigator = useNavigation();
-  const dispatch = useDispatch();
+  const dispatch=useDispatch()
+
+  const hasErrorGetOtpCode=useSelector(selectHasErrorGetOTPCode)
+  const isObtainedOTP=useSelector(selectIsObtainedOTP)
+
+  const [registerValues, setRegisterValues]=useState()
   const [position, setPosition] = useState(null);
   
-  // findCoordinates = () => {
-  //   Geolocation.getCurrentPosition(pos => {
-  //     const crd = pos.coords;
-  //     setPosition({
-  //       latitude: crd.latitude,
-  //       longitude: crd.longitude,
-  //       latitudeDelta: 0.0421,
-  //       longitudeDelta: 0.0421,
-  //     });
-  //   },
-  //   error => console.warn(error.message),
-  //   {timeout: 20000, maximumAge: 1000},)
-  // };
   useEffect(() => {
-    //findCoordinates();
+
     Geolocation.getCurrentPosition(pos => {
       const crd = pos.coords;
       setPosition({
         latitude: crd.latitude,
         longitude: crd.longitude,
-        latitudeDelta: 0.0421,
-        longitudeDelta: 0.0421,
       });
     },
     error => console.log(error.message),
     {timeout: 20000, maximumAge: 1000},) 
   }, []);
 
+
   function signupHandler(values) {
-    dispatch(registerUser(values));
-    navigator.navigate(OTP_VERIFICATION);
+
+
+    //TODO: Un comment when OTP verification to be enabled
+    // dispatch(getOTPCode({mobile:values.mobile})) 
+    // setRegisterValues({...values,location:position})
+
+    //TODO: Remove when OTP verification to be enabled
+    navigator.navigate(OTP_VERIFICATION,{values:{...values, location:{longitude:68.5953277, latitude:27.3027566}}});
+  
   }
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
   }
+
+  //TODO: Un comment when OTP verification to be enabled
+  // useEffect(()=>{
+
+  //   if(!hasErrorGetOtpCode && isObtainedOTP){
+  //     navigator.navigate(OTP_VERIFICATION,{values:registerValues});
+  //   }
+  //   if(hasErrorGetOtpCode && !isObtainedOTP){
+  //     alert(`Number already in use, or error while getting OTP`)
+  //   }
+
+  // },[dispatch,hasErrorGetOtpCode, isObtainedOTP])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -117,6 +121,7 @@ function RegisterScreen() {
                   password: '',
                   mobile: '',
                   religion: 1,
+                  
                 }}
                 onSubmit={values => {
                   signupHandler(values);

@@ -18,10 +18,22 @@ import {
 import {getScene} from './LearnNamazAssets';
 import fonts from '../../../theme/fonts';
 import {TouchableHighlight} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getLearnNamazProgress,
+  getParticularRakatInfo,
+  selectHasLearnedParticularRakat,
+  selectIsLoadingHasLearnedparticularRakat,
+  selectIsLoadingUpdateNamazProgress,
+  selectLearnNamazProgress,
+  updateLearnNamazProgress,
+} from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import Loader from '../../common/Loader';
 
 const NamazPlayArea = ({route, navigation}) => {
   const {namazInfo, namazName} = route.params;
-  console.log(namazName);
+
   const namaz = checkRakat(namazInfo);
   const [scene, setScene] = useState(getScene(namaz, 0));
   const [progress, setProgress] = useState(1);
@@ -122,52 +134,106 @@ const NamazPlayArea = ({route, navigation}) => {
     }
   }
 
-  function markAsComplete() {}
+  //Redux
+  const dispatch = useDispatch();
+  const isLoadingUpdateNamazProgress = useSelector(
+    selectIsLoadingUpdateNamazProgress,
+  );
+
+  const user = useSelector(selectUserData);
+  const hasLearnedRakat = useSelector(selectHasLearnedParticularRakat);
+  const isLoadingHasLearnedParticularRakat = useSelector(
+    selectIsLoadingHasLearnedparticularRakat,
+  );
+
+  useEffect(() => {
+    dispatch(
+      getParticularRakatInfo({
+        username: user?.username,
+        rakatName: namazInfo?.rakatName,
+        namazName: namazName,
+        rakats: namazInfo?.rakats,
+      }),
+    );
+  }, []);
+
+  function markAsComplete() {
+    const namaz = {...namazInfo, namazName};
+
+    dispatch(
+      updateLearnNamazProgress({username: user?.username, namaz, state: true}),
+    );
+  }
+
+  function markAsIncomplete() {
+    const namaz = {...namazInfo, namazName};
+    dispatch(
+      updateLearnNamazProgress({username: user?.username, namaz, state: false}),
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.infoText}>{scene.desc}</Text>
-        <Text style={styles.namazText}>{scene.text}</Text>
-        {/* <Text style={styles.namazText}>
-          {scene.step}
-        </Text> */}
-      </View>
-      <View style={styles.playArea}>
-        <Image
-          source={scene.image}
-          key={scene.step}
-          resizeMethod="resize"
-          style={{width: 420, height: 420}}
-          alt="Could not load step"></Image>
-        <Progress
-          max={namaz.length}
-          value={progress}
-          borderRadius={0}
-          style={{backgroundColor: colors.cover}}
-          colorScheme="emerald"
-        />
-      </View>
-
-      <View style={styles.controls}>
-        <TouchableHighlight onPress={renderPreviousScsne}>
-          <View style={styles.iconButton}>
-            <Icon name="arrow-back" size={30} style={styles.icon}></Icon>
-            <Text style={styles.text}>Back</Text>
+      {isLoadingUpdateNamazProgress || isLoadingHasLearnedParticularRakat ? (
+        <Loader msg="Updating/Loading progress..." />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <Text style={styles.infoText}>{scene.desc}</Text>
+            <Text style={styles.namazText}>{scene.text}</Text>
           </View>
-        </TouchableHighlight>
-
-        <Button w={150} style={styles.actionButton} onPress={markAsComplete}>
-          Mark as Complete
-        </Button>
-
-        <TouchableHighlight onPress={renderNextScene}>
-          <View style={styles.iconButton}>
-            <Text style={styles.text}>Next</Text>
-            <Icon name="arrow-forward" size={30} style={styles.icon}></Icon>
+          <View style={styles.playArea}>
+            <Image
+              source={scene.image}
+              key={scene.step}
+              resizeMethod="resize"
+              style={{width: 420, height: 420}}
+              alt="Could not load step"></Image>
+            <Progress
+              max={namaz.length}
+              value={progress}
+              borderRadius={0}
+              style={{backgroundColor: colors.cover}}
+              colorScheme="emerald"
+            />
           </View>
-        </TouchableHighlight>
-      </View>
+
+          <View style={styles.controls}>
+            <TouchableHighlight onPress={renderPreviousScsne}>
+              <View style={styles.iconButton}>
+                <Icon name="arrow-back" size={30} style={styles.icon}></Icon>
+                <Text style={styles.text}>Back</Text>
+              </View>
+            </TouchableHighlight>
+          
+            {hasLearnedRakat ? (
+              <Button
+                w={150}
+                style={[styles.actionButton,{backgroundColor:colors.success.light, color:colors.primary}]}
+                onPress={markAsIncomplete}
+                disabled={true}
+                >
+                Completed
+              </Button>
+            ) : (
+              <Button
+                w={150}
+                style={styles.actionButton}
+                onPress={markAsComplete}>
+                Mark as Complete
+              </Button>
+            )}
+        
+
+            <TouchableHighlight onPress={renderNextScene}>
+              <View style={styles.iconButton}>
+                <Text style={styles.text}>Next</Text>
+                <Icon name="arrow-forward" size={30} style={styles.icon}></Icon>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </>
+      )}
     </View>
   );
 };

@@ -30,6 +30,7 @@ import fonts from '../../../theme/fonts';
 import CustomBox from '../../../components/CustomBox';
 import {PermissionsAndroid} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
+import { useIsFocused } from '@react-navigation/native'
 
 //Redux
 
@@ -37,6 +38,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { getClosestMosques, selectClosestMosques } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 import { useNavigation } from '@react-navigation/native';
 import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
+import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 
 
 export default function FindMosque() {
@@ -46,12 +48,19 @@ export default function FindMosque() {
   const navigator=useNavigation()
 
   const closesMosques=useSelector(selectClosestMosques)
-
-  const[sourceCoordinates,setSourceCoordinates]=useState()
+  const user=useSelector(selectUserData)
+  const isFocused = useIsFocused()
 
   useEffect(()=>{
-    getLocation()
-  },[])
+
+    if(!user){
+      dispatch(getUserData())
+    }
+
+    if(user){
+        dispatch(getClosestMosques({longitude:user?.location?.coordinates[0], latitude:user?.location?.coordinates[1]}))
+    }
+  },[dispatch, isFocused])
   
   getLocation = async () => {
     try {
@@ -157,6 +166,17 @@ export default function FindMosque() {
                     />
                   }
                 />
+                {
+                  closesMosques?.length==0?
+                  <View style={{backgroundColor:colors.cover, marginTop:"20%", padding:15, width:"90%", alignSelf:'center'}}>
+                  <Text style={{color:colors.info, fontFamily:fonts.Signika.bold, fontSize:20, textAlign:'center', marginTop:10}}>No Mosque near you</Text>
+                  <Text style={{color:colors.secondary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>What to do?</Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>1. Add a mosque </Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>2. Wait for consensus </Text>
+                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>3. It will appear in searches </Text>
+                </View>
+                :<>
+                
                 {closesMosques?closesMosques.map((mosque,index)=>{
 
                   return(
@@ -169,7 +189,8 @@ export default function FindMosque() {
                 />
                   )
                 }):<></>}
-                
+                 </>
+                }
               </VStack>
             </Center>
           </View>

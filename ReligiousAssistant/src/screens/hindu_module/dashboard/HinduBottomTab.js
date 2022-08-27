@@ -3,24 +3,30 @@
  * @version 1.0
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Notifications from '../Notifications';
 import Settings from '../preferences/Settings';
 import fonts from '../../../theme/fonts';
 import Home from './Home';
 import FindTemple from '../temple/FindTemple';
-import Prayers from '../Prayers';
+import Prayers from '../prayers/Prayers';
 //import all screens
 
 import colors from '../../../theme/colors';
+import { FIND_TEMPLE, HINDU_ALERTS, HINDU_HOME, HINDU_PRAYERS, HINDU_SETTINGS } from '../../../navigation/constants';
+import Alerts from '../alertsAndNotifications/Alerts';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import { selectHinduNotifications } from '../../../redux/slices/hindu_module_slices/hinduNotificationSlice';
 
 const BottomTab = createBottomTabNavigator();
 
-const AddMosqueButton = ({children, onPress}) => {
+const FindTempleButton = ({children, onPress}) => {
+  
   return (
     <TouchableOpacity
       style={{
@@ -44,6 +50,15 @@ const AddMosqueButton = ({children, onPress}) => {
 };
 
 export default function HinduBottomTab() {
+
+  const dispatch=useDispatch()
+  const notifications=useSelector(selectHinduNotifications)
+  const user=useSelector(selectUserData)
+  
+  useEffect(()=>{
+    dispatch(getUserData())
+  },[])
+
   return (
     <>
       <BottomTab.Navigator
@@ -65,12 +80,10 @@ export default function HinduBottomTab() {
           },
         }}>
         <BottomTab.Screen
-          name="Home"
+          name={HINDU_HOME}
           component={Home}
           options={{
-            // tabBarLabel:'Home',
             headerShown: false,
-            // tabBarVisible:isTabBarVisible()
             tabBarIcon: ({focused}) => (
               <View
                 style={{
@@ -97,12 +110,16 @@ export default function HinduBottomTab() {
             ),
           }}
         />
-        <BottomTab.Screen
-          name="Notifications"
-          component={Notifications}
+        {
+          user?
+          <BottomTab.Screen
+          name={HINDU_ALERTS}
+          component={Alerts}
           options={{
             // tabBarLabel:'Home',
             headerShown: false,
+            tabBarBadge:notifications?notifications.length:null,
+            tabBarBadgeStyle:{color:colors.primary, backgroundColor:colors.secondary, marginTop:15},
             tabBarIcon: ({focused}) => (
               <View
                 style={{
@@ -129,8 +146,11 @@ export default function HinduBottomTab() {
             ),
           }}
         />
+        :<></>
+        }
+
         <BottomTab.Screen
-          name="FindTemple"
+          name={FIND_TEMPLE}
           component={FindTemple}
           options={{
             // tabBarLabel:'Home',
@@ -145,12 +165,12 @@ export default function HinduBottomTab() {
                   tintColor: '#fff',
                 }}></Image>
             ),
-            tabBarButton: props => <AddMosqueButton {...props} />,
+            tabBarButton: props => <FindTempleButton {...props} />,
           }}
         />
 
         <BottomTab.Screen
-          name="Prayers"
+          name={HINDU_PRAYERS}
           component={Prayers}
           options={{
             // tabBarLabel:'Home',
@@ -168,7 +188,7 @@ export default function HinduBottomTab() {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? colors.red: '#0f1e3d',
+                    tintColor: focused ? colors.red : '#0f1e3d',
                   }}></Image>
                 <Text
                   style={[
@@ -181,8 +201,11 @@ export default function HinduBottomTab() {
             ),
           }}
         />
-        <BottomTab.Screen
-          name="Settings"
+
+        {
+          user?
+          <BottomTab.Screen
+          name={HINDU_SETTINGS}
           component={Settings}
           options={{
             // tabBarLabel:'Home',
@@ -212,7 +235,9 @@ export default function HinduBottomTab() {
               </View>
             ),
           }}
-        />
+        /> 
+          :<></>
+        }
       </BottomTab.Navigator>
     </>
   );

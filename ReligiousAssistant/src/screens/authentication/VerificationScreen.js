@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -17,10 +17,20 @@ import CustomButton from '../../components/CustomButton';
 import {VStack, Center} from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { LOGIN } from '../../navigation/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, selectHasErrorVerifyOTP, selectIsLoadingVerifyOTPCode, selectIsOTPVerified, selectOtpId, verifyOTPCode } from '../../redux/slices/auth_slices/authSlice';
+import Loader from '../common/Loader';
 
-const VerificationScreen = () => {
+const VerificationScreen = ({route, navigation}) => {
 
-  const phoneNumber = '03313456766';
+  const {values}=route.params
+
+  const dispatch=useDispatch()
+  const isLoadingVerifyOTP=useSelector(selectIsLoadingVerifyOTPCode)
+  const isOTPVerified=useSelector(selectIsOTPVerified)
+  const otpVerifyError=useSelector(selectHasErrorVerifyOTP)
+  const otpId=useSelector(selectOtpId)
+
   const firstInput = useRef();
   const secondInput = useRef();
   const thirdInput = useRef();
@@ -31,9 +41,38 @@ const VerificationScreen = () => {
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: '',5:'',6:''});
 
   const navigator=useNavigation()
+
   function verifyOTP(){
+
+    //TODO: Remove when otp verification to be enabled
+    dispatch(registerUser(values))
     navigator.navigate(LOGIN)
+
+    //TODO: Uncomment when otp needed
+    // if(otpId){
+
+    //   let values=Object.values(otp)
+    //   dispatch(verifyOTPCode({otpCode:values.toString().replaceAll(',',''), otpId:otpId}))
+    // }
+    // else{
+    //   alert('Could not get OTP Id, Try again')
+    // }
+
   }
+
+  //TODO: Uncomment when otp needed
+  // useEffect(()=>{
+
+  //   if(isOTPVerified){
+
+  //     dispatch(registerUser(values))
+  //     navigator.navigate(LOGIN)
+  //   }
+  //   if(isOTPVerified==false){
+  //     alert(`Verification failed. Try again`)
+  //   }
+
+  // },[dispatch, isOTPVerified])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -50,11 +89,13 @@ const VerificationScreen = () => {
           OTP <Heading color={colors.secondary}>Verification</Heading>
         </Heading>
       </View>
+      {
+        isLoadingVerifyOTP?<Loader msg="Verifying OTP Code" />:
+        
       <Center w="100%" h="95%" maxW="100%">
         <VStack space={3} mt={'-30%'}>
           <Text style={styles.content}>
-            Enter the OTP number just sent you at{' '}
-            <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
+            Enter the OTP number just sent you
           </Text>
           <View style={styles.otpContainer}>
             <View style={styles.otpBox}>
@@ -104,7 +145,7 @@ const VerificationScreen = () => {
                 maxLength={1}
                 ref={fourthInput}
                 onChangeText={text => {
-                  setOtp({...otp, 3: text});
+                  setOtp({...otp, 4: text});
                   text
                     ? fifthInput.current.focus()
                     : thirdInput.current.focus();
@@ -119,7 +160,7 @@ const VerificationScreen = () => {
                 maxLength={1}
                 ref={fifthInput}
                 onChangeText={text => {
-                  setOtp({...otp, 3: text});
+                  setOtp({...otp, 5: text});
                   text
                     ? sixthInput.current.focus()
                     : fourthInput.current.focus();
@@ -133,7 +174,7 @@ const VerificationScreen = () => {
                 maxLength={1}
                 ref={sixthInput}
                 onChangeText={text => {
-                  setOtp({...otp, 4: text});
+                  setOtp({...otp, 6: text});
                   !text && fifthInput.current.focus();
                 }}
               />
@@ -141,7 +182,8 @@ const VerificationScreen = () => {
           </View>
           <CustomButton title="Verify" variant="solid" color="white" onPress={verifyOTP} />
         </VStack>
-      </Center>
+      </Center> 
+    }
     </View>
     </TouchableWithoutFeedback>
   );
@@ -157,6 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
+    marginTop:20,
   },
   headerTitle: {
     fontSize: 20,

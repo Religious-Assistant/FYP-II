@@ -11,7 +11,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Settings from '../preferences/Settings';
 import FindMosque from '../mosques/FindMosque';
 import fonts from '../../../theme/fonts';
-import NamazTimings from '../namazTimings/NamazTimings';
+import NamazTimeByMoque from '../namazTimings/NamazTimeByMoque';
 import Home from './Home';
 import Alerts from '../alertsAndNotifications/Alerts';
 import { FIND_MOSQUE, MUSLIM_ALERTS, MUSLIM_HOME, MUSLIM_PRAYERS, MUSLIM_SETTINGS } from '../../../navigation/constants';
@@ -48,10 +48,6 @@ const AddMosqueButton = ({children, onPress}) => {
 
 export default function MuslimBottomTab() {
   
-  // const token=useSelector(selectToken) 
-
-  const [showBadge, setShowBadge]=useState(true)
-
   const dispatch=useDispatch()
   const notifications=useSelector(selectMuslimNotifications)
   const user=useSelector(selectUserData)
@@ -173,7 +169,7 @@ export default function MuslimBottomTab() {
 
         <BottomTab.Screen
           name={MUSLIM_PRAYERS}
-          component={NamazTimings}
+          component={NamazTimeByMoque}
           options={{
             // tabBarLabel:'Home',
             headerShown: false,

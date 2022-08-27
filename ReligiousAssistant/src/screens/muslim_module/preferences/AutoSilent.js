@@ -41,9 +41,11 @@ const AutoSilent = () => {
   }, []);
 
   const changeMode = async (newMode) => {
+
     // From N onward, ringer mode adjustments that would toggle Do Not Disturb
     // are not allowed unless the app has been granted Do Not Disturb Access.
     // @see https://developer.android.com/reference/android/media/AudioManager#setRingerMode(int)
+    
     if (newMode === RINGER_MODE.silent || mode === RINGER_MODE.silent) {
       const hasDndAccess = await checkDndAccess();
       if (hasDndAccess === false) {

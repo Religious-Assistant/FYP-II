@@ -15,7 +15,6 @@ import {
 
 import {Text, View} from 'native-base';
 // Tab ICons...
-import profile from '../../../../assets/images/nadir.png';
 import profile_ic from '../../../../assets/images/profile_ic.png';
 import imam_ic from '../../../../assets/images/imam_ic.png';
 import about_ic from '../../../../assets/images/about_ic.png';
@@ -40,7 +39,6 @@ import {
   AUTH_STACK,
   HELP,
   MUSLIM_VIEW_PROFILE,
-  SHARE_APP,
 } from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -104,7 +102,7 @@ export default function RegisteredMuslimDashboard() {
                 marginTop: 15,
                 fontFamily: fonts.Signika.bold,
               }}>
-              {user ? user.username : 'Loading name ... '}
+              {user ? user?.username?.toUpperCase() : 'Guest'}
             </Text>
           </View>
 
@@ -113,7 +111,7 @@ export default function RegisteredMuslimDashboard() {
               // Tab Bar Buttons....
             }
 
-            {TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)}
+            {user?TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic):<></>}
             {TabButton(currentTab, setCurrentTab, 'Apply as Imam', imam_ic)}
             {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
             {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
@@ -121,7 +119,7 @@ export default function RegisteredMuslimDashboard() {
           </View>
 
           <View>
-            {TabButton(currentTab, setCurrentTab, 'LogOut', logout_ic)}
+          {TabButton(currentTab, setCurrentTab, user?'LogOut':'Exit', logout_ic)}
           </View>
         </View>
       )}
@@ -233,23 +231,19 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
       onPress={() => {
         title = title.toLowerCase();
 
-        if (title == 'logout') {
+        if (title == 'logout' || title=='exit') {
           //Remove token from async storage
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE);
-          // setCurrentTab(title);
+          
         } else if (title == 'about') {
           navigator.navigate(ABOUT);
-          // setCurrentTab(title);
         } else if (title == 'apply as imam') {
           navigator.navigate(APPLY_AS_IMAM);
-          // setCurrentTab(title);
         } else if (title == 'share app') {
           onShare();
-          // navigator.navigate(SHARE_APP)
-          // // setCurrentTab(title);
         } else if (title == 'help') {
           navigator.navigate(HELP);
         }

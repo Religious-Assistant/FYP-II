@@ -5,16 +5,13 @@
 
 import {View} from 'react-native';
 import React, {useEffect} from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 import {
-  Heading,
-  Image,
-  Text,
-  VStack,
-  Box,
-  HStack,
-  Divider,
-} from 'native-base';
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
+import {Heading, Image, Text, VStack, Box, HStack, Divider} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -35,19 +32,22 @@ import {
 import Loader from '../../common/Loader';
 import {useNavigation} from '@react-navigation/native';
 import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
-import { useState } from 'react';
-import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {useState} from 'react';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function MosqueConsensusNoti({route, navigation}) {
   const {mosqueId} = route.params;
 
   const dispatch = useDispatch();
   const navigator = useNavigation();
-  const[isAlreadyCasted, setIsAlreadyCasted]=useState(false)
+  const [isAlreadyCasted, setIsAlreadyCasted] = useState(false);
 
   const isLoadingGetMosqueById = useSelector(selectIsLoadingGetMosqueById);
   const mosqueById = useSelector(selectMosqueById);
-  const user=useSelector(selectUserData)
+  const user = useSelector(selectUserData);
 
   useEffect(() => {
     if (mosqueId) {
@@ -60,32 +60,41 @@ export default function MosqueConsensusNoti({route, navigation}) {
     navigator.navigate(GOOGLE_MAP_DIRECTIONS, {destinationCoordinates});
   };
 
-  const cast_upVote=()=>{
-    
-    const index=mosqueById?.receivers.findIndex(candidate=>candidate.username===user?.username)
+  const cast_upVote = () => {
+    const index = mosqueById?.receivers.findIndex(
+      candidate => candidate.username === user?.username,
+    );
 
-    if(mosqueId && !isAlreadyCasted && user && !mosqueById?.receivers[index].hasVoted){
-      dispatch(castUpvote({mosqueId:mosqueId, username:user?.username}))
-      setIsAlreadyCasted(true)
+    if (
+      mosqueId &&
+      !isAlreadyCasted &&
+      user &&
+      !mosqueById?.receivers[index].hasVoted
+    ) {
+      dispatch(castUpvote({mosqueId: mosqueId, username: user?.username}));
+      setIsAlreadyCasted(true);
+    } else {
+      alert(`Vote already casted or error occured`);
     }
-    else{
-      alert(`Vote already casted or error occured`)
+  };
+
+  const cast_downVote = () => {
+    const index = mosqueById?.receivers.findIndex(
+      candidate => candidate.username === user?.username,
+    );
+
+    if (
+      mosqueId &&
+      !isAlreadyCasted &&
+      user &&
+      !mosqueById?.receivers[index].hasVoted
+    ) {
+      dispatch(castDownvote({mosqueId: mosqueId, username: user?.username}));
+      setIsAlreadyCasted(true);
+    } else {
+      alert(`Vote already casted or error occured`);
     }
-  }
-
-  const cast_downVote=()=>{
-    const index=mosqueById?.receivers.findIndex(candidate=>candidate.username===user?.username)
-
-    if(mosqueId && !isAlreadyCasted && user && !mosqueById?.receivers[index].hasVoted){
-      dispatch(castDownvote({mosqueId:mosqueId, username:user?.username}))
-      setIsAlreadyCasted(true)
-    }
-    else{
-      alert(`Vote already casted or error occured`)
-    }
-  }
-
-
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -149,7 +158,10 @@ export default function MosqueConsensusNoti({route, navigation}) {
                 heading={'Mosque Name'}
                 data={mosqueById?.mosqueName}
               />
-              <DetailItem heading={'Added By'} data={mosqueById?.addedBy.toUpperCase()} />
+              <DetailItem
+                heading={'Added By'}
+                data={mosqueById?.addedBy.toUpperCase()}
+              />
               <DetailItem
                 heading={`Total Upvotes`}
                 data={`${mosqueById?.upVotes}/${mosqueById?.receivers?.length}`}
@@ -163,11 +175,9 @@ export default function MosqueConsensusNoti({route, navigation}) {
                 style={{
                   justifyContent: 'space-between',
                   flexDirection: 'row',
-                  marginTop:15,
+                  marginTop: 15,
                 }}>
-                <Text style={styles.heading}>
-                  Location
-                </Text>
+                <Text style={styles.heading}>Location</Text>
 
                 <TouchableOpacity
                   style={{
@@ -191,7 +201,7 @@ export default function MosqueConsensusNoti({route, navigation}) {
 
               <Text style={styles.statement}>
                 Do you think the above information is correct? Should we add
-                Sukkur IBA mosque?
+                {mosqueById?.mosqueName.toUpperCase()}
               </Text>
             </Box>
 
@@ -204,7 +214,7 @@ export default function MosqueConsensusNoti({route, navigation}) {
                   color="white"
                   base="40%"
                   onPress={() => {
-                    cast_upVote()
+                    cast_upVote();
                   }}
                 />
                 <CustomButton
@@ -213,7 +223,7 @@ export default function MosqueConsensusNoti({route, navigation}) {
                   color="white"
                   base="40%"
                   onPress={() => {
-                    cast_downVote()
+                    cast_downVote();
                   }}
                 />
               </HStack>
@@ -255,9 +265,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.primary,
   },
-  statement:{
-      marginTop:10,
-      fontFamily:fonts.Signika.medium,
-      fontSize:18
-  }
+  statement: {
+    marginTop: 10,
+    fontFamily: fonts.Signika.medium,
+    fontSize: 18,
+  },
 });

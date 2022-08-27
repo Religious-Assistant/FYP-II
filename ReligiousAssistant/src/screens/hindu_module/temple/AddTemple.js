@@ -3,72 +3,63 @@
  */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import {Heading, Image, Center, FormControl} from 'native-base';
-
-// import {Formik} from 'formik';
-// import * as yup from 'yup';
+import {Heading, Image, Center} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import templeICon from '../../../../assets/images/temple2_ic.png';
 import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';
 
-// import {useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-// import {ADD_MOSQUE, GOOGLE_MAP} from '../../../navigation/constants';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-// import {
-//   addMosque,
-//   selectIsLoadingAddNewMosque,
-//   selectNewAddedMosque,
-// } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import {ADD_TEMPLE, GOOGLE_MAP} from '../../../navigation/constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
+import { addTemple, selectIsLoadingAddNewTemple, selectNewAddedTemple } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
-export default function AddMosque() {
-  // const navigator = useNavigation();
-  // const dispatch = useDispatch();
+export default function AddTemple({route}) {
+  const navigator = useNavigation();
+  const dispatch = useDispatch();
 
-  // const userData = useSelector(selectUserData);
-  // const isLoadingAddNewMosque = useSelector(selectIsLoadingAddNewMosque);
-  // const newMosque = useSelector(selectNewAddedMosque);
+  const userData = useSelector(selectUserData);
+  const isLoadingAddNewTemple = useSelector(selectIsLoadingAddNewTemple);
+  const newTemple = useSelector(selectNewAddedTemple);
 
-  // const [mosqueName, setMosquename] = useState('');
+  const [templeName, setTempleename] = useState('');
 
-  // function openMap() {
-  //   navigator.navigate(GOOGLE_MAP, {screen: ADD_MOSQUE});
-  // }
+  function openMap() {
+    navigator.navigate(GOOGLE_MAP, {screen: ADD_TEMPLE});
+  }
 
-  // function changeHandler(text) {
-  //   setMosquename(text);
-  // }
+  function changeHandler(text) {
+    setTempleename(text);
+  }
 
-  // function addNewMosque() {
-  //   if (route && mosqueName && userData) {
-  //     dispatch(
-  //       addMosque({
-  //         longitude: route.params.longitude,
-  //         latitude: route.params.latitude,
-  //         mosqueName,
-  //         addedBy: userData.username,
-  //       }),
-  //     );
+  function addNewTemple() {
+    if (route && templeName && userData) {
+      dispatch(
+        addTemple({
+          longitude: route.params.longitude,
+          latitude: route.params.latitude,
+          templeName,
+          addedBy: userData.username,
+        }),
+      );
 
-  //     if(newMosque){
-  //       console.log(newMosque)
-  //     }
-
-  //   } else {
-  //     alert('Location and Name required');
-  //   }
-  // }
+      if (newTemple) {
+        console.log(newTemple);
+      }
+    } else {
+      alert('Location and Name required');
+    }
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
@@ -103,8 +94,8 @@ export default function AddMosque() {
             </Heading>
           </View>
         </View>
-        {/* <View style={{flex: 0.83}} width="95%">
-          {!isLoadingAddNewMosque ? (
+        <View style={{flex: 0.83}} width="95%">
+          {!isLoadingAddNewTemple ? (
             <Center
               width="88%"
               space={2}
@@ -113,7 +104,7 @@ export default function AddMosque() {
               marginLeft={'8%'}
               marginBottom={'5%'}>
               <TextInput
-                textTitle="Enter Mosque Name"
+                textTitle="Enter Temple Name"
                 mt="50%"
                 icon={<MaterialCommunityIcons name="mosque" />}
                 onChangeText={changeHandler}
@@ -137,36 +128,19 @@ export default function AddMosque() {
                 <></>
               )}
               <CustomButton
-                title="Add Mosque"
+                title="Add Temple"
                 variant="solid"
                 mt="8%"
                 color="white"
                 base="99%"
-                onPress={addNewMosque}
+                onPress={addNewTemple}
               />
             </Center>
           ) : (
-            <Loader msg="Adding New Mosque" />
+            <Loader msg="Adding New Temple" />
           )}
-        </View> */}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
-  text: {
-    fontFamily: fonts.Signika.medium,
-    color: colors.primary,
-    marginTop: '5%',
-  },
-});

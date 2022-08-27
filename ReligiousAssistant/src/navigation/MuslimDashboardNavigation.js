@@ -25,7 +25,6 @@
    MUSLIM_DUAS,
    MUSLIM_USER_ANNOUNCEMENT_DETAILS,
    MUSLIM_VIEW_PROFILE,
-   NAMAZ_ALERT_NOTIFICATION,
    NAMAZ_PLAY_AREA,
    NEW_MOSQUE_ADDITION,
    PARAH_RECITATION_AREA,
@@ -33,9 +32,10 @@
    RAKAH_INFO,
    RECITE_QURAN,
    REGISTERED_MUSLIM_HOME_STACK,
-   SHARE_APP,
+   SET_PRAYER_TIMES,
    SURAH_RECITATION_AREA,
    TASBIH_COUNTER,
+   UPDATE_NAMAZ_TIMES_IN_MOSQUE,
    VIEW_CALANDER,
  } from './constants';
  
@@ -69,6 +69,8 @@
  import ImamConsensusNoti from '../screens/muslim_module/alertsAndNotifications/ImamConsensusNoti';
  import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/NewMosqueAddedNoti';
  import UserManual from '../screens/common/UserManual';
+import NamazAlarms from '../screens/muslim_module/namazTimings/NamazAlarms';
+import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
  
  const HomeStack = createNativeStackNavigator();
  
@@ -154,13 +156,6 @@
          options={{title: 'New Mosque'}}
        />
  
- {/* //Go to no where when Namaz alert notifiation clicked  */}
- {/* <HomeStack.Screen
-         name={NAMAZ_ALERT_NOTIFICATION}
-         component={ImamConsensusNoti}
-         options={{title: 'Imam Consensus'}}
-       /> */}
- 
      <HomeStack.Screen
          name={MAKE_ANNOUNCEMENT_SCREEN}
          component={MakeAnnouncement}
@@ -172,6 +167,20 @@
          component={AutoSilent}
          options={{title: 'Auto Silent'}}
        />
+
+      <HomeStack.Screen
+         name={SET_PRAYER_TIMES}
+         component={NamazAlarms}
+         options={{title: 'Set Namaz Times'}}
+       />
+
+      <HomeStack.Screen
+         name={UPDATE_NAMAZ_TIMES_IN_MOSQUE}
+         component={UpdatePrayerTimes}
+         options={{title: 'Update Times'}}
+       />
+
+       
        <HomeStack.Screen
          name={ADD_MOSQUE}
          component={AddMosque}
@@ -216,12 +225,6 @@
          name={APPLY_AS_IMAM}
          component={ApplyAsImam}
          options={{title: 'Apply As Imam'}}
-       />
-       
-       <HomeStack.Screen
-         name={SHARE_APP}
-         component={ShareApp}
-         options={{title: 'Share App'}}
        />
        
        <HomeStack.Screen

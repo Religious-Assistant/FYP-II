@@ -37,6 +37,7 @@
     "react-native-calendar-picker": "^7.1.2",
     "react-native-calendars": "^1.1287.0",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-circular-progress-indicator": "^4.4.0",
     "react-native-compass-heading": "^1.4.0",
     "react-native-date-picker": "^4.2.5",
     "react-native-easy-grid": "^0.2.2",
@@ -60,6 +61,7 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.1.0",
     "react-redux": "^8.0.2",
+    "socket.io-client": "^4.5.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

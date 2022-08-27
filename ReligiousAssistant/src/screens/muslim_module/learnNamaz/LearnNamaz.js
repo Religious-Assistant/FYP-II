@@ -1,7 +1,6 @@
 /* @author Kinza Kiran
  * @version 1.0
  */
-
 import React, {useState, useEffect} from 'react';
 
 import {
@@ -23,6 +22,7 @@ import {
   Spacer,
   Modal,
 } from 'native-base';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -32,9 +32,13 @@ import duhrImg from '../../../../assets/images/duhr_game.png';
 import asrImg from '../../../../assets/images/asr_game.png';
 import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
+import level_lock_ic from '../../../../assets/images/level_lock_ic.gif';
 
 import Loader from '../../common/Loader';
-import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
 const {width, height} = Dimensions.get('window');
 const SPACING = 10;
@@ -43,26 +47,35 @@ const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
 import {useNavigation} from '@react-navigation/native';
 import {NAMAZ_PLAY_AREA} from '../../../navigation/constants';
-import { useDispatch, useSelector } from 'react-redux';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getLearnNamazProgress,
+  selectIsLoadingGetNamazProgress,
+  selectLearnNamazProgress,
+} from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 
 export default function LearnNamaz() {
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
-  const username=user.username;
-  const avatar = user.avatar;
-  //console.log(avatar)
+  const namazProgress = useSelector(selectLearnNamazProgress);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(getAnnouncements({username: user.username}));
-  //   }
-  // }, []);
-  
+  const isLoadingGetNamazProgress = useSelector(
+    selectIsLoadingGetNamazProgress,
+  );
+
+  useEffect(() => {
+    dispatch(getUserData());
+
+    if (user) {
+      dispatch(getLearnNamazProgress({username: user?.username}));
+    }
+  }, [dispatch]);
+
   const NAMAZ_TIMES = [
     {
       id: 1,
       name: 'EmptyLeft',
+      disabled: false,
     },
     {
       id: 2,
@@ -73,6 +86,7 @@ export default function LearnNamaz() {
         {key: 1, rakatName: 'Sunnat', rakats: '2'},
         {key: 2, rakatName: 'Farz', rakats: '2'},
       ],
+      disabled: false,
     },
     {
       id: 3,
@@ -85,6 +99,12 @@ export default function LearnNamaz() {
         {key: 5, rakatName: 'Sunnat', rakats: '2'},
         {key: 6, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.fajr?.hasLearned2Sunnah &&
+        namazProgress?.fajr?.hasLearned2Farz &&
+        namazProgress.score >= 20
+          ? false
+          : true,
     },
     {
       id: 4,
@@ -95,6 +115,14 @@ export default function LearnNamaz() {
         {key: 7, rakatName: 'Sunnat', rakats: '4'},
         {key: 8, rakatName: 'Farz', rakats: '4'},
       ],
+      disabled:
+        namazProgress?.zuhr?.hasLearned2Sunnah &&
+        namazProgress?.zuhr?.hasLearned4Sunnah &&
+        namazProgress?.zuhr?.hasLearned4Farz &&
+        namazProgress?.zuhr?.hasLearned2Nafl &&
+        namazProgress?.score >= 60
+          ? false
+          : true,
     },
     {
       id: 5,
@@ -106,6 +134,12 @@ export default function LearnNamaz() {
         {key: 10, rakatName: 'Sunnat', rakats: '2'},
         {key: 11, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.asr?.hasLearned4Sunnah &&
+        namazProgress?.asr?.hasLearned4Farz &&
+        namazProgress.score >= 80
+          ? false
+          : true,
     },
     {
       id: 6,
@@ -120,10 +154,18 @@ export default function LearnNamaz() {
         {key: 16, rakatName: 'Witr', rakats: '3'},
         {key: 17, rakatName: 'Nafl', rakats: '2'},
       ],
+      disabled:
+        namazProgress?.maghrib?.hasLearned2Sunnah &&
+        namazProgress?.maghrib?.hasLearned3Farz &&
+        namazProgress?.maghrib?.hasLearned2Nafl &&
+        namazProgress.score >= 110
+          ? false
+          : true,
     },
     {
       id: 7,
       name: 'EmptyRight',
+      disabled: false,
     },
   ];
 
@@ -156,141 +198,181 @@ export default function LearnNamaz() {
 
   return (
     <SafeAreaView style={styles.MainContainer}>
-      <View style={{flex: 1, backgroundColor: colors.white}}>
-        <View
-          style={{
-            flex: 0.17,
-            backgroundColor: colors.primary,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            position: 'absolute',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 0.5, alignItems: 'flex-end'}}>
-            <Image
-              source={{
-                uri: avatar,
-              }}
+      {isLoadingGetNamazProgress ? (
+        <Loader msg="Getting progress..." />
+      ) : (
+        <>
+          <View style={{flex: 1, backgroundColor: colors.white}}>
+            <View
               style={{
-                marginTop: '10%',
-                marginRight: '5%',
-                marginBottom: '5%',
-                height: 80,
-                width: 80,
-                resizeMode: 'cover',
-                borderRadius: 50,
-              }}
-              alt="icon .."
-            />
-          </View>
-          <View style={{flex: 0.9, alignItems: 'flex-start', margin: '2%'}}>
-            <Heading color={colors.secondary} marginTop={'5%'}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>{username} </Text>
-            </Heading>
-            <Heading color={colors.white}>
-              <Text style={{fontFamily: fonts.Signika.bold}}>Level 1</Text>
-            </Heading>
-          </View>
-        </View>
-      </View>
-      <Animated.FlatList
-        data={NAMAZ_TIMES}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={Separator}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        contentContainerStyle={{alignItems: 'center'}}
-        snapToAlignment="start"
-        snapToInterval={ITEM_SIZE}
-        decelerationRate={Platform.OS === 'ios' ? 0 : 0.85}
-        renderToHardwareTextureAndroid
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {x: scrollX}}}],
-          {useNativeDriver: false},
-        )}
-        scrollEventThrottle={16}
-        renderItem={({item, index}) => {
-          if (!item.poster) {
-            return <View style={{width: EMPTY_ITEM_SIZE}} />;
-          }
-          const inputRange = [
-            (index - 2) * ITEM_SIZE,
-            (index - 1) * ITEM_SIZE,
-            index * ITEM_SIZE,
-          ];
+                flex: 0.17,
+                backgroundColor: colors.primary,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                position: 'absolute',
+                alignItems: 'center',
+              }}>
+              <View style={{flex: 0.5, left:5}}>
+                <Image
+                  source={{
+                    uri: user?.avatar,
+                  }}
+                  style={{
+                    marginTop: '10%',
+                    marginBottom: '5%',
+                    height: 80,
+                    width: 80,
+                    resizeMode: 'cover',
+                    borderRadius: 50,
+                  }}
+                  alt="icon .."
+                />
+              </View>
+              <View style={{flex: 0.9, marginLeft: '10%'}}>
+                <Heading color={colors.secondary} marginTop={'5%'}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>
+                    {user?.username?.toUpperCase()}{' '}
+                  </Text>
+                </Heading>
+                <Heading color={colors.white}>
+                  <Text style={{fontFamily: fonts.Signika.bold}}>
+                    Level {namazProgress?.level}
+                  </Text>
+                </Heading>
+              </View>
 
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, -50, 0],
-            extrapolate: 'clamp',
-          });
-          // console.log(item.rakahs)
-          return (
-            <>
-              <Pressable
-                onPress={() => {
-                  detectPress(true, item.rakahs, item.name);
-                }}>
-                <View style={{width: ITEM_SIZE}}>
-                  <Animated.View
-                    style={{
-                      marginHorizontal: SPACING,
-                      padding: SPACING * 2,
-                      alignItems: 'center',
-                      transform: [{translateY}],
-                      backgroundColor: colors.cover,
-                      borderRadius: 34,
-                    }}>
-                    <Image source={item.poster} style={styles.posterImage} />
-                    <Text
-                      style={{
-                        fontSize: 26,
-                        color: colors.primary,
-                        fontFamily: fonts.Signika.bold,
-                      }}
-                      numberOfLines={1}>
-                      {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: colors.secondary,
-                        fontFamily: fonts.Signika.bold,
-                      }}
-                      numberOfLines={3}>
-                      {item.level}
-                    </Text>
-                  </Animated.View>
-                </View>
-              </Pressable>
+              <View style={{flexDirection: 'row', right:5}}>
+                <Text
+                  style={{
+                    textAlignVertical: 'center',
+                    fontFamily: fonts.Signika.bold,
+                    color: colors.white,
+                    padding: 10,
+                  }}>
+                  Progress %
+                </Text>
+                <CircularProgress
+                  value={namazProgress?.score-10}
+                  radius={40}
+                  inActiveStrokeOpacity={0.5}
+                  activeStrokeWidth={15}
+                  inActiveStrokeWidth={20}
+                  progressValueStyle={{fontWeight: '100', color: 'white'}}
+                  activeStrokeSecondaryColor={colors.secondary}
+                  inActiveStrokeColor={colors.cover}
+                  duration={1000}
+                  dashedStrokeConfig={{
+                    count: 50,
+                    width: 4,
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+          <Animated.FlatList
+            data={NAMAZ_TIMES}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={Separator}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+            contentContainerStyle={{alignItems: 'center'}}
+            snapToAlignment="start"
+            snapToInterval={ITEM_SIZE}
+            decelerationRate={Platform.OS === 'ios' ? 0 : 0.85}
+            renderToHardwareTextureAndroid
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: false},
+            )}
+            scrollEventThrottle={16}
+            renderItem={({item, index}) => {
+              if (!item.poster) {
+                return <View style={{width: EMPTY_ITEM_SIZE}} />;
+              }
+              const inputRange = [
+                (index - 2) * ITEM_SIZE,
+                (index - 1) * ITEM_SIZE,
+                index * ITEM_SIZE,
+              ];
 
-              <Modal
-                isOpen={state.showModal}
-                onClose={() => setState({...state, showModal: false})}>
-                <Modal.Content maxWidth="400px">
-                  <Modal.CloseButton />
-                  <Modal.Header>Select Rakah to Learn</Modal.Header>
-                  <Modal.Body>
-                    <RakahList
-                      setModal={setModal}
-                      rakahs={state.rakahs}
-                      namazName={state.namazName}></RakahList>
-                  </Modal.Body>
-                </Modal.Content>
-              </Modal>
-            </>
-          );
-        }}
-      />
+              const translateY = scrollX.interpolate({
+                inputRange,
+                outputRange: [0, -50, 0],
+                extrapolate: 'clamp',
+              });
+              // console.log(item.rakahs)
+              return (
+                <>
+                  <Pressable
+                    onPress={() => {
+                      detectPress(true, item.rakahs, item.name);
+                    }}
+                    disabled={item.disabled}>
+                    <View style={{width: ITEM_SIZE}}>
+                      <Animated.View
+                        style={{
+                          marginHorizontal: SPACING,
+                          padding: SPACING * 2,
+                          alignItems: 'center',
+                          transform: [{translateY}],
+                          backgroundColor: colors.cover,
+                          borderRadius: 34,
+                        }}>
+                        <Image
+                          source={item.disabled ? level_lock_ic : item.poster}
+                          style={styles.posterImage}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 26,
+                            color: colors.primary,
+                            fontFamily: fonts.Signika.bold,
+                          }}
+                          numberOfLines={1}>
+                          {item.name}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: colors.secondary,
+                            fontFamily: fonts.Signika.bold,
+                          }}
+                          numberOfLines={3}>
+                          {item.level}
+                        </Text>
+                      </Animated.View>
+                    </View>
+                  </Pressable>
+
+                  <Modal
+                    isOpen={state.showModal}
+                    onClose={() => setState({...state, showModal: false})}>
+                    <Modal.Content maxWidth="400px">
+                      <Modal.CloseButton />
+                      <Modal.Header>Select Rakah to Learn</Modal.Header>
+                      <Modal.Body>
+                        <RakahList
+                          setModal={setModal}
+                          rakahs={state.rakahs}
+                          namazName={state.namazName}></RakahList>
+                      </Modal.Body>
+                    </Modal.Content>
+                  </Modal>
+                </>
+              );
+            }}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
 
 const RakahList = props => {
   const {rakahs, namazName} = props;
-  console.log('Namaz NAME', namazName);
   const navigator = useNavigation();
+
   function navigateToGame(item) {
     props.setModal(false);
     navigator.navigate(NAMAZ_PLAY_AREA, {
@@ -309,6 +391,7 @@ const RakahList = props => {
       }}>
       <FlatList
         data={rakahs}
+        extraData={rakahs}
         keyboardDismissMode
         keyExtractor={item => item.id}
         renderItem={({item}) => (

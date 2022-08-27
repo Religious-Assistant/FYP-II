@@ -29,3 +29,13 @@ function timeSince(date) {
   }
   return Math.floor(seconds) + ' seconds';
 }
+
+
+export function setHours(dt, time) {
+  var splitted = time.split(":");
+  let hours=splitted[0]
+  let mins=splitted[1]
+  let meridium=splitted[2].split(" ")[1]
+  dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours, 10) : parseInt(hours, 10));
+  dt.setMinutes(parseInt(mins, 10)); 
+}

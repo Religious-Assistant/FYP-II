@@ -3,152 +3,153 @@
  * @version 1.0
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import avatar from '../../../assets/images/avatar.png';
-
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-// import {useSelector, useDispatch} from 'react-redux';
+import {getUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
+import { getTempleById, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
 
 export default function Profile() {
-  // const [location, setLocation] = useState(null);
-  // const user = useSelector(selectUserData);
-  // const [userData, setUserData] = useState();
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (user) {
-  //     setUserData(user);
-  //   }
-  //   {
-  //     user
-  //       ? Geocoder.from(
-  //           user.location?.coordinates[1],
-  //           user.location?.coordinates[0],
-  //         )
-  //           .then(json => {
-  //             var addressComponent = json.results[0].address_components;
-  //             //setReg({address: addressComponent});
-  //             setLocation(addressComponent[1].long_name);
-  //           })
+  const [location, setLocation] = useState(null);
+  const user = useSelector(selectUserData);
+  const templeById=useSelector(selectTempleById)
+  const dispatch = useDispatch();
 
-  //           .catch(error => console.warn(error))
-  //       : '';
-  //   }
-  // }, []);
+  useEffect(()=>{
+    dispatch(getUserData())
+    if(user){
+      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+    }
+  },[dispatch])
 
+
+  useEffect(() => {
+    {
+      user
+        ? Geocoder.from(
+            user?.location?.coordinates[1],
+            user?.location?.coordinates[0],
+          )
+            .then(json => {
+              var addressComponent = json.results[0].address_components;
+              setLocation(addressComponent[1].long_name);
+            })
+
+            .catch(error => console.warn(error))
+        : '';
+    }
+  }, []);
 
   const userInfo = [
-    {
-      id: 1,
-      label: 'User Name',
-      info: 'Akash Kumar',
-      icon: <EvilIcons name="user" />,
-      iconSize: '8',
-    },
-    {
-      id: 2,
-      label: 'Password',
-      info: 'akash12',
-      icon: <EvilIcons name="eye" />,
-      iconSize: '8',
-    },
-    {
-      id: 3,
-      label: 'Phone Number',
-      info: '0331234556',
-      icon: <AntDesign name="phone" />,
-      iconSize: '6',
-    },
-    {
-      id: 4,
-      label: 'Location',
-      info: 'Sukkur IBA',
-      icon: <Ionicons name="location-outline" />,
-      iconSize: '6',
-    },
-    {
-      id: 5,
-      label: 'Primary Temple',
-      info: 'Temple 1',
-      icon: <MaterialCommunityIcons name="mosque" />,
-      iconSize: '6',
-    },
+    
+      user? {
+          id: 1,
+          label: 'User Name',
+          info: user?.username,
+          icon: <EvilIcons name="user" />,
+          iconSize: '8',
+        }
+      : undefined,
+    user
+      ? {
+          id: 3,
+          label: 'Phone Number',
+          info: user?.mobile,
+          icon: <AntDesign name="phone" />,
+          iconSize: '6',
+        }
+      : undefined,
+    user
+      ? {
+          id: 4,
+          label: 'Location',
+          info: location ? location : 'Location not set',
+          icon: <Ionicons name="location-outline" />,
+          iconSize: '6',
+        }
+      : undefined,
+    user
+      ? {
+          id: 6,
+          label: 'Primary Temple',
+          info: templeById?templeById.templeName: 'Not Set',
+          icon: <MaterialCommunityIcons name="mosque" />,
+          iconSize: '6',
+        }
+      : undefined,
   ];
-  return (
-    <>
-    </>
+
+  return user && user ? (
+    <View style={styles.container}>
+      <View style={styles.header}></View>
+      <Image style={styles.avatar} source={{uri: user?.avatar}} />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        flex={1}
+        marginTop={'15%'}>
+        <View
+          style={{
+            flex: 0.7,
+            marginTop: '2%',
+            marginLeft: '7%',
+            width: '90%',
+            maxWidth: '88%',
+          }}>
+          <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
+            {userInfo.map((currentUser, index) => {
+              return (
+                <HStack
+                  justifyContent="space-between"
+                  key={currentUser.id}
+                  flexWrap="wrap">
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    {/* Icon */}
+                    <Icon
+                      as={currentUser.icon}
+                      size={currentUser.iconSize}
+                      ml="2%"
+                      mt="-1"
+                      color={colors.primary}
+                    />
+                    {/* label */}
+                    <Text style={styles.label}>{currentUser.label}:</Text>
+                  </View>
+                  {/* currentUser information */}
+                  <Text style={styles.info}>{currentUser.info}</Text>
+                </HStack>
+              );
+            })}
+            <HStack justifyContent="space-between">
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}></View>
+            </HStack>
+          </VStack>
+        </View>
+      </ScrollView>
+    </View>
+  ) : (
+    <></>
   );
-  // return user && userData ? (
-  //   <View style={styles.container}>
-  //     <View style={styles.header}></View>
-  //     <Image style={styles.avatar} source={{uri: user?.avatar}} />
-  //     <ScrollView
-  //       keyboardShouldPersistTaps="handled"
-  //       flex={1}
-  //       marginTop={'15%'}>
-  //       <View
-  //         style={{
-  //           flex: 0.7,
-  //           marginTop: '2%',
-  //           marginLeft: '7%',
-  //           width: '90%',
-  //           maxWidth: '88%',
-  //         }}>
-  //         <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-  //           {userInfo.map((user, index) => {
-  //             return (
-  //               <HStack
-  //                 justifyContent="space-between"
-  //                 key={user.id}
-  //                 flexWrap="wrap">
-  //                 <View
-  //                   style={{
-  //                     flexDirection: 'row',
-  //                     justifyContent: 'space-between',
-  //                   }}>
-  //                   {/* Icon */}
-  //                   <Icon
-  //                     as={user.icon}
-  //                     size={user.iconSize}
-  //                     ml="2%"
-  //                     mt="-1"
-  //                     color={colors.primary}
-  //                   />
-  //                   {/* label */}
-  //                   <Text style={styles.label}>{user.label}:</Text>
-  //                 </View>
-  //                 {/* user information */}
-  //                 <Text style={styles.info}>{user.info}</Text>
-  //               </HStack>
-  //             );
-  //           })}
-  //           <HStack justifyContent="space-between">
-  //             <View
-  //               style={{
-  //                 flexDirection: 'row',
-  //                 justifyContent: 'space-between',
-  //               }}></View>
-  //           </HStack>
-  //         </VStack>
-  //       </View>
-  //     </ScrollView>
-  //   </View>
-  // ) : (
-  //   <></>
-  // );
 }
 
 const styles = StyleSheet.create({

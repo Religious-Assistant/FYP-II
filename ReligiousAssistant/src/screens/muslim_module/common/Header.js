@@ -121,7 +121,7 @@ export default function Header() {
             }}
             alt="Icon"></Image>
           {/* 19 Ramdan, 1443 */}
-          <Text style={styles.dateInfo}>{islamicDate}</Text>
+          <Text style={styles.dateInfo}>{islamicDate?.split("،")[1]}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>

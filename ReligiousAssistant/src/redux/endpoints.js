@@ -1,13 +1,17 @@
-//User
+//#region General Endpoints
 const register_user='register-user'
 const login_user='login-user'
 const forgot_password='forgot-password'
 const update_profile_image='update-profile-image'
 const update_location='update-location'
+const update_password='update-password'
 const get_otp_code='get-OTP-code'
 const verify_otp_code='verify-otp-code'
 const get_updated_user_data='get-updated-user-data'
 
+//#endregion
+
+//#region Muslim user endpoints
 //Tasbih
 const update_tasbih='update-tasbih'
 const get_tasbih_count='get-tasbih-count'
@@ -39,7 +43,7 @@ const update_primary_mosque='update-primary-mosque'
 const update_auto_silent_settings='update-auto-silent-setting'
 const update_namaz_notifications_setting='update-namaz-notifications-setting'
 const update_accountability_notifications_setting='update-accountability-notifications-setting'
-const update_password='update-password'
+
 
 // const update_auto_silent_settings='update-auto-silent-settings'
 
@@ -52,16 +56,10 @@ const get_mosque_by_id='get-mosque-by-id'
 const cast_up_vote='cast-up-vote'
 const cast_down_vote='cast-down-vote'
 
-//Temples
-const get_all_temples='get-all-temples'
-const get_closest_temples='get-closest-temples'
-const get_unverified_temples_around_user='get-unverified-temples-around-user'
-const add_temple='add-temple'
-
 //Learn Namaz
 const get_learn_namaz_progress='get-learn-namaz-progress'
 const update_learn_namaz_progress='update-learn-namaz-progress'
-
+const get_particular_rakat_info='get-particular-rakat-info'
 
 //Notifications
 
@@ -70,21 +68,79 @@ const delete_muslim_notification='delete-muslim-notification'
 
 //Imam
 const become_imam='become-imam'
+const get_imam_by_id='get-imam-by-id'
+const cast_up_vote_for_imam='cast-up-vote-for-imam'
+const cast_down_vote_for_imam='cast-down-vote-for-imam'
 
 //Announcements
 const make_announcement='make-announcement'
 const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
 
-//QuranInfo
+//Namaz timing
+const update_namaz_alarm_times='update-namaz-alarm-times'
+const get_namaz_alarms_for_user='get-namaz-alarms-for-user'
 
+//Namaz Alarms
+const update_namaz_times='update-namaz-times'
+const get_times_for_user='get-times-for-user'
+
+
+//QuranInfo
 const get_parahs='get-parahs'
 
-export{
-    get_parahs
-}
+//#endregion
 
-export {
+//#region Hindu User endpoints
+
+//Temples
+const get_all_temples='get-all-temples'
+const get_closest_temples='get-closest-temples'
+const get_unverified_temples_around_user='get-unverified-temples-around-user'
+const add_temple='add-temple'
+const get_temple_by_id='get-temple-by-id'
+const cast_up_vote_for_temple='cast-up-vote-for-temple'
+const cast_down_vote_for_temple='cast-down-vote-for-temple'
+
+//Notifications
+const get_hindu_user_notifications='get-hindu-user-notifications'
+const delete_hindu_notification='delete-hindu-notification'
+
+//Preferences
+const update_primary_temple='update-primary-temple'
+const update_auto_silent_settings_for_hindu_user='update-auto-silent-settings-for-hindu-user'
+const update_veg_notifications_setting='update-veg-notifications-setting'
+
+//Announcements
+const make_announcement_for_hindu_users='make-announcement-for-hindu-users'
+const delete_announcement_for_hindu_users='delete-announcement-for-hindu-users'
+const get_announcements_for_hindu_users='get-all-announcements-for-hindu-users'
+
+
+//Gita Recitation
+const get_gita_recitation_stats='get-gita-recitation-stats'
+
+const mark_summary_as_read='mark-summary-as-read'
+const mark_summary_as_unread='mark-summary-as-unread'
+const update_last_read_summary='update-last-read-summary'
+const get_last_read_summary='get-last-read-summary'
+const check_summary_is_read='check-summary-is-read'
+
+const get_last_read_chapter='get-last-read-chapter'
+const check_chapter_is_read='check-chapter-is-read'
+const update_last_read_chapter='update-last-read-chapter'
+const mark_chapter_as_unread='mark-chapter-as-unread'
+const mark_chapter_as_read='mark-chapter-as-read'
+
+//Veg non-veg
+
+const set_veg_days='set-veg-days'
+const get_veg_days='get-veg-days'
+
+//#endregion
+
+////#region General endpoints
+export{
     register_user,
     login_user,
     update_password,
@@ -94,7 +150,51 @@ export {
     get_otp_code,
     verify_otp_code,
     get_updated_user_data,
+    set_veg_days,
+    get_veg_days
+}
 
+//#endregion
+
+//#region For Hindus
+export{
+
+    get_temple_by_id,
+    get_all_temples,
+    get_closest_temples,
+    get_unverified_temples_around_user,
+    add_temple,
+    cast_up_vote_for_temple,
+    cast_down_vote_for_temple,
+    update_primary_temple,
+    update_veg_notifications_setting,
+    update_auto_silent_settings_for_hindu_user,
+    get_hindu_user_notifications,
+    delete_hindu_notification,
+    make_announcement_for_hindu_users,
+    get_announcements_for_hindu_users,
+    delete_announcement_for_hindu_users,
+    mark_summary_as_read,
+    mark_summary_as_unread,
+    update_last_read_summary,
+    get_last_read_summary,
+    check_summary_is_read,
+    get_last_read_chapter,
+    check_chapter_is_read,
+    update_last_read_chapter,
+    mark_chapter_as_unread,
+    mark_chapter_as_read,
+    get_gita_recitation_stats
+
+}
+
+//#endregion
+
+//#region Endpoints for Muslim Users
+export {
+    
+    get_imam_by_id,
+    update_namaz_times,
     update_tasbih,
     get_recitation_stats,
     mark_surah_as_read,
@@ -107,6 +207,8 @@ export {
     check_parah_is_read,
     get_last_read_parah,
     get_last_read_surah,
+    get_parahs,
+
     get_namaz_accountability,
     update_namaz_accountability,
     update_fast_accountability,
@@ -122,19 +224,24 @@ export {
     cast_up_vote,
     cast_down_vote,
 
+    cast_up_vote_for_imam,
+    cast_down_vote_for_imam,
+
     get_learn_namaz_progress,
     update_learn_namaz_progress,
     become_imam,
     make_announcement,
     delete_announcement,
     get_announcements,
-    get_all_temples,
-    get_closest_temples,
-    get_unverified_temples_around_user,
-    add_temple,
     update_namaz_notifications_setting,
     update_accountability_notifications_setting,
     get_tasbih_count,
     get_user_notifications,
-    delete_muslim_notification
+    delete_muslim_notification,
+    get_times_for_user,
+    get_particular_rakat_info,
+
+    update_namaz_alarm_times,
+    get_namaz_alarms_for_user
 }
+//#endregion

@@ -103,6 +103,7 @@ export default function Profile() {
         }
       : undefined,
   ];
+  
   return user && userData ? (
     <View style={styles.container}>
       <View style={styles.header}></View>
