@@ -19,8 +19,9 @@ import {
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
 
-Geocoder.init('AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE');
+Geocoder.init(GOOGLE_MAPS_APIKEY);
 // https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
