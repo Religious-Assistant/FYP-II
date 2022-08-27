@@ -21,6 +21,7 @@ const initialState = {
 
     isLoadingGetUpdatedUserData:false,
     hasErrorGetUpdatedUserData:false,
+    hasLoadedUpdatedData:false,
 
     isLoadingGetOTPCode:false,
     hasErrorGetOTPCode:false,
@@ -142,17 +143,20 @@ const authSlice = createSlice({
             if(action.payload){
                 const user=JSON.stringify(action.payload.data)
                 AsyncStorage.setItem('user',user)
+                state.hasLoadedUpdatedData=true
             }
 
         },
         [getUpdatedUserData.rejected]:(state,action)=>{
             state.isLoadingGetUpdatedUserData=false
             state.hasErrorGetUpdatedUserData=true
+            state.hasLoadedUpdatedData=false
 
         },
         [getUpdatedUserData.pending]:(state,action)=>{
             state.isLoadingGetUpdatedUserData=true
             state.hasErrorGetUpdatedUserData=false
+            state.hasLoadedUpdatedData=false
         },
 
         [getUserData.fulfilled]:(state,action)=>{
@@ -338,4 +342,7 @@ export const selectHasError=(state)=>state.user.hasError
 export const selectHasRecoveredForgetPassword=(state)=>state.user.hasRecoveredForgetPassword
 export const selectUserData=(state)=>state.user.userData
 export const selectOtpId=(state)=>state.user.otp_id
+
+export const selectHasLoadedUpdatedData=(state)=>state.user.hasLoadedUpdatedData
+
 export default authSlice.reducer

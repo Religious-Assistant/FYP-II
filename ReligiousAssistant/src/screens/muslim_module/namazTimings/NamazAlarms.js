@@ -16,6 +16,7 @@ import {
   Card,
 } from 'native-base';
 
+import appIcon from '../../../../assets/images/Logo-muslim.png';
 import clockIcon from '../../../../assets/images/clock_ic.png';
 import CustomButton from '../../../components/CustomButton';
 import colors from '../../../theme/colors';
@@ -27,7 +28,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  getUpdatedUserData,
   getUserData,
+  selectHasLoadedUpdatedData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {
@@ -40,6 +43,9 @@ import {
 } from '../../../redux/slices/muslim_module_slices/namazAlarmsSlice';
 import {useEffect} from 'react';
 import Loader from '../../common/Loader';
+import PushNotification from 'react-native-push-notification';
+import {setHours} from '../../../utils/helpers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NamazAlarms() {
   const dispatch = useDispatch();
@@ -73,7 +79,6 @@ export default function NamazAlarms() {
   }, [dispatch]);
 
   function updateNamazAlarms() {
-
     if (user) {
       dispatch(
         updateNamazAlarmTimes({
@@ -85,10 +90,92 @@ export default function NamazAlarms() {
           isha: ishaTime.text,
         }),
       );
+      dispatch(getUpdatedUserData({username: user?.username}));
     } else {
       alert(`Error occured. Get back Later`);
     }
   }
+
+  const hasLoadedUpdatedData = useSelector(selectHasLoadedUpdatedData);
+
+  const getAlarmTimes = async () => {
+    try {
+      let result = await AsyncStorage.getItem('user');
+      result = result != null ? JSON.parse(result) : null;
+      return result?.alarms;
+    } catch (e) {
+      console.log('ERROR while Retrieving user data from Async Storage', e);
+    }
+  };
+
+  useEffect(() => {
+    if (hasLoadedUpdatedData) {
+      //#region  Configure Alarm
+      PushNotification.channelExists('namaz_notification', exists => {
+        // PushNotification.cancelAllLocalNotifications()
+
+        if (!exists) {
+          createChannel();
+          console.log('Created channel');
+        } else {
+          if (user?.preferences?.namazNotifications) {
+            getAlarmTimes().then(alarms=>{
+              console.log(alarms);
+            createNotification(alarms?.fajr);
+            createNotification(alarms?.zuhr);
+            createNotification(alarms?.asr);
+            createNotification(alarms?.maghrib);
+            createNotification(alarms?.isha);
+
+            PushNotification.getScheduledLocalNotifications(scheduled => {
+              console.log(scheduled.length);
+            });
+            }).catch(error=>console.log(error))
+          }
+        }
+      });
+      //#endregion
+    }
+  }, [dispatch, hasLoadedUpdatedData]);
+
+  const createChannel = async () => {
+    await PushNotification.createChannel(
+      {
+        channelId: 'namaz_notification',
+        channelName: 'My channel',
+        channelDescription: 'A channel to categorise your notifications',
+        soundName: 'azan2.mp3',
+        importance: 4,
+        vibrate: true,
+      },
+      created => {
+        console.log(`createChannel returned '${created}'`);
+      },
+    );
+  };
+
+  const createNotification = async time => {
+    if (time.toUpperCase() == 'NONE') {
+      return;
+    }
+    var alarm = new Date();
+    //   setHours(alarm,`${user?.alarms.fajr}`) ////1:31:03 am   //imported from helpers.js
+
+    await setHours(alarm, time);
+
+    PushNotification.localNotificationSchedule({
+      channelId: 'namaz_notification',
+      title: 'Namaz Notification',
+      message: 'Alarm 1',
+      soundName: 'azan2.mp3',
+      importance: 4,
+      vibrate: true,
+      smallIcon: appIcon,
+      date: alarm,
+      allowWhileIdle: true,
+      repeatType: 'day',
+    });
+  };
 
   function useInput() {
     const [date, setDate] = useState(new Date());

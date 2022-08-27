@@ -20,6 +20,7 @@ import {
 import {
   getReligion,
   getToken,
+  getUserData,
   logout,
   selectReligion,
   selectToken,
@@ -29,6 +30,7 @@ import {
 //Logout user if token is expired in AsyncStorage
 import jwtDecode from 'jwt-decode';
 import {setHours} from '../../utils/helpers';
+import moment from 'moment';
 
 function SplashScreeen() {
   const navigator = useNavigation();
@@ -41,6 +43,7 @@ function SplashScreeen() {
   useEffect(() => {
     dispatch(getToken());
     dispatch(getReligion());
+    dispatch(getUserData())
 
     setTimeout(() => {
       if (religion == 1 && token) {
@@ -48,9 +51,34 @@ function SplashScreeen() {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp < Date.now() / 1000) {
           dispatch(logout());
+          PushNotification.cancelAllLocalNotifications()
         } else {
+
+          //#region  Configure Alarm
+          PushNotification.channelExists('namaz_notification',(exists)=>{
+  
+            if(!exists){
+              createChannel()
+            }
+            else{
+              
+
+              if (user?.preferences?.namazNotifications) {
+                createNotification(user?.alarms?.fajr);
+                createNotification(user?.alarms?.zuhr);
+                createNotification(user?.alarms?.asr);
+                createNotification(user?.alarms?.maghrib);
+                createNotification(user?.alarms?.isha);
+
+              }
+            }
+          })
+//#endregion 
+
           navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
         }
+
+
       } else if (religion == 0 && token) {
         //Check if token is expired, then logout user
         const decodedToken = jwtDecode(token);
@@ -65,26 +93,7 @@ function SplashScreeen() {
     }, 2000);
   }, [token, religion]);
 
-  useEffect(() => {
-    if (user) {
-      console.log(user?.alarms);
-      if (user?.religion == 1) {
-        createChannels().then(() => {
-          if (user?.preferences?.namazNotifications) {
-            createNotification(user?.alarms?.fajr);
-            createNotification(user?.alarms?.zuhr);
-            createNotification(user?.alarms?.asr);
-            createNotification(user?.alarms?.maghrib);
-            createNotification(user?.alarms?.isha);
-          }
-        });
-      } else {
-        //Hindus Alarms here
-      }
-    }
-  }, [dispatch]);
-
-  const createChannels = async () => {
+  const createChannel =async () => {
     await PushNotification.createChannel(
       {
         channelId: 'namaz_notification',
@@ -94,17 +103,19 @@ function SplashScreeen() {
         importance: 4,
         vibrate: true,
       },
-      created => console.log(`createChannel returned '${created}'`),
+      created => {
+        console.log(`createChannel returned '${created}'`)
+      },
     );
   };
 
-  const createNotification = time => {
+  const createNotification = async time => {
     if (time.toUpperCase() == 'NONE') {
       return;
     }
     var alarm = new Date();
     //   setHours(alarm,`${user?.alarms.fajr}`) ////1:31:03 am   //imported from helpers.js
-    setHours(alarm, time);
+    await setHours(alarm, time);
 
     PushNotification.localNotificationSchedule({
       channelId: 'namaz_notification',

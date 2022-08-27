@@ -50,6 +50,7 @@ import {
 } from '../../../redux/slices/auth_slices/authSlice';
 import {selectCurrentTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import Loader from '../../common/Loader';
+import PushNotification from 'react-native-push-notification';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -234,6 +235,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
         if (title == 'logout' || title=='exit') {
           //Remove token from async storage
           dispatch(logout());
+          PushNotification.cancelAllLocalNotifications()
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE);
