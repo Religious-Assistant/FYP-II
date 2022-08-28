@@ -119,18 +119,22 @@ export default function NamazAlarms() {
           console.log('Created channel');
         } else {
           if (user?.preferences?.namazNotifications) {
-            getAlarmTimes().then(alarms=>{
-              console.log(alarms);
-            alarms?.fajr!=='NONE'?createNotification(alarms?.fajr):"";
-            alarms?.zuhr!=='NONE'?createNotification(alarms?.zuhr):"";
-            alarms?.asr!=='NONE'?createNotification(alarms?.asr):"";
-            alarms?.maghrib!=='NONE'?createNotification(alarms?.maghrib):"";
-            alarms?.isha!=='NONE'?createNotification(alarms?.isha):"";
+            getAlarmTimes()
+              .then(alarms => {
+                console.log(alarms);
+                alarms?.fajr !== 'NONE' ? createNotification(alarms?.fajr) : '';
+                alarms?.zuhr !== 'NONE' ? createNotification(alarms?.zuhr) : '';
+                alarms?.asr !== 'NONE' ? createNotification(alarms?.asr) : '';
+                alarms?.maghrib !== 'NONE'
+                  ? createNotification(alarms?.maghrib)
+                  : '';
+                alarms?.isha !== 'NONE' ? createNotification(alarms?.isha) : '';
 
-            PushNotification.getScheduledLocalNotifications(scheduled => {
-              console.log(scheduled.length);
-            });
-            }).catch(error=>console.log(error))
+                // PushNotification.getScheduledLocalNotifications(scheduled => {
+                //   console.log(scheduled.length);
+                // });
+              })
+              .catch(error => console.log(error));
           }
         }
       });
@@ -165,8 +169,10 @@ export default function NamazAlarms() {
 
     PushNotification.localNotificationSchedule({
       channelId: 'namaz_notification',
-      title: 'Namaz Notification',
-      message: 'Alarm 1',
+      title: '⏰Namaz Notification⏰',
+      message: 'Salah Wipes Away Sins',
+      bigText:
+        'And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive [to Allah]: \nSurah Baqrah (2:45)',
       soundName: 'azan2.mp3',
       importance: 4,
       vibrate: true,

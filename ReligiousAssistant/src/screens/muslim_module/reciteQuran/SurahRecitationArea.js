@@ -32,10 +32,9 @@ import colors from '../../../theme/colors';
 
 import {FlatList, Image} from 'native-base';
 import last_read_ic from '../../../../assets/images/last_read_ic.png';
-import {
-  selectUserData,
-} from '../../../redux/slices/auth_slices/authSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {useState} from 'react';
+import {useRef} from 'react';
 
 const SurahRecitationArea = ({route, navigation}) => {
   const {surah} = route.params;
@@ -58,6 +57,7 @@ const SurahRecitationArea = ({route, navigation}) => {
 
   //State
   const [scrollIndexForAyah, setScrollIndexForAyah] = useState(0);
+  const refContainer = useRef(null);
 
   useEffect(() => {
     dispatch(getSurahByNumber(surah.number));
@@ -72,7 +72,7 @@ const SurahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markSurahAsRead({username, surahNumber, surahName}));
       dispatch(checkSurahIsRead({username, surahName}));
-      dispatch(getRecitationStats({username}))
+      dispatch(getRecitationStats({username}));
     }
   }
 
@@ -80,7 +80,7 @@ const SurahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markSurahAsUnRead({username, surahNumber, surahName}));
       dispatch(checkSurahIsRead({username, surahName}));
-      dispatch(getRecitationStats({username}))
+      dispatch(getRecitationStats({username}));
     }
   }
 
@@ -131,8 +131,19 @@ const SurahRecitationArea = ({route, navigation}) => {
             </View>
           </View>
           <FlatList
+            ref={refContainer}
             data={surahByNumber.ayahs}
+            // initialScrollIndex={scrollIndexForAyah}
             initialScrollIndex={scrollIndexForAyah}
+            onScrollToIndexFailed={info => {
+              const wait = new Promise(resolve => setTimeout(resolve, 500));
+              wait.then(() => {
+                refContainer.current?.scrollToIndex({
+                  index: info.index,
+                  animated: true,
+                });
+              });
+            }}
             mb={'25%'}
             renderItem={({item, index}) => {
               //Get last read verse number and highlish that card
@@ -140,7 +151,10 @@ const SurahRecitationArea = ({route, navigation}) => {
 
               //Jump to this card with initialSCrollIndex
               if (item.number == verseNumber) {
+                // if(refContainer.current){
+                //   refContainer.current.scrollToIndex({ animated: true, index: index, viewPosition:0 });
                 setScrollIndexForAyah(index);
+                // }
               }
 
               return (
@@ -176,7 +190,8 @@ const SurahRecitationArea = ({route, navigation}) => {
 };
 
 const AyahCard = props => {
-  const {ayah, surahNumber, username, backgroundColor, fontColor, tintColor} = props;
+  const {ayah, surahNumber, username, backgroundColor, fontColor, tintColor} =
+    props;
 
   const dispatch = useDispatch();
   let isLoadingUpdateLastReadSurah = useSelector(
@@ -185,8 +200,8 @@ const AyahCard = props => {
 
   function saveLastRead(surahNumber, verseNumber) {
     dispatch(updateLastReadSurah({username, surahNumber, verseNumber}));
-    dispatch(getLastReadSurah({username}))
-    dispatch(getRecitationStats({username}))
+    // dispatch(getLastReadSurah({username}))
+    // dispatch(getRecitationStats({username}))
   }
 
   return (

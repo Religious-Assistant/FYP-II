@@ -42,6 +42,7 @@ import {
 } from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  getUpdatedUserData,
   getUserData,
   logout,
   selectHasError,
@@ -70,9 +71,7 @@ export default function RegisteredMuslimDashboard() {
   const hasError = useSelector(selectHasError);
 
   useEffect(() => {
-    if (!user) {
       dispatch(getUserData());
-    }
   }, [dispatch, selectedTab]);
 
   return (

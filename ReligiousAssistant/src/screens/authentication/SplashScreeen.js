@@ -20,6 +20,7 @@ import {
 import {
   getReligion,
   getToken,
+  getUpdatedUserData,
   getUserData,
   logout,
   selectReligion,
@@ -44,41 +45,18 @@ function SplashScreeen() {
     dispatch(getToken());
     dispatch(getReligion());
     dispatch(getUserData())
-
     setTimeout(() => {
       if (religion == 1 && token) {
         //Check if token is expired, then logout user
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp < Date.now() / 1000) {
           dispatch(logout());
-          PushNotification.cancelAllLocalNotifications()
+          PushNotification.cancelAllLocalNotifications();
         } else {
-
-          //#region  Configure Alarm
-          PushNotification.channelExists('namaz_notification',(exists)=>{
-  
-            if(!exists){
-              createChannel()
-            }
-            else{
-              
-
-              if (user?.preferences?.namazNotifications) {
-                createNotification(user?.alarms?.fajr);
-                createNotification(user?.alarms?.zuhr);
-                createNotification(user?.alarms?.asr);
-                createNotification(user?.alarms?.maghrib);
-                createNotification(user?.alarms?.isha);
-
-              }
-            }
-          })
-//#endregion 
-
           navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
         }
 
-
+        dispatch(getUpdatedUserData({username:user?.username}))
       } else if (religion == 0 && token) {
         //Check if token is expired, then logout user
         const decodedToken = jwtDecode(token);
@@ -87,49 +65,13 @@ function SplashScreeen() {
         } else {
           navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
         }
+
+        dispatch(getUpdatedUserData({username:user?.username}))
       } else {
         navigator.navigate(LOGIN);
       }
     }, 2000);
-  }, [token, religion]);
-
-  const createChannel =async () => {
-    await PushNotification.createChannel(
-      {
-        channelId: 'namaz_notification',
-        channelName: 'My channel',
-        channelDescription: 'A channel to categorise your notifications',
-        soundName: 'azan2.mp3',
-        importance: 4,
-        vibrate: true,
-      },
-      created => {
-        console.log(`createChannel returned '${created}'`)
-      },
-    );
-  };
-
-  const createNotification = async time => {
-    if (time.toUpperCase() == 'NONE') {
-      return;
-    }
-    var alarm = new Date();
-    //   setHours(alarm,`${user?.alarms.fajr}`) ////1:31:03 am   //imported from helpers.js
-    await setHours(alarm, time);
-
-    PushNotification.localNotificationSchedule({
-      channelId: 'namaz_notification',
-      title: 'Namaz Notification',
-      message: 'Alarm 1',
-      soundName: 'azan2.mp3',
-      importance: 4,
-      vibrate: true,
-      smallIcon: appIcon,
-      date: alarm,
-      allowWhileIdle: true,
-      repeatType: 'day',
-    });
-  };
+  }, [dispatch, token, religion]);
 
   return (
     <ImageBackground

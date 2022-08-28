@@ -42,22 +42,23 @@ import {
 //Redux
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import RecitationStats from './RecitationStats';
-import { useIsFocused } from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native';
+import {useRef} from 'react';
 
 const ReciteQuran = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const isLoadingSurahs = useSelector(selectIsLoadingSurahs);
   const isLoadingParahs = useSelector(selectIsLoadingParahs);
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(getSurahs());
     dispatch(getParahs());
     if (userData) {
-      dispatch(getRecitationStats({username:userData.username}))
-      dispatch(getLastReadSurah({username:userData.username}));
-      dispatch(getLastReadParah({username:userData.username}));
+      dispatch(getRecitationStats({username: userData.username}));
+      dispatch(getLastReadSurah({username: userData.username}));
+      dispatch(getLastReadParah({username: userData.username}));
     }
   }, [dispatch, userData]);
 
@@ -133,7 +134,9 @@ const SurahRoute = () => {
                         : colors.white
                     }
                     fontColor={
-                      item.number == lastReadSurah?.surahLastRead?.surahNumber ? colors.white : colors.primary
+                      item.number == lastReadSurah?.surahLastRead?.surahNumber
+                        ? colors.white
+                        : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -152,6 +155,8 @@ const ParahRoute = () => {
   const isLoadingLastReadParah = useSelector(selectIsLoadingLastReadParah);
   const lastReadParah = useSelector(selectLastReadParah);
 
+  const refContainer = useRef(null);
+
   //State
   const [scrollIndexForParah, setScrollIndexForParah] = useState(0);
 
@@ -162,8 +167,18 @@ const ParahRoute = () => {
   return (
     <>
       <FlatList
+        ref={refContainer}
         data={parahs}
         initialScrollIndex={scrollIndexForParah}
+        onScrollToIndexFailed={info => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            refContainer.current?.scrollToIndex({
+              index: info.index,
+              animated: true,
+            });
+          });
+        }}
         renderItem={({item, index}) => {
           // Get last read verse number and highlish that card
 
@@ -190,7 +205,9 @@ const ParahRoute = () => {
                         : colors.white
                     }
                     fontColor={
-                      item.number == lastReadParah?.parahLastRead?.parahNumber ? colors.white : colors.primary
+                      item.number == lastReadParah?.parahLastRead?.parahNumber
+                        ? colors.white
+                        : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -202,9 +219,7 @@ const ParahRoute = () => {
   );
 };
 const StatsRoute = () => {
-  return (
-    <RecitationStats />
-  );
+  return <RecitationStats />;
 };
 
 const renderScene = SceneMap({
