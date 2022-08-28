@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
       const user_data = await User.create({
-        username,
+        username:username.trim().toLowerCase(),
         mobile,
         password,
         religion,
@@ -132,12 +132,12 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("Login API hit", req.body.password, req.body.username);
+  console.log("Login API hit");
   try {
     const { username, password, deviceToken } = req.body;
 
     const user_data = await User.findOne({
-      username: username,
+      username: username.trim().toLowerCase(),
       verified: true,
     });
 
