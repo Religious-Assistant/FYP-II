@@ -155,7 +155,6 @@ const loginUser = async (req, res) => {
             username: username,
           });
           alarms=await NamazAlarms.findOne({username})
-
           imam = await Imam.findOne({ username: username });
         } else {
           userPreferences = await HinduPreference.findOne({
@@ -202,7 +201,7 @@ const loginUser = async (req, res) => {
 //TODO: GET updated data does not return preferences, isImam , what to do?
 
 const getUpdatedUserdata = async (req, res) => {
-  console.log("Get Updated User Data hit", req.body);
+  console.log("Get Updated User Data hit");
   try {
     const { username } = req.body;
 
@@ -213,9 +212,11 @@ const getUpdatedUserdata = async (req, res) => {
     if (user_data) {
       if (user_data.religion == 1) {
         const preferences = await MuslimPreference.findOne({ username });
+        const alarms=await NamazAlarms.findOne({username})
+        let imam = await Imam.findOne({ username: username });
         res.send({
           success: true,
-          data: { ...user_data._doc, preferences },
+          data: { ...user_data._doc, preferences, alarms, isImam: imam ? true : false, },
           msg: "Fetched Data Successfully",
         });
       } else {

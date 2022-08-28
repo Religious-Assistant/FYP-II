@@ -56,7 +56,7 @@ const getMosqueById = async (req, res) => {
 };
 
 const getClosestMosques = async (req, res) => {
-  console.log("Find closest Mosques API hit", req.body);
+  console.log("Find closest Mosques API hit");
 
   const { longitude, latitude } = req.body;
 
