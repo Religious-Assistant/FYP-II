@@ -164,7 +164,6 @@ const loginUser = async (req, res) => {
           });
         }
 
-        console.log(userPreferences)
         const resultData = {
           ...user_data._doc,
           token: token,
