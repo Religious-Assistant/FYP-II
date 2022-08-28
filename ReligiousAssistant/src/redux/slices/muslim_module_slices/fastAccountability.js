@@ -51,6 +51,14 @@ const fastAccountabilitySlice = createSlice({
     [updateFastAccountability.fulfilled]: (state, action) => {
       state.hasErrorInUpdateAccountability = false;
       state.isLoadingUpdateAccountability = false;
+      
+      if(action.payload?.data){
+        state.accountabilityData = action.payload.data;
+      }
+      else{
+        alert(`Could not load Data`)
+      }
+
     },
     [updateFastAccountability.pending]: (state, action) => {
       state.isLoadingUpdateAccountability = true;

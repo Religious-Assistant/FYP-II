@@ -46,6 +46,7 @@ import {setTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
 import {
   getUpdatedUserData,
   getUserData,
+  selectHasLoadedUpdatedData,
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
@@ -66,11 +67,16 @@ import {
 } from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
 import { getClosestTemples, getTempleById, selectClosestTemples, selectIsLoadingClosestTemple, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
+import Geocoder from 'react-native-geocoding';
+import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+
+Geocoder.init(GOOGLE_MAPS_APIKEY)
+
 export default function Settings({route, navigation}) {
 
   const navigator = useNavigation();
   const isFocused = useIsFocused();
-
+  
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
@@ -81,14 +87,15 @@ export default function Settings({route, navigation}) {
   const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
-
+  const hasLoadedUpdatedData=useSelector(selectHasLoadedUpdatedData)
   const templeById=useSelector(selectTempleById)
   //when tab is focused in MuslimBottomTab.js, this will be called
 
   
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
-
+  const [location, setLocation] = useState(null);
+  
   const [open, setOpen] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
 
@@ -105,6 +112,7 @@ export default function Settings({route, navigation}) {
 
     useEffect(() => {
       dispatch(getUserData());
+
       if (user?.avatar) {
         setAvatar({image: user?.avatar, key: 0});
       }
@@ -116,6 +124,19 @@ export default function Settings({route, navigation}) {
         dispatch(setTab('Settings'));
       });
   
+      user
+      ? Geocoder.from(
+          user.location?.coordinates[1],
+          user.location?.coordinates[0],
+        )
+          .then(json => {
+            var addressComponent = json.results[0].address_components;
+            setLocation(addressComponent[1].long_name);
+          })
+
+          .catch(error => console.warn(error))
+      : '';
+
       return unsubscribe;
     }, [navigation, dispatch, isFocused]);
 
@@ -360,7 +381,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {templeById?.templeName}
+                        {templeById?templeById?.templeName:"NONE"}
                       </Text>
                       {temples ? (
                         <Select
@@ -431,19 +452,11 @@ export default function Settings({route, navigation}) {
                           Location
                         </Heading>
                       </Stack>
-                      {route?.params ? (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`Longitude: ${route.params.longitude}\nLatitude: ${route.params.latitude}`}
-                        </Text>
-                      ) : user ? (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`Longitude: ${user.location.coordinates[0]}\nLatitude: ${user.location.coordinates[1]}`}
-                        </Text>
-                      ) : (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`No Location set yet`}
-                        </Text>
-                      )}
+                      <Text fontWeight="400" style={styles.text}>
+                          {
+                            location?location:"Not Loaded"
+                          }
+                          </Text>
 
                       <HStack
                         flexDirection={'row'}

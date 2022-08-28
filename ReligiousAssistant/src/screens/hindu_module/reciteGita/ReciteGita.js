@@ -1,5 +1,5 @@
 /**
- * @author Nadir 
+ * @author Nadir
  * @version 1.0
  */
 
@@ -32,23 +32,35 @@ import {
 //Redux
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import RecitationStats from './RecitationStats';
-import { useIsFocused } from '@react-navigation/native'
-import { getChapters, getLastReadChapter, getLastReadSummary, getRecitationStats, selectChapters, selectIsLoadingChapters, selectIsLoadingLastReadChapter, selectIsLoadingLastReadSummary, selectIsLoadingSummaries, selectLastReadChapter, selectLastReadSummary, selectSummaries } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
+import {useIsFocused} from '@react-navigation/native';
+import {
+  getChapters,
+  getLastReadChapter,
+  getLastReadSummary,
+  getRecitationStats,
+  selectChapters,
+  selectIsLoadingChapters,
+  selectIsLoadingLastReadChapter,
+  selectIsLoadingLastReadSummary,
+  selectIsLoadingSummaries,
+  selectLastReadChapter,
+  selectLastReadSummary,
+  selectSummaries,
+} from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
+import {useRef} from 'react';
 
 const ReciteGita = () => {
-
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const isLoadingChapters = useSelector(selectIsLoadingChapters);
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(getChapters());
     if (userData) {
-
-      dispatch(getRecitationStats({username:userData.username}))
-      dispatch(getLastReadChapter({username:userData.username}));
-      dispatch(getLastReadSummary({username:userData.username}));
+      dispatch(getRecitationStats({username: userData.username}));
+      dispatch(getLastReadChapter({username: userData.username}));
+      dispatch(getLastReadSummary({username: userData.username}));
     }
   }, [dispatch, userData]);
 
@@ -56,7 +68,7 @@ const ReciteGita = () => {
     <View style={{flex: 1}}>
       <Header
         title1="Recite Gita"
-        title2="Gita then becomes a witness for one on the Day of Judgment"
+        title2="scripture is a dialogue between Pandava prince Arjuna and divine deity Krishna during the Kurukshetra war in the ancient Sanskrit epic-Mahabharata"
         image={img}
         title1Size={30}
         title2Size={15}
@@ -79,7 +91,6 @@ const ReciteGita = () => {
 };
 
 const ChaptersRoute = () => {
-
   const chapters = useSelector(selectChapters);
   const navigator = useNavigation();
 
@@ -88,6 +99,7 @@ const ChaptersRoute = () => {
 
   //State
   const [scrollIndexForChapter, setScrollIndexForChapter] = useState(0);
+  const refContainer = useRef(null);
 
   function renderRecitationScreen(item) {
     navigator.navigate(GITA_CHAPTER_RECITATION_AREA, {chapter: item});
@@ -96,14 +108,27 @@ const ChaptersRoute = () => {
   return (
     <>
       <FlatList
+        ref={refContainer}
         data={chapters}
         initialScrollIndex={scrollIndexForChapter}
+        onScrollToIndexFailed={info => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            refContainer.current?.scrollToIndex({
+              index: info.index,
+              animated: true,
+            });
+          });
+        }}
         renderItem={({item, index}) => {
           //Get last read verse number and highlish that card
 
-          console.log(lastReadChapter)
+          console.log(lastReadChapter);
           //Jump to this card with initialSCrollIndex
-          if (item.chapter_number == lastReadChapter?.chapterLastRead?.chapterNumber) {
+          if (
+            item.chapter_number ==
+            lastReadChapter?.chapterLastRead?.chapterNumber
+          ) {
             setScrollIndexForChapter(index);
           }
 
@@ -120,12 +145,16 @@ const ChaptersRoute = () => {
                     chapter={item}
                     key={index}
                     backgroundColor={
-                      item.chapter_number == lastReadChapter?.chapterLastRead?.chapterNumber
+                      item.chapter_number ==
+                      lastReadChapter?.chapterLastRead?.chapterNumber
                         ? colors.tertiary
                         : colors.white
                     }
                     fontColor={
-                      item.chapter_number == lastReadChapter?.chapterLastRead?.chapterNumber ? colors.white : colors.primary
+                      item.chapter_number ==
+                      lastReadChapter?.chapterLastRead?.chapterNumber
+                        ? colors.white
+                        : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -182,7 +211,9 @@ const SummaryRoute = () => {
                         : colors.white
                     }
                     fontColor={
-                      item.chapter_number == lastReadSummary?.summaryLastRead ? colors.white : colors.primary
+                      item.chapter_number == lastReadSummary?.summaryLastRead
+                        ? colors.white
+                        : colors.primary
                     }
                   />
                 </TouchableOpacity>
@@ -195,9 +226,7 @@ const SummaryRoute = () => {
 };
 
 const StatsRoute = () => {
-  return (
-    <RecitationStats />
-  );
+  return <RecitationStats />;
 };
 
 const renderScene = SceneMap({
