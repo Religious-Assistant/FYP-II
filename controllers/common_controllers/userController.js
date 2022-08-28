@@ -134,10 +134,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   console.log("Login API hit");
   try {
-    const { username, password, deviceToken } = req.body;
+    let { username, password, deviceToken } = req.body;
 
+    username=username.trim().toLowerCase()
     const user_data = await User.findOne({
-      username: username.trim().toLowerCase(),
+      username: username,
       verified: true,
     });
 
