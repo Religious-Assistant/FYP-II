@@ -1,9 +1,9 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   StyleSheet,
   useWindowDimensions,
@@ -13,23 +13,27 @@ import {
 
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Text, View, FlatList} from 'native-base';
-//Theme
+
+//components
 import Header from '../../../components/Header';
+import Loader from '../../common/Loader';
+
+//image
 import img from '../../../../assets/images/gita2_ic.png';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
 //Navigation
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-
-import Loader from '../../common/Loader';
 import {
   GITA_CHAPTER_RECITATION_AREA,
   GITA_SUMMARY_RECITATION_AREA,
 } from '../../../navigation/constants';
 
 //Redux
+import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import RecitationStats from './RecitationStats';
 import {useIsFocused} from '@react-navigation/native';
@@ -42,12 +46,9 @@ import {
   selectIsLoadingChapters,
   selectIsLoadingLastReadChapter,
   selectIsLoadingLastReadSummary,
-  selectIsLoadingSummaries,
   selectLastReadChapter,
   selectLastReadSummary,
-  selectSummaries,
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
-import {useRef} from 'react';
 
 const ReciteGita = () => {
   const dispatch = useDispatch();

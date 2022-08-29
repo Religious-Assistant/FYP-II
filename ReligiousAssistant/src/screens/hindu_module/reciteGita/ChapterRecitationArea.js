@@ -1,5 +1,5 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
@@ -10,15 +10,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useEffect, useRef} from 'react';
+import {FlatList, Image} from 'native-base';
 
 import Loader from '../../common/Loader';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
-import {FlatList, Image} from 'native-base';
+//image
 import last_read_ic from '../../../../assets/images/last_read_ic.png';
+
+//redux
+import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {useState} from 'react';
 import {
@@ -33,11 +38,9 @@ import {
   selectIsLoadingChapterRecitationStatus,
   selectIsLoadingMarkChapterAsRead,
   selectIsLoadingMarkChapterAsUnRead,
-  selectIsLoadingUpdateLastReadChapter,
   selectLastReadChapter,
   updateLastReadChapter,
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
-import { useRef } from 'react';
 
 const ChapterRecitationArea = ({route, navigation}) => {
   const {chapter} = route.params;
@@ -115,8 +118,14 @@ const ChapterRecitationArea = ({route, navigation}) => {
                 <TouchableOpacity
                   onPress={() => {
                     chapterRecitationStatus
-                      ? markChapterAsInComplete(chapter.chapter_number, chapter.meaning.en)
-                      : markChapterAsComplete(chapter.chapter_number, chapter.meaning.en);
+                      ? markChapterAsInComplete(
+                          chapter.chapter_number,
+                          chapter.meaning.en,
+                        )
+                      : markChapterAsComplete(
+                          chapter.chapter_number,
+                          chapter.meaning.en,
+                        );
                   }}>
                   <Text
                     style={{
@@ -155,14 +164,17 @@ const ChapterRecitationArea = ({route, navigation}) => {
                 });
               });
             }}
-            
             mb={'25%'}
             renderItem={({item, index}) => {
               // Get last read verse number and highlish that card
-              const {verseNumber, chapterNumber} = lastReadChapter.chapterLastRead;
+              const {verseNumber, chapterNumber} =
+                lastReadChapter.chapterLastRead;
 
               //Jump to this card with initialSCrollIndex
-              if (item.verse_number == verseNumber && chapterNumber==chapter.chapter_number) {
+              if (
+                item.verse_number == verseNumber &&
+                chapterNumber == chapter.chapter_number
+              ) {
                 setScrollIndexForVerse(index);
               }
 
@@ -174,12 +186,14 @@ const ChapterRecitationArea = ({route, navigation}) => {
                     key={index}
                     username={username}
                     backgroundColor={
-                      item.verse_number == verseNumber && chapterNumber==chapter.chapter_number
+                      item.verse_number == verseNumber &&
+                      chapterNumber == chapter.chapter_number
                         ? colors.tertiary
                         : colors.cover
                     }
                     fontColor={
-                      item.verse_number == verseNumber && chapterNumber==chapter.chapter_number
+                      item.verse_number == verseNumber &&
+                      chapterNumber == chapter.chapter_number
                         ? colors.white
                         : colors.success.deep
                     }

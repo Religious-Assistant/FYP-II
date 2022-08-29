@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Heading,
@@ -18,19 +18,22 @@ import {
   Input,
 } from 'native-base';
 
-// import {Formik} from 'formik';
-// import * as yup from 'yup';
+//images
 import vegDays from '../../../../assets/images/vegDays_ic.png';
+
+//custom components
 import CustomButton from '../../../components/CustomButton';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//reducer
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-import {useEffect} from 'react';
 import {
   getVegData,
   selectVegData,
