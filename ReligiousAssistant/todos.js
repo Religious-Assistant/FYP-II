@@ -16,9 +16,14 @@
 //TODO: Learn Namaz -10 progress at start
 //TODO progress did not update when mark as complete
 
+//TODO: mosque name in cast vote disappeared (Imam), show no of votes
+
 //TODO: Recite Quran Cannot convert null value to object
 
 //TODO: Prayer accountability is not working correctly
 
-//TODO: check muslim header-> location
+//TODO: Redux issue-> update times is not accessible to imam
 
+//TODO: Header in hindus
+
+//TODO: alerts notification and announcements-> does not appear when consensus is completed

@@ -69,9 +69,7 @@ export default function RegisteredMuslimDashboard() {
   const hasError = useSelector(selectHasError);
 
   useEffect(() => {
-    if (!user) {
       dispatch(getUserData());
-    }
   }, [dispatch, selectedTab]);
 
   return (

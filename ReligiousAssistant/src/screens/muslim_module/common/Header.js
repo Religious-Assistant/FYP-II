@@ -54,7 +54,7 @@ export default function Header() {
         year: 'numeric',
       }).format(Date.now()),
     );
-    {
+    
       user
         ? Geocoder.from(
             user.location?.coordinates[1],
@@ -68,7 +68,7 @@ export default function Header() {
 
             .catch(error => console.warn(error))
         :"";
-    }
+    
     const timerId = setInterval(() => {
       setCurrentTime({
         time: moment().format('LTS'),
@@ -78,7 +78,7 @@ export default function Header() {
     }, 1000);
     // return clearInterval(timerId)
   }, [dispatch]);
-
+//console.log(location)
   return (
     <View style={styles.container}>
       <View style={[styles.subContainer1, {flex: user ? 0.4 : 0.6}]}>

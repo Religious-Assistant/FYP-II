@@ -27,7 +27,7 @@
  import Loader from '../../common/Loader';
  import {useNavigation} from '@react-navigation/native';
 import { useState } from 'react';
-import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import { getUpdatedUserData, getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
 import { castDownvoteForImam, castUpvoteForImam, getImamById, selectImamById, selectIsLoadingGetImamById } from '../../../redux/slices/muslim_module_slices/imamSlice';
  
  export default function ImamConsensusNoti({route, navigation}) {
@@ -55,6 +55,7 @@ import { castDownvoteForImam, castUpvoteForImam, getImamById, selectImamById, se
      if(imamId && !isAlreadyCasted && user && !imamById?.receivers[index].hasVoted){
        dispatch(castUpvoteForImam({imamId:imamId, username:user?.username}))
        setIsAlreadyCasted(true)
+       dispatch(getUpdatedUserData({username:user?.username}))
      }
      else{
        alert(`Vote already casted or error occured`)
@@ -67,6 +68,7 @@ import { castDownvoteForImam, castUpvoteForImam, getImamById, selectImamById, se
      if(imamId && !isAlreadyCasted && user && !imamById?.receivers[index].hasVoted){
        dispatch(castDownvoteForImam({imamId:imamId, username:user?.username}))
        setIsAlreadyCasted(true)
+       dispatch(getUpdatedUserData({username:user?.username}))
      }
      else{
        alert(`Vote already casted or error occured`)
