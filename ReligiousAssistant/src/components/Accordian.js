@@ -15,9 +15,11 @@ import {
   UIManager,
 } from 'react-native';
 
+//theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 
+//icon
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class Accordian extends Component {
@@ -35,7 +37,7 @@ export default class Accordian extends Component {
 
   render() {
     return (
-      <View style={{marginLeft:'4%', marginBottom:'3%'}}>
+      <View style={{marginLeft: '4%', marginBottom: '3%'}}>
         <TouchableOpacity
           style={styles.row}
           onPress={() => this.toggleExpand()}
@@ -57,7 +59,7 @@ export default class Accordian extends Component {
               numColumns={1}
               scrollEnabled={true}
               renderItem={({item, index}) => (
-                <View >
+                <View>
                   <View
                     activeOpacity={0.5}
                     style={[
@@ -68,7 +70,6 @@ export default class Accordian extends Component {
                     onPress={() => this.onClick(index)}>
                     <Text style={[styles.itemInActive]}>{item.rakatName}</Text>
                     <Text style={[styles.itemInActive]}>{item.rakats}</Text>
-                    
                   </View>
                   <View style={styles.childHr} />
                 </View>
@@ -93,10 +94,6 @@ export default class Accordian extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   button: {
     width: '100%',
     height: 54,
@@ -109,11 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.Signika.bold,
     color: colors.white,
-  },
-  itemActive: {
-    fontSize: 14,
-    fontFamily: fonts.Signika.regular,
-    color: colors.success.deep,
   },
   itemInActive: {
     fontSize: 15,
@@ -149,11 +141,5 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.tertiary,
     width: '100%',
-  },
-  colorActive: {
-    borderColor: colors.tertiary,
-  },
-  colorInActive: {
-    borderColor: colors.primary,
   },
 });

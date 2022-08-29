@@ -5,25 +5,33 @@
 
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, Dimensions} from 'react-native';
+import {View} from 'native-base';
+
+//maps
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
+
+//theme
 import colors from '../theme/colors';
 
-import {View} from 'native-base';
-
+//custom component
 import CustomButton from './CustomButton';
 
+//navigation
 import {useNavigation} from '@react-navigation/native';
-import {ADD_MOSQUE, MUSLIM_SETTINGS} from '../navigation/constants';
+import {MUSLIM_SETTINGS} from '../navigation/constants';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
-import {setTab} from '../redux/slices/muslim_module_slices/bottomNavSlice';
 import {
   getUserData,
   selectUserData,
 } from '../redux/slices/auth_slices/authSlice';
 import {updateLocation} from '../redux/slices/muslim_module_slices/muslimPreferencesSlice';
-import { GOOGLE_MAPS_APIKEY } from './componentsConstants';
+
+//constants
+import {GOOGLE_MAPS_APIKEY} from './componentsConstants';
 
 const Map = ({route, navigation}) => {
   const {screen} = route.params;
@@ -74,7 +82,7 @@ const Map = ({route, navigation}) => {
     if (screen === MUSLIM_SETTINGS && user) {
       //update location on confirm click
 
-      console.log(position)
+      console.log(position);
       dispatch(
         updateLocation({
           username: user.username,
@@ -82,7 +90,7 @@ const Map = ({route, navigation}) => {
           latitude: position?.latitude,
         }),
       );
-      dispatch(getUserData())
+      dispatch(getUserData());
     }
     if (screen) {
       navigator.navigate(screen, {

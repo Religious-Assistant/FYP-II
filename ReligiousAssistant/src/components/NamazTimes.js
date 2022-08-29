@@ -7,6 +7,7 @@ import React from 'react';
 import {View, Box, Checkbox} from 'native-base';
 import {StyleSheet, Text} from 'react-native';
 
+//theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 
@@ -36,23 +37,10 @@ export default function NamazTimes(props) {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.6,
-    backgroundColor: colors.white,
-    marginTop: 30,
-    fontFamily: fonts.Signika.regular,
-  },
   text: {
     fontSize: 20,
     fontFamily: fonts.Signika.regular,
-    color:colors.primary
-  },
-  mainBox: {
-    border: 1,
-    borderRadius: 10,
-    borderWidth: 4,
-    backgroundColor: colors.cover,
-    borderColor: colors.cover,
+    color: colors.primary,
   },
   subBox: {
     borderWidth: 4,

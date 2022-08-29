@@ -27,5 +27,5 @@
 
 //TODO: Recite Gita -> can not convert null value to object-> RecitationStats-> line 71
 
-//TODO: Should I delete Share App file from common folder?
+//TODO: Should I delete Share App file from common and components folder?
 
