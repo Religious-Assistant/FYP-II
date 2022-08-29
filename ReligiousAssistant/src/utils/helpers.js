@@ -1,3 +1,7 @@
+/**
+ * @author Kinza & Nadir
+ * @version 1.0
+ */
 export const dateDifference = createdAt => {
   let dt1 = new Date(createdAt);
   return timeSince(dt1);

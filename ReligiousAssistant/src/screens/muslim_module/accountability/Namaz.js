@@ -7,9 +7,14 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Box, VStack, Divider, Button, Text, Checkbox} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//moment
 import moment from 'moment';
+
+//calendar
 import CalendarPicker from 'react-native-calendar-picker';
 
 //redux
@@ -22,6 +27,8 @@ import {
   updateNamazAccountability,
 } from '../../../redux/slices/muslim_module_slices/namazAccountabilitySlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+
+//custom component
 import Loader from '../../common/Loader';
 
 export default function Namaz() {

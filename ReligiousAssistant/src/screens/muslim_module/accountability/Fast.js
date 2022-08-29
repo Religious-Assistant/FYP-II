@@ -6,9 +6,12 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Box, Button, Text} from 'native-base';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {
@@ -19,8 +22,13 @@ import {
   updateFastAccountability,
 } from '../../../redux/slices/muslim_module_slices/fastAccountability';
 
+//calendar
 import CalendarPicker from 'react-native-calendar-picker';
+
+//custom componnet
 import Loader from '../../common/Loader';
+
+//moment
 import moment from 'moment';
 
 export default function Fast() {

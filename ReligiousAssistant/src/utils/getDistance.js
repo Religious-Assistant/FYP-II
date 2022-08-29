@@ -1,3 +1,7 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
 export function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371;
   var DLat = deg2rad(lat2 - lat1);
