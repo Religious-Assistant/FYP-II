@@ -1,72 +1,73 @@
 /**
  * @author Kinza Kiran
  * @version 1.0
-*/
+ */
 
 import {View, Text} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import {TouchableOpacity} from 'react-native';
 import {Image, Center} from 'native-base';
 
 //Redux
-import {useSelector, useDispatch} from 'react-redux'
-import { getTasbihCount, selectTasbihCount, updateCount, updateTasbih } from '../../../redux/slices/muslim_module_slices/tasbihSlice';
-import { selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getTasbihCount,
+  selectTasbihCount,
+  updateCount,
+  updateTasbih,
+} from '../../../redux/slices/muslim_module_slices/tasbihSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
+//images
 import tasbihIcon from '../../../../assets/images/tasbih_ic.png';
 import tasbihImg from '../../../../assets/images/tasbih_img.png';
+
+//custom components
 import CustomButton from '../../../components/CustomButton';
 import Header from '../../../components/Header';
-// Theme
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-
 export default function TasbihCounter() {
-  
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  const tasbih=useSelector(selectTasbihCount)
-  const userData= useSelector(selectUserData)
+  const tasbih = useSelector(selectTasbihCount);
+  const userData = useSelector(selectUserData);
 
-  useEffect(()=>{
-
-    if(userData){
-      dispatch(getTasbihCount({username:userData.username}))
+  useEffect(() => {
+    if (userData) {
+      dispatch(getTasbihCount({username: userData.username}));
     }
+  }, []);
 
-  },[])
-  
-  const onTasbihClick = () =>{
-    dispatch(updateCount(tasbih+1))
-
+  const onTasbihClick = () => {
+    dispatch(updateCount(tasbih + 1));
   };
   const handleReset = () => {
-    dispatch(updateCount(0))
-
+    dispatch(updateCount(0));
   };
 
-
-  const saveTasbih = ()=> {
-    dispatch(updateTasbih({username: userData.username,count: tasbih}))
-    
+  const saveTasbih = () => {
+    dispatch(updateTasbih({username: userData.username, count: tasbih}));
   };
 
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
       {/* Header */}
       <Header
-          image={tasbihIcon}
-          title1="Remember your Lord and"
-          title2="He will remember you"
-          height={0.2}
-          title1Size={20}
-          title1Color={colors.secondary}
-          title2Color={colors.white}
-          title2Size={20}
-          title1Family={fonts.Signika.bold}
-          title2Family={fonts.Signika.medium}
-        />
+        image={tasbihIcon}
+        title1="Remember your Lord and"
+        title2="He will remember you"
+        height={0.2}
+        title1Size={20}
+        title1Color={colors.secondary}
+        title2Color={colors.white}
+        title2Size={20}
+        title1Family={fonts.Signika.bold}
+        title2Family={fonts.Signika.medium}
+      />
       <View style={{flex: 0.83}} width="95%">
         <Center
           width="85%"
@@ -83,11 +84,11 @@ export default function TasbihCounter() {
               marginLeft: '8%',
               fontSize: 70,
             }}>
-              {tasbih}
+            {tasbih}
           </Text>
         </Center>
         {/* Center Image */}
-      <TouchableOpacity onPress={onTasbihClick}>
+        <TouchableOpacity onPress={onTasbihClick}>
           <Center>
             <Image
               size={230}
@@ -108,18 +109,9 @@ export default function TasbihCounter() {
           {/* Reset Button */}
           <CustomButton onPress={handleReset} base="45%" title="Reset" />
           {/* Save Button */}
-          <CustomButton base="45%" title="Save" onPress={saveTasbih}/>
+          <CustomButton base="45%" title="Save" onPress={saveTasbih} />
         </View>
       </View>
     </View>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-});

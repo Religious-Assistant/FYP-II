@@ -2,13 +2,16 @@
  * @author Kinza Kiran
  * @version 1.0
  */
+
 import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {VStack, Divider, Box, Heading, FlatList} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//images
 import duaIcon from '../../../../assets/images/dua_ic.png';
 
 export default function AllahNames({navigation}) {
@@ -590,7 +593,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.regular,
     fontSize: 16,
     marginLeft: '-1%',
-    //padding: 5,
     color: colors.success.deep,
     flexWrap: 'wrap',
   },
