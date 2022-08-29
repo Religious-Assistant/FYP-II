@@ -1,3 +1,8 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -6,41 +11,60 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {Center, VStack, FormControl, Button} from 'native-base';
+import {
+  Center,
+  VStack,
+  FormControl,
+  Button,
+  Select,
+  CheckIcon,
+} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Select, CheckIcon} from 'native-base';
 
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
+//icons
 import Ioicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+//theme
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
+//custom components
 import TextInput from '../../components/TextInput';
 import BottomText from '../../components/BottomText';
 import PasswordInput from '../../components/PasswordInput';
 import CustomButton from '../../components/CustomButton';
 import ErrorMessage from '../../components/ErrorMessage';
+
+//image
 import image from '../../../assets/images/signUp_bg.png';
-import {useNavigation} from '@react-navigation/native';
+
+//navigation
 import {
   ENTER_AS_GUEST,
   LOGIN,
   OTP_VERIFICATION,
 } from '../../navigation/constants';
+import {useNavigation} from '@react-navigation/native';
 
+//geolocation
 import Geolocation from '@react-native-community/geolocation';
+
 //Redux
-
 import {useDispatch, useSelector} from 'react-redux';
-import {getOTPCode, selectHasErrorGetOTPCode, selectIsObtainedOTP} from '../../redux/slices/auth_slices/authSlice';
+import {
+  getOTPCode,
+  selectHasErrorGetOTPCode,
+  selectIsObtainedOTP,
+} from '../../redux/slices/auth_slices/authSlice';
 
-
+//phone number regex
 const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 
+//yup validation schema
 const registerValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
   password: yup.string().min(8).required('Password is required'),
@@ -53,40 +77,41 @@ const registerValidationSchema = yup.object().shape({
 });
 
 function RegisterScreen() {
-
   const navigator = useNavigation();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  const hasErrorGetOtpCode=useSelector(selectHasErrorGetOTPCode)
-  const isObtainedOTP=useSelector(selectIsObtainedOTP)
+  const hasErrorGetOtpCode = useSelector(selectHasErrorGetOTPCode);
+  const isObtainedOTP = useSelector(selectIsObtainedOTP);
 
-  const [registerValues, setRegisterValues]=useState()
+  const [registerValues, setRegisterValues] = useState();
   const [position, setPosition] = useState(null);
-  
-  useEffect(() => {
 
-    Geolocation.getCurrentPosition(pos => {
-      const crd = pos.coords;
-      setPosition({
-        latitude: crd.latitude,
-        longitude: crd.longitude,
-      });
-    },
-    error => console.log(error.message),
-    {timeout: 20000, maximumAge: 1000},) 
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      pos => {
+        const crd = pos.coords;
+        setPosition({
+          latitude: crd.latitude,
+          longitude: crd.longitude,
+        });
+      },
+      error => console.log(error.message),
+      {timeout: 20000, maximumAge: 1000},
+    );
   }, []);
 
-
   function signupHandler(values) {
-
-
     //TODO: Un comment when OTP verification to be enabled
-    // dispatch(getOTPCode({mobile:values.mobile})) 
+    // dispatch(getOTPCode({mobile:values.mobile}))
     // setRegisterValues({...values,location:position})
 
     //TODO: Remove when OTP verification to be enabled
-    navigator.navigate(OTP_VERIFICATION,{values:{...values, location:{longitude:68.5953277, latitude:27.3027566}}});
-  
+    navigator.navigate(OTP_VERIFICATION, {
+      values: {
+        ...values,
+        location: {longitude: 68.5953277, latitude: 27.3027566},
+      },
+    });
   }
 
   function enterAsGuest() {
@@ -121,7 +146,6 @@ function RegisterScreen() {
                   password: '',
                   mobile: '',
                   religion: 1,
-                  
                 }}
                 onSubmit={values => {
                   signupHandler(values);
@@ -255,9 +279,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  scroll: {
-    flex: 1,
-  },
   image: {
     flex: 1,
     justifyContent: 'center',
@@ -275,14 +296,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontFamily: fonts.Signika.medium,
     color: colors.white,
-  },
-  link: {
-    color: colors.secondary,
-    fontSize: 'sm',
-    fontFamily: fonts.Signika.medium,
-  },
-  mainContainer: {
-    flex: 1,
   },
 });
 
