@@ -1,18 +1,23 @@
+/**
+ * @author Kinza Kiran && Nadir Hussain
+ * @version 1.0
+ */
+
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {
   Box,
   Image,
   View,
-  Heading,
   Text,
-  Center,
-  HStack,
-  Stack,
   ScrollView,
 } from 'native-base';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//helper function
 import {dateDifference} from '../../../utils/helpers'
 
 export default function AnnouncementNoti({route, navigation}) {
