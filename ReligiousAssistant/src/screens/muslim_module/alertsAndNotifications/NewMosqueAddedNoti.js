@@ -3,29 +3,31 @@
  * @version 1.0
  */
 
-import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {useEffect} from 'react';
 import {
-  Heading,
-  Image,
-  Text,
-  Center,
-  VStack,
-  HStack,
-  Divider,
-  ScrollView,
-  Box,
-} from 'native-base';
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Heading, Image, Text, ScrollView} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//images
 import directionIcon from '../../../../assets/images/direction_ic.png';
 import mosqueIcon from '../../../../assets/images/closest_mosque_ic.png';
-import { useNavigation } from '@react-navigation/native';
 
+import {useNavigation} from '@react-navigation/native';
+
+//custom component
 import CustomButton from '../../../components/CustomButton';
-import {useEffect} from 'react';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getMosqueById,
@@ -33,19 +35,22 @@ import {
   selectMosqueById,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 import Loader from '../../common/Loader';
-import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
-import { updatePrimaryMosque } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
-import { getUpdatedUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
+import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
+import {updatePrimaryMosque} from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
+import {
+  getUpdatedUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function NewMosqueAddedNoti({route, navigation}) {
   const {mosqueId} = route.params;
 
-  const navigator=useNavigation()
+  const navigator = useNavigation();
 
   const dispatch = useDispatch();
   const mosqueById = useSelector(selectMosqueById);
   const isLoadingGetMosqueById = useSelector(selectIsLoadingGetMosqueById);
-  const user=useSelector(selectUserData)
+  const user = useSelector(selectUserData);
 
   useEffect(() => {
     dispatch(getMosqueById({mosqueId: mosqueId}));
@@ -56,14 +61,18 @@ export default function NewMosqueAddedNoti({route, navigation}) {
     navigator.navigate(GOOGLE_MAP_DIRECTIONS, {destinationCoordinates});
   };
 
-  const makeMosquePrimary=()=>{
-
-    if(user && mosqueById){
-      dispatch(updatePrimaryMosque({username:user?.username,primaryMosque:mosqueById?._id}))
-      dispatch(getUpdatedUserData({username:user?.username}))
-      alert('Updated Primary Mosque')
+  const makeMosquePrimary = () => {
+    if (user && mosqueById) {
+      dispatch(
+        updatePrimaryMosque({
+          username: user?.username,
+          primaryMosque: mosqueById?._id,
+        }),
+      );
+      dispatch(getUpdatedUserData({username: user?.username}));
+      alert('Updated Primary Mosque');
     }
-  }
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -122,38 +131,35 @@ export default function NewMosqueAddedNoti({route, navigation}) {
                   heading={'Mosque Name'}
                   data={mosqueById?.mosqueName}
                 />
-                                <DetailItem
+                <DetailItem
                   heading={'Added By'}
                   data={`${mosqueById?.addedBy.toUpperCase()}`}
                 />
 
-            <View
-                style={{
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  marginTop:25,
-                }}>
-                <Text style={styles.heading}>
-                  Location
-                </Text>
+                <View
+                  style={{
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    marginTop: 25,
+                  }}>
+                  <Text style={styles.heading}>Location</Text>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    displayLocationOnMap(mosqueById?.location?.coordinates);
-                  }}
-                  activeOpacity={0.6}>
-                  <Image
-                    source={directionIcon}
-                    style={{
-                      height: 40,
-                      width: 40,
-                      tintColor: colors.primary,
+                  <TouchableOpacity
+                    onPress={() => {
+                      displayLocationOnMap(mosqueById?.location?.coordinates);
                     }}
-                    alt="Direction"
-                  />
-                </TouchableOpacity>
-              </View>
-
+                    activeOpacity={0.6}>
+                    <Image
+                      source={directionIcon}
+                      style={{
+                        height: 40,
+                        width: 40,
+                        tintColor: colors.primary,
+                      }}
+                      alt="Direction"
+                    />
+                  </TouchableOpacity>
+                </View>
 
                 <View style={{justifyContent: 'center', marginTop: 40}}>
                   <CustomButton
@@ -161,8 +167,6 @@ export default function NewMosqueAddedNoti({route, navigation}) {
                     variant="solid"
                     color="white"
                     onPress={makeMosquePrimary}
-
-                    
                   />
                 </View>
               </View>

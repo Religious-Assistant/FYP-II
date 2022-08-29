@@ -1,10 +1,10 @@
 /**
- * @author Kinza Kiran
+ * @author Kinza Kiran && Nadir Hussain
  * @version 1.0
  */
 
 import {View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Keyboard,
@@ -13,14 +13,19 @@ import {
 } from 'react-native';
 import {Heading, Image, Text, VStack, Box, HStack, Divider} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//image
 import voteIcon from '../../../../assets/images/vote_ic.png';
-
-import CustomButton from '../../../components/CustomButton';
 import directionIcon from '../../../../assets/images/direction_ic.png';
 
+//custom component
+import CustomButton from '../../../components/CustomButton';
+import Loader from '../../common/Loader';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   selectMosqueById,
@@ -29,14 +34,15 @@ import {
   castUpvote,
   castDownvote,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
-import Loader from '../../common/Loader';
-import {useNavigation} from '@react-navigation/native';
-import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
-import {useState} from 'react';
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+
+import {useNavigation} from '@react-navigation/native';
+
+//constants
+import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
 
 export default function MosqueConsensusNoti({route, navigation}) {
   const {mosqueId} = route.params;
