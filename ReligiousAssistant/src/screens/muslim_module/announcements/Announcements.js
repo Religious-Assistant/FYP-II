@@ -10,7 +10,6 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Dimensions,
 } from 'react-native';
 
 import {
@@ -21,21 +20,25 @@ import {
   NativeBaseProvider,
   Text,
   Image,
-  Button,
 } from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
+
+//icons
 import Octicons from 'react-native-vector-icons/Octicons';
 
+//navigation
 import {useNavigation} from '@react-navigation/native';
 import {
   MAKE_ANNOUNCEMENT_SCREEN,
   MUSLIM_USER_ANNOUNCEMENT_DETAILS,
 } from '../../../navigation/constants';
 
-import {data} from './dummyData';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
-import fonts from '../../../theme/fonts';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   deleteAnnouncement,
@@ -45,19 +48,19 @@ import {
   selectIsLoadingAnnouncements,
 } from '../../../redux/slices/muslim_module_slices/muslimAnnouncementSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+
+//custom components
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
-import { dateDifference } from '../../../utils/helpers';
-import { checkConnected } from '../../common/CheckConnection';
-import NoConnectionScreen from '../../common/NoConnectionScreen';  
-import { useIsFocused } from '@react-navigation/native'
-  
+import NoConnectionScreen from '../../common/NoConnectionScreen';
 
-//Screen dimensions
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+//helper function
+import {dateDifference} from '../../../utils/helpers';
+import {checkConnected} from '../../common/CheckConnection';
+
+import {useIsFocused} from '@react-navigation/native';
+
 export default function Announcements() {
-  
   const [connectStatus, setConnectStatus] = useState(false);
   const dispatch = useDispatch();
 
@@ -65,7 +68,7 @@ export default function Announcements() {
   const isLoadingAnnouncements = useSelector(selectIsLoadingAnnouncements);
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     checkConnected().then(res => {
@@ -74,8 +77,8 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-  }, [connectStatus, dispatch, isFocused ]);
-  
+  }, [connectStatus, dispatch, isFocused]);
+
   //Handle delete
   const handleDelete = item => {
     if (user) {
@@ -88,8 +91,7 @@ export default function Announcements() {
     }
   };
 
-  return (
-    connectStatus?(
+  return connectStatus ? (
     <>
       <View style={styles.root}>
         {isLoadingAnnouncements ? (
@@ -114,12 +116,12 @@ export default function Announcements() {
             refreshControl={
               <RefreshControl
                 onRefresh={() => {
-                  if(user){
-                    dispatch(getAnnouncements({username: user.username}))
+                  if (user) {
+                    dispatch(getAnnouncements({username: user.username}));
                   }
                 }}
                 refreshing={isLoadingAnnouncements}
-                />
+              />
             }
             ListEmptyComponent={<Empty message={'No announcements yet'} />}
           />
@@ -130,13 +132,15 @@ export default function Announcements() {
           <FabButton />
         </Center>
       </NativeBaseProvider>
-    </>):(<NoConnectionScreen
+    </>
+  ) : (
+    <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {
           setConnectStatus(res);
         });
       }}
-    />)
+    />
   );
 }
 
@@ -155,7 +159,6 @@ const ListItem = props => {
       </TouchableOpacity>
     );
   };
-
 
   const gotoAnnouncement = () => {
     navigator.navigate(MUSLIM_USER_ANNOUNCEMENT_DETAILS, {
@@ -178,7 +181,9 @@ const ListItem = props => {
                 <Text style={styles.name}>
                   {announcement?.announcedBy.toUpperCase()}
                 </Text>
-                <Text style={styles.timeAgo}>{dateDifference(announcement?.createdAt)} ago</Text>
+                <Text style={styles.timeAgo}>
+                  {dateDifference(announcement?.createdAt)} ago
+                </Text>
               </View>
               <Text numberOfLines={2}>{announcement.statement}</Text>
             </View>
@@ -220,7 +225,6 @@ const FabButton = () => {
 const styles = StyleSheet.create({
   root: {
     backgroundColor: '#FFFFFF',
-    // height:windowHeight,
   },
   container: {
     padding: 16,
@@ -256,20 +260,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 16,
     marginRight: 0,
-  },
-  mainContent: {
-    marginRight: 60,
-  },
-  img: {
-    height: 50,
-    width: 50,
-    margin: 0,
-  },
-  attachment: {
-    position: 'absolute',
-    right: 0,
-    height: 50,
-    width: 50,
   },
   separator: {
     height: 1,
