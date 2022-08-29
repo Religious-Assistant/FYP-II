@@ -6,13 +6,17 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Heading, Image, Center, VStack, Box} from 'native-base';
+import {Heading, Image, Center, Box} from 'native-base';
 
+//images
 import timeICon from '../../../../assets/images/clock_ic.png';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import {useDispatch, useSelector} from 'react-redux';
+//redux
+import {useDispatch} from 'react-redux';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function NamazTimeByMoque({navigation}) {
@@ -158,15 +162,6 @@ export default function NamazTimeByMoque({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   startTime: {
     fontFamily: fonts.Signika.medium,
     color: colors.success.deep,

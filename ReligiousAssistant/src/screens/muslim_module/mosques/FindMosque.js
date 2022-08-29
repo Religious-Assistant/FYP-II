@@ -3,13 +3,14 @@
  * @version 1.0
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import {
   Center,
   VStack,
@@ -22,46 +23,60 @@ import {
   Text,
 } from 'native-base';
 
+//icons
 import Ioicons from 'react-native-vector-icons/Ionicons';
+
+//images
 import mosqueICon from '../../../../assets/images/Logo-muslim.png';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//custom components
 import CustomBox from '../../../components/CustomBox';
-import {PermissionsAndroid} from 'react-native';
+
+//maps
 import Geolocation from '@react-native-community/geolocation';
-import { useIsFocused } from '@react-navigation/native'
+
+import {useIsFocused} from '@react-navigation/native';
 
 //Redux
-
-import {useSelector, useDispatch} from 'react-redux'
-import { getClosestMosques, selectClosestMosques } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
-import { useNavigation } from '@react-navigation/native';
-import { GOOGLE_MAP_DIRECTIONS } from '../../../navigation/constants';
-import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getClosestMosques,
+  selectClosestMosques,
+} from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import {useNavigation} from '@react-navigation/native';
+import {GOOGLE_MAP_DIRECTIONS} from '../../../navigation/constants';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function FindMosque() {
+  const dispatch = useDispatch();
+  const navigator = useNavigation();
 
-  
-  const dispatch=useDispatch()
-  const navigator=useNavigation()
+  const closesMosques = useSelector(selectClosestMosques);
+  const user = useSelector(selectUserData);
+  const isFocused = useIsFocused();
 
-  const closesMosques=useSelector(selectClosestMosques)
-  const user=useSelector(selectUserData)
-  const isFocused = useIsFocused()
-
-  useEffect(()=>{
-
-    if(!user){
-      dispatch(getUserData())
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserData());
     }
 
-    if(user){
-        dispatch(getClosestMosques({longitude:user?.location?.coordinates[0], latitude:user?.location?.coordinates[1]}))
+    if (user) {
+      dispatch(
+        getClosestMosques({
+          longitude: user?.location?.coordinates[0],
+          latitude: user?.location?.coordinates[1],
+        }),
+      );
     }
-  },[dispatch, isFocused])
-  
+  }, [dispatch, isFocused]);
+
   getLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -75,11 +90,11 @@ export default function FindMosque() {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-            dispatch(getClosestMosques(position.coords))
-            setSourceCoordinates(position.coords)
+            dispatch(getClosestMosques(position.coords));
+            setSourceCoordinates(position.coords);
           },
           error => {
-            alert(`Error while seeking Permission. ${error.code}`)
+            alert(`Error while seeking Permission. ${error.code}`);
           },
           {enableHighAccuracy: false, timeout: 15000},
         );
@@ -91,16 +106,13 @@ export default function FindMosque() {
     }
   };
 
-  function getDirections(destinationCoordinates){
-    
-    if(destinationCoordinates){
-
-      navigator.navigate(GOOGLE_MAP_DIRECTIONS,{
-        destinationCoordinates
-      })
-    }
-    else{
-      alert('Error while fetching current or desination location')
+  function getDirections(destinationCoordinates) {
+    if (destinationCoordinates) {
+      navigator.navigate(GOOGLE_MAP_DIRECTIONS, {
+        destinationCoordinates,
+      });
+    } else {
+      alert('Error while fetching current or desination location');
     }
   }
 
@@ -166,31 +178,93 @@ export default function FindMosque() {
                     />
                   }
                 />
-                {
-                  closesMosques?.length==0?
-                  <View style={{backgroundColor:colors.cover, marginTop:"20%", padding:15, width:"90%", alignSelf:'center'}}>
-                  <Text style={{color:colors.info, fontFamily:fonts.Signika.bold, fontSize:20, textAlign:'center', marginTop:10}}>No Mosque near you</Text>
-                  <Text style={{color:colors.secondary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>What to do?</Text>
-                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>1. Add a mosque </Text>
-                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>2. Wait for consensus </Text>
-                  <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>3. It will appear in searches </Text>
-                </View>
-                :<>
-                
-                {closesMosques?closesMosques.map((mosque,index)=>{
-
-                  return(
-                    <CustomBox
-                    mt={'5%'}
-                    mb={index==closesMosques.length-1?"15%":"0%"}
-                    text={mosque.mosqueName}
-                    distance={Math.round((mosque.dist.calculated/1000 + Number.EPSILON) * 100) / 100+" KM "}
-                    onPress={()=>{getDirections(mosque.location.coordinates)}}
-                />
-                  )
-                }):<></>}
-                 </>
-                }
+                {closesMosques?.length == 0 ? (
+                  <View
+                    style={{
+                      backgroundColor: colors.cover,
+                      marginTop: '20%',
+                      padding: 15,
+                      width: '90%',
+                      alignSelf: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: colors.info,
+                        fontFamily: fonts.Signika.bold,
+                        fontSize: 20,
+                        textAlign: 'center',
+                        marginTop: 10,
+                      }}>
+                      No Mosque near you
+                    </Text>
+                    <Text
+                      style={{
+                        color: colors.secondary,
+                        fontFamily: fonts.Signika.bold,
+                        fontSize: 18,
+                        marginTop: 10,
+                      }}>
+                      What to do?
+                    </Text>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: fonts.Signika.bold,
+                        fontSize: 18,
+                        marginTop: 10,
+                      }}>
+                      1. Add a mosque{' '}
+                    </Text>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: fonts.Signika.bold,
+                        fontSize: 18,
+                        marginTop: 10,
+                      }}>
+                      2. Wait for consensus{' '}
+                    </Text>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontFamily: fonts.Signika.bold,
+                        fontSize: 18,
+                        marginTop: 10,
+                      }}>
+                      3. It will appear in searches{' '}
+                    </Text>
+                  </View>
+                ) : (
+                  <>
+                    {closesMosques ? (
+                      closesMosques.map((mosque, index) => {
+                        return (
+                          <CustomBox
+                            mt={'5%'}
+                            mb={
+                              index == closesMosques.length - 1 ? '15%' : '0%'
+                            }
+                            text={mosque.mosqueName}
+                            distance={
+                              Math.round(
+                                (mosque.dist.calculated / 1000 +
+                                  Number.EPSILON) *
+                                  100,
+                              ) /
+                                100 +
+                              ' KM '
+                            }
+                            onPress={() => {
+                              getDirections(mosque.location.coordinates);
+                            }}
+                          />
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                )}
               </VStack>
             </Center>
           </View>
@@ -200,25 +274,7 @@ export default function FindMosque() {
   );
 }
 const styles = StyleSheet.create({
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   image: {width: '90%', flex: 0.5, resizeMode: 'contain', alignSelf: 'center'},
-  container: {backgroundColor: colors.cover, flex: 1},
-  imageBg: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.white,
