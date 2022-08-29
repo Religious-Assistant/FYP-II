@@ -50,7 +50,7 @@ export default function DailyPrayerInfo() {
       info: 'Light the dhoops sticks and spreads the smoke throughout the house.',
     },
     {
-      key: 19,
+      key: 10,
       info: 'Offer naivedyam to God – it can be fruits, milk, or anything you feel like offering to God.',
     },
     {

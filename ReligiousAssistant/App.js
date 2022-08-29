@@ -19,6 +19,7 @@ import messaging from '@react-native-firebase/messaging';
 import {getUserData} from './src/redux/slices/auth_slices/authSlice';
 
 import DailyPrayerInfo from './src/screens/hindu_module/prayers/DailyPrayerInfo'
+import PrayerItemsList from './src/screens/hindu_module/prayers/PrayerItemsList';
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
 
@@ -110,7 +111,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <DailyPrayerInfo />
+        <PrayerItemsList />
       </NativeBaseProvider>
     </Provider>
   );
