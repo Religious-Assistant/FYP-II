@@ -3,21 +3,23 @@
  * @version 1.0
  */
 
-
 import {View} from 'native-base';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Dimensions, ImageBackground} from 'react-native';
-import {Image, Center, Text} from 'native-base';
+import {Image, Center} from 'native-base';
 
 import CompassHeading from 'react-native-compass-heading';
 
+//maps
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid} from 'react-native';
 
+//images
 import kompass from '../../../../assets/images/kompas.png';
 import image from '../../../../assets/images/qibla_bg.png';
 import kabahICon from '../../../../assets/images/kabah_ic.png';
 
+//theme
 import colors from '../../../theme/colors';
 
 const QiblaDirection = () => {

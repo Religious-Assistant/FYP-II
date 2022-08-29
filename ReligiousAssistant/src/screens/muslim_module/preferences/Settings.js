@@ -4,10 +4,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-
 import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
-
-import ImagePicker from 'react-native-image-crop-picker';
 import {
   Image,
   Text,
@@ -30,14 +27,18 @@ import {
   CheckIcon,
 } from 'native-base';
 
+
+import ImagePicker from 'react-native-image-crop-picker';
+
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//images
 import editIcon from '../../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../../assets/images/gallery_ic.png';
 import edit from '../../../../assets/images/edit.png';
-
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
@@ -48,10 +49,17 @@ import {
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+
+//constants
 import {GOOGLE_MAP, MUSLIM_SETTINGS} from '../../../navigation/constants';
+
+//loader
 import Loader from '../../common/Loader';
 
+//navigation
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+
+//redux
 import {
   selectHasUpdatedAutosilentSetting,
   selectHasUpdatedNamazAccountabilityNotificationSettings,
@@ -73,15 +81,16 @@ import {
   selectMosqueById,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 
+//maps
 import Geocoder from 'react-native-geocoding';
-import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 
-Geocoder.init(GOOGLE_MAPS_APIKEY)
+Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Settings({route, navigation}) {
   const navigator = useNavigation();
   const isFocused = useIsFocused();
-  
+
   const [location, setLocation] = useState(null);
 
   //Modal
@@ -242,8 +251,7 @@ export default function Settings({route, navigation}) {
   //Primary Mosque
   const mosques = useSelector(selectClosestMosques);
   const isLoadingClosestMosques = useSelector(selectIsLoadingClosestMosques);
-  const mosqueById=useSelector(selectMosqueById)
-
+  const mosqueById = useSelector(selectMosqueById);
 
   useEffect(() => {
     if (user) {
@@ -254,10 +262,9 @@ export default function Settings({route, navigation}) {
         }),
       );
 
-      dispatch(getMosqueById({mosqueId:user?.preferences?.primaryMosque}))
+      dispatch(getMosqueById({mosqueId: user?.preferences?.primaryMosque}));
     }
   }, [dispatch]);
-
 
   const [password, setPassword] = useState();
   const handlePassword = text => {
@@ -391,7 +398,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {mosqueById?mosqueById.mosqueName:"NONE"}
+                        {mosqueById ? mosqueById.mosqueName : 'NONE'}
                       </Text>
                       {mosques ? (
                         <Select
@@ -416,10 +423,16 @@ export default function Settings({route, navigation}) {
                             bg: colors.white,
                           }}
                           onValueChange={item => {
-                            dispatch(updatePrimaryMosque({username:user?.username, primaryMosque:item}))
-                            dispatch(getUpdatedUserData({username:user?.username}))
-                          }}
-                        >
+                            dispatch(
+                              updatePrimaryMosque({
+                                username: user?.username,
+                                primaryMosque: item,
+                              }),
+                            );
+                            dispatch(
+                              getUpdatedUserData({username: user?.username}),
+                            );
+                          }}>
                           {mosques.map((mosque, index) => {
                             return (
                               <Select.Item
@@ -463,11 +476,9 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
 
-                        <Text fontWeight="400" style={styles.text}>
-                          {
-                            location?location:"Not Loaded"
-                          }
-                          </Text>
+                      <Text fontWeight="400" style={styles.text}>
+                        {location ? location : 'Not Loaded'}
+                      </Text>
                       <HStack
                         flexDirection={'row'}
                         space={4}

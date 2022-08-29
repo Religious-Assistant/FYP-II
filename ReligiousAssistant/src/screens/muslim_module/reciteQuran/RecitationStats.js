@@ -1,15 +1,24 @@
+/**
+ * @author Nadir Hussain
+ * @version 1.0
+ */
+
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView} from 'react-native';
-import {ProgressChart, StackedBarChart} from 'react-native-chart-kit';
-import {Center, Heading} from 'native-base';
+import {StackedBarChart} from 'react-native-chart-kit';
+import {Heading} from 'native-base';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
+
+//redux
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {
   getRecitationStats,
   selectRecitationStats,
 } from '../../../redux/slices/muslim_module_slices/reciteQuranSlice';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 

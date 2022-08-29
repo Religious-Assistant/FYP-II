@@ -1,3 +1,8 @@
+/**
+ * @author Nadir Hussain
+ * @version 1.0
+ */
+
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -5,16 +10,20 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import {Text, View, FlatList} from 'native-base';
 
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {Text, View, Center, FlatList} from 'native-base';
-//Theme
+
 import Header from '../../../components/Header';
+
+//images
 import img from '../../../../assets/images/quran_ic.png';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
-//Navigation
+//navigation
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {

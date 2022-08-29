@@ -1,3 +1,9 @@
+/**
+ * @author Nadir Hussain
+ * @version 1.0
+ */
+
+import {useState, useRef} from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -6,6 +12,9 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
+import {FlatList, Image} from 'native-base';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   checkSurahIsRead,
@@ -26,15 +35,16 @@ import {
   selectSurahRecitationStatus,
   updateLastReadSurah,
 } from '../../../redux/slices/muslim_module_slices/reciteQuranSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+
 import Loader from '../../common/Loader';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
-import {FlatList, Image} from 'native-base';
+//images
 import last_read_ic from '../../../../assets/images/last_read_ic.png';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
-import {useState} from 'react';
-import {useRef} from 'react';
 
 const SurahRecitationArea = ({route, navigation}) => {
   const {surah} = route.params;
