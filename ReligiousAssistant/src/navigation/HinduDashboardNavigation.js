@@ -6,6 +6,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+//constants
 import {
   ABOUT,
   ADD_TEMPLE,
@@ -28,6 +29,7 @@ import {
   VIEW_HINDU_CALANDER,
 } from './constants';
 
+//screens
 import RegisteredHinduDashboard from '../screens/hindu_module/dashboard/RegisteredHinduDashboard';
 import FindTemple from '../screens/hindu_module/temple/FindTemple';
 import Calander from '../screens/hindu_module/calander/Calander';

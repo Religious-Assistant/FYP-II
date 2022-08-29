@@ -5,20 +5,14 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {
-  Box,
-  Image,
-  View,
-  Text,
-  ScrollView,
-} from 'native-base';
+import {Box, Image, View, Text, ScrollView} from 'native-base';
 
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
 //helper function
-import {dateDifference} from '../../../utils/helpers'
+import {dateDifference} from '../../../utils/helpers';
 
 export default function AnnouncementNoti({route, navigation}) {
   const {announcement} = route.params;
@@ -36,7 +30,9 @@ export default function AnnouncementNoti({route, navigation}) {
             style={styles.avatar}
             alt="Announcer image"
           />
-          <Text style={styles.userText}>{announcement?.announcedBy.toUpperCase()}</Text>
+          <Text style={styles.userText}>
+            {announcement?.announcedBy.toUpperCase()}
+          </Text>
         </View>
 
         <Box
@@ -65,10 +61,7 @@ export default function AnnouncementNoti({route, navigation}) {
             </Text>
           </View>
 
-
-              <Text style={styles.statement}>
-                {announcement.statement}
-              </Text>
+          <Text style={styles.statement}>{announcement.statement}</Text>
         </Box>
       </View>
     </ScrollView>
@@ -91,18 +84,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: fonts.Signika.medium,
     fontSize: 24,
-    padding:5,
+    padding: 5,
     marginTop: 15,
   },
   boxContainer: {
     minWidth: '90%',
     padding: 15,
-    marginTop:20,
+    marginTop: 20,
   },
-  statement:{
-    marginTop:20,
-    padding:2,
+  statement: {
+    marginTop: 20,
+    padding: 2,
     fontFamily: fonts.Signika.regular,
-    fontSize:18,
-  }
+    fontSize: 18,
+  },
 });
