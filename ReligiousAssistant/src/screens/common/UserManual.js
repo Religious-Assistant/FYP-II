@@ -3,26 +3,31 @@
  * @version 1.0
  */
 
-import {View} from 'react-native';
 import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {Heading, Image, Text, Center, VStack, ScrollView} from 'native-base';
 
-import mosqueIcon from '../../../assets/images/Logo-combined.png';
+//theme
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
+//images
 import registerScreenImg from '../../../assets/images/registerScreen.png';
 import muslimDashboardImg from '../../../assets/images/muslimDashboard.jpg';
-import hinduDashboardImg from '../../../assets/images/hinduDashboard.jpg'
+import hinduDashboardImg from '../../../assets/images/hinduDashboard.jpg';
 import settingsImg from '../../../assets/images/settingsScreen.jpg';
 import addMosqueImg from '../../../assets/images/addMosqueScreen.jpg';
 import namazAccImg from '../../../assets/images/namazAccountabilityScreen.jpg';
 import fastAccImg from '../../../assets/images/fastAccountabilityScreen.jpg';
 import consensusImg from '../../../assets/images/consensus.jpg';
-import findMosqueImg1 from '../../../assets/images/findMosque.jpg'
-import findMosqueImg2 from '../../../assets/images/findMosque2.jpg'
-
+import findMosqueImg1 from '../../../assets/images/findMosque.jpg';
+import findMosqueImg2 from '../../../assets/images/findMosque2.jpg';
+import mosqueIcon from '../../../assets/images/Logo-combined.png';
 
 export default function UserManual() {
   return (
@@ -472,15 +477,6 @@ export default function UserManual() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,

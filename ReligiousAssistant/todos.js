@@ -23,3 +23,9 @@
 
 //TODO: Load Profile image immediately after it is updated
 
+//Here are issue after I have pulled Nadir-m1-12.0
+
+//TODO: Recite Gita -> can not convert null value to object-> RecitationStats-> line 71
+
+//TODO: Should I delete Share App file from common folder?
+
