@@ -63,11 +63,16 @@ const imamSlice = createSlice({
         [becomeImam.fulfilled]:(state,action)=>{
             state.isLoadingBecomeImam = false
             state.hasErrorBecomeImam = false
+            if(action.payload?.success){
+                state.hasBecomeImam=true
+            }
+            else{
+                alert(`Imam already exists for this moque`)
+            }
         },
         [becomeImam.pending]:(state,action)=>{
             state.isLoadingBecomeImam=true
             state.hasErrorBecomeImam=false
-            state.hasBecomeImam=true            //succeefulle applied to become imam
         },
         [becomeImam.rejected]:(state,action)=>{
             state.isLoadingBecomeImam = false

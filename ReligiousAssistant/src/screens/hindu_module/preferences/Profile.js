@@ -14,88 +14,110 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
-import { getTempleById, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
-import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+import {
+  getTempleById,
+  selectTempleById,
+} from '../../../redux/slices/hindu_module_slices/templeSlice';
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Profile() {
-
   const [location, setLocation] = useState(null);
+  const [userInfo, setUserInfo] = useState([]);
+
   const user = useSelector(selectUserData);
-  const templeById=useSelector(selectTempleById)
+  const templeById = useSelector(selectTempleById);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(getUserData())
-    if(user){
-      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+  useEffect(() => {
+    dispatch(getUserData());
+    if (user) {
+      dispatch(getTempleById({templeId: user?.preferences?.primaryTemple}));
     }
-  },[dispatch])
-
+  }, [dispatch]);
 
   useEffect(() => {
-    {
-      user
-        ? Geocoder.from(
-            user?.location?.coordinates[1],
-            user?.location?.coordinates[0],
-          )
-            .then(json => {
-              var addressComponent = json.results[0].address_components;
-              setLocation(addressComponent[1].long_name);
-            })
+    user
+      ? Geocoder.from(
+          user?.location?.coordinates[1],
+          user?.location?.coordinates[0],
+        )
+          .then(json => {
+            var addressComponent = json.results[0].address_components;
+            setLocation(addressComponent[1].long_name);
+          })
 
-            .catch(error => console.warn(error))
-        : '';
-    }
-  }, []);
+          .catch(error => console.warn(error))
+      : '';
 
-  const userInfo = [
-    
-      user? {
+    if (user) {
+      setUserInfo([
+        {
           id: 1,
           label: 'User Name',
-          info: user?.username,
-          icon: <EvilIcons name="user" />,
+          info: user?.username?.toUpperCase(),
+          icon: <EvilIcons name="user" style={{marginTop: 0}} size={22} />,
           iconSize: '8',
-        }
-      : undefined,
-    user
-      ? {
+        },
+        {
           id: 3,
           label: 'Phone Number',
           info: user?.mobile,
-          icon: <AntDesign name="phone" />,
+          icon: <AntDesign name="phone" style={{marginTop: 0}} size={22} />,
           iconSize: '6',
-        }
-      : undefined,
-    user
-      ? {
+        },
+        {
           id: 4,
           label: 'Location',
           info: location ? location : 'Location not set',
-          icon: <Ionicons name="location-outline" />,
+          icon: (
+            <Ionicons
+              name="location-outline"
+              style={{marginTop: 0}}
+              size={22}
+            />
+          ),
           iconSize: '6',
-        }
-      : undefined,
-    user
-      ? {
+        },
+        {
           id: 6,
           label: 'Primary Temple',
-          info: templeById?templeById.templeName: 'Not Set',
-          icon: <MaterialCommunityIcons name="mosque" />,
+          info: templeById ? templeById.templeName : 'Not Set',
+          icon: (
+            <MaterialCommunityIcons
+              name="mosque"
+              style={{marginTop: 2}}
+              size={20}
+            />
+          ),
           iconSize: '6',
-        }
-      : undefined,
-  ];
+        },
+      ]);
+    }
+  }, [dispatch, location]);
 
   return user && user ? (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={[styles.header]}>
+        <Text
+          style={{
+            textAlign: 'center',
+            color: colors.secondary,
+            fontSize: 26,
+            fontFamily: fonts.Signika.bold,
+            top: '30%',
+            padding: 10,
+          }}>
+          MY PROFILE
+        </Text>
+      </View>
       <Image style={styles.avatar} source={{uri: user?.avatar}} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -110,33 +132,37 @@ export default function Profile() {
             maxWidth: '88%',
           }}>
           <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-            {userInfo.map((currentUser, index) => {
-              return (
-                <HStack
-                  justifyContent="space-between"
-                  key={currentUser.id}
-                  flexWrap="wrap">
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    {/* Icon */}
-                    <Icon
-                      as={currentUser.icon}
-                      size={currentUser.iconSize}
-                      ml="2%"
-                      mt="-1"
-                      color={colors.primary}
-                    />
-                    {/* label */}
-                    <Text style={styles.label}>{currentUser.label}:</Text>
-                  </View>
-                  {/* currentUser information */}
-                  <Text style={styles.info}>{currentUser.info}</Text>
-                </HStack>
-              );
-            })}
+            {userInfo ? (
+              userInfo.map((currentUser, index) => {
+                return (
+                  <HStack
+                    justifyContent="space-between"
+                    key={currentUser.id}
+                    flexWrap="wrap">
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      {/* Icon */}
+                      <Icon
+                        as={currentUser.icon}
+                        size={currentUser.iconSize}
+                        ml="2%"
+                        mt="-1"
+                        color={colors.primary}
+                      />
+                      {/* label */}
+                      <Text style={styles.label}>{currentUser.label}:</Text>
+                    </View>
+                    {/* currentUser information */}
+                    <Text style={styles.info}>{currentUser.info}</Text>
+                  </HStack>
+                );
+              })
+            ) : (
+              <></>
+            )}
             <HStack justifyContent="space-between">
               <View
                 style={{
@@ -160,7 +186,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.primary,
-    height: 200,
+    flex: 0.4,
   },
   avatar: {
     width: 130,

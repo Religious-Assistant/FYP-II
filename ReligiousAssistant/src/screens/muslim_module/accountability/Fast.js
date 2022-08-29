@@ -47,8 +47,6 @@ export default function Fast() {
     }
   }, [dispatch]);
 
-  const [keepFast, setKeepFast] = useState(0);
-
   const [selectedDate, setSelectedDate] = useState(Date('DD-MM-YYYY'));
 
   function onDateChange(date) {

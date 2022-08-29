@@ -37,6 +37,7 @@ import {
   selectLastReadChapter,
   updateLastReadChapter,
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
+import { useRef } from 'react';
 
 const ChapterRecitationArea = ({route, navigation}) => {
   const {chapter} = route.params;
@@ -61,6 +62,7 @@ const ChapterRecitationArea = ({route, navigation}) => {
 
   //State
   const [scrollIndexForVerse, setScrollIndexForVerse] = useState(0);
+  const refContainer = useRef(null);
 
   useEffect(() => {
     dispatch(getChapterByNumber(chapter.chapter_number));
@@ -141,8 +143,19 @@ const ChapterRecitationArea = ({route, navigation}) => {
             </View>
           </View>
           <FlatList
+            ref={refContainer}
             data={chapterByNumber}
             initialScrollIndex={scrollIndexForVerse}
+            onScrollToIndexFailed={info => {
+              const wait = new Promise(resolve => setTimeout(resolve, 500));
+              wait.then(() => {
+                refContainer.current?.scrollToIndex({
+                  index: info.index,
+                  animated: true,
+                });
+              });
+            }}
+            
             mb={'25%'}
             renderItem={({item, index}) => {
               // Get last read verse number and highlish that card

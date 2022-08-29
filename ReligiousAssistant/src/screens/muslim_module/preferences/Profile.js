@@ -6,108 +6,117 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
-import CustomButton from '../../../components/CustomButton';
 
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-
-import avatar from '../../../../assets/images/avatar.png';
 
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import Geocoder from 'react-native-geocoding';
-import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
+
+import {
+  getLearnNamazProgress,
+  selectLearnNamazProgress,
+} from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 
 Geocoder.init(GOOGLE_MAPS_APIKEY);
+
 export default function Profile() {
-  const [location, setLocation] = useState(null);
-  const user = useSelector(selectUserData);
-  const [userData, setUserData] = useState();
 
   const dispatch = useDispatch();
+  const user = useSelector(selectUserData);
+  const namazProgress = useSelector(selectLearnNamazProgress);
+
+  const [userInfo, setUserInfo] = useState();
+  const [location, setLocation] = useState(null);
+
   useEffect(() => {
+    dispatch(getUserData());
+    dispatch(getLearnNamazProgress({username: user?.username}));
+    user
+      ? Geocoder.from(
+          user.location?.coordinates[1],
+          user.location?.coordinates[0],
+        )
+          .then(json => {
+            var addressComponent = json.results[0].address_components;
+            setLocation(addressComponent[1].long_name);
+          })
+
+          .catch(error => console.warn(error))
+      : '';
+
     if (user) {
-      setUserData(user);
-    }
-    {
-      user
-        ? Geocoder.from(
-            user.location?.coordinates[1],
-            user.location?.coordinates[0],
-          )
-            .then(json => {
-              var addressComponent = json.results[0].address_components;
-              //setReg({address: addressComponent});
-              setLocation(addressComponent[1].long_name);
-            })
-
-            .catch(error => console.warn(error))
-        : '';
-    }
-  }, []);
-
-  const userInfo = [
-    userData
-      ? {
+      setUserInfo([
+        {
           id: 1,
           label: 'User Name',
-          info: userData.username,
+          info: user?.username?.toUpperCase(),
           icon: <EvilIcons name="user" />,
           iconSize: '8',
-        }
-      : undefined,
-    userData
-      ? {
+        },
+        {
           id: 2,
           label: 'Password',
           info: 'Password is hashed',
           icon: <EvilIcons name="eye" />,
           iconSize: '8',
-        }
-      : undefined,
-    userData
-      ? {
+        },
+        {
           id: 3,
           label: 'Phone Number',
-          info: userData.mobile,
+          info: user?.mobile,
           icon: <AntDesign name="phone" />,
           iconSize: '6',
-        }
-      : undefined,
-    userData
-      ? {
+        },
+        {
           id: 4,
           label: 'Location',
           info: location ? location : 'Location not set',
           icon: <Ionicons name="location-outline" />,
           iconSize: '6',
-        }
-      : undefined,
-    {
-      id: 5,
-      label: 'Learn Namaz',
-      info: 'Level 2',
-      icon: <Ionicons name="game-controller-outline" />,
-      iconSize: '6',
-    },
-    userData
-      ? {
+        },
+        {
+          id: 5,
+          label: 'Learn Namaz',
+          info: `Level ${namazProgress?.level}`,
+          icon: <Ionicons name="game-controller-outline" />,
+          iconSize: '6',
+        },
+        {
           id: 6,
           label: 'Primary Mosque',
-          info: userData.primaryMosque ? userData.primaryMosque : 'None',
+          info: user?.primaryMosque ? user?.primaryMosque : 'None',
           icon: <MaterialCommunityIcons name="mosque" />,
           iconSize: '6',
-        }
-      : undefined,
-  ];
-  
-  return user && userData ? (
+        },
+      ]);
+    }
+  }, [dispatch, location]);
+
+  return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+        <Text
+          style={{
+            textAlign: 'center',
+            color: colors.secondary,
+            fontSize: 26,
+            fontFamily: fonts.Signika.bold,
+            top: '30%',
+            padding: 10,
+          }}>
+          MY PROFILE
+        </Text>
+      </View>
       <Image style={styles.avatar} source={{uri: user?.avatar}} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -122,33 +131,37 @@ export default function Profile() {
             maxWidth: '88%',
           }}>
           <VStack space={3} divider={<Divider />} w="90%" marginTop={'15%'}>
-            {userInfo.map((user, index) => {
-              return (
-                <HStack
-                  justifyContent="space-between"
-                  key={user.id}
-                  flexWrap="wrap">
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    {/* Icon */}
-                    <Icon
-                      as={user.icon}
-                      size={user.iconSize}
-                      ml="2%"
-                      mt="-1"
-                      color={colors.primary}
-                    />
-                    {/* label */}
-                    <Text style={styles.label}>{user.label}:</Text>
-                  </View>
-                  {/* user information */}
-                  <Text style={styles.info}>{user.info}</Text>
-                </HStack>
-              );
-            })}
+            {userInfo ? (
+              userInfo.map((user, index) => {
+                return (
+                  <HStack
+                    justifyContent="space-between"
+                    key={user.id}
+                    flexWrap="wrap">
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      {/* Icon */}
+                      <Icon
+                        as={user.icon}
+                        size={user.iconSize}
+                        ml="2%"
+                        mt="-1"
+                        color={colors.primary}
+                      />
+                      {/* label */}
+                      <Text style={styles.label}>{user.label}:</Text>
+                    </View>
+                    {/* user information */}
+                    <Text style={styles.info}>{user.info}</Text>
+                  </HStack>
+                );
+              })
+            ) : (
+              <></>
+            )}
             <HStack justifyContent="space-between">
               <View
                 style={{
@@ -160,8 +173,6 @@ export default function Profile() {
         </View>
       </ScrollView>
     </View>
-  ) : (
-    <></>
   );
 }
 
@@ -172,7 +183,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.primary,
-    height: 200,
+    flex: 0.4,
   },
   avatar: {
     width: 130,

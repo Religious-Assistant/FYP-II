@@ -35,6 +35,7 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {useState} from 'react';
+import { useRef } from 'react';
 
 const ParahRecitationArea = ({route, navigation}) => {
 
@@ -59,6 +60,7 @@ const ParahRecitationArea = ({route, navigation}) => {
 
   // State
   const [scrollIndexForAyah, setScrollIndexForAyah] = useState(0);
+  const refContainer = useRef(null);
 
   useEffect(() => {
     dispatch(getParahByNumber(parah.number));
@@ -135,8 +137,18 @@ const ParahRecitationArea = ({route, navigation}) => {
             </View>
           </View>
           <FlatList
+            ref={refContainer}
             data={parahByNumber.ayahs}
             initialScrollIndex={scrollIndexForAyah}
+            onScrollToIndexFailed={info => {
+              const wait = new Promise(resolve => setTimeout(resolve, 500));
+              wait.then(() => {
+                refContainer.current?.scrollToIndex({
+                  index: info.index,
+                  animated: true,
+                });
+              });
+            }}
             mb={'25%'}
             renderItem={({item, index}) => {
               // Get last read verse number and highlish that card

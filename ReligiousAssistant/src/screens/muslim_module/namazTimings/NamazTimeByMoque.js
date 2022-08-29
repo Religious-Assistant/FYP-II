@@ -12,16 +12,15 @@ import timeICon from '../../../../assets/images/clock_ic.png';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function NamazTimeByMoque({navigation}) {
-
-  const dispatch=useDispatch()
-  //when tab is focused in MuslimBottomTab.js, this will be called 
+  const dispatch = useDispatch();
+  //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-          dispatch(setTab('Prayers'))    
+      dispatch(setTab('Prayers'));
     });
 
     //unsubscribe on unmount
@@ -106,7 +105,7 @@ export default function NamazTimeByMoque({navigation}) {
           marginTop={'5%'}
           marginLeft={'5%'}
           marginBottom={'5%'}>
-            {/* Namaz timings of a mosque */}
+          {/* Namaz timings of a mosque */}
           <Text
             style={{
               fontFamily: fonts.Signika.bold,
@@ -120,7 +119,7 @@ export default function NamazTimeByMoque({navigation}) {
         {namazTimes.map((itm, index) => {
           return (
             <Box
-              key = {itm.key}
+              key={itm.key}
               p={-5}
               width="100%"
               bg={colors.cover}

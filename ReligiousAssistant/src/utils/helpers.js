@@ -33,9 +33,14 @@ function timeSince(date) {
 
 export function setHours(dt, time) {
   var splitted = time.split(":");
+  
   let hours=splitted[0]
   let mins=splitted[1]
-  let meridium=splitted[2].split(" ")[1]
-  dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours, 10) : parseInt(hours, 10));
-  dt.setMinutes(parseInt(mins, 10)); 
+  let secondsAndMeridum=splitted[2].split(" ")
+  let seconds=secondsAndMeridum[0]
+  let meridium=secondsAndMeridum[1]
+
+  dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours) : parseInt(hours));
+  dt.setMinutes(parseInt(mins)); 
+  dt.setSeconds(parseInt(seconds))
 }

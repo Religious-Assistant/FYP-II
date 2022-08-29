@@ -212,7 +212,7 @@ export default function LearnNamaz() {
                 position: 'absolute',
                 alignItems: 'center',
               }}>
-              <View style={{flex: 0.5, left:5}}>
+              <View style={{flex: 0.5, left: 5}}>
                 <Image
                   source={{
                     uri: user?.avatar,
@@ -241,7 +241,7 @@ export default function LearnNamaz() {
                 </Heading>
               </View>
 
-              <View style={{flexDirection: 'row', right:5}}>
+              <View style={{flexDirection: 'row', right: 5}}>
                 <Text
                   style={{
                     textAlignVertical: 'center',
@@ -252,7 +252,7 @@ export default function LearnNamaz() {
                   Progress %
                 </Text>
                 <CircularProgress
-                  value={namazProgress?.score-10}
+                  value={(namazProgress?.score*100)/110}
                   radius={40}
                   inActiveStrokeOpacity={0.5}
                   activeStrokeWidth={15}

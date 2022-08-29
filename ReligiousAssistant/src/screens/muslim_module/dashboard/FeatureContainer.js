@@ -37,133 +37,139 @@ import {
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+import { useState } from 'react';
 
 export default function FeatureContainer() {
+
   const navigator = useNavigation();
   const user = useSelector(selectUserData);
   const dispatch = useDispatch();
 
   const isLoadingUserData = useSelector(selectIsLoadingGetUserData);
 
+  const[featureArray1, setFeatureArray1]=useState([])
+  const[featureArray2, setFeatureArray2]=useState([])
+  const[featureArray3, setFeatureArray3]=useState([])
+
   useEffect(() => {
     dispatch(getUserData());
-  }, []);
 
-  const featureArray1 = [
-    {
-      title: 'Recite Quran',
-      image: require('../../../../assets/images/quran1_ic.png'),
-      screen: RECITE_QURAN,
-      key: 1,
-      disabled: user ? false : true,
-    },
-    {
-      title: 'Closest Mosque',
-      image: require('../../../../assets/images/mosque1_ic.png'),
-      screen: FIND_MOSQUE,
-      key: 2,
-      disabled: user ? false : true,
-    },
-    {
-      title: 'Qibla Rukh',
-      image: require('../../../../assets/images/qibla_direction_ic.png'),
-      screen: QIBLA_DIRECTION,
-      key: 3,
-      disabled: false,
-    },
-  ];
+      setFeatureArray1([
+          {
+            title: 'Recite Quran',
+            image: require('../../../../assets/images/quran1_ic.png'),
+            screen: RECITE_QURAN,
+            key: 1,
+            disabled: user ? false : true,
+          },
+          {
+            title: 'Closest Mosque',
+            image: require('../../../../assets/images/mosque1_ic.png'),
+            screen: FIND_MOSQUE,
+            key: 2,
+            disabled: user ? false : true,
+          },
+          {
+            title: 'Qibla Rukh',
+            image: require('../../../../assets/images/qibla_direction_ic.png'),
+            screen: QIBLA_DIRECTION,
+            key: 3,
+            disabled: false,
+          },
+        ]
+      )
+      setFeatureArray2([
+        {
+          disabled: false,
+          title: 'Learn Namaz',
+          image: require('../../../../assets/images/learn_namaz1_ic.png'),
+          screen: LEARN_NAMAZ,
+          key: 4,
+          disabled: user ? false : true,
+        },
+        {
+          title: 'Accountability',
+          image: require('../../../../assets/images/accountability_ic.png'),
+          screen: ACCOUNTABILITY,
+          key: 5,
+          disabled: user ? false : true,
+        },
+        {
+          title: 'Announcements',
+          image: require('../../../../assets/images/announcement1_ic.png'),
+          screen: MUSLIM_ANNOUNCEMENTS,
+          key: 6,
+          disabled: user ? false : true,
+        },
+      ])
 
-  const featureArray2 = [
-    {
-      disabled: false,
-      title: 'Learn Namaz',
-      image: require('../../../../assets/images/learn_namaz1_ic.png'),
-      screen: LEARN_NAMAZ,
-      key: 4,
-      disabled: user ? false : true,
-    },
-    {
-      title: 'Accountability',
-      image: require('../../../../assets/images/accountability_ic.png'),
-      screen: ACCOUNTABILITY,
-      key: 5,
-      disabled: user ? false : true,
-    },
-    {
-      title: 'Announcements',
-      image: require('../../../../assets/images/announcement1_ic.png'),
-      screen: MUSLIM_ANNOUNCEMENTS,
-      key: 6,
-      disabled: user ? false : true,
-    },
-  ];
-
-  const featureArray3 = [
-    {
-      disabled: false,
-      title: 'Add Mosque',
-      image: require('../../../../assets/images/add_ic.png'),
-      screen: ADD_MOSQUE,
-      key: 7,
-      disabled: user ? false : true,
-    },
-    {
-      title: 'Namaz Alarms',
-      image: require('../../../../assets/images/namazTimes_ic.png'),
-      screen: SET_PRAYER_TIMES,
-      key: 7,
-      disabled: user ? false : true,
-    },
-    {
-      disabled: false,
-      title: 'Update Times',
-      image: require('../../../../assets/images/update_time_ic.png'),
-      screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
-      key: 13,
-      disabled: user && user?.isImam ? false : true,
-    },
-    {
-      disabled: false,
-      title: 'Tasbih Counter',
-      image: require('../../../../assets/images/tasbih1_ic.png'),
-      screen: TASBIH_COUNTER,
-      key: 9,
-      disabled: false,
-    },
-    {
-      disabled: false,
-      title: 'View Calander',
-      image: require('../../../../assets/images/islamic_calendar1_ic.png'),
-      screen: VIEW_CALANDER,
-      key: 8,
-      disabled: false,
-    },
-    {
-      disabled: false,
-      title: 'Rakah Info',
-      image: require('../../../../assets/images/rakat_ic.png'),
-      screen: RAKAH_INFO,
-      key: 10,
-      disabled: false,
-    },
-
-    {
-      disabled: false,
-      title: '99 names',
-      image: require('../../../../assets/images/names_ic.png'),
-      screen: ALLAH_99_NAME,
-      key: 11,
-      disabled: false,
-    },
-    {
-      disabled: false,
-      title: 'Duas',
-      image: require('../../../../assets/images/duas_ic.png'),
-      screen: MUSLIM_DUAS,
-      key: 12,
-      disabled: false,
-    },
-  ];
+      setFeatureArray3([
+        {
+          disabled: false,
+          title: 'Add Mosque',
+          image: require('../../../../assets/images/add_ic.png'),
+          screen: ADD_MOSQUE,
+          key: 7,
+          disabled: user ? false : true,
+        },
+        {
+          title: 'Namaz Alarms',
+          image: require('../../../../assets/images/namazTimes_ic.png'),
+          screen: SET_PRAYER_TIMES,
+          key: 7,
+          disabled: user ? false : true,
+        },
+        {
+          disabled: false,
+          title: 'Update Times',
+          image: require('../../../../assets/images/update_time_ic.png'),
+          screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
+          key: 13,
+          disabled: user && user?.isImam ? false : true,
+        },
+        {
+          disabled: false,
+          title: 'Tasbih Counter',
+          image: require('../../../../assets/images/tasbih1_ic.png'),
+          screen: TASBIH_COUNTER,
+          key: 9,
+          disabled: false,
+        },
+        {
+          disabled: false,
+          title: 'View Calander',
+          image: require('../../../../assets/images/islamic_calendar1_ic.png'),
+          screen: VIEW_CALANDER,
+          key: 8,
+          disabled: false,
+        },
+        {
+          disabled: false,
+          title: 'Rakah Info',
+          image: require('../../../../assets/images/rakat_ic.png'),
+          screen: RAKAH_INFO,
+          key: 10,
+          disabled: false,
+        },
+    
+        {
+          disabled: false,
+          title: '99 names',
+          image: require('../../../../assets/images/names_ic.png'),
+          screen: ALLAH_99_NAME,
+          key: 11,
+          disabled: false,
+        },
+        {
+          disabled: false,
+          title: 'Duas',
+          image: require('../../../../assets/images/duas_ic.png'),
+          screen: MUSLIM_DUAS,
+          key: 12,
+          disabled: false,
+        }
+      ])
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>

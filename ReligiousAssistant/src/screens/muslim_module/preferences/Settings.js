@@ -26,7 +26,6 @@ import {
   Actionsheet,
   useDisclose,
   ScrollView,
-  FlatList,
   Select,
   CheckIcon,
 } from 'native-base';
@@ -73,12 +72,18 @@ import {
   selectIsLoadingClosestMosques,
   selectMosqueById,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
-import { setHours } from '../../../utils/helpers';
+
+import Geocoder from 'react-native-geocoding';
+import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+
+Geocoder.init(GOOGLE_MAPS_APIKEY)
 
 export default function Settings({route, navigation}) {
   const navigator = useNavigation();
   const isFocused = useIsFocused();
   
+  const [location, setLocation] = useState(null);
+
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
 
@@ -120,6 +125,19 @@ export default function Settings({route, navigation}) {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Settings'));
     });
+
+    user
+      ? Geocoder.from(
+          user.location?.coordinates[1],
+          user.location?.coordinates[0],
+        )
+          .then(json => {
+            var addressComponent = json.results[0].address_components;
+            setLocation(addressComponent[1].long_name);
+          })
+
+          .catch(error => console.warn(error))
+      : '';
 
     return unsubscribe;
   }, [navigation, dispatch, isFocused]);
@@ -373,7 +391,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {mosqueById?.mosqueName}
+                        {mosqueById?mosqueById.mosqueName:"NONE"}
                       </Text>
                       {mosques ? (
                         <Select
@@ -444,20 +462,12 @@ export default function Settings({route, navigation}) {
                           Location
                         </Heading>
                       </Stack>
-                      {route?.params ? (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`Longitude: ${route.params.longitude}\nLatitude: ${route.params.latitude}`}
-                        </Text>
-                      ) : user ? (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`Longitude: ${user.location.coordinates[0]}\nLatitude: ${user.location.coordinates[1]}`}
-                        </Text>
-                      ) : (
-                        <Text fontWeight="400" style={styles.text}>
-                          {`No Location set yet`}
-                        </Text>
-                      )}
 
+                        <Text fontWeight="400" style={styles.text}>
+                          {
+                            location?location:"Not Loaded"
+                          }
+                          </Text>
                       <HStack
                         flexDirection={'row'}
                         space={4}

@@ -21,7 +21,7 @@ import {
   selectClosestMosques,
   selectIsLoadingClosestMosques,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {getUpdatedUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {useIsFocused} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import Loader from '../../common/Loader';
@@ -59,9 +59,8 @@ export default function ApplyAsImam() {
 
   const confirmToApplyAsImam = () => {
     if (selectedMosque) {
-      dispatch(
-        becomeImam({username: user?.username, mosqueId: selectedMosque.id}),
-      );
+      dispatch(becomeImam({username: user?.username, mosqueId: selectedMosque.id}));
+      dispatch(getUpdatedUserData({username:user?.username}))
     } else {
       alert(`Please select Mosque`);
     }
