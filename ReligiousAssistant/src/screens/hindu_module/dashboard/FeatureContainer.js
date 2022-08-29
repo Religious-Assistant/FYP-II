@@ -1,18 +1,21 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
-import {View, Text, Center, Image} from 'native-base';
-
 import React, {useEffect} from 'react';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {View, Text, Center, Image} from 'native-base';
+import {TouchableOpacity, StyleSheet} from 'react-native';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useNavigation} from '@react-navigation/native';
+
+//images
 import lock from '../../../../assets/images/lock_ic.png';
 
+//navigation
+import {useNavigation} from '@react-navigation/native';
 import {
   RECITE_GITA,
   FIND_TEMPLE,
@@ -22,12 +25,15 @@ import {
   HINDU_AUTO_SILENT,
   ADD_TEMPLE,
 } from '../../../navigation/constants';
+
+//redux
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+
 import Loader from '../../common/Loader';
 
 export default function FeatureContainer() {
@@ -231,7 +237,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    // elevation:10,
     shadowOffset: {height: 1, width: 1},
     backgroundColor: colors.cover,
   },
@@ -239,7 +244,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 90,
     borderRadius: 10,
-    // elevation:10,
     marginLeft: 3,
     marginRight: 3,
     backgroundColor: colors.white,
@@ -247,10 +251,5 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontFamily: fonts.Signika.medium,
     fontSize: 14,
-  },
-  moreText: {
-    fontFamily: fonts.Signika.bold,
-    fontSize: 16,
-    color: colors.secondary,
   },
 });

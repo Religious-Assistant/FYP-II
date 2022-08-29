@@ -21,10 +21,10 @@ import imam_ic from '../../../../assets/images/imam_ic.png';
 import about_ic from '../../../../assets/images/about_ic.png';
 import share_ic from '../../../../assets/images/share_ic.png';
 
-//images
+//logout icon
 import logout_ic from '../../../../assets/images/logout_ic.png';
 
-// Menu
+// Menu icons
 import menu from '../../../../assets/images/menu_ic.png';
 import close from '../../../../assets/images/close_ic.png';
 import help from '../../../../assets/images/help_ic.png';
