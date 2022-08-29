@@ -1,8 +1,18 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import {Text, View} from 'native-base';
 import React from 'react';
+
+//calendar
 import {Calendar} from 'react-native-calendars';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
 export default function Calander() {
   function gmod(n, m) {
     return ((n % m) + m) % m;
@@ -97,15 +107,6 @@ export default function Calander() {
   }
 
   function writeIslamicFullDate(date, adjustment) {
-    var wdNames = [
-      'Ahad',
-      'Ithnin',
-      'Thulatha',
-      'Arbaa',
-      'Khams',
-      'Jumuah',
-      'Sabt',
-    ];
     var iMonthNames = [
       'Muharram',
       'Safar',
@@ -130,14 +131,12 @@ export default function Calander() {
     var outputIslamicDate = iDate[5];
     return outputIslamicDate;
   }
-  //console.log(writeIslamicDate(new Date(2022, 7, 17), -1).split(', ')[1].split(' ')[0]);
   function getDate(date) {
     const newDate = date.dateString.replaceAll('-', ',');
     const changeme =
       newDate.split(',')[1][0] == 0
         ? newDate.split(',')[1][1]
         : newDate.split(',')[1];
-    //console.log(changeme)
     const finalyear = newDate.split(',')[2];
     const finalmonth = changeme - 1;
     const finalDate = newDate.split(',')[0];

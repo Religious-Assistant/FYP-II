@@ -1,36 +1,42 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
 import {View, Text, Image} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//moment
 import moment from 'moment';
 import moment_hijri from 'moment-hijri';
+
+//for map
 import Geocoder from 'react-native-geocoding';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getUserData,
-  selectHasError,
-  selectIsLoading,
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
+
+//constants
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 // https://ej2.syncfusion.com/documentation/calendar/islamic-calendar/
 
 export default function Header() {
-
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
-  
 
   const [islamicDate, setIslamicDate] = useState('');
   let m = moment_hijri('1443/11/20', 'iYYYY/iMM/iD'); // Parse a Hijri date.
@@ -44,8 +50,7 @@ export default function Header() {
   });
 
   useEffect(() => {
-
-    dispatch(getUserData())
+    dispatch(getUserData());
     setIslamicDate(
       new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
         day: 'numeric',
@@ -54,21 +59,21 @@ export default function Header() {
         year: 'numeric',
       }).format(Date.now()),
     );
-    
-      user
-        ? Geocoder.from(
-            user.location?.coordinates[1],
-            user.location?.coordinates[0],
-          )
-            .then(json => {
-              var addressComponent = json.results[0].address_components;
-              //setReg({address: addressComponent});
-              setLocation(addressComponent[1].long_name);
-            })
 
-            .catch(error => console.warn(error))
-        :"";
-    
+    user
+      ? Geocoder.from(
+          user.location?.coordinates[1],
+          user.location?.coordinates[0],
+        )
+          .then(json => {
+            var addressComponent = json.results[0].address_components;
+            //setReg({address: addressComponent});
+            setLocation(addressComponent[1].long_name);
+          })
+
+          .catch(error => console.warn(error))
+      : '';
+
     const timerId = setInterval(() => {
       setCurrentTime({
         time: moment().format('LTS'),
@@ -78,7 +83,7 @@ export default function Header() {
     }, 1000);
     // return clearInterval(timerId)
   }, [dispatch]);
-//console.log(location)
+  //console.log(location)
   return (
     <View style={styles.container}>
       <View style={[styles.subContainer1, {flex: user ? 0.4 : 0.6}]}>
@@ -122,7 +127,7 @@ export default function Header() {
             }}
             alt="Icon"></Image>
           {/* 19 Ramdan, 1443 */}
-          <Text style={styles.dateInfo}>{islamicDate?.split("،")[1]}</Text>
+          <Text style={styles.dateInfo}>{islamicDate?.split('،')[1]}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
@@ -150,7 +155,6 @@ export default function Header() {
               }}
               alt="Icon"></Image>
             <Text style={styles.dateInfo}>
-              
               {location ? location : 'No location set'}
             </Text>
           </View>
