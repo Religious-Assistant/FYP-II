@@ -1,3 +1,8 @@
+/**
+ * @author Kinza Kiran && Nadir Hussain
+ * @version 1.0
+ */
+
 const sunnah2 = [
   {
     step: 1,
