@@ -30,11 +30,12 @@ import {
   Select,
   CheckIcon,
 } from 'native-base';
-import SearchableDropdown from 'react-native-searchable-dropdown';
 
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//images
 import editIcon from '../../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../../assets/images/gallery_ic.png';
@@ -51,8 +52,12 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 
+//constants
 import {GOOGLE_MAP, HINDU_SETTINGS} from '../../../navigation/constants';
+
 import Loader from '../../common/Loader';
+
+//navigation
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {
   selectHasUpdatedAutosilentSetting,
@@ -65,18 +70,25 @@ import {
   updateProfileImage,
   updateVegNotifications,
 } from '../../../redux/slices/hindu_module_slices/hinduPreferencesSlice';
-import { getClosestTemples, getTempleById, selectClosestTemples, selectIsLoadingClosestTemple, selectTempleById } from '../../../redux/slices/hindu_module_slices/templeSlice';
+import {
+  getClosestTemples,
+  getTempleById,
+  selectClosestTemples,
+  selectIsLoadingClosestTemple,
+  selectTempleById,
+} from '../../../redux/slices/hindu_module_slices/templeSlice';
 
+//for location
 import Geocoder from 'react-native-geocoding';
-import { GOOGLE_MAPS_APIKEY } from '../../../components/componentsConstants';
 
-Geocoder.init(GOOGLE_MAPS_APIKEY)
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
+
+Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Settings({route, navigation}) {
-
   const navigator = useNavigation();
   const isFocused = useIsFocused();
-  
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
@@ -87,44 +99,42 @@ export default function Settings({route, navigation}) {
   const hasUpdatedVegSettings = useSelector(selectHasUpdatedVegNotifications);
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
-  const hasLoadedUpdatedData=useSelector(selectHasLoadedUpdatedData)
-  const templeById=useSelector(selectTempleById)
+  const hasLoadedUpdatedData = useSelector(selectHasLoadedUpdatedData);
+  const templeById = useSelector(selectTempleById);
   //when tab is focused in MuslimBottomTab.js, this will be called
 
-  
   //Modal
   const {isOpen, onOpen, onClose} = useDisclose();
   const [location, setLocation] = useState(null);
-  
+
   const [open, setOpen] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
 
-    const [avatar, setAvatar] = useState({
-      image: `${user?.avatar}`,
-      key: 1,
+  const [avatar, setAvatar] = useState({
+    image: `${user?.avatar}`,
+    key: 1,
+  });
+
+  const [password, setPassword] = useState();
+  const handlePassword = text => {
+    setPassword(text);
+  };
+
+  useEffect(() => {
+    dispatch(getUserData());
+
+    if (user?.avatar) {
+      setAvatar({image: user?.avatar, key: 0});
+    }
+
+    if (user) {
+      dispatch(getTempleById({templeId: user?.preferences?.primaryTemple}));
+    }
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(setTab('Settings'));
     });
 
-    const [password, setPassword] = useState();
-    const handlePassword = text => {
-      setPassword(text);
-    };
-  
-
-    useEffect(() => {
-      dispatch(getUserData());
-
-      if (user?.avatar) {
-        setAvatar({image: user?.avatar, key: 0});
-      }
-  
-      if(user){
-        dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
-      }
-      const unsubscribe = navigation.addListener('focus', () => {
-        dispatch(setTab('Settings'));
-      });
-  
-      user
+    user
       ? Geocoder.from(
           user.location?.coordinates[1],
           user.location?.coordinates[0],
@@ -137,8 +147,8 @@ export default function Settings({route, navigation}) {
           .catch(error => console.warn(error))
       : '';
 
-      return unsubscribe;
-    }, [navigation, dispatch, isFocused]);
+    return unsubscribe;
+  }, [navigation, dispatch, isFocused]);
 
   function closeModal() {
     setOpen(false);
@@ -150,11 +160,8 @@ export default function Settings({route, navigation}) {
     setIspasswordModal(passwordModalFlag);
   }
 
-
-
   const temples = useSelector(selectClosestTemples);
   const isLoadingClosestTemples = useSelector(selectIsLoadingClosestTemple);
-
 
   useEffect(() => {
     if (user) {
@@ -165,10 +172,9 @@ export default function Settings({route, navigation}) {
         }),
       );
 
-      dispatch(getTempleById({templeId:user?.preferences?.primaryTemple}))
+      dispatch(getTempleById({templeId: user?.preferences?.primaryTemple}));
     }
   }, [dispatch]);
-
 
   function updateUserPassword(newPassword) {
     dispatch(
@@ -181,7 +187,6 @@ export default function Settings({route, navigation}) {
       alert('Updated Password');
     }
   }
-
 
   function updateVegNotificationsSettings(state) {
     dispatch(
@@ -253,13 +258,14 @@ export default function Settings({route, navigation}) {
       });
   };
 
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
       </View>
-      {isLoadingGetUserData || isUploadingProfileImage || isLoadingClosestTemples ? (
+      {isLoadingGetUserData ||
+      isUploadingProfileImage ||
+      isLoadingClosestTemples ? (
         <Loader msg="Loading ..." />
       ) : (
         <>
@@ -286,8 +292,7 @@ export default function Settings({route, navigation}) {
             keyboardShouldPersistTaps="handled"
             flex={1}
             nestedScrollEnabled={true}
-            maxHeight={"55%"}
-            >
+            maxHeight={'55%'}>
             <View
               style={{
                 flex: 0.7,
@@ -381,7 +386,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {templeById?templeById?.templeName:"NONE"}
+                        {templeById ? templeById?.templeName : 'NONE'}
                       </Text>
                       {temples ? (
                         <Select
@@ -406,10 +411,16 @@ export default function Settings({route, navigation}) {
                             bg: colors.white,
                           }}
                           onValueChange={item => {
-                            dispatch(updatePrimaryTemple({username:user?.username, primaryTemple:item}))
-                            dispatch(getUpdatedUserData({username:user?.username}))
-                          }}
-                        >
+                            dispatch(
+                              updatePrimaryTemple({
+                                username: user?.username,
+                                primaryTemple: item,
+                              }),
+                            );
+                            dispatch(
+                              getUpdatedUserData({username: user?.username}),
+                            );
+                          }}>
                           {temples.map((temple, index) => {
                             return (
                               <Select.Item
@@ -453,10 +464,8 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                          {
-                            location?location:"Not Loaded"
-                          }
-                          </Text>
+                        {location ? location : 'Not Loaded'}
+                      </Text>
 
                       <HStack
                         flexDirection={'row'}
@@ -589,7 +598,6 @@ export default function Settings({route, navigation}) {
                     </Stack>
                   </Box>
                 </Box>
-
               </VStack>
 
               {/* Modals */}
@@ -598,20 +606,18 @@ export default function Settings({route, navigation}) {
                 closeModal={closeModal}
                 headerText={modalHeader}
                 newPassword={password}
-                updateUserPassword={updateUserPassword}
-                >
-                  <FormControl>
-                    <FormControl.Label
-                      _text={{fontFamily: fonts.Signika.medium}}>
-                      New Password
-                    </FormControl.Label>
-                    <Input
-                      type="password"
-                      name="password"
-                      value={password}
-                      onChangeText={handlePassword}
-                    />
-                  </FormControl>
+                updateUserPassword={updateUserPassword}>
+                <FormControl>
+                  <FormControl.Label _text={{fontFamily: fonts.Signika.medium}}>
+                    New Password
+                  </FormControl.Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChangeText={handlePassword}
+                  />
+                </FormControl>
               </CommonModal>
 
               {/* Image ActionSheet */}
@@ -712,16 +718,16 @@ const CommonModal = props => {
               onPress={closeModal}>
               Cancel
             </Button>
-              <Button
-                _text={{fontFamily: fonts.Signika.regular}}
-                color={colors.white}
-                colorScheme="yellow"
-                onPress={() => {
-                    updateUserPassword(newPassword);
-                }}
-                type="submit">
-                Save
-              </Button>
+            <Button
+              _text={{fontFamily: fonts.Signika.regular}}
+              color={colors.white}
+              colorScheme="yellow"
+              onPress={() => {
+                updateUserPassword(newPassword);
+              }}
+              type="submit">
+              Save
+            </Button>
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>
@@ -781,10 +787,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Signika.bold,
     fontSize: 30,
     marginTop: '5%',
-    justifyContent:'center',
+    justifyContent: 'center',
     padding: 8,
     color: colors.primary,
-    alignSelf:'center',
-    
+    alignSelf: 'center',
   },
 });

@@ -1,28 +1,41 @@
-/* @author Kinza Kiran
+/**
+ * @author Kinza Kiran
  * @version 1.0
  */
 
 import {View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+//images
 import templeICon from '../../../../assets/images/temple2_ic.png';
+
+//custom components
 import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';
 
+//navigation
 import {useNavigation} from '@react-navigation/native';
-
 import {ADD_TEMPLE, GOOGLE_MAP} from '../../../navigation/constants';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  addTemple,
+  selectIsLoadingAddNewTemple,
+  selectNewAddedTemple,
+} from '../../../redux/slices/hindu_module_slices/templeSlice';
+
 import Loader from '../../common/Loader';
-import { addTemple, selectIsLoadingAddNewTemple, selectNewAddedTemple } from '../../../redux/slices/hindu_module_slices/templeSlice';
 
 export default function AddTemple({route}) {
   const navigator = useNavigation();
