@@ -155,10 +155,10 @@ export default Prayers;
 const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.Signika.regular,
-    fontSize: 22,
+    fontSize: 20,
     marginTop: '2%',
     padding: 5,
-    color: colors.tertiary,
+    color: colors.primary,
   },
   boldHeading: {
     fontFamily: fonts.Signika.bold,
