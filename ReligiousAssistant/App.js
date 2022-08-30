@@ -18,8 +18,7 @@ import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import {getUserData} from './src/redux/slices/auth_slices/authSlice';
 
-import DailyPrayerInfo from './src/screens/hindu_module/prayers/DailyPrayerInfo'
-import PrayerItemsList from './src/screens/hindu_module/prayers/PrayerItemsList';
+import HinduMorningPrayer from './src/screens/hindu_module/prayers/HinduMorningPrayer';
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
 
@@ -111,7 +110,7 @@ const App = () => {
     <Provider store={store} serverState={preloadedState}>
       <NativeBaseProvider>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <PrayerItemsList />
+        <HinduMorningPrayer />
       </NativeBaseProvider>
     </Provider>
   );

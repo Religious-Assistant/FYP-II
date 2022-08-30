@@ -56,7 +56,7 @@ const Prayers = ({navigation}) => {
     },
     {
       key: 3,
-      prayer: 'What not to do while performing pooja?',
+      prayer: 'What not to do during performing pooja?',
       onclick: () => {
         console.log(3);
       },
