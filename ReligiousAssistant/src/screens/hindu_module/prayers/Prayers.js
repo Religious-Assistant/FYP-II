@@ -21,13 +21,24 @@ import prayerIcon from '../../../../assets/images/prayer.png';
 //Redux
 import {useDispatch} from 'react-redux';
 import {setTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
-import {HINDU_PRAYERS} from '../../../navigation/constants';
 
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//navigation
+import {useNavigation} from '@react-navigation/native';
+import {
+  HINDU_PRAYERS,
+  DAILY_PRAYER_INFO,
+  PRAYER_ITEMS_LIST,
+  PRAYER_NOT_TODO,
+  HINDU_MORNING_PRAYER,
+  HINDU_EVENING_PRAYER,
+} from '../../../navigation/constants';
+
 const Prayers = ({navigation}) => {
+  const navigator = useNavigation();
   const dispatch = useDispatch();
   //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
@@ -44,35 +55,35 @@ const Prayers = ({navigation}) => {
       key: 1,
       prayer: 'How to Perform Daily Pooja?',
       onclick: () => {
-        console.log(1);
+        navigator.navigate(DAILY_PRAYER_INFO);
       },
     },
     {
       key: 2,
       prayer: 'Pooja Samagri List',
       onclick: () => {
-        console.log(2);
+        navigator.navigate(PRAYER_ITEMS_LIST);
       },
     },
     {
       key: 3,
       prayer: 'What not to do during performing pooja?',
       onclick: () => {
-        console.log(3);
+        navigator.navigate(PRAYER_NOT_TODO);
       },
     },
     {
       key: 4,
       prayer: 'Karagre vasate (Morning Prayer)',
       onclick: () => {
-        console.log(4);
+        navigator.navigate(HINDU_MORNING_PRAYER);
       },
     },
     {
       key: 5,
       prayer: 'Aarti (Evening Prayer)',
       onclick: () => {
-        console.log(5);
+        navigator.navigate(HINDU_EVENING_PRAYER);
       },
     },
   ];

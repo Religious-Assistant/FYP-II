@@ -58,7 +58,7 @@ export default function HinduEveningPrayer() {
               style={styles.boxContainer}
               borderColor={colors.cover}
               borderWidth="1"
-              maxW={"80%"}
+              maxW={'80%'}
               _light={{
                 backgroundColor: colors.cover,
               }}>

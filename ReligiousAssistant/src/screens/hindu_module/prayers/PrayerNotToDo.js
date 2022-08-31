@@ -89,6 +89,7 @@ export default function PrayerNotToDo() {
             </Text>
           </View>
         </Box>
+        <Text></Text>
       </View>
     </ScrollView>
   );
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 2,
     fontFamily: fonts.Signika.regular,
+    color: colors.tertiary,
     fontSize: 18,
   },
 });

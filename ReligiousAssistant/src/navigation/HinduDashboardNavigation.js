@@ -10,6 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   ABOUT,
   ADD_TEMPLE,
+  DAILY_PRAYER_INFO,
   FIND_TEMPLE,
   GITA_CHAPTER_RECITATION_AREA,
   GITA_SUMMARY_RECITATION_AREA,
@@ -18,10 +19,14 @@ import {
   HELP,
   HINDU_ANNOUNCEMENTS,
   HINDU_AUTO_SILENT,
+  HINDU_EVENING_PRAYER,
+  HINDU_MORNING_PRAYER,
   HINDU_USER_ANNOUNCEMENT_DETAILS,
   HINDU_USER_MAKE_ANNOUNCEMENT_SCREEN,
   HINDU_VIEW_PROFILE,
   NEW_TEMPLE_ADDITION,
+  PRAYER_ITEMS_LIST,
+  PRAYER_NOT_TODO,
   RECITE_GITA,
   REGISTERED_HINDU_HOME_STACK,
   TEMPLE_CONSENSUS,
@@ -49,6 +54,11 @@ import VegNonVegDays from '../screens/hindu_module/vegNonVegDays/VegNonVegDays';
 import ChapterRecitationArea from '../screens/hindu_module/reciteGita/ChapterRecitationArea';
 import SummaryRecitationArea from '../screens/hindu_module/reciteGita/SummaryRecitationArea';
 import AnnouncementNoti from '../screens/hindu_module/alertsAndNotifications/AnnouncementNoti';
+import DailyPrayerInfo from '../screens/hindu_module/prayers/DailyPrayerInfo';
+import PrayerItemsList from '../screens/hindu_module/prayers/PrayerItemsList';
+import PrayerNotToDo from '../screens/hindu_module/prayers/PrayerNotToDo';
+import HinduEveningPrayer from '../screens/hindu_module/prayers/HinduEveningPrayer';
+import HinduMorningPrayer from '../screens/hindu_module/prayers/HinduMorningPrayer';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -165,6 +175,33 @@ function HinduDashboardNavigation() {
         name={GITA_SUMMARY_RECITATION_AREA}
         component={SummaryRecitationArea}
         options={{title: 'Summary'}}
+      />
+
+      <HomeStack.Screen
+        name={DAILY_PRAYER_INFO}
+        component={DailyPrayerInfo}
+        options={{title: 'Prayer'}}
+      />
+
+      <HomeStack.Screen
+        name={PRAYER_ITEMS_LIST}
+        component={PrayerItemsList}
+        options={{title: 'Prayer'}}
+      />
+      <HomeStack.Screen
+        name={PRAYER_NOT_TODO}
+        component={PrayerNotToDo}
+        options={{title: 'Prayer'}}
+      />
+      <HomeStack.Screen
+        name={HINDU_MORNING_PRAYER}
+        component={HinduMorningPrayer}
+        options={{title: 'Prayer'}}
+      />
+      <HomeStack.Screen
+        name={HINDU_EVENING_PRAYER}
+        component={HinduEveningPrayer}
+        options={{title: 'Prayer'}}
       />
     </HomeStack.Navigator>
   );
