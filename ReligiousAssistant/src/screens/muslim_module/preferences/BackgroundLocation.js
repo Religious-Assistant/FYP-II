@@ -4,22 +4,19 @@ import {PermissionsAndroid} from 'react-native';
 
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import RNLocation from 'react-native-location';
+
 ReactNativeForegroundService.start({
   id: 144,
-  title: "Foreground Service",
-  message: "you are online!",
+  title: 'Auto Silent Mode',
+  message: 'Enabled',
 });
 RNLocation.configure({
-  distanceFilter: 50, // Meters
   desiredAccuracy: {
     ios: 'best',
     android: 'highAccuracy',
   },
-  // Android only
-  androidProvider: 'auto',
   interval: 1000,
   maxWaitTime: 1000,
-  fastestInterval: 1000, // Milliseconds
 });
 let locationSubscription = null;
 let locationTimeout = null;
@@ -66,6 +63,16 @@ export default function BackgroundLocation() {
                     );
                   },
                 );
+
+                RNLocation.getLatestLocation().then(loc => {
+                  //console.log(JSON.stringify(loc.latitude,loc.longitude));
+                });
+                //working but console many time at once
+                // RNLocation.subscribeToLocationUpdates((locations) => {
+                //   const {latitude, longitude} = locations[0];
+                //   console.log(`${JSON.stringify({latitude, longitude})}`);
+                // });
+                //end
               } else {
                 locationSubscription && locationSubscription();
                 locationTimeout && clearTimeout(locationTimeout);
