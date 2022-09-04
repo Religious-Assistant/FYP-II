@@ -54,7 +54,6 @@ const imam_route=require('./routes/muslim_user_routes/imamRoute')
 const recite_quran_route=require('./routes/muslim_user_routes/reciteQuranRoute')
 const muslim_pref_route=require('./routes/muslim_user_routes/muslimUserPreferenceRoute')
 const quranInfo_route=require('./routes/muslim_user_routes/quranInfoRoute')
-const namaz_timings_route=require('./routes/muslim_user_routes/namazTimingsRoute')
 
 //Hindu routes
 const temple_routes=require('./routes/hindu_user_routes/templeRoute')
@@ -64,6 +63,7 @@ const hindu_notification_route=require('./routes/hindu_user_routes/hinduNotifica
 const recite_gita_route = require('./routes/hindu_user_routes/reciteGitaRoute')
 const veg_non_veg_route = require('./routes/hindu_user_routes/vegNonVegRoute')
 const namaz_alarms_route = require('./routes/muslim_user_routes/namazAlarmsRoute')
+const namaz_time_by_mosque_route = require('./routes/muslim_user_routes/namazTimeByMosqueRoute')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -80,7 +80,7 @@ app.use('/api', recite_quran_route)
 app.use('/api', muslim_pref_route)
 app.use('/api', quranInfo_route)
 app.use('/api', muslim_notification_route)
-app.use('/api', namaz_timings_route)
+app.use('/api', namaz_time_by_mosque_route)
 app.use('/api', namaz_alarms_route)
 
 //Hindu endpoints
