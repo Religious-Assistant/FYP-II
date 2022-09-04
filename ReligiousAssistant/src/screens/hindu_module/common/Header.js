@@ -24,7 +24,6 @@ import {
 
 //for location
 import Geocoder from 'react-native-geocoding';
-
 export default function Header() {
   const dispatch = useDispatch();
 

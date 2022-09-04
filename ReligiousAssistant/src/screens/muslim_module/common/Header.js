@@ -26,6 +26,9 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 
+//helper function
+import {writeIslamicFullDate} from '../../../utils/helpers';
+
 //constants
 import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 
@@ -51,14 +54,7 @@ export default function Header() {
 
   useEffect(() => {
     dispatch(getUserData());
-    setIslamicDate(
-      new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
-        day: 'numeric',
-        month: 'long',
-        weekday: 'long',
-        year: 'numeric',
-      }).format(Date.now()),
-    );
+    setIslamicDate(writeIslamicFullDate(new Date(), -1));
 
     user
       ? Geocoder.from(
@@ -127,7 +123,7 @@ export default function Header() {
             }}
             alt="Icon"></Image>
           {/* 19 Ramdan, 1443 */}
-          <Text style={styles.dateInfo}>{islamicDate?.split('،')[1]}</Text>
+          <Text style={styles.dateInfo}>{islamicDate}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
