@@ -12,12 +12,12 @@ import timeICon from '../../../../assets/images/clock_ic.png';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function NamazTimeByMoque({navigation}) {
   const dispatch = useDispatch();
-  //when tab is focused in MuslimBottomTab.js, this will be called
+   
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Prayers'));
@@ -27,6 +27,7 @@ export default function NamazTimeByMoque({navigation}) {
     return unsubscribe;
   }, [navigation]);
 
+  
   const namazTimes = [
     {
       key: 1,
@@ -64,6 +65,8 @@ export default function NamazTimeByMoque({navigation}) {
       image: require('../../../../assets/images/isha_img.jpeg'),
     },
   ];
+
+
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
       {/* Header */}

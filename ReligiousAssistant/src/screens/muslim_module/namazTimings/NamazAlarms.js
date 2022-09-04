@@ -25,7 +25,7 @@ import {useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import moment from 'moment';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getUpdatedUserData,
