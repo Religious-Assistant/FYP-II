@@ -170,7 +170,6 @@ export default function UpdatePrayerTimes() {
 
   const updatePrayerTimes = (fajr, zuhr, asr, maghrib, isha) => {
     if (user?.preferences?.primaryMosque !== 'NONE') {
-      console.log(fajr, zuhr, maghrib, isha, asr);
       dispatch(
         getNamazTimesForUser({mosqueId: user?.preferences.primaryMosque}),
       );
