@@ -85,39 +85,42 @@ export default function BackgroundLocation() {
                       locations.latitude,
                       locations.longitude,
                       '  ',
-                      27.954166,
-                      68.330642,
+                      27.9503082,
+                      68.6313388,
                     );
                     console.log(
                       'Distancee --- in N',
                       getDistanceFromLatLonInKm(
                         locations.latitude,
                         locations.longitude,
-                        27.954166,
-                        68.330642,
+                        27.9503082,
+                      68.6313388,
                         'N',
                       ),
                     );
+
                     console.log(
                       'Distancee --- in K',
                       getDistanceFromLatLonInKm(
                         locations.latitude,
                         locations.longitude,
-                        27.954166,
-                        68.330642,
+                        27.9503082,
+                      68.6313388,
                         'K',
                       ),
                     );
-                    // if(getDistanceFromLatLonInKm(
-                    //   locations.latitude,
-                    //   locations.longitude,
-                    //   27.954166,
-                    //   68.330642,
-                    //   "K"
-                    // )<number){
-                    //   changeMode(RINGER_MODE.silent);
+                    // if(
+                    //   getDistanceFromLatLonInKm(
+                    //     locations.latitude,
+                    //     locations.longitude,
+                    //     27.9503082,
+                    //   68.6313388,
+                    //     'K',
+                    //   )
+                    // <0.00300){
+                    //   console.log("Silent")
                     // }else{
-                    //   changeMode(RINGER_MODE.normal)
+                    //   console.log("No silent")
                     // }
                   },
                 );
