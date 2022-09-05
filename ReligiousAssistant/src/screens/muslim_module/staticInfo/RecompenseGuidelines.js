@@ -72,6 +72,22 @@ export default function RecompenseGuidelines({navigation}) {
       statement:
         'Say Bismillah even in the middle of eating (better to say Bismillahi a walahu wa Akheerahu)',
     },
+    {
+      key: 9,
+      heading:
+        'What can you do if you can not do hajj?',
+      info: 'If this is not an obligatory Hajj',
+      statement:
+        'He/she may leave the state of Ihram. Later they should sacrifice a sheep, a cow, or a camel (Hady)',
+    },
+    {
+      key: 10,
+      heading:
+        'What can you do if you can not do hajj?',
+      info: 'If this is an obligatory Hajj',
+      statement:
+        'He/she must repeat the Hajj another time in the following year',
+    },
   ];
   return (
     <View style={styles.container}>
