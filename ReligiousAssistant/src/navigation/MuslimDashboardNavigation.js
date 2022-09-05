@@ -32,6 +32,7 @@ import {
   QIBLA_DIRECTION,
   RAKAH_INFO,
   RECITE_QURAN,
+  RECOMPENSE_GUIDELINES,
   REGISTERED_MUSLIM_HOME_STACK,
   SET_PRAYER_TIMES,
   SURAH_RECITATION_AREA,
@@ -72,6 +73,7 @@ import NewMosqueAddedNoti from '../screens/muslim_module/alertsAndNotifications/
 import UserManual from '../screens/common/UserManual';
 import NamazAlarms from '../screens/muslim_module/namazTimings/NamazAlarms';
 import UpdatePrayerTimes from '../screens/muslim_module/imam/UpdatePrayerTimes';
+import RecompenseGuidelines from '../screens/muslim_module/staticInfo/RecompenseGuidelines';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -246,6 +248,11 @@ function MuslimDashboardNavigation() {
       <HomeStack.Screen
         name={HELP}
         component={UserManual}
+        options={{title: 'Help'}}
+      />
+      <HomeStack.Screen
+        name={RECOMPENSE_GUIDELINES}
+        component={RecompenseGuidelines}
         options={{title: 'Help'}}
       />
     </HomeStack.Navigator>

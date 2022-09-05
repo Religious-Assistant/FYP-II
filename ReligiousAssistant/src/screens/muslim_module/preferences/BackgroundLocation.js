@@ -1,9 +1,16 @@
 import {Text, View} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {PermissionsAndroid} from 'react-native';
-
+import {getDistanceFromLatLonInKm} from '../../../utils/getDistance';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import RNLocation from 'react-native-location';
+import {
+  useRingerMode,
+  RINGER_MODE,
+  checkDndAccess,
+  requestDndAccess,
+  RingerModeType,
+} from 'react-native-ringer-mode';
 
 ReactNativeForegroundService.start({
   id: 144,
@@ -22,6 +29,23 @@ let locationSubscription = null;
 let locationTimeout = null;
 export default function BackgroundLocation() {
   const [location, setLocation] = useState('');
+  const {mode, setMode} = useRingerMode();
+
+  const changeMode = async newMode => {
+    //this code will run when user click on autosilent mode
+    // if (newMode === RINGER_MODE.silent || mode === RINGER_MODE.silent) {
+    //   const hasDndAccess = await checkDndAccess();
+    //   if (hasDndAccess === false) {
+    //     // This function opens the DND settings.
+    //     // You can ask user to give the permission with a modal before calling this function.
+    //     requestDndAccess();
+    //     return;
+    //   }
+    // }
+
+    setMode(newMode);
+  };
+
   useEffect(() => {
     const requestPermission = async () => {
       //request the permission before starting the service.
@@ -58,15 +82,50 @@ export default function BackgroundLocation() {
                     locationTimeout && clearTimeout(locationTimeout);
                     console.log(
                       'Location',
-                      locations.longitude,
                       locations.latitude,
+                      locations.longitude,
+                      '  ',
+                      27.954166,
+                      68.330642,
                     );
+                    console.log(
+                      'Distancee --- in N',
+                      getDistanceFromLatLonInKm(
+                        locations.latitude,
+                        locations.longitude,
+                        27.954166,
+                        68.330642,
+                        'N',
+                      ),
+                    );
+                    console.log(
+                      'Distancee --- in K',
+                      getDistanceFromLatLonInKm(
+                        locations.latitude,
+                        locations.longitude,
+                        27.954166,
+                        68.330642,
+                        'K',
+                      ),
+                    );
+                    // if(getDistanceFromLatLonInKm(
+                    //   locations.latitude,
+                    //   locations.longitude,
+                    //   27.954166,
+                    //   68.330642,
+                    //   "K"
+                    // )<number){
+                    //   changeMode(RINGER_MODE.silent);
+                    // }else{
+                    //   changeMode(RINGER_MODE.normal)
+                    // }
                   },
                 );
 
                 RNLocation.getLatestLocation().then(loc => {
                   //console.log(JSON.stringify(loc.latitude,loc.longitude));
                 });
+
                 //working but console many time at once
                 // RNLocation.subscribeToLocationUpdates((locations) => {
                 //   const {latitude, longitude} = locations[0];

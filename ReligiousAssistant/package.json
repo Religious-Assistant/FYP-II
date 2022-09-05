@@ -23,6 +23,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@supersami/rn-foreground-service": "^1.1.1",
     "formik": "^2.2.9",
+    "geolib": "^3.3.3",
     "jwt-decode": "^3.1.2",
     "lottie-react-native": "^5.1.3",
     "moment": "^2.29.3",
