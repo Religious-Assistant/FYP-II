@@ -124,7 +124,7 @@ const ChaptersRoute = () => {
         renderItem={({item, index}) => {
           //Get last read verse number and highlish that card
 
-          console.log(lastReadChapter);
+          //console.log(lastReadChapter);
           //Jump to this card with initialSCrollIndex
           if (
             item.chapter_number ==

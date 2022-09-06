@@ -4,6 +4,8 @@ import {PermissionsAndroid} from 'react-native';
 import {getDistanceFromLatLonInKm} from '../../../utils/getDistance';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import RNLocation from 'react-native-location';
+import {getBoundsOfDistance, getDistance, getPreciseDistance} from 'geolib';
+
 import {
   useRingerMode,
   RINGER_MODE,
@@ -27,6 +29,7 @@ RNLocation.configure({
 });
 let locationSubscription = null;
 let locationTimeout = null;
+
 export default function BackgroundLocation() {
   const [location, setLocation] = useState('');
   const {mode, setMode} = useRingerMode();
@@ -63,7 +66,6 @@ export default function BackgroundLocation() {
       );
       if (backgroundgranted === PermissionsAndroid.RESULTS.GRANTED) {
         //do your thing!
-        console.log('Permission yes');
         ReactNativeForegroundService.add_task(
           () => {
             RNLocation.requestPermission({
@@ -85,28 +87,38 @@ export default function BackgroundLocation() {
                       locations.latitude,
                       locations.longitude,
                       '  ',
-                      27.9503082,
-                      68.6313388,
+                      27.9541659,
+                      68.6330657,
                     );
                     console.log(
-                      'Distancee --- in N',
-                      getDistanceFromLatLonInKm(
-                        locations.latitude,
-                        locations.longitude,
-                        27.9503082,
-                      68.6313388,
-                        'N',
+                      'getDistancee --- in meters',
+                      getDistance(
+                        {
+                          latitude: locations.latitude,
+                          longitude: locations.longitude,
+                        },
+                        {latitude: 27.9541659, longitude: 68.6330657},
                       ),
                     );
 
                     console.log(
-                      'Distancee --- in K',
+                      'Dist in Km',
                       getDistanceFromLatLonInKm(
                         locations.latitude,
                         locations.longitude,
-                        27.9503082,
-                      68.6313388,
+                        27.9541659,
+                        68.6330657,
                         'K',
+                      ),
+                    );
+                    console.log(
+                      'Dist in M',
+                      getDistanceFromLatLonInKm(
+                        locations.latitude,
+                        locations.longitude,
+                        27.9541659,
+                        68.6330657,
+                        'M',
                       ),
                     );
                     // if(
