@@ -62,8 +62,7 @@ export const verifyOTPCode = createAsyncThunk(
 export const deleteDeviveToken = createAsyncThunk(
     'deleteDeviveToken',
     async (username)=>{
-        console.log(username)
-       const result =  await apiDELETE(delete_device_token,username)
+       const result =  await apiPOST(delete_device_token,username, )
        return result  
     }
 )
