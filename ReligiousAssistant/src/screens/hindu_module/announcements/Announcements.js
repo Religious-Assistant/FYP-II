@@ -52,11 +52,13 @@ import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 //components
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
+
+//to check connection
 import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
 
 //helper functions
 import {dateDifference} from '../../../utils/helpers';
-import {checkConnected} from '../../common/CheckConnection';
 
 export default function Announcements() {
   const [connectStatus, setConnectStatus] = useState(false);

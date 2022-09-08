@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center, Text} from 'native-base';
 
@@ -37,7 +37,13 @@ import {
 
 import Loader from '../../common/Loader';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 export default function AddMosque({route, navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
@@ -46,6 +52,12 @@ export default function AddMosque({route, navigation}) {
   const newMosque = useSelector(selectNewAddedMosque);
 
   const [mosqueName, setMosquename] = useState('');
+
+  useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+  }, [connectStatus]);
 
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: ADD_MOSQUE});
@@ -65,17 +77,16 @@ export default function AddMosque({route, navigation}) {
           addedBy: userData.username,
         }),
       );
-      
-      if(newMosque){
-        console.log(newMosque)
-      }
 
+      if (newMosque) {
+        console.log(newMosque);
+      }
     } else {
       alert('Location and Name required');
     }
   }
 
-  return (
+  return connectStatus ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <View
@@ -158,6 +169,14 @@ export default function AddMosque({route, navigation}) {
         </View>
       </View>
     </TouchableWithoutFeedback>
+  ) : (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

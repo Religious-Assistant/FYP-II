@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -33,6 +33,10 @@ import Empty from '../../common/Empty';
 //helper functions
 import {dateDifference} from '../../../utils/helpers';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -49,6 +53,8 @@ import {
 import CATEGORIES from '../UIContants';
 
 export default function Alerts({route, navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
 
   let notifications = useSelector(selectHinduNotifications);
@@ -58,6 +64,10 @@ export default function Alerts({route, navigation}) {
 
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     if (user) {
       dispatch(getUserNotifications({username: user?.username}));
     }
@@ -67,7 +77,7 @@ export default function Alerts({route, navigation}) {
 
     //unsubscribe on unmount
     return unsubscribe;
-  }, [navigation]);
+  }, [connectStatus,navigation]);
 
   //Handle delete
   const handleDelete = item => {
@@ -83,7 +93,7 @@ export default function Alerts({route, navigation}) {
     }
   };
 
-  return (
+  return connectStatus?(
     <>
       <View style={styles.root}>
         {isLoadingNotification ? (
@@ -120,6 +130,14 @@ export default function Alerts({route, navigation}) {
         )}
       </View>
     </>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

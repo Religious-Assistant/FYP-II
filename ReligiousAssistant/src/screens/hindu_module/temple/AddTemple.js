@@ -15,6 +15,10 @@ import fonts from '../../../theme/fonts';
 //icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //images
 import templeICon from '../../../../assets/images/temple2_ic.png';
 
@@ -38,6 +42,8 @@ import {
 import Loader from '../../common/Loader';
 
 export default function AddTemple({route}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
@@ -46,6 +52,12 @@ export default function AddTemple({route}) {
   const newTemple = useSelector(selectNewAddedTemple);
 
   const [templeName, setTempleename] = useState('');
+
+  useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+  }, [connectStatus]);
 
   function openMap() {
     navigator.navigate(GOOGLE_MAP, {screen: ADD_TEMPLE});
@@ -73,7 +85,7 @@ export default function AddTemple({route}) {
       alert('Location and Name required');
     }
   }
-  return (
+  return connectStatus ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
         <View
@@ -155,5 +167,13 @@ export default function AddTemple({route}) {
         </View>
       </View>
     </TouchableWithoutFeedback>
+  ) : (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }

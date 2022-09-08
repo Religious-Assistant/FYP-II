@@ -17,6 +17,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //redux
 import {
   getUserData,
@@ -37,6 +41,8 @@ import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Profile() {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const namazProgress = useSelector(selectLearnNamazProgress);
@@ -45,6 +51,10 @@ export default function Profile() {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     dispatch(getUserData());
     dispatch(getLearnNamazProgress({username: user?.username}));
     user
@@ -106,9 +116,9 @@ export default function Profile() {
         },
       ]);
     }
-  }, [dispatch, location]);
+  }, [connectStatus,dispatch, location]);
 
-  return (
+  return connectStatus?(
     <View style={styles.container}>
       <View style={styles.header}>
         <Text
@@ -179,6 +189,14 @@ export default function Profile() {
         </View>
       </ScrollView>
     </View>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

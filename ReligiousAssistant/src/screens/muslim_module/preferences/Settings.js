@@ -40,6 +40,10 @@ import cameraIcon from '../../../../assets/images/camera_ic.png';
 import galleryIcon from '../../../../assets/images/gallery_ic.png';
 import edit from '../../../../assets/images/edit.png';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
@@ -88,6 +92,8 @@ import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Settings({route, navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const navigator = useNavigation();
   const isFocused = useIsFocused();
 
@@ -126,6 +132,9 @@ export default function Settings({route, navigation}) {
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
     dispatch(getUserData());
     if (user?.avatar) {
       setAvatar({image: user?.avatar, key: 0});
@@ -149,7 +158,7 @@ export default function Settings({route, navigation}) {
       : '';
 
     return unsubscribe;
-  }, [navigation, dispatch, isFocused]);
+  }, [connectStatus,navigation, dispatch, isFocused]);
 
   //avatar state
   const [avatar, setAvatar] = useState({
@@ -271,7 +280,7 @@ export default function Settings({route, navigation}) {
     setPassword(text);
   };
 
-  return (
+  return connectStatus?(
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
@@ -758,6 +767,14 @@ export default function Settings({route, navigation}) {
         </>
       )}
     </View>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

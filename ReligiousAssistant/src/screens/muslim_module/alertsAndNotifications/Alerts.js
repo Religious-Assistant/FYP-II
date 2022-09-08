@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -51,7 +51,13 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 export default function Alerts({navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+  
   const dispatch = useDispatch();
 
   let notifications = useSelector(selectMuslimNotifications);
@@ -63,6 +69,10 @@ export default function Alerts({navigation}) {
   const isFocused = useIsFocused();
   //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     if (user) {
       dispatch(getUserNotifications({username: user?.username}));
     }
@@ -72,7 +82,7 @@ export default function Alerts({navigation}) {
 
     //unsubscribe on unmount
     return unsubscribe;
-  }, [navigation, dispatch, isFocused]);
+  }, [connectStatus,navigation, dispatch, isFocused]);
 
   //Handle delete
   const handleDelete = item => {
@@ -88,7 +98,7 @@ export default function Alerts({navigation}) {
     }
   };
 
-  return (
+  return connectStatus?(
     <>
       <View style={styles.root}>
         {isLoadingNotification ? (
@@ -125,6 +135,14 @@ export default function Alerts({navigation}) {
         )}
       </View>
     </>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

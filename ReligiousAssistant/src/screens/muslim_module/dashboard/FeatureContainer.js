@@ -29,6 +29,7 @@ import {
   ALLAH_99_NAME,
   SET_PRAYER_TIMES,
   UPDATE_NAMAZ_TIMES_IN_MOSQUE,
+  RECOMPENSE_GUIDELINES,
 } from '../../../navigation/constants';
 
 //image
@@ -129,7 +130,6 @@ export default function FeatureContainer() {
         disabled: user && user?.isImam ? false : true,
       },
       {
-        disabled: false,
         title: 'Tasbih Counter',
         image: require('../../../../assets/images/tasbih1_ic.png'),
         screen: TASBIH_COUNTER,
@@ -137,7 +137,6 @@ export default function FeatureContainer() {
         disabled: false,
       },
       {
-        disabled: false,
         title: 'View Calander',
         image: require('../../../../assets/images/islamic_calendar1_ic.png'),
         screen: VIEW_CALANDER,
@@ -145,7 +144,6 @@ export default function FeatureContainer() {
         disabled: false,
       },
       {
-        disabled: false,
         title: 'Rakah Info',
         image: require('../../../../assets/images/rakat_ic.png'),
         screen: RAKAH_INFO,
@@ -154,7 +152,6 @@ export default function FeatureContainer() {
       },
 
       {
-        disabled: false,
         title: '99 names',
         image: require('../../../../assets/images/names_ic.png'),
         screen: ALLAH_99_NAME,
@@ -162,11 +159,17 @@ export default function FeatureContainer() {
         disabled: false,
       },
       {
-        disabled: false,
         title: 'Duas',
         image: require('../../../../assets/images/duas_ic.png'),
         screen: MUSLIM_DUAS,
         key: 12,
+        disabled: false,
+      },
+      {
+        title: 'Guidelines',
+        image: require('../../../../assets/images/guidelines_ic.png'),
+        screen: RECOMPENSE_GUIDELINES,
+        key: 13,
         disabled: false,
       },
     ]);

@@ -52,16 +52,19 @@ import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 //custom components
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
+
+//to check connection
 import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
 
 //helper function
 import {dateDifference} from '../../../utils/helpers';
-import {checkConnected} from '../../common/CheckConnection';
 
 import {useIsFocused} from '@react-navigation/native';
 
 export default function Announcements() {
   const [connectStatus, setConnectStatus] = useState(false);
+  
   const dispatch = useDispatch();
 
   let announcements = useSelector(selectAnnouncements);
@@ -74,6 +77,7 @@ export default function Announcements() {
     checkConnected().then(res => {
       setConnectStatus(res);
     });
+
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
@@ -95,7 +99,7 @@ export default function Announcements() {
     <>
       <View style={styles.root}>
         {isLoadingAnnouncements ? (
-          <Loader msg="Loagding announcements" />
+          <Loader msg="Loading announcements" />
         ) : (
           <FlatList
             style={styles.root}

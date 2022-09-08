@@ -2,19 +2,18 @@
  * @author Kinza Kiran
  * @version 1.0
  */
-export function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  var R = 6371;
-  var DLat = deg2rad(lat2 - lat1);
-  var DLon = deg2rad(lon2 - lon1);
-  var a =
-    Math.sin(DLat / 2) * Math.sin(DLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(DLon / 2) *
-      Math.sin(DLon / 2);
-      var c= 2* Math.atan2(Math.sqrt(a),Math.sqrt(1-a))
-      var d = R*c
-      return d;
+export function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2,unit) {
+	var radlat1 = Math.PI * lat1/180
+    var radlat2 = Math.PI * lat2/180
+    var theta = lon1-lon2
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit=="K") { dist = dist * 1.609344 }
+    if (unit=="M") { dist = dist * 0.8684 }
+    return dist
 }
 
 function deg2rad(deg) {

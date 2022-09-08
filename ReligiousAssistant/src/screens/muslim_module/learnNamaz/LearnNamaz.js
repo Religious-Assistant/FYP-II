@@ -38,6 +38,10 @@ import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
 import level_lock_ic from '../../../../assets/images/level_lock_ic.gif';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //component
 import Loader from '../../common/Loader';
 
@@ -46,12 +50,6 @@ import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-
-const {width, height} = Dimensions.get('window');
-const SPACING = 10;
-const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
-const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
-
 import {useNavigation} from '@react-navigation/native';
 import {NAMAZ_PLAY_AREA} from '../../../navigation/constants';
 import {useDispatch, useSelector} from 'react-redux';
@@ -61,7 +59,15 @@ import {
   selectLearnNamazProgress,
 } from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 
+const {width, height} = Dimensions.get('window');
+const SPACING = 10;
+const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
+const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+
+
 export default function LearnNamaz() {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const namazProgress = useSelector(selectLearnNamazProgress);
@@ -71,12 +77,17 @@ export default function LearnNamaz() {
   );
 
   useEffect(() => {
+    checkConnected().then(res => {
+      console.log(res)
+      setConnectStatus(res);
+    });
+
     dispatch(getUserData());
 
     if (user) {
       dispatch(getLearnNamazProgress({username: user?.username}));
     }
-  }, [dispatch]);
+  }, [connectStatus,dispatch]);
 
   const NAMAZ_TIMES = [
     {
@@ -203,7 +214,8 @@ export default function LearnNamaz() {
     setState({showModal: modalState, rakahs: rakats, namazName: name});
   }
 
-  return (
+  return connectStatus?(
+    
     <SafeAreaView style={styles.MainContainer}>
       {isLoadingGetNamazProgress ? (
         <Loader msg="Getting progress..." />
@@ -373,6 +385,14 @@ export default function LearnNamaz() {
         </>
       )}
     </SafeAreaView>
+  ):(
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

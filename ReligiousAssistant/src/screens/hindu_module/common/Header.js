@@ -9,6 +9,7 @@ import {StyleSheet} from 'react-native';
 
 //moment
 import moment from 'moment';
+import {hinduEventsData} from '../calander/hinduEvents';
 
 //theme
 import colors from '../../../theme/colors';
@@ -24,9 +25,18 @@ import {
 
 //for location
 import Geocoder from 'react-native-geocoding';
-export default function Header() {
-  const dispatch = useDispatch();
 
+export default function Header() {
+
+  const [location, setLocation] = useState();
+  
+  const [event, setEvent] = useState(null);
+  const todayDate = new Date();
+  const eventDate = `${todayDate.getFullYear()}-${(
+    '0' + todayDate.getDate()
+  ).slice(-2)}-${('0' + (todayDate.getMonth() + 1)).slice(-2)}`;
+
+  const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
 
@@ -35,6 +45,12 @@ export default function Header() {
   });
 
   useEffect(() => {
+    const res = hinduEventsData.hasOwnProperty(eventDate);
+    if (res) {
+      setEvent(hinduEventsData[eventDate][0].name);
+    } else {
+      setEvent('No event');
+    }
     dispatch(getUserData());
     {
       user
@@ -72,7 +88,7 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={[styles.dateInfo, {fontSize: 18}]}>Vaisakhi</Text>
+          <Text style={[styles.dateInfo, {fontSize: 18}]}>{event}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
@@ -114,7 +130,9 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={styles.dateInfo}>Sukkur Sindh, Pakistan</Text>
+          <Text style={styles.dateInfo}>
+            {location ? location : 'No Location set'}
+          </Text>
         </View>
       </View>
     </View>

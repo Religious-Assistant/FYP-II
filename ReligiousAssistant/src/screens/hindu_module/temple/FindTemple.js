@@ -35,6 +35,10 @@ import fonts from '../../../theme/fonts';
 //custom components
 import CustomBox from '../../../components/CustomBox';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -53,6 +57,8 @@ import {
 import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constants';
 
 export default function FindTemple() {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
@@ -61,6 +67,10 @@ export default function FindTemple() {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     if (!user) {
       dispatch(getUserData());
     }
@@ -73,7 +83,7 @@ export default function FindTemple() {
         }),
       );
     }
-  }, [dispatch, isFocused]);
+  }, [connectStatus,dispatch, isFocused]);
 
   getLocation = async () => {
     try {
@@ -114,7 +124,7 @@ export default function FindTemple() {
     }
   }
 
-  return (
+  return connectStatus?(
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -272,6 +282,14 @@ export default function FindTemple() {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 const styles = StyleSheet.create({

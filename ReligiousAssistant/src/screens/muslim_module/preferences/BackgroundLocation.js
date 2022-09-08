@@ -2,9 +2,18 @@
 import {Text, View} from 'native-base';
 import React, {useEffect} from 'react';
 import {PermissionsAndroid} from 'react-native';
-
+import {getDistanceFromLatLonInKm} from '../../../utils/getDistance';
 import ReactNativeForegroundService from '@supersami/rn-foreground-service';
 import RNLocation from 'react-native-location';
+import {getBoundsOfDistance, getDistance, getPreciseDistance} from 'geolib';
+
+import {
+  useRingerMode,
+  RINGER_MODE,
+  checkDndAccess,
+  requestDndAccess,
+  RingerModeType,
+} from 'react-native-ringer-mode';
 
 ReactNativeForegroundService.start({
   id: 144,
@@ -26,6 +35,24 @@ let locationTimeout = null;
 
 export default function BackgroundLocation() {
 
+  const [location, setLocation] = useState('');
+  const {mode, setMode} = useRingerMode();
+
+  const changeMode = async newMode => {
+    //this code will run when user click on autosilent mode
+    // if (newMode === RINGER_MODE.silent || mode === RINGER_MODE.silent) {
+    //   const hasDndAccess = await checkDndAccess();
+    //   if (hasDndAccess === false) {
+    //     // This function opens the DND settings.
+    //     // You can ask user to give the permission with a modal before calling this function.
+    //     requestDndAccess();
+    //     return;
+    //   }
+    // }
+
+    setMode(newMode);
+  };
+
   useEffect(() => {
     const requestPermission = async () => {
       //request the permission before starting the service.
@@ -43,7 +70,6 @@ export default function BackgroundLocation() {
       );
       if (backgroundgranted === PermissionsAndroid.RESULTS.GRANTED) {
         //do your thing!
-        console.log('Permission yes');
         ReactNativeForegroundService.add_task(
           () => {
             RNLocation.requestPermission({
@@ -62,15 +88,63 @@ export default function BackgroundLocation() {
                     locationTimeout && clearTimeout(locationTimeout);
                     console.log(
                       'Location',
-                      locations.longitude,
                       locations.latitude,
+                      locations.longitude,
+                      '  ',
+                      27.9541659,
+                      68.6330657,
                     );
+                    console.log(
+                      'getDistancee --- in meters',
+                      getDistance(
+                        {
+                          latitude: locations.latitude,
+                          longitude: locations.longitude,
+                        },
+                        {latitude: 27.9541659, longitude: 68.6330657},
+                      ),
+                    );
+
+                    console.log(
+                      'Dist in Km',
+                      getDistanceFromLatLonInKm(
+                        locations.latitude,
+                        locations.longitude,
+                        27.9541659,
+                        68.6330657,
+                        'K',
+                      ),
+                    );
+                    console.log(
+                      'Dist in M',
+                      getDistanceFromLatLonInKm(
+                        locations.latitude,
+                        locations.longitude,
+                        27.9541659,
+                        68.6330657,
+                        'M',
+                      ),
+                    );
+                    // if(
+                    //   getDistanceFromLatLonInKm(
+                    //     locations.latitude,
+                    //     locations.longitude,
+                    //     27.9503082,
+                    //   68.6313388,
+                    //     'K',
+                    //   )
+                    // <0.00300){
+                    //   console.log("Silent")
+                    // }else{
+                    //   console.log("No silent")
+                    // }
                   },
                 );
 
                 RNLocation.getLatestLocation().then(loc => {
                   //console.log(JSON.stringify(loc.latitude,loc.longitude));
                 });
+
                 //working but console many time at once
                 // RNLocation.subscribeToLocationUpdates((locations) => {
                 //   const {latitude, longitude} = locations[0];
