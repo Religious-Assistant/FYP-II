@@ -14,13 +14,11 @@ const updateFastAccuntability = async (req, res) => {
     });
 
     if (updatedAccountability) {
-      res
-        .status(200)
-        .send({
-          success: true,
-          msg: "Updated Successfully",
-          data: updatedAccountability,
-        });
+      res.status(200).send({
+        success: true,
+        msg: "Updated Successfully",
+        data: updatedAccountability,
+      });
     } else {
       res.status(400).send({ success: true, msg: "Could not update" });
     }
