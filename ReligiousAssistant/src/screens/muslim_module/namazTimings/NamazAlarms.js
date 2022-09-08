@@ -4,8 +4,13 @@
  */
 
 import {View} from 'react-native';
-import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Platform,
+} from 'react-native';
 import {
   Heading,
   Image,
@@ -16,15 +21,26 @@ import {
   Card,
 } from 'native-base';
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+//for notifications
+import PushNotification from 'react-native-push-notification';
+
+//images
 import appIcon from '../../../../assets/images/Logo-muslim.png';
 import clockIcon from '../../../../assets/images/clock_ic.png';
+
+//custom components
 import CustomButton from '../../../components/CustomButton';
+import Loader from '../../common/Loader';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useState} from 'react';
-import {Platform} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
+//icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+//redux
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -41,10 +57,11 @@ import {
   selectUpdatedNamazAlarmTimes,
   updateNamazAlarmTimes,
 } from '../../../redux/slices/muslim_module_slices/namazAlarmsSlice';
-import {useEffect} from 'react';
-import Loader from '../../common/Loader';
-import PushNotification from 'react-native-push-notification';
+
+//helper function
 import {setHours} from '../../../utils/helpers';
+
+//async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NamazAlarms() {
@@ -385,15 +402,6 @@ export default function NamazAlarms() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,
@@ -420,7 +428,6 @@ const styles = StyleSheet.create({
     color: colors.info,
     alignSelf: 'center',
   },
-
   info: {
     fontFamily: fonts.Signika.regular,
     fontSize: 13,

@@ -7,13 +7,15 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useSelector} from 'react-redux';
 
+//constants
 import {
   AUTH_STACK,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
 } from './constants';
+
+//navigation
 import AuthStackNavigation from './AuthNavigation';
 import MuslimDashboardNavigation from './MuslimDashboardNavigation';
 import HinduDashboardNavigation from './HinduDashboardNavigation';

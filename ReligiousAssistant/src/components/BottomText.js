@@ -4,13 +4,13 @@
  */
 
 import React from 'react';
-import {HStack, Link, Text, Image, View} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {HStack, Text, Image, View} from 'native-base';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
+//theme
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';
-import {TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 export default function BottomText(props) {
   const navigator = useNavigation();

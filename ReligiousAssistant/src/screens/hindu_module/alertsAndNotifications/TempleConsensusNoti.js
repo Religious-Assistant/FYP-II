@@ -1,32 +1,36 @@
 /**
- * @author Kinza Kiran
+ * @author Nadir Hussain
  * @version 1.0
  */
 
-import {View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {Heading, Image, Text, VStack, Box, HStack, Divider} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//images
 import voteIcon from '../../../../assets/images/vote_ic.png';
-
-import CustomButton from '../../../components/CustomButton';
 import directionIcon from '../../../../assets/images/direction_ic.png';
 
-import {useDispatch, useSelector} from 'react-redux';
+//custom components
+import CustomButton from '../../../components/CustomButton';
 import Loader from '../../common/Loader';
+
+//navigation
 import {useNavigation} from '@react-navigation/native';
 import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constants';
 
-import {useState} from 'react';
+//redux
+import {useDispatch, useSelector} from 'react-redux';
 import {
   getUserData,
   selectUserData,

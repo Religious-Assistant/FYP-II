@@ -1,13 +1,12 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
  import React from 'react';
  import {createNativeStackNavigator} from '@react-navigation/native-stack';
- 
- import LoginScreen from '../screens/authentication/LoginScreen';
- import RegisterScreen from '../screens/authentication/RegisterScreen';
+
+ //constants
  import {
    ENTER_AS_GUEST,
    LOGIN,
@@ -16,6 +15,10 @@
    SIGNUP,
    SPLASH_SCREEN,
  } from './constants';
+ 
+ //screens
+ import LoginScreen from '../screens/authentication/LoginScreen';
+ import RegisterScreen from '../screens/authentication/RegisterScreen';
  import ConnectAsGuest from '../screens/authentication/ConnectAsGuest';
  import VerificationScreen from '../screens/authentication/VerificationScreen';
  import SplashScreeen from '../screens/authentication/SplashScreeen';

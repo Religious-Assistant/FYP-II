@@ -1,16 +1,19 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
 import {View, Text, Center, Image, ScrollView} from 'native-base';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useNavigation} from '@react-navigation/native';
 
+//navigation
+import {useNavigation} from '@react-navigation/native';
 import {
   RECITE_QURAN,
   FIND_MOSQUE,
@@ -28,6 +31,7 @@ import {
   UPDATE_NAMAZ_TIMES_IN_MOSQUE,
 } from '../../../navigation/constants';
 
+//image
 import lock from '../../../../assets/images/lock_ic.png';
 
 //Redux
@@ -37,138 +41,135 @@ import {
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-import { useState } from 'react';
 
 export default function FeatureContainer() {
-
   const navigator = useNavigation();
   const user = useSelector(selectUserData);
   const dispatch = useDispatch();
 
   const isLoadingUserData = useSelector(selectIsLoadingGetUserData);
 
-  const[featureArray1, setFeatureArray1]=useState([])
-  const[featureArray2, setFeatureArray2]=useState([])
-  const[featureArray3, setFeatureArray3]=useState([])
+  const [featureArray1, setFeatureArray1] = useState([]);
+  const [featureArray2, setFeatureArray2] = useState([]);
+  const [featureArray3, setFeatureArray3] = useState([]);
 
   useEffect(() => {
     dispatch(getUserData());
 
-      setFeatureArray1([
-          {
-            title: 'Recite Quran',
-            image: require('../../../../assets/images/quran1_ic.png'),
-            screen: RECITE_QURAN,
-            key: 1,
-            disabled: user ? false : true,
-          },
-          {
-            title: 'Closest Mosque',
-            image: require('../../../../assets/images/mosque1_ic.png'),
-            screen: FIND_MOSQUE,
-            key: 2,
-            disabled: user ? false : true,
-          },
-          {
-            title: 'Qibla Rukh',
-            image: require('../../../../assets/images/qibla_direction_ic.png'),
-            screen: QIBLA_DIRECTION,
-            key: 3,
-            disabled: false,
-          },
-        ]
-      )
-      setFeatureArray2([
-        {
-          disabled: false,
-          title: 'Learn Namaz',
-          image: require('../../../../assets/images/learn_namaz1_ic.png'),
-          screen: LEARN_NAMAZ,
-          key: 4,
-          disabled: user ? false : true,
-        },
-        {
-          title: 'Accountability',
-          image: require('../../../../assets/images/accountability_ic.png'),
-          screen: ACCOUNTABILITY,
-          key: 5,
-          disabled: user ? false : true,
-        },
-        {
-          title: 'Announcements',
-          image: require('../../../../assets/images/announcement1_ic.png'),
-          screen: MUSLIM_ANNOUNCEMENTS,
-          key: 6,
-          disabled: user ? false : true,
-        },
-      ])
+    setFeatureArray1([
+      {
+        title: 'Recite Quran',
+        image: require('../../../../assets/images/quran1_ic.png'),
+        screen: RECITE_QURAN,
+        key: 1,
+        disabled: user ? false : true,
+      },
+      {
+        title: 'Closest Mosque',
+        image: require('../../../../assets/images/mosque1_ic.png'),
+        screen: FIND_MOSQUE,
+        key: 2,
+        disabled: user ? false : true,
+      },
+      {
+        title: 'Qibla Rukh',
+        image: require('../../../../assets/images/qibla_direction_ic.png'),
+        screen: QIBLA_DIRECTION,
+        key: 3,
+        disabled: false,
+      },
+    ]);
+    setFeatureArray2([
+      {
+        disabled: false,
+        title: 'Learn Namaz',
+        image: require('../../../../assets/images/learn_namaz1_ic.png'),
+        screen: LEARN_NAMAZ,
+        key: 4,
+        disabled: user ? false : true,
+      },
+      {
+        title: 'Accountability',
+        image: require('../../../../assets/images/accountability_ic.png'),
+        screen: ACCOUNTABILITY,
+        key: 5,
+        disabled: user ? false : true,
+      },
+      {
+        title: 'Announcements',
+        image: require('../../../../assets/images/announcement1_ic.png'),
+        screen: MUSLIM_ANNOUNCEMENTS,
+        key: 6,
+        disabled: user ? false : true,
+      },
+    ]);
 
-      setFeatureArray3([
-        {
-          disabled: false,
-          title: 'Add Mosque',
-          image: require('../../../../assets/images/add_ic.png'),
-          screen: ADD_MOSQUE,
-          key: 7,
-          disabled: user ? false : true,
-        },
-        {
-          title: 'Namaz Alarms',
-          image: require('../../../../assets/images/namazTimes_ic.png'),
-          screen: SET_PRAYER_TIMES,
-          key: 7,
-          disabled: user ? false : true,
-        },
-        {
-          disabled: false,
-          title: 'Update Times',
-          image: require('../../../../assets/images/update_time_ic.png'),
-          screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
-          key: 13,
-          disabled: user && user?.isImam ? false : true,
-        },
-        {
-          disabled: false,
-          title: 'Tasbih Counter',
-          image: require('../../../../assets/images/tasbih1_ic.png'),
-          screen: TASBIH_COUNTER,
-          key: 9,
-          disabled: false,
-        },
-        {
-          disabled: false,
-          title: 'View Calander',
-          image: require('../../../../assets/images/islamic_calendar1_ic.png'),
-          screen: VIEW_CALANDER,
-          key: 8,
-          disabled: false,
-        },
-        {
-          disabled: false,
-          title: 'Rakah Info',
-          image: require('../../../../assets/images/rakat_ic.png'),
-          screen: RAKAH_INFO,
-          key: 10,
-          disabled: false,
-        },
-    
-        {
-          disabled: false,
-          title: '99 names',
-          image: require('../../../../assets/images/names_ic.png'),
-          screen: ALLAH_99_NAME,
-          key: 11,
-          disabled: false,
-        },
-        {
-          disabled: false,
-          title: 'Duas',
-          image: require('../../../../assets/images/duas_ic.png'),
-          screen: MUSLIM_DUAS,
-          key: 12,
-          disabled: false,
-        }
-      ])
+    setFeatureArray3([
+      {
+        disabled: false,
+        title: 'Add Mosque',
+        image: require('../../../../assets/images/add_ic.png'),
+        screen: ADD_MOSQUE,
+        key: 7,
+        disabled: user ? false : true,
+      },
+      {
+        title: 'Namaz Alarms',
+        image: require('../../../../assets/images/namazTimes_ic.png'),
+        screen: SET_PRAYER_TIMES,
+        key: 7,
+        disabled: user ? false : true,
+      },
+      {
+        disabled: false,
+        title: 'Update Times',
+        image: require('../../../../assets/images/update_time_ic.png'),
+        screen: UPDATE_NAMAZ_TIMES_IN_MOSQUE,
+        key: 13,
+        disabled: user && user?.isImam ? false : true,
+      },
+      {
+        disabled: false,
+        title: 'Tasbih Counter',
+        image: require('../../../../assets/images/tasbih1_ic.png'),
+        screen: TASBIH_COUNTER,
+        key: 9,
+        disabled: false,
+      },
+      {
+        disabled: false,
+        title: 'View Calander',
+        image: require('../../../../assets/images/islamic_calendar1_ic.png'),
+        screen: VIEW_CALANDER,
+        key: 8,
+        disabled: false,
+      },
+      {
+        disabled: false,
+        title: 'Rakah Info',
+        image: require('../../../../assets/images/rakat_ic.png'),
+        screen: RAKAH_INFO,
+        key: 10,
+        disabled: false,
+      },
+
+      {
+        disabled: false,
+        title: '99 names',
+        image: require('../../../../assets/images/names_ic.png'),
+        screen: ALLAH_99_NAME,
+        key: 11,
+        disabled: false,
+      },
+      {
+        disabled: false,
+        title: 'Duas',
+        image: require('../../../../assets/images/duas_ic.png'),
+        screen: MUSLIM_DUAS,
+        key: 12,
+        disabled: false,
+      },
+    ]);
   }, [dispatch]);
 
   return (
@@ -198,9 +199,7 @@ export default function FeatureContainer() {
                       } else {
                         alert(`Create account to access the feature`);
                       }
-                    }}
-                    >
-
+                    }}>
                     <FeatureCard key={item.key}>
                       <Image
                         source={item?.disabled ? lock : item.image}
@@ -237,8 +236,7 @@ export default function FeatureContainer() {
                     onPress={() => {
                       if (!item?.disabled) {
                         navigator.navigate(item.screen);
-                      }
-                      else {
+                      } else {
                         alert(`Create account to access the feature`);
                       }
                     }}>
@@ -276,15 +274,12 @@ export default function FeatureContainer() {
                     onPress={() => {
                       if (!item?.disabled) {
                         navigator.navigate(item.screen);
-                      }
-                      else if(item?.title=='Update Times'){
-                        alert(`Accessible to IMAM only`);                        
-                      }
-                      else {
+                      } else if (item?.title == 'Update Times') {
+                        alert(`Accessible to IMAM only`);
+                      } else {
                         alert(`Create account to access the feature`);
                       }
-                    }}
-                    >
+                    }}>
                     <MoreFeaturesCard key={item.key} disabled={item.disabled}>
                       <Image
                         source={item?.disabled ? lock : item.image}
@@ -330,9 +325,9 @@ function FeatureCard(props) {
 function MoreFeaturesCard(props) {
   return (
     <>
-        <Center key={props.key} style={styles.moreFeaturesCard}>
-          {props.children}
-        </Center>
+      <Center key={props.key} style={styles.moreFeaturesCard}>
+        {props.children}
+      </Center>
     </>
   );
 }

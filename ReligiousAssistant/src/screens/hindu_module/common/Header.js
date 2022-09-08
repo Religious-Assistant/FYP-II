@@ -1,24 +1,29 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
-import {useState, useEffect} from 'react';
-import moment from 'moment';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'native-base';
-import React from 'react';
 import {StyleSheet} from 'react-native';
+
+//moment
+import moment from 'moment';
+
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useDispatch, useSelector} from 'react-redux';
-import Geocoder from 'react-native-geocoding';
 
+//redux
+import {useDispatch, useSelector} from 'react-redux';
 import {
   getUserData,
   selectIsLoadingGetUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 
+//for location
+import Geocoder from 'react-native-geocoding';
 export default function Header() {
   const dispatch = useDispatch();
 

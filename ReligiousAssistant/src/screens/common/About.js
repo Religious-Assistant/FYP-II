@@ -17,14 +17,16 @@ import {
   ScrollView,
 } from 'native-base';
 
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
-
+//images
 import logo from '../../../assets/images/Logo-combined.png';
 import ibaLogo from '../../../assets/images/iba_logo.png';
 import nadirImg from '../../../assets/images/nadir.png';
 import akashImg from '../../../assets/images/akash_img.png';
 import kinzaImg from '../../../assets/images/kinza_img.jpg';
+
+//theme
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 
 export default function About() {
   const developersInfo = [
@@ -91,7 +93,7 @@ export default function About() {
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.83,}} width="95%" alignItems="center">
+          <View style={{flex: 0.83}} width="95%" alignItems="center">
             <Center
               width="90%"
               space={2}
@@ -171,15 +173,6 @@ export default function About() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,

@@ -7,14 +7,15 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Box, Text, Heading, HStack, Center, Pressable} from 'native-base';
 
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
+//components
 import Namaz from './Namaz';
 import Fast from './Fast';
 
 export default function Accountability() {
-
   const [namazOfFast, setNamazOrFast] = useState(0);
 
   //This is used in footer, when the value 0 is used for Pryaer while 1 is used for fast
@@ -30,11 +31,7 @@ export default function Accountability() {
         </Heading>
       </View>
 
-      {namazOfFast == 0 ? (
-        <Namaz />
-      ) : (
-        <Fast />
-      )}
+      {namazOfFast == 0 ? <Namaz /> : <Fast />}
       <FooterOptions
         setSelectedFeature={setSelectedFeature}
         selected={namazOfFast}
@@ -94,13 +91,6 @@ function FooterOptions(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.4,
-    fontFamily: fonts.Signika.regular,
-    marginTop: 10,
-    width: '90%',
-    alignSelf: 'center',
-  },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',

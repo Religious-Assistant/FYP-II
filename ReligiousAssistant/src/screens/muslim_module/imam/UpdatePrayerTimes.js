@@ -4,8 +4,13 @@
  */
 
 import {View} from 'react-native';
-import React from 'react';
-import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Platform,
+} from 'react-native';
 import {
   Heading,
   Image,
@@ -16,14 +21,22 @@ import {
   Card,
 } from 'native-base';
 
+//images
 import clockIcon from '../../../../assets/images/clock_ic.png';
+
+//custom components
 import CustomButton from '../../../components/CustomButton';
+
+//themes
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useState} from 'react';
-import {Platform} from 'react-native';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+//icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getNamazTimesForUser,
@@ -327,15 +340,6 @@ export default function UpdatePrayerTimes() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,

@@ -7,30 +7,36 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//icons
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+//redux
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
-import Geocoder from 'react-native-geocoding';
-import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
-
 import {
   getLearnNamazProgress,
   selectLearnNamazProgress,
 } from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 
+//maps
+import Geocoder from 'react-native-geocoding';
+
+//constants
+import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
+
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Profile() {
-
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const namazProgress = useSelector(selectLearnNamazProgress);

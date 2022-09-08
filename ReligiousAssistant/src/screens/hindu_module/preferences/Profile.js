@@ -7,23 +7,30 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 import {VStack, HStack, Text, Divider, Icon, ScrollView} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//icons
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+//redux
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {useSelector, useDispatch} from 'react-redux';
-import Geocoder from 'react-native-geocoding';
 import {
   getTempleById,
   selectTempleById,
 } from '../../../redux/slices/hindu_module_slices/templeSlice';
+
+//for location
+import Geocoder from 'react-native-geocoding';
+
 import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 
 Geocoder.init(GOOGLE_MAPS_APIKEY);

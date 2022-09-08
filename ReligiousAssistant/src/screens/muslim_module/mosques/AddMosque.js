@@ -1,23 +1,32 @@
-/* @author Kinza Kiran
+/**
+ * @author Nadir Hussain && Kinza
  * @version 1.0
  */
 
 import {View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center, Text} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+//images
 import mosqueICon from '../../../../assets/images/rakah_ic.png';
+
+//custom components
 import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
 
+//navigation
+import {useNavigation} from '@react-navigation/native';
 import {ADD_MOSQUE, GOOGLE_MAP} from '../../../navigation/constants';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {
@@ -25,6 +34,7 @@ import {
   selectIsLoadingAddNewMosque,
   selectNewAddedMosque,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+
 import Loader from '../../common/Loader';
 
 export default function AddMosque({route, navigation}) {
@@ -156,10 +166,6 @@ const styles = StyleSheet.create({
     flex: 0.5,
     backgroundColor: colors.white,
     fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
   },
   text: {
     fontFamily: fonts.Signika.medium,

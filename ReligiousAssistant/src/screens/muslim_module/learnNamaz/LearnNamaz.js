@@ -1,4 +1,5 @@
-/* @author Kinza Kiran
+/**
+ * @author Kinza Kiran
  * @version 1.0
  */
 
@@ -25,9 +26,11 @@ import {
 } from 'native-base';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//images
 import fajrImg from '../../../../assets/images/fajr_game.jpg';
 import duhrImg from '../../../../assets/images/duhr_game.png';
 import asrImg from '../../../../assets/images/asr_game.png';
@@ -35,7 +38,10 @@ import maghribImg from '../../../../assets/images/maghrib_game.png';
 import ishaImg from '../../../../assets/images/isha_game.png';
 import level_lock_ic from '../../../../assets/images/level_lock_ic.gif';
 
+//component
 import Loader from '../../common/Loader';
+
+//redux
 import {
   getUserData,
   selectUserData,
@@ -253,7 +259,7 @@ export default function LearnNamaz() {
                   Progress %
                 </Text>
                 <CircularProgress
-                  value={(namazProgress?.score*100)/110}
+                  value={(namazProgress?.score * 100) / 110}
                   radius={40}
                   inActiveStrokeOpacity={0.5}
                   activeStrokeWidth={15}
@@ -435,13 +441,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
-  titleText: {
-    fontSize: 24,
-    fontFamily: fonts.Signika.bold,
-    marginRight: '45%',
-    color: colors.white,
-  },
   modalText: {
     color: colors.black,
     fontFamily: fonts.Signika.bold,
@@ -454,13 +453,5 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     margin: 0,
     marginBottom: 10,
-  },
-  headerImg: {
-    width: '20%',
-    height: '75%',
-    resizeMode: 'cover',
-    borderRadius: 50,
-    marginTop: '3%',
-    marginLeft: '3%',
   },
 });

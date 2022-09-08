@@ -6,13 +6,20 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
-import SearchableDropdown from 'react-native-searchable-dropdown';
 import {Heading, Image} from 'native-base';
+
+import SearchableDropdown from 'react-native-searchable-dropdown';
+
+//images
 import timeICon from '../../../../assets/images/applyAsImam_ic.png';
 
+//fonts
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//custom components
 import CustomButton from '../../../components/CustomButton';
+import Loader from '../../common/Loader';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,10 +29,10 @@ import {
   selectIsLoadingClosestMosques,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 import {getUpdatedUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {becomeImam} from '../../../redux/slices/muslim_module_slices/imamSlice';
+
 import {useIsFocused} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
-import Loader from '../../common/Loader';
-import {becomeImam} from '../../../redux/slices/muslim_module_slices/imamSlice';
 
 export default function ApplyAsImam() {
   const dispatch = useDispatch();

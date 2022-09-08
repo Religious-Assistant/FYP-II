@@ -1,25 +1,28 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
-import React, { useState,useEffect } from 'react'
-import colors from '../../../theme/colors'
-import {View} from 'react-native'
-import Header from '../common/Header'
-import FeatureContainer from './FeatureContainer'
+import React from 'react';
+import {View} from 'react-native';
 
-import {useDispatch} from 'react-redux'
-import { setTab } from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+//theme
+import colors from '../../../theme/colors';
+
+//components
+import Header from '../common/Header';
+import FeatureContainer from './FeatureContainer';
+
+//redux
+import {useDispatch} from 'react-redux';
+import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
 export default function Home({navigation}) {
-  
-
-  const dispatch=useDispatch()
-  //when tab is focused in MuslimBottomTab.js, this will be called 
+  const dispatch = useDispatch();
+  //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-          dispatch(setTab('Home'))    
+      dispatch(setTab('Home'));
     });
 
     //unsubscribe on unmount
@@ -27,10 +30,9 @@ export default function Home({navigation}) {
   }, [navigation]);
 
   return (
-    <View style={{flex:1, backgroundColor:colors.primary}}>      
+    <View style={{flex: 1, backgroundColor: colors.primary}}>
       <Header />
-      <FeatureContainer/>
+      <FeatureContainer />
     </View>
-  )
+  );
 }
-

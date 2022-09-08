@@ -1,17 +1,21 @@
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity, StatusBar} from 'react-native';
-import {Agenda} from 'react-native-calendars';
-import {
-  Text,
-  Center,
-  Box,
-} from 'native-base';
+import {Text, Center, Box} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//calendar
+import {Agenda} from 'react-native-calendars';
+
 const Calander = () => {
-  
+  //data
   const locItems = {
     '2022-01-01': [{name: 'Satguru Swami Devprakashji Maharajs 83rd Birthday'}],
     '2022-01-02': [{name: 'Amavasya'}],
@@ -168,7 +172,7 @@ const Calander = () => {
     '2022-12-24': [{name: 'Chand'}],
     '2022-12-26': [{name: 'Ganesh Chaturthi'}],
   };
-  
+
   const renderItem = item => {
     return (
       <TouchableOpacity style={styles.item}>
@@ -228,10 +232,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     marginTop: 17,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
   },
   text: {
     fontFamily: fonts.Signika.regular,

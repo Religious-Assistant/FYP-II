@@ -3,20 +3,22 @@
  * @version 1.0
  */
 
-import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, Dimensions} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 
-import PushNotification from 'react-native-push-notification';
-import appIcon from '../../../assets/images/Logo-muslim.png';
-
+//gif
 import bg_gif from '../../../assets/images/splash.gif';
+
+//navgation
 import {
   LOGIN,
   REGISTERED_HINDU_DASHBOARD_STACK,
   REGISTERED_MUSLIM_DASHBOARD_STACK,
 } from '../../navigation/constants';
+import {useNavigation} from '@react-navigation/native';
+
+//redux
+import {useDispatch, useSelector} from 'react-redux';
 import {
   getReligion,
   getToken,
@@ -28,10 +30,11 @@ import {
   selectUserData,
 } from '../../redux/slices/auth_slices/authSlice';
 
+//push notification
+import PushNotification from 'react-native-push-notification';
+
 //Logout user if token is expired in AsyncStorage
 import jwtDecode from 'jwt-decode';
-import {setHours} from '../../utils/helpers';
-import moment from 'moment';
 
 function SplashScreeen() {
   const navigator = useNavigation();
@@ -44,7 +47,7 @@ function SplashScreeen() {
   useEffect(() => {
     dispatch(getToken());
     dispatch(getReligion());
-    dispatch(getUserData())
+    dispatch(getUserData());
     setTimeout(() => {
       if (religion == 1 && token) {
         //Check if token is expired, then logout user
@@ -56,7 +59,7 @@ function SplashScreeen() {
           navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
         }
 
-        dispatch(getUpdatedUserData({username:user?.username}))
+        dispatch(getUpdatedUserData({username: user?.username}));
       } else if (religion == 0 && token) {
         //Check if token is expired, then logout user
         const decodedToken = jwtDecode(token);
@@ -66,7 +69,7 @@ function SplashScreeen() {
           navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
         }
 
-        dispatch(getUpdatedUserData({username:user?.username}))
+        dispatch(getUpdatedUserData({username: user?.username}));
       } else {
         navigator.navigate(LOGIN);
       }
@@ -81,9 +84,6 @@ function SplashScreeen() {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flexL: 1,
-  },
   image: {
     flex: 1,
     justifyContent: 'center',

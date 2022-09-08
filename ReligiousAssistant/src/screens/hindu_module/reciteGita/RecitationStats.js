@@ -1,13 +1,18 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  *
  */
 
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Dimensions, ScrollView} from 'react-native';
-import {StackedBarChart} from 'react-native-chart-kit';
 import {Heading} from 'native-base';
+
+import {StackedBarChart} from 'react-native-chart-kit';
+
+//theme
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,12 +22,9 @@ import {
   selectRecitationStats,
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
 
-import colors from '../../../theme/colors';
-import fonts from '../../../theme/fonts';
-
 const RecitationStats = () => {
   const dispatch = useDispatch();
-  
+
   const recitationStats = useSelector(selectRecitationStats);
   const user = useSelector(selectUserData);
   const screenWidth = Dimensions.get('window').width - 10;
@@ -47,8 +49,14 @@ const RecitationStats = () => {
     labels: ['Summaries', 'Chapters'],
     legend: ['Recited', 'Remaining'],
     data: [
-      [recitationStats?recitationStats[0]?.recitedSummaries?.length - 1:0, 18],
-      [recitationStats?recitationStats[0]?.recitedChapters?.length - 1:0, 18],
+      [
+        recitationStats ? recitationStats[0]?.recitedSummaries?.length - 1 : 0,
+        18,
+      ],
+      [
+        recitationStats ? recitationStats[0]?.recitedChapters?.length - 1 : 0,
+        18,
+      ],
     ],
 
     barColors: [colors.success.light, colors.error],
@@ -68,8 +76,12 @@ const RecitationStats = () => {
 
         <StatsCardForChapter
           screenWidth={screenWidth}
-          summaryLastRead={recitationStats[0]?recitationStats[0]?.summaryLastRead:0}
-          chapterLastRead={recitationStats[0]?recitationStats[0]?.chapterLastRead:0}
+          summaryLastRead={
+            recitationStats[0] ? recitationStats[0]?.summaryLastRead : 0
+          }
+          chapterLastRead={
+            recitationStats[0] ? recitationStats[0]?.chapterLastRead : 0
+          }
         />
       </ScrollView>
     </>

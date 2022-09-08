@@ -1,9 +1,18 @@
+/**
+ * @author Kinza Kiran && Nadir Hussain
+ * @version 1.0
+ */
+
 import React, {useState, useEffect} from 'react';
 import {Button, Image, View, Text, Progress} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableHighlight} from 'react-native';
+
+//icons
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//theme
 import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
 
 //import all learn_namaz images
 import {
@@ -16,19 +25,18 @@ import {
   witr3,
 } from './LearnNamazAssets';
 import {getScene} from './LearnNamazAssets';
-import fonts from '../../../theme/fonts';
-import {TouchableHighlight} from 'react-native';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getLearnNamazProgress,
   getParticularRakatInfo,
   selectHasLearnedParticularRakat,
   selectIsLoadingHasLearnedparticularRakat,
   selectIsLoadingUpdateNamazProgress,
-  selectLearnNamazProgress,
   updateLearnNamazProgress,
 } from '../../../redux/slices/muslim_module_slices/learnNamazSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+
 import Loader from '../../common/Loader';
 
 const NamazPlayArea = ({route, navigation}) => {
@@ -205,14 +213,19 @@ const NamazPlayArea = ({route, navigation}) => {
                 <Text style={styles.text}>Back</Text>
               </View>
             </TouchableHighlight>
-          
+
             {hasLearnedRakat ? (
               <Button
                 w={150}
-                style={[styles.actionButton,{backgroundColor:colors.success.light, color:colors.primary}]}
+                style={[
+                  styles.actionButton,
+                  {
+                    backgroundColor: colors.success.light,
+                    color: colors.primary,
+                  },
+                ]}
                 onPress={markAsIncomplete}
-                disabled={true}
-                >
+                disabled={true}>
                 Completed
               </Button>
             ) : (
@@ -223,7 +236,6 @@ const NamazPlayArea = ({route, navigation}) => {
                 Mark as Complete
               </Button>
             )}
-        
 
             <TouchableHighlight onPress={renderNextScene}>
               <View style={styles.iconButton}>

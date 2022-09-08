@@ -4,12 +4,14 @@
  */
 
 import React from 'react';
-import {Box, Image, Button, Text} from 'native-base';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Box, Image, Text} from 'native-base';
 
+//images
 import mosqueIcon from '../../assets/images/closest_mosque_ic.png';
 import directionIcon from '../../assets/images/direction_ic.png';
 
+//theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 
@@ -26,7 +28,6 @@ export default function CustomBox(props) {
     });
   }, [myRef]);
 
-  
   return (
     <Box bg={colors.cover} p="3" mt={props.mt} ref={myRef} mb={props.mb}>
       <View
@@ -36,7 +37,7 @@ export default function CustomBox(props) {
           flexWrap: 'wrap',
         }}>
         <Image
-          source={props.templeic?props.templeic:mosqueIcon}
+          source={props.templeic ? props.templeic : mosqueIcon}
           style={{
             height: 40,
             width: 40,
@@ -58,11 +59,10 @@ export default function CustomBox(props) {
         </Text>
         <TouchableOpacity
           style={{
-            right:10
+            right: 10,
           }}
           onPress={props.onPress}
-          activeOpacity={0.6}
-          >
+          activeOpacity={0.6}>
           <Image
             source={directionIcon}
             style={{
@@ -79,10 +79,6 @@ export default function CustomBox(props) {
 }
 
 const styles = StyleSheet.create({
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   textMosque: {
     fontFamily: fonts.Signika.medium,
     color: colors.black,

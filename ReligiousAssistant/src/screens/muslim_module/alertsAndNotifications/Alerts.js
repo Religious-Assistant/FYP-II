@@ -11,20 +11,21 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-
 import {Text, Image} from 'native-base';
 
-import colors from '../../../theme/colors';
-
-import {useNavigation} from '@react-navigation/native';
-
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
+
+//theme
+import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+
+//custom components
 import Loader from '../../common/Loader';
 import Empty from '../../common/Empty';
-import {dateDifference} from '../../../utils/helpers';
+
+//redux
+import {useDispatch, useSelector} from 'react-redux';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {
   deleteNotification,
   getUserNotifications,
@@ -33,7 +34,14 @@ import {
   selectMuslimNotifications,
 } from '../../../redux/slices/muslim_module_slices/muslimNotificationSlice';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
+
+//helper function
+import {dateDifference} from '../../../utils/helpers';
+
+//constants
 import CATEGORIES from '../UIConstants';
+
+//navigation
 import {
   IMAM_CONSENSUS,
   MOSQUE_CONSENSUS,
@@ -41,6 +49,7 @@ import {
   NEW_MOSQUE_ADDITION,
 } from '../../../navigation/constants';
 import {useIsFocused} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Alerts({navigation}) {
   const dispatch = useDispatch();
@@ -187,7 +196,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: '#FFFFFF',
     // height:windowHeight,
-    marginBottom:50,
+    marginBottom: 50,
   },
   container: {
     padding: 16,
@@ -226,17 +235,6 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     marginRight: 60,
-  },
-  img: {
-    height: 50,
-    width: 50,
-    margin: 0,
-  },
-  attachment: {
-    position: 'absolute',
-    right: 0,
-    height: 50,
-    width: 50,
   },
   separator: {
     height: 1,

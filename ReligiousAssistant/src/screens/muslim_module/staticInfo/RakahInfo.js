@@ -8,9 +8,14 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Heading, Image, Center, ScrollView} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
+
+//images
 import rakahICon from '../../../../assets/images/rakah_ic.png';
+
+//custom component
 import Accordian from '../../../components/Accordian';
 
 export default function RakahInfo() {
@@ -124,15 +129,6 @@ export default function RakahInfo() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,

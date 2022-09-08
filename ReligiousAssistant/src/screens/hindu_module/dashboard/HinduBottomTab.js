@@ -8,25 +8,37 @@ import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+//Screens
 import Settings from '../preferences/Settings';
 import fonts from '../../../theme/fonts';
 import Home from './Home';
 import FindTemple from '../temple/FindTemple';
 import Prayers from '../prayers/Prayers';
-//import all screens
-
-import colors from '../../../theme/colors';
-import { FIND_TEMPLE, HINDU_ALERTS, HINDU_HOME, HINDU_PRAYERS, HINDU_SETTINGS } from '../../../navigation/constants';
 import Alerts from '../alertsAndNotifications/Alerts';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserData, selectUserData } from '../../../redux/slices/auth_slices/authSlice';
-import { selectHinduNotifications } from '../../../redux/slices/hindu_module_slices/hinduNotificationSlice';
+//theme
+import colors from '../../../theme/colors';
+
+//navigation
+import {
+  FIND_TEMPLE,
+  HINDU_ALERTS,
+  HINDU_HOME,
+  HINDU_PRAYERS,
+  HINDU_SETTINGS,
+} from '../../../navigation/constants';
+
+//redux
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
+import {selectHinduNotifications} from '../../../redux/slices/hindu_module_slices/hinduNotificationSlice';
 
 const BottomTab = createBottomTabNavigator();
 
 const FindTempleButton = ({children, onPress}) => {
-  
   return (
     <TouchableOpacity
       style={{
@@ -50,14 +62,13 @@ const FindTempleButton = ({children, onPress}) => {
 };
 
 export default function HinduBottomTab() {
+  const dispatch = useDispatch();
+  const notifications = useSelector(selectHinduNotifications);
+  const user = useSelector(selectUserData);
 
-  const dispatch=useDispatch()
-  const notifications=useSelector(selectHinduNotifications)
-  const user=useSelector(selectUserData)
-  
-  useEffect(()=>{
-    dispatch(getUserData())
-  },[])
+  useEffect(() => {
+    dispatch(getUserData());
+  }, []);
 
   return (
     <>
@@ -110,44 +121,48 @@ export default function HinduBottomTab() {
             ),
           }}
         />
-        {
-          user?
+        {user ? (
           <BottomTab.Screen
-          name={HINDU_ALERTS}
-          component={Alerts}
-          options={{
-            // tabBarLabel:'Home',
-            headerShown: false,
-            tabBarBadge:notifications?notifications.length:null,
-            tabBarBadgeStyle:{color:colors.primary, backgroundColor:colors.secondary, marginTop:15},
-            tabBarIcon: ({focused}) => (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  top: 10,
-                }}>
-                <Image
-                  source={require('../../../../assets/images/notifications_ic.png')}
-                  resizeMode="contain"
+            name={HINDU_ALERTS}
+            component={Alerts}
+            options={{
+              // tabBarLabel:'Home',
+              headerShown: false,
+              tabBarBadge: notifications ? notifications.length : null,
+              tabBarBadgeStyle: {
+                color: colors.primary,
+                backgroundColor: colors.secondary,
+                marginTop: 15,
+              },
+              tabBarIcon: ({focused}) => (
+                <View
                   style={{
-                    width: 25,
-                    height: 25,
-                    tintColor: focused ? colors.red : '#0f1e3d',
-                  }}></Image>
-                <Text
-                  style={[
-                    styles.tabItemText,
-                    {color: focused ? colors.red : '#0f1e3d'},
-                  ]}>
-                  Alerts
-                </Text>
-              </View>
-            ),
-          }}
-        />
-        :<></>
-        }
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    top: 10,
+                  }}>
+                  <Image
+                    source={require('../../../../assets/images/notifications_ic.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: 25,
+                      height: 25,
+                      tintColor: focused ? colors.red : '#0f1e3d',
+                    }}></Image>
+                  <Text
+                    style={[
+                      styles.tabItemText,
+                      {color: focused ? colors.red : '#0f1e3d'},
+                    ]}>
+                    Alerts
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+        ) : (
+          <></>
+        )}
 
         <BottomTab.Screen
           name={FIND_TEMPLE}
@@ -202,42 +217,42 @@ export default function HinduBottomTab() {
           }}
         />
 
-        {
-          user?
+        {user ? (
           <BottomTab.Screen
-          name={HINDU_SETTINGS}
-          component={Settings}
-          options={{
-            // tabBarLabel:'Home',
-            headerShown: false,
-            tabBarIcon: ({focused}) => (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  top: 10,
-                }}>
-                <Image
-                  source={require('../../../../assets/images/settings_ic.png')}
-                  resizeMode="contain"
+            name={HINDU_SETTINGS}
+            component={Settings}
+            options={{
+              // tabBarLabel:'Home',
+              headerShown: false,
+              tabBarIcon: ({focused}) => (
+                <View
                   style={{
-                    width: 25,
-                    height: 25,
-                    tintColor: focused ? colors.red : '#0f1e3d',
-                  }}></Image>
-                <Text
-                  style={[
-                    styles.tabItemText,
-                    {color: focused ? colors.red : '#0f1e3d'},
-                  ]}>
-                  Settings
-                </Text>
-              </View>
-            ),
-          }}
-        /> 
-          :<></>
-        }
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    top: 10,
+                  }}>
+                  <Image
+                    source={require('../../../../assets/images/settings_ic.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: 25,
+                      height: 25,
+                      tintColor: focused ? colors.red : '#0f1e3d',
+                    }}></Image>
+                  <Text
+                    style={[
+                      styles.tabItemText,
+                      {color: focused ? colors.red : '#0f1e3d'},
+                    ]}>
+                    Settings
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </BottomTab.Navigator>
     </>
   );

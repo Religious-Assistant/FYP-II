@@ -11,12 +11,17 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {ScrollView} from 'native-base';
 
 import Loader from '../../common/Loader';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
+//redux
+
+import {useDispatch, useSelector} from 'react-redux';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import {
   checkSummaryIsRead,
@@ -29,8 +34,6 @@ import {
   selectSummaryRecitationStatus,
   updateLastReadSummary,
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
-
-import {ScrollView} from 'native-base';
 
 const SummaryRecitationArea = ({route, navigation}) => {
   const {summary} = route.params;
@@ -66,7 +69,7 @@ const SummaryRecitationArea = ({route, navigation}) => {
       dispatch(markSummaryAsRead({username, summaryNumber, summaryName}));
       dispatch(checkSummaryIsRead({username, summaryName}));
       dispatch(getRecitationStats({username}));
-      dispatch(updateLastReadSummary({username, summaryNumber}))
+      dispatch(updateLastReadSummary({username, summaryNumber}));
     }
   }
 

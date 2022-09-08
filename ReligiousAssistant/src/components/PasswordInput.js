@@ -7,9 +7,11 @@ import React from 'react';
 import {Input, Icon} from 'native-base';
 import {StyleSheet} from 'react-native';
 
+//icons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
+//theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 

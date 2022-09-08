@@ -1,5 +1,5 @@
 /**
- * @author Kinza
+ * @author Kinza Kiran
  * @version 1.0
  *
  */
@@ -12,11 +12,13 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-
 import {Center, VStack, FormControl} from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
+
+//icon
 import Ioicons from 'react-native-vector-icons/Ionicons';
 
+//custom compoenents
 import CustomButton from '../../components/CustomButton';
 import PasswordInput from '../../components/PasswordInput';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -41,9 +43,7 @@ import {
   forgotPassword,
   selectHasRecoveredForgetPassword,
   selectIsLoadingForgotPassword,
-
 } from '../../redux/slices/auth_slices/authSlice';
-
 
 const loginValidationSchema = yup.object().shape({
   newPassword: yup.string().min(8).required('Password is required'),
@@ -154,9 +154,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  scroll: {
-    flex: 1,
-  },
   image: {
     flex: 1,
     justifyContent: 'center',
@@ -174,10 +171,5 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontFamily: fonts.Signika.medium,
     color: colors.white,
-  },
-  errorText: {
-    fontSize: 10,
-    color: colors.error,
-    fontFamily: fonts.Signika.bold,
   },
 });

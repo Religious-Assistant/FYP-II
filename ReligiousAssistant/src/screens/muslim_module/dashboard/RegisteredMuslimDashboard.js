@@ -1,5 +1,5 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
@@ -14,25 +14,29 @@ import {
 } from 'react-native';
 
 import {Text, View} from 'native-base';
+
 // Tab ICons...
 import profile_ic from '../../../../assets/images/profile_ic.png';
 import imam_ic from '../../../../assets/images/imam_ic.png';
 import about_ic from '../../../../assets/images/about_ic.png';
 import share_ic from '../../../../assets/images/share_ic.png';
 
+//logout icon
 import logout_ic from '../../../../assets/images/logout_ic.png';
 
-// Menu
+// Menu icons
 import menu from '../../../../assets/images/menu_ic.png';
 import close from '../../../../assets/images/close_ic.png';
 import help from '../../../../assets/images/help_ic.png';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
 import MuslimBottomTab from './MuslimBottomTab';
 import {useNavigation} from '@react-navigation/native';
 
+//navigation
 import {
   ABOUT,
   APPLY_AS_IMAM,
@@ -40,9 +44,10 @@ import {
   HELP,
   MUSLIM_VIEW_PROFILE,
 } from '../../../navigation/constants';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getUpdatedUserData,
   getUserData,
   logout,
   selectHasError,

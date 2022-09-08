@@ -8,13 +8,21 @@ import React from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Heading, Image, Center, TextArea, Select, CheckIcon} from 'native-base';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//images
 import timeICon from '../../../../assets/images/announce_ic.png';
-import CustomButton from '../../../components/CustomButton';
 
+//custom components
+import CustomButton from '../../../components/CustomButton';
+import Loader from '../../common/Loader';
+
+//formik
 import {Formik} from 'formik';
+
+//constants
 import CATEGORIES from '../UIContants';
 
 //redux
@@ -26,7 +34,6 @@ import {
   selectHasErrorInMakeAnnouncement,
   selectIsLoadingMakeAnnouncement,
 } from '../../../redux/slices/hindu_module_slices/hinduAnnouncementSlice';
-import Loader from '../../common/Loader';
 
 export default function MakeAnnouncement() {
   const dispatch = useDispatch();
@@ -190,15 +197,6 @@ export default function MakeAnnouncement() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: colors.white,
-    fontFamily: fonts.Signika.regular,
-  },
-  Maincontainer: {
-    flex: 1,
-    width: '100%',
-  },
   text: {
     fontFamily: fonts.Signika.medium,
     color: colors.primary,

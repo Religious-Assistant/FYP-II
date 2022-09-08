@@ -4,35 +4,39 @@
  */
 
 import React from 'react';
-import {ImageBackground, Dimensions, View} from 'react-native';
-import {StyleSheet} from 'react-native';
-import {Center, Box, VStack, FormControl} from 'native-base';
-import {Select, CheckIcon} from 'native-base';
+import {ImageBackground, Dimensions, View, StyleSheet} from 'react-native';
+import {Center, Box, VStack, FormControl, Select, CheckIcon} from 'native-base';
+
 import {Formik} from 'formik';
 
-import CustomButton from '../../components/CustomButton';
-import BottomText from '../../components/BottomText';
-
+//theme
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-import {LOGIN, REGISTERED_HINDU_DASHBOARD_STACK, REGISTERED_MUSLIM_DASHBOARD_STACK, SIGNUP} from '../../navigation/constants';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+//custom components
+import CustomButton from '../../components/CustomButton';
+import BottomText from '../../components/BottomText';
+
+//navigation
+import {
+  LOGIN,
+  REGISTERED_HINDU_DASHBOARD_STACK,
+  REGISTERED_MUSLIM_DASHBOARD_STACK,
+  SIGNUP,
+} from '../../navigation/constants';
+
+import {useNavigation} from '@react-navigation/native';
 
 export default function ConnectAsGuest() {
-
-  const navigator=useNavigation()
+  const navigator = useNavigation();
 
   function connectAsGuestHandler(values) {
-    
-    const {religion}=values
+    const {religion} = values;
 
-    if(religion==1){
-      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK)
-    }
-    else{
-      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK)
+    if (religion == 1) {
+      navigator.navigate(REGISTERED_MUSLIM_DASHBOARD_STACK);
+    } else {
+      navigator.navigate(REGISTERED_HINDU_DASHBOARD_STACK);
     }
   }
 
@@ -120,10 +124,6 @@ const styles = StyleSheet.create({
   flexRatio: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    width: '100%',
-  },
   image: {
     flex: 1,
     justifyContent: 'center',
@@ -141,10 +141,5 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontFamily: fonts.Signika.medium,
     color: colors.white,
-  },
-  link: {
-    color: colors.secondary,
-    fontSize: 'sm',
-    fontFamily: fonts.Signika.medium,
   },
 });

@@ -1,3 +1,9 @@
+/**
+ * @author Nadir Hussain
+ * @version 1.0
+ */
+
+import {useState, useRef} from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -6,6 +12,9 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
+import {FlatList, Image} from 'native-base';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   checkParahIsRead,
@@ -24,21 +33,18 @@ import {
   selectParahRecitationStatus,
   updateLastReadParah,
 } from '../../../redux/slices/muslim_module_slices/reciteQuranSlice';
+import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 import Loader from '../../common/Loader';
+
+//theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
 
-import {FlatList, Image} from 'native-base';
+//images
 import last_read_ic from '../../../../assets/images/last_read_ic.png';
-import {
-  selectUserData,
-} from '../../../redux/slices/auth_slices/authSlice';
-import {useState} from 'react';
-import { useRef } from 'react';
 
 const ParahRecitationArea = ({route, navigation}) => {
-
   const {parah} = route.params;
   const dispatch = useDispatch();
 
@@ -64,7 +70,7 @@ const ParahRecitationArea = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getParahByNumber(parah.number));
-        
+
     if (username) {
       dispatch(
         checkParahIsRead({username: username, parahName: parah.englishName}),
@@ -74,9 +80,9 @@ const ParahRecitationArea = ({route, navigation}) => {
 
   function markParahAsComplete(parahNumber, parahName) {
     if (username) {
-        dispatch(markParahAsRead({username, parahNumber, parahName}));
-        dispatch(checkParahIsRead({username, parahName}));
-        dispatch(getRecitationStats({username}))
+      dispatch(markParahAsRead({username, parahNumber, parahName}));
+      dispatch(checkParahIsRead({username, parahName}));
+      dispatch(getRecitationStats({username}));
     }
   }
 
@@ -84,14 +90,13 @@ const ParahRecitationArea = ({route, navigation}) => {
     if (username) {
       dispatch(markParahAsUnRead({username, parahNumber, parahName}));
       dispatch(checkParahIsRead({username, parahName}));
-      dispatch(getRecitationStats({username}))
+      dispatch(getRecitationStats({username}));
     }
   }
 
   return (
     <View style={{backgroundColor: colors.white}}>
-      {
-      isLoadingParahByNumber ||
+      {isLoadingParahByNumber ||
       isLoadingMarkParahAsRead ||
       isLoadingMarkParahAsUnRead ? (
         <Loader msg={`Getting Parah ${parah.englishName} for you ...`} />
@@ -114,8 +119,7 @@ const ParahRecitationArea = ({route, navigation}) => {
                     parahRecitationStatus
                       ? markParahAsInComplete(parah.number, parah.englishName)
                       : markParahAsComplete(parah.number, parah.englishName);
-                  }}
-                  >
+                  }}>
                   <Text
                     style={{
                       fontFamily: fonts.Signika.medium,
@@ -132,7 +136,7 @@ const ParahRecitationArea = ({route, navigation}) => {
                   color: colors.secondary,
                   fontSize: 20,
                 }}>
-                {parah?parah.name:''}
+                {parah ? parah.name : ''}
               </Text>
             </View>
           </View>
@@ -191,7 +195,8 @@ const ParahRecitationArea = ({route, navigation}) => {
 };
 
 const AyahCard = props => {
-const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} = props;
+  const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} =
+    props;
 
   const dispatch = useDispatch();
   let isLoadingUpdateLastReadParah = useSelector(
@@ -199,8 +204,10 @@ const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} = pro
   );
 
   function saveLastRead(parahNumber, surahNumber, verseNumber) {
-    dispatch(updateLastReadParah({username, parahNumber, surahNumber , verseNumber}));
-    dispatch(getRecitationStats({username}))
+    dispatch(
+      updateLastReadParah({username, parahNumber, surahNumber, verseNumber}),
+    );
+    dispatch(getRecitationStats({username}));
   }
 
   return (
@@ -220,7 +227,7 @@ const {ayah, parahNumber, username, backgroundColor, fontColor, tintColor} = pro
         <View style={styles.actions}>
           <Pressable
             onPress={() => {
-              saveLastRead(parahNumber, ayah.surah.number, ayah.number, );
+              saveLastRead(parahNumber, ayah.surah.number, ayah.number);
             }}>
             <Image
               source={last_read_ic}

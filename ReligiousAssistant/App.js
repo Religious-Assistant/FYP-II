@@ -16,9 +16,7 @@ import {Provider, useDispatch} from 'react-redux';
 //Notifee
 import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
-import {
-  getUserData,
-} from './src/redux/slices/auth_slices/authSlice';
+import {getUserData} from './src/redux/slices/auth_slices/authSlice';
 
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
@@ -66,14 +64,13 @@ const EntryPoint = () => {
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
 
   useEffect(() => {
-    //Disable warnings
-    // console.disableYellowBox = true;
+    // Disable warnings
+    console.disableYellowBox = true;
 
     //For Ios Ask permisson for notification
     const askPermission = async () => await messaging().requestPermission();

@@ -1,9 +1,19 @@
-import {StatusBar} from 'expo-status-bar';
+/**
+ * @author Kinza Kiran
+ * @version 1.0
+ */
+
 import React from 'react';
-import {StyleSheet, Text, View, Button, Image} from 'react-native';
-import wifiIc from '../../../assets/images/wifi_ic.png';
+import {StyleSheet, Text, View, Image} from 'react-native';
+
+//theme
 import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
+
+//image
+import wifiIc from '../../../assets/images/wifi_ic.png';
+
+//custom components
 import CustomButton from '../../components/CustomButton';
 
 const NoConnectionScreen = props => {

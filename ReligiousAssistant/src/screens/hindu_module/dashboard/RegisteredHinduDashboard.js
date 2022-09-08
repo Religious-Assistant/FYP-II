@@ -1,5 +1,5 @@
 /**
- * @author Nadir
+ * @author Nadir Hussain
  * @version 1.0
  */
 
@@ -14,31 +14,37 @@ import {
 
 import {Image, Text, View} from 'native-base';
 
-// Tab ICons...
-
+//tab icons
 import profile_ic from '../../../../assets/images/profile_ic.png';
 import about_ic from '../../../../assets/images/about_ic.png';
 import share_ic from '../../../../assets/images/share_ic.png';
 
+//logout icon
 import logout_ic from '../../../../assets/images/logout_ic.png';
 
-// Menu
+//menu icons
 import menu from '../../../../assets/images/menu_ic.png';
 import close from '../../../../assets/images/close_ic.png';
 import help from '../../../../assets/images/help_ic.png';
 
+//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//navigation
 import {useNavigation} from '@react-navigation/native';
-
 import {
   ABOUT,
   AUTH_STACK,
   HELP,
   HINDU_VIEW_PROFILE,
 } from '../../../navigation/constants';
+
+//components
 import HinduBottomTab from './HinduBottomTab';
+import Loader from '../../common/Loader';
+
+//redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getUserData,
@@ -48,8 +54,9 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {selectCurrentTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
-import Loader from '../../common/Loader';
-import { defaultAvatar } from '../UIContants';
+
+//constants
+import {defaultAvatar} from '../UIContants';
 
 export default function RegisteredHinduDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -86,7 +93,7 @@ export default function RegisteredHinduDashboard() {
               alignItems: 'center',
             }}>
             <Image
-              source={{uri: user?user?.avatar:defaultAvatar}}
+              source={{uri: user ? user?.avatar : defaultAvatar}}
               style={{
                 width: 80,
                 height: 80,
@@ -112,14 +119,23 @@ export default function RegisteredHinduDashboard() {
               // Tab Bar Buttons....
             }
 
-            {user?TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic):<></>}
+            {user ? (
+              TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)
+            ) : (
+              <></>
+            )}
             {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
             {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
             {TabButton(currentTab, setCurrentTab, 'Help', help)}
           </View>
 
           <View>
-            {TabButton(currentTab, setCurrentTab, user?'LogOut':'Exit', logout_ic)}
+            {TabButton(
+              currentTab,
+              setCurrentTab,
+              user ? 'LogOut' : 'Exit',
+              logout_ic,
+            )}
           </View>
         </View>
       )}
@@ -203,7 +219,7 @@ export default function RegisteredHinduDashboard() {
 const TabButton = (currentTab, setCurrentTab, title, image) => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
-  
+
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -229,7 +245,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
       onPress={() => {
         title = title.toLowerCase();
 
-        if (title == 'logout' || title=='exit') {
+        if (title == 'logout' || title == 'exit') {
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {

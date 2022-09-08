@@ -1,19 +1,24 @@
 /**
- * 
+ *
  * @author Kinza & Nadir
  * @version 1.0
  */
 
 import React, {useState, useEffect} from 'react';
-import {Image} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
 
+//maps
 import MapView, {Marker} from 'react-native-maps';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import MapViewDirections from 'react-native-maps-directions';
+
+//constants
 import {GOOGLE_MAPS_APIKEY} from './componentsConstants';
 
-import MosqueIc from '../../assets/images/temple_ic.png';
+//image
+import templeIc from '../../assets/images/temple_ic.png';
+
+//theme
 import colors from '../theme/colors';
 
 export default function MapDirectionForHindus({route}) {
@@ -84,7 +89,7 @@ export default function MapDirectionForHindus({route}) {
                 longitude: e.nativeEvent.coordinate.longitude,
               });
             }}>
-            <Image source={MosqueIc} style={{width: 48, height: 48}}></Image>
+            <Image source={templeIc} style={{width: 48, height: 48}}></Image>
           </Marker>
         </MapView>
       ) : (
