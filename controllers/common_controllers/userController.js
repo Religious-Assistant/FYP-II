@@ -669,6 +669,31 @@ const insertQuranInfo = async () => {
   await quranInfo.save();
 };
 
+const deleteDeviceToken = async (req, res) => {
+  console.log("deleteDeviceToken  API hit");
+  try {
+    const { username } = req.body;
+
+    let hasDeleted=await DeviceToken.findOneAndDelete({ username });
+
+    if(hasDeleted){
+      res.status(200).send({
+        success: true,
+        msg: "User Deleted Successfully!",
+      });
+    }
+    else{
+      res.status(400).send({
+        success: false,
+        msg: "Couldn't Delete",
+      });
+    }
+
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -680,4 +705,5 @@ module.exports = {
   updatePassword,
   deleteUser,
   updateLocation,
+  deleteDeviceToken
 };
