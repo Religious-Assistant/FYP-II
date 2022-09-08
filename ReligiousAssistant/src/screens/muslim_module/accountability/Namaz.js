@@ -58,36 +58,36 @@ export default function Namaz() {
     {
       key: 1,
       namazName: 'Fajr',
-      value: accountabilityData?.fajr,
+      value: accountabilityData?accountabilityData?.fajr:false,
     },
     {
       key: 2,
       namazName: 'Zuhr',
-      value: accountabilityData?.zuhr,
+      value: accountabilityData?accountabilityData?.zuhr:false,
     },
     {
       key: 3,
       namazName: 'Asr',
-      value: accountabilityData?.asr,
+      value: accountabilityData?accountabilityData?.asr:false,
     },
     {
       key: 4,
       namazName: 'Maghrib',
-      value: accountabilityData?.maghrib,
+      value: accountabilityData?accountabilityData?.maghrib:false,
     },
     {
       key: 5,
       namazName: 'Isha',
-      value: accountabilityData?.isha,
+      value: accountabilityData?accountabilityData?.isha:false,
     },
   ];
 
   const [dayNamazTimes, setDayNamazTimes] = useState({
-    fajr: accountabilityData?.fajr,
-    zuhr: accountabilityData?.zuhr,
-    asr: accountabilityData?.asr,
-    maghrib: accountabilityData?.maghrib,
-    isha: accountabilityData?.isha,
+    fajr: accountabilityData?accountabilityData?.fajr:false,
+    zuhr: accountabilityData?accountabilityData?.zuhr:false,
+    asr: accountabilityData?accountabilityData?.asr:false,
+    maghrib: accountabilityData?accountabilityData?.maghrib:false,
+    isha: accountabilityData?accountabilityData?.isha:false,
   });
 
   const [selectedDate, setSelectedDate] = useState(Date('DD-MM-YYYY'));
@@ -103,12 +103,14 @@ export default function Namaz() {
   }
 
   const handleChange = (value, time) => {
+    console.log("     ------",value, "  ",time)
     if (time) {
       setDayNamazTimes(prev => ({...prev, [time.toLowerCase()]: value}));
     }
   };
 
   async function handleSaveNamazAccountability() {
+    console.log(selectedDate,"  ",dayNamazTimes)
     if (user) {
       dispatch(
         updateNamazAccountability({
@@ -178,6 +180,7 @@ export default function Namaz() {
 }
 
 function NamazTimes({time, value, handleChange, selectedDate}) {
+  console.log(selectedDate,value)
   return (
     <View
       style={{

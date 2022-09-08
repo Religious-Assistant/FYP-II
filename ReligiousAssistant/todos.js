@@ -29,3 +29,13 @@
 
 //TODO: Should I delete Share App file from common and components folder?
 
+
+//TODO: Hindu Alrams for veg/non veg
+
+//TODO: set Alarms 
+
+//TODO: Accountability noti send at 10 pm
+
+//TODO: hindus should not get muslims notifications and vice versa
+
+//TODO: New notification alert comes at beginning
