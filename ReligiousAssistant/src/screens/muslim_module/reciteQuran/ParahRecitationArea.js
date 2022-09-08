@@ -142,7 +142,7 @@ const ParahRecitationArea = ({route, navigation}) => {
           </View>
           <FlatList
             ref={refContainer}
-            data={parahByNumber.ayahs}
+            data={parahByNumber?.ayahs}
             initialScrollIndex={scrollIndexForAyah}
             onScrollToIndexFailed={info => {
               const wait = new Promise(resolve => setTimeout(resolve, 500));
@@ -156,7 +156,7 @@ const ParahRecitationArea = ({route, navigation}) => {
             mb={'25%'}
             renderItem={({item, index}) => {
               // Get last read verse number and highlish that card
-              const {verseNumber} = lastReadParah.parahLastRead;
+              const {verseNumber} = lastReadParah?.parahLastRead;
               //Jump to this card with initialSCrollIndex
               if (item.number == verseNumber) {
                 setScrollIndexForAyah(index);

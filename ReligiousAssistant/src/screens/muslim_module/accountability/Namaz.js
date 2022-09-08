@@ -82,6 +82,7 @@ export default function Namaz() {
     },
   ];
 
+  console.log(accountabilityData)
   const [dayNamazTimes, setDayNamazTimes] = useState({
     fajr: accountabilityData?accountabilityData?.fajr:false,
     zuhr: accountabilityData?accountabilityData?.zuhr:false,
@@ -105,12 +106,14 @@ export default function Namaz() {
   const handleChange = (value, time) => {
     console.log("     ------",value, "  ",time)
     if (time) {
-      setDayNamazTimes(prev => ({...prev, [time.toLowerCase()]: value}));
+      console.log(dayNamazTimes)
+      setDayNamazTimes(prev =>({...prev, [time.toLowerCase()]: value}));
     }
   };
 
   async function handleSaveNamazAccountability() {
-    console.log(selectedDate,"  ",dayNamazTimes)
+
+
     if (user) {
       dispatch(
         updateNamazAccountability({
@@ -119,6 +122,13 @@ export default function Namaz() {
           namazInfo: dayNamazTimes,
         }),
       );
+        setDayNamazTimes({
+          fajr: false,
+          zuhr: false,
+          asr: false,
+          maghrib: false,
+          isha: false,
+        })
     }
   }
 

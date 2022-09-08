@@ -142,7 +142,7 @@ const SurahRecitationArea = ({route, navigation}) => {
           </View>
           <FlatList
             ref={refContainer}
-            data={surahByNumber.ayahs}
+            data={surahByNumber?.ayahs}
             // initialScrollIndex={scrollIndexForAyah}
             initialScrollIndex={scrollIndexForAyah}
             onScrollToIndexFailed={info => {

@@ -1,4 +1,3 @@
-
 import {Text, View} from 'native-base';
 import React, {useEffect} from 'react';
 import {PermissionsAndroid} from 'react-native';
@@ -34,7 +33,6 @@ let locationSubscription = null;
 let locationTimeout = null;
 
 export default function BackgroundLocation() {
-
   const [location, setLocation] = useState('');
   const {mode, setMode} = useRingerMode();
 

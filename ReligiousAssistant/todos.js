@@ -1,6 +1,5 @@
 //TODO: Improve app performance
 //TODO: Remove unnecessary Loaders
-//TODO: Check network availability for all API calls
 
 //TODO: Complete Update Namaz times in Mosque
 
@@ -17,7 +16,6 @@
 
 //TODO: Redux issue-> update times is not accessible to imam
 
-//TODO: Header in hindus
 
 //TODO: alerts notification and announcements-> does not appear when consensus is completed
 
@@ -39,3 +37,5 @@
 //TODO: hindus should not get muslims notifications and vice versa
 
 //TODO: New notification alert comes at beginning
+
+//TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin

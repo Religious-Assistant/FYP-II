@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Heading,
@@ -15,25 +15,20 @@ import {
   Checkbox,
   ScrollView,
   FormControl,
-  Input,
 } from 'native-base';
 
-//images
-import vegDays from '../../../../assets/images/vegDays_ic.png';
-
-//custom components
-import CustomButton from '../../../components/CustomButton';
-
-//theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//reducer
+import vegDays from '../../../../assets/images/vegDays_ic.png';
+
+import CustomButton from '../../../components/CustomButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+import {useEffect} from 'react';
 import {
   getVegData,
   selectVegData,
@@ -71,31 +66,32 @@ const VegNonVegDays = () => {
       dayName: 'Sunday',
     },
   ];
-  const [daysData, setDaysData] = useState({
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
-    Thursday: false,
-    Friday: false,
-    Saturday: false,
-    Sunday: false,
+
+  const [vegSubscription, setVegSubscription] = useState({
+    monday: vegData ? vegData?.monday : false,
+    tuesday: vegData ? vegData?.tuesday : false,
+    wednesday: vegData ? vegData?.wednesday : false,
+    thursday: vegData ? vegData?.thursday : false,
+    friday: vegData ? vegData?.friday : false,
+    saturday: vegData ? vegData?.saturday : false,
+    sunday: vegData ? vegData?.sunday : false,
   });
 
   function handlePress() {
     var today = new Date();
     const day = today.toDateString().split(' ')[0];
     console.log(day);
-    //console.log(day)
-    const data = JSON.stringify(daysData);
-    console.log(data);
+    // console.log(vegSubscription)
+    dispatch(setVegData({username: user?.username, vegSubscription}));
   }
-  const update = (state, day) => {
-    //console.log(state, day);
-    setDaysData(prevState => ({
+
+  const handleDayChange = (state, day) => {
+    setVegSubscription(prevState => ({
       ...prevState,
-      [day]: state,
+      [day.dayName.toLowerCase()]: state,
     }));
   };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -136,50 +132,36 @@ const VegNonVegDays = () => {
               </Heading>
             </View>
           </View>
-          <View style={{flex: 0.8}} width="95%" maxW="80%" alignItems="center">
+
+          <View
+            style={{flex: 0.8, marginTop: '20%'}}
+            width="95%"
+            maxW="80%"
+            alignItems="center">
             <Center
               width="90%"
               space={2}
               maxW="90%"
-              marginTop={'35%'}
               marginLeft={'6%'}
+              marginTop="8"
               marginBottom={'5%'}>
               <Heading color={colors.primary}>
                 <Text style={{fontFamily: fonts.Signika.bold}}>
                   {'\n'}Select your Veg Days
                 </Text>
               </Heading>
-              <View style={{marginTop: '15%', width: '94%'}}>
+              <View style={{marginTop: '4%', width: '94%'}}>
                 <FormControl>
-                  {days.map((day, index) => {
+                  {days.map(day => {
                     return (
-                      <Box
-                        key={day.key}
-                        style={styles.subBox}
-                        _text={styles.text}
-                        
-                        px="3">
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}>
-                          <Text style={styles.text}>{day.dayName}</Text>
-                          <Checkbox
-                            value={day.dayName}
-                            name="day"
-                            my={2}
-                            colorScheme="green"
-                            accessibilityLabel="Namaz time"
-                            onChange={state => {
-                              update(state, day.dayName);
-                            }}></Checkbox>
-                        </View>
-                      </Box>
+                      <Item
+                        day={day}
+                        key={day.id}
+                        handleDayChange={handleDayChange}
+                      />
                     );
                   })}
-                  <CustomButton
+                <CustomButton
                     title="Save"
                     color="yellow"
                     mt="5%"
@@ -192,6 +174,33 @@ const VegNonVegDays = () => {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+
+  );
+};
+
+const Item = ({day, handleDayChange}) => {
+  return (
+    <Box key={day.key} style={styles.subBox} _text={styles.text} px="3">
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Text style={styles.text}>{day.dayName}</Text>
+        <Checkbox
+          name="day"
+          my={2}
+          colorScheme="green"
+          accessibilityLabel="Namaz time"
+          value={day}
+          defaultIsChecked={day?.value}
+          onChange={v => {
+            handleDayChange(v, day);
+          }}
+        />
+      </View>
+    </Box>
   );
 };
 

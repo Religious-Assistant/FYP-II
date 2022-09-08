@@ -21,8 +21,6 @@ import {getUserData} from './src/redux/slices/auth_slices/authSlice';
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
 
-  // const data = await JSON.parse(message.data); //To be set in async storage
-
   const channelId = await notifee.createChannel({
     id: notification['channelId'],
     name: 'Default Channel',

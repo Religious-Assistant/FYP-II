@@ -170,7 +170,7 @@ export default function ImamConsensusNoti({route, navigation}) {
 
               <Text style={styles.statement}>
                 Do you think the above information is correct? Should we Make{' '}
-                {imamById?.username.toUpperCase()}
+                {imamById?.username.toUpperCase()} as IMAM
               </Text>
             </Box>
 

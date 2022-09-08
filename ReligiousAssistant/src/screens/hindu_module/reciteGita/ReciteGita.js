@@ -69,9 +69,9 @@ const ReciteGita = () => {
 
     dispatch(getChapters());
     if (userData) {
-      dispatch(getRecitationStats({username: userData.username}));
-      dispatch(getLastReadChapter({username: userData.username}));
-      dispatch(getLastReadSummary({username: userData.username}));
+      dispatch(getRecitationStats({username: userData?.username}));
+      dispatch(getLastReadChapter({username: userData?.username}));
+      dispatch(getLastReadSummary({username: userData?.username}));
     }
   }, [connectStatus,dispatch, userData]);
 

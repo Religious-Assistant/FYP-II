@@ -39,10 +39,10 @@ const RecitationStats = () => {
     useShadowColorFromDataset: false, // optional
   };
 
-  const recitedParahs = recitationStats[0].recitedParahs;
-  const recitedSurahs = recitationStats[0].recitedSurahs;
-  const parahLastRead = recitationStats[0].parahLastRead;
-  const surahLastRead = recitationStats[0].surahLastRead;
+  const recitedParahs = recitationStats?.length>0?recitationStats[0].recitedParahs:1;
+  const recitedSurahs = recitationStats?.length>0?recitationStats[0].recitedSurahs:1;
+  const parahLastRead = recitationStats?.length>0?recitationStats[0].parahLastRead:1;
+  const surahLastRead = recitationStats?.length>0?recitationStats[0].surahLastRead:1;
 
   const data = {
     labels: ['Parahs', 'Surahs', 'Ayahs'],
