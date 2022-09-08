@@ -97,19 +97,23 @@ export default function Header() {
           </Text>
         </View>
 
-        <View style={styles.infoContainer} mt={3}>
-          <Image
-            source={require('../../../../assets/images/current_namaz_ic.png')}
-            style={{
-              width: 30,
-              height: 30,
-              tintColor: 'white',
-            }}
-            alt="Icon"></Image>
-          <Text style={[styles.namazInfoText, {fontSize: 20, marginTop: 6}]}>
-            MAGHRIB
-          </Text>
-        </View>
+        {user ? (
+          <View style={styles.infoContainer} mt={2}>
+            <Image
+              source={require('../../../../assets/images/location_ic.png')}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: 'white',
+              }}
+              alt="Icon"></Image>
+            <Text style={styles.namazInfoText}>
+              {location ? location : 'No location set'}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </View>
 
       <View style={styles.subContainer2}>
@@ -139,24 +143,6 @@ export default function Header() {
             {moment().format('MMMM Do, YYYY')}
           </Text>
         </View>
-
-        {user ? (
-          <View style={styles.infoContainer} mt={2}>
-            <Image
-              source={require('../../../../assets/images/location_ic.png')}
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: 'white',
-              }}
-              alt="Icon"></Image>
-            <Text style={styles.dateInfo}>
-              {location ? location : 'No location set'}
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
       </View>
     </View>
   );
@@ -170,19 +156,19 @@ const styles = StyleSheet.create({
   subContainer1: {
     flex: 0.4,
     justifyContent: 'flex-start',
-    paddingTop: 20,
+    paddingTop: 40,
     paddingLeft: 20,
   },
   subContainer2: {
     flex: 0.6,
     justifyContent: 'flex-start',
-    paddingTop: 15,
-    paddingLeft: 20,
+    paddingTop: 35,
+    paddingLeft: 40,
   },
   namazInfoText: {
     fontFamily: fonts.Signika.medium,
     color: colors.success.light,
-    fontSize: 20,
+    fontSize: 16,
     marginLeft: 3,
     marginTop: 3,
   },
