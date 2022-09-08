@@ -35,6 +35,10 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //images
 import editIcon from '../../../../assets/images/edit_ic.png';
 import cameraIcon from '../../../../assets/images/camera_ic.png';
@@ -86,6 +90,8 @@ import {GOOGLE_MAPS_APIKEY} from '../../../components/componentsConstants';
 Geocoder.init(GOOGLE_MAPS_APIKEY);
 
 export default function Settings({route, navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const navigator = useNavigation();
   const isFocused = useIsFocused();
 
@@ -121,6 +127,10 @@ export default function Settings({route, navigation}) {
   };
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     dispatch(getUserData());
 
     if (user?.avatar) {
@@ -148,7 +158,7 @@ export default function Settings({route, navigation}) {
       : '';
 
     return unsubscribe;
-  }, [navigation, dispatch, isFocused]);
+  }, [connectStatus, navigation, dispatch, isFocused]);
 
   function closeModal() {
     setOpen(false);
@@ -258,7 +268,7 @@ export default function Settings({route, navigation}) {
       });
   };
 
-  return (
+  return connectStatus ? (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
@@ -691,6 +701,14 @@ export default function Settings({route, navigation}) {
         </>
       )}
     </View>
+  ) : (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

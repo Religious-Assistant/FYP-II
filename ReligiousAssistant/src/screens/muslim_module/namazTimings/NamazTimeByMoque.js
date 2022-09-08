@@ -4,7 +4,7 @@
  */
 
 import {View, Text} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Heading, Image, Center, Box} from 'native-base';
 
@@ -19,23 +19,33 @@ import fonts from '../../../theme/fonts';
 import {useDispatch} from 'react-redux';
 import {setTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 export default function NamazTimeByMoque({navigation}) {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   //when tab is focused in MuslimBottomTab.js, this will be called
   React.useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(setTab('Prayers'));
     });
 
     //unsubscribe on unmount
     return unsubscribe;
-  }, [navigation]);
+  }, [connectStatus,navigation]);
 
   const namazTimes = [
     {
       key: 1,
       title: 'Fajr',
-      startTime: '4:30 AM',
+      startTime: '4:00 AM',
       endTime: '5:00 AM',
       image: require('../../../../assets/images/fajr_img.jpeg'),
     },
@@ -68,7 +78,7 @@ export default function NamazTimeByMoque({navigation}) {
       image: require('../../../../assets/images/isha_img.jpeg'),
     },
   ];
-  return (
+  return connectStatus?(
     <View style={{flex: 1, backgroundColor: colors.white}}>
       {/* Header */}
       <View
@@ -158,6 +168,14 @@ export default function NamazTimeByMoque({navigation}) {
         })}
       </View>
     </View>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 

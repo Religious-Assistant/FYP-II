@@ -21,6 +21,10 @@ import fonts from '../../../theme/fonts';
 import CustomButton from '../../../components/CustomButton';
 import Loader from '../../common/Loader';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -28,13 +32,18 @@ import {
   selectClosestMosques,
   selectIsLoadingClosestMosques,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
-import {getUpdatedUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {
+  getUpdatedUserData,
+  selectUserData,
+} from '../../../redux/slices/auth_slices/authSlice';
 import {becomeImam} from '../../../redux/slices/muslim_module_slices/imamSlice';
 
 import {useIsFocused} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 
 export default function ApplyAsImam() {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigator = useNavigation();
@@ -47,6 +56,10 @@ export default function ApplyAsImam() {
   const [selectedMosque, setSelectedMosque] = useState(null);
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     dispatch(
       getClosestMosques({
         longitude: user?.location?.coordinates[0],
@@ -62,17 +75,19 @@ export default function ApplyAsImam() {
 
       setMosqueData(mosques);
     }
-  }, [dispatch, isFocused, closesMosques?.length]);
+  }, [connectStatus, dispatch, isFocused, closesMosques?.length]);
 
   const confirmToApplyAsImam = () => {
     if (selectedMosque) {
-      dispatch(becomeImam({username: user?.username, mosqueId: selectedMosque.id}));
-      dispatch(getUpdatedUserData({username:user?.username}))
+      dispatch(
+        becomeImam({username: user?.username, mosqueId: selectedMosque.id}),
+      );
+      dispatch(getUpdatedUserData({username: user?.username}));
     } else {
       alert(`Please select Mosque`);
     }
   };
-  return (
+  return connectStatus ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex: 1, backgroundColor: colors.white}}>
         {/* header */}
@@ -108,12 +123,60 @@ export default function ApplyAsImam() {
           </View>
         </View>
         {closesMosques?.length == 0 ? (
-          <View style={{backgroundColor:colors.cover, marginTop:"40%", padding:15, width:"90%", alignSelf:'center'}}>
-            <Text style={{color:colors.info, fontFamily:fonts.Signika.bold, fontSize:20, textAlign:'center', marginTop:10}}>No Mosque near you</Text>
-            <Text style={{color:colors.secondary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>What to do?</Text>
-            <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>1. Add a mosque </Text>
-            <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>2. Wait for consensus </Text>
-            <Text style={{color:colors.primary, fontFamily:fonts.Signika.bold, fontSize:18, marginTop:10}}>3. Once added, apply for Imam </Text>
+          <View
+            style={{
+              backgroundColor: colors.cover,
+              marginTop: '40%',
+              padding: 15,
+              width: '90%',
+              alignSelf: 'center',
+            }}>
+            <Text
+              style={{
+                color: colors.info,
+                fontFamily: fonts.Signika.bold,
+                fontSize: 20,
+                textAlign: 'center',
+                marginTop: 10,
+              }}>
+              No Mosque near you
+            </Text>
+            <Text
+              style={{
+                color: colors.secondary,
+                fontFamily: fonts.Signika.bold,
+                fontSize: 18,
+                marginTop: 10,
+              }}>
+              What to do?
+            </Text>
+            <Text
+              style={{
+                color: colors.primary,
+                fontFamily: fonts.Signika.bold,
+                fontSize: 18,
+                marginTop: 10,
+              }}>
+              1. Add a mosque{' '}
+            </Text>
+            <Text
+              style={{
+                color: colors.primary,
+                fontFamily: fonts.Signika.bold,
+                fontSize: 18,
+                marginTop: 10,
+              }}>
+              2. Wait for consensus{' '}
+            </Text>
+            <Text
+              style={{
+                color: colors.primary,
+                fontFamily: fonts.Signika.bold,
+                fontSize: 18,
+                marginTop: 10,
+              }}>
+              3. Once added, apply for Imam{' '}
+            </Text>
           </View>
         ) : (
           <>
@@ -184,5 +247,13 @@ export default function ApplyAsImam() {
         )}
       </View>
     </TouchableWithoutFeedback>
+  ) : (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }

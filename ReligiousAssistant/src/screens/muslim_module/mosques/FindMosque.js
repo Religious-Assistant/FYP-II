@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -54,7 +54,12 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 export default function FindMosque() {
+  const [connectStatus, setConnectStatus] = useState(false);
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
@@ -63,6 +68,10 @@ export default function FindMosque() {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     if (!user) {
       dispatch(getUserData());
     }
@@ -75,7 +84,7 @@ export default function FindMosque() {
         }),
       );
     }
-  }, [dispatch, isFocused]);
+  }, [connectStatus, dispatch, isFocused]);
 
   getLocation = async () => {
     try {
@@ -116,7 +125,7 @@ export default function FindMosque() {
     }
   }
 
-  return (
+  return connectStatus ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -240,6 +249,7 @@ export default function FindMosque() {
                       closesMosques.map((mosque, index) => {
                         return (
                           <CustomBox
+                            key={index}
                             mt={'5%'}
                             mb={
                               index == closesMosques.length - 1 ? '15%' : '0%'
@@ -271,6 +281,14 @@ export default function FindMosque() {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+  ) : (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 }
 const styles = StyleSheet.create({

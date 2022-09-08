@@ -18,6 +18,10 @@ import {Text, View, FlatList} from 'native-base';
 import Header from '../../../components/Header';
 import Loader from '../../common/Loader';
 
+//to check connection
+import NoConnectionScreen from '../../common/NoConnectionScreen';
+import {checkConnected} from '../../common/CheckConnection';
+
 //image
 import img from '../../../../assets/images/gita2_ic.png';
 
@@ -51,21 +55,27 @@ import {
 } from '../../../redux/slices/hindu_module_slices/reciteGitaSlice';
 
 const ReciteGita = () => {
+  const [connectStatus, setConnectStatus] = useState(false);
+
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const isLoadingChapters = useSelector(selectIsLoadingChapters);
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    checkConnected().then(res => {
+      setConnectStatus(res);
+    });
+
     dispatch(getChapters());
     if (userData) {
       dispatch(getRecitationStats({username: userData.username}));
       dispatch(getLastReadChapter({username: userData.username}));
       dispatch(getLastReadSummary({username: userData.username}));
     }
-  }, [dispatch, userData]);
+  }, [connectStatus,dispatch, userData]);
 
-  return (
+  return connectStatus?(
     <View style={{flex: 1}}>
       <Header
         title1="Recite Gita"
@@ -88,6 +98,14 @@ const ReciteGita = () => {
         )}
       </View>
     </View>
+  ): (
+    <NoConnectionScreen
+      onCheck={() => {
+        checkConnected().then(res => {
+          setConnectStatus(res);
+        });
+      }}
+    />
   );
 };
 
@@ -164,7 +182,7 @@ const ChaptersRoute = () => {
           );
         }}></FlatList>
     </>
-  );
+  )
 };
 
 const SummaryRoute = () => {
