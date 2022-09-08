@@ -53,7 +53,7 @@ export default function Calander() {
             return (
               <View
                 style={{
-                  height: 100,
+                  height: 80,
                 }}>
                 <View
                   style={{
