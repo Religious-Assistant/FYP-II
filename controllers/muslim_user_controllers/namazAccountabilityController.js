@@ -39,7 +39,7 @@ const getNamazAccuntability = async (req, res) => {
     } else {
       res.status(200).send({
         success: true,
-        data: [{username:username, date:date, fajr:false, zuhr:false,asr:false,maghrib:false, isha:false}],
+        data: {username:username, date:date, fajr:false, zuhr:false,asr:false,maghrib:false, isha:false},
       });
     }
   } catch (err) {
