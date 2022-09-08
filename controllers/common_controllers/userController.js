@@ -34,13 +34,13 @@ const registerUser = async (req, res) => {
 
   try {
     let { username, mobile, password, religion, location } = await req.body;
-    username=username.trim().toLowerCase()
+    username = username.trim().toLowerCase();
     const duplicateUser = await User.findOne({ username: username });
     if (duplicateUser) {
       res.status(200).send({ success: false, msg: "User already exists!" });
     } else {
       const user_data = await User.create({
-        username:username,
+        username: username,
         mobile,
         password,
         religion,
@@ -61,7 +61,7 @@ const registerUser = async (req, res) => {
         if (user_data.religion == 1) {
           await Tasbih.create({ username: username, count: 0 });
           await MuslimPreference.create({ username: username });
-          await NamazAlarms.create({username:username})
+          await NamazAlarms.create({ username: username });
 
           //Create Recitation record for Muslim User
           const quranRecitation = new QuranRecitation({
@@ -122,9 +122,8 @@ const registerUser = async (req, res) => {
           res.send({ success: true, data: user_data });
           return;
         }
-      }
-      else{
-        res.send({ success: false, msg:"No user found" });
+      } else {
+        res.send({ success: false, msg: "No user found" });
       }
     }
   } catch (error) {
@@ -137,7 +136,7 @@ const loginUser = async (req, res) => {
   try {
     let { username, password, deviceToken } = req.body;
 
-    username=username.trim().toLowerCase()
+    username = username.trim().toLowerCase();
     const user_data = await User.findOne({
       username: username,
       verified: true,
@@ -156,7 +155,7 @@ const loginUser = async (req, res) => {
           userPreferences = await MuslimPreference.findOne({
             username: username,
           });
-          alarms=await NamazAlarms.findOne({username})
+          alarms = await NamazAlarms.findOne({ username });
           imam = await Imam.findOne({ username: username });
         } else {
           userPreferences = await HinduPreference.findOne({
@@ -168,7 +167,7 @@ const loginUser = async (req, res) => {
           ...user_data._doc,
           token: token,
           preferences: userPreferences,
-          alarms:alarms,
+          alarms: alarms,
           isImam: imam ? true : false,
         };
 
@@ -214,11 +213,16 @@ const getUpdatedUserdata = async (req, res) => {
     if (user_data) {
       if (user_data.religion == 1) {
         const preferences = await MuslimPreference.findOne({ username });
-        const alarms=await NamazAlarms.findOne({username})
+        const alarms = await NamazAlarms.findOne({ username });
         let imam = await Imam.findOne({ username: username });
         res.send({
           success: true,
-          data: { ...user_data._doc, preferences, alarms, isImam: imam ? true : false, },
+          data: {
+            ...user_data._doc,
+            preferences,
+            alarms,
+            isImam: imam ? true : false,
+          },
           msg: "Fetched Data Successfully",
         });
       } else {
@@ -674,22 +678,22 @@ const deleteDeviceToken = async (req, res) => {
   try {
     const { username } = req.body;
 
-    let hasDeleted=await DeviceToken.findOneAndDelete({ username });
-
-    if(hasDeleted){
-      res.status(200).send({
+    let hasDeleted = await DeviceToken.findOneAndDelete({ username });
+    console.log(hasDeleted)
+    
+    if (hasDeleted) {
+      return res.status(200).send({
         success: true,
         msg: "User Deleted Successfully!",
       });
-    }
-    else{
-      res.status(400).send({
+    } else {
+      return res.status(400).send({
         success: false,
         msg: "Couldn't Delete",
       });
     }
-
   } catch (error) {
+    console.log(error)
     res.status(400).send(error.message);
   }
 };
@@ -705,5 +709,5 @@ module.exports = {
   updatePassword,
   deleteUser,
   updateLocation,
-  deleteDeviceToken
+  deleteDeviceToken,
 };
