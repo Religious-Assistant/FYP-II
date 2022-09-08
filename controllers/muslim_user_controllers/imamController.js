@@ -31,7 +31,7 @@ const becomeImam = async (req, res) => {
     let peopleAround = await findNearByPeople(adder_longitude, adder_latitude);
 
     const voteCasters = [];
-    await peopleAround.map((person) => {
+    peopleAround.map((person) => {
       voteCasters.push({ username: person, hasVoted: false });
     });
 
