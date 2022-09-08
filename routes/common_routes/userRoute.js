@@ -26,7 +26,7 @@ user_route.patch("/update-profile-image", authMiddleWare, updateProfileImage);
 user_route.post("/get-OTP-code", sendOTPCode);
 user_route.post("/verify-otp-code", verifyOTPCode);
 user_route.patch("/update-location", authMiddleWare, updateLocation);
-user_route.delete("/delete-device-token", authMiddleWare, deleteDeviceToken);
+user_route.post("/delete-device-token", authMiddleWare, deleteDeviceToken);
 
 
 

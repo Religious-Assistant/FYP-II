@@ -674,27 +674,22 @@ const insertQuranInfo = async () => {
 };
 
 const deleteDeviceToken = async (req, res) => {
-  console.log("deleteDeviceToken  API hit");
+  console.log(`Delete device token API hit`);
   try {
     const { username } = req.body;
 
-    let hasDeleted = await DeviceToken.findOneAndDelete({ username });
-    console.log(hasDeleted)
-    
-    if (hasDeleted) {
-      return res.status(200).send({
+    DeviceToken.findOneAndDelete({ username }).then(deleted=>{
+      res.status(200).send({
         success: true,
-        msg: "User Deleted Successfully!",
+        msg: "Deleted Successfully",
       });
-    } else {
-      return res.status(400).send({
-        success: false,
-        msg: "Couldn't Delete",
-      });
-    }
-  } catch (error) {
-    console.log(error)
-    res.status(400).send(error.message);
+    }).catch(error=>{
+      res.status(400).send({ success: false, msg: "Could not Delete" });
+    });
+  } catch (err) {
+    res
+      .status(400)
+      .send({ success: false, msg: "Could not DELETE" });
   }
 };
 
