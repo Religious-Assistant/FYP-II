@@ -8,6 +8,7 @@ const update_password='update-password'
 const get_otp_code='get-OTP-code'
 const verify_otp_code='verify-otp-code'
 const get_updated_user_data='get-updated-user-data'
+const delete_device_token='delete-device-token'
 
 //#endregion
 
@@ -145,6 +146,7 @@ export{
     login_user,
     update_password,
     forgot_password,
+    delete_device_token,
     update_profile_image,
     update_location,
     get_otp_code,

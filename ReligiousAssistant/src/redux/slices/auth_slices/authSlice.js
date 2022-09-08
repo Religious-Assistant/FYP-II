@@ -1,8 +1,8 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-import {apiPOST, apiPATCH} from '../../../apis/apiService'
+import {apiPOST, apiPATCH, apiDELETE} from '../../../apis/apiService'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { forgot_password, get_otp_code, get_updated_user_data, login_user, register_user, verify_otp_code } from '../../endpoints';
+import { delete_device_token, forgot_password, get_otp_code, get_updated_user_data, login_user, register_user, verify_otp_code } from '../../endpoints';
 
 const initialState = {
     userData:null,
@@ -18,6 +18,7 @@ const initialState = {
     isLoadingGetToken:false,
     isLoadingGetReligion:false,
     isLoadingForgotPassword:false,
+    hasDeletedToken:false,
 
     isLoadingGetUpdatedUserData:false,
     hasErrorGetUpdatedUserData:false,
@@ -54,6 +55,15 @@ export const verifyOTPCode = createAsyncThunk(
     'verifyOTPCode',
     async (otpNumber)=>{
        const result =  await apiPOST(verify_otp_code,otpNumber)
+       return result  
+    }
+)
+
+export const deleteDeviveToken = createAsyncThunk(
+    'deleteDeviveToken',
+    async (username)=>{
+        console.log(username)
+       const result =  await apiDELETE(delete_device_token,username)
        return result  
     }
 )
@@ -312,6 +322,17 @@ const authSlice = createSlice({
                 console.log('ERROR while storing user details in async storage', e)
             }
           },
+
+          [deleteDeviveToken.fulfilled]:(state,action)=>{
+            state.hasDeletedToken = true
+        },
+        [deleteDeviveToken.pending]:(state,action)=>{
+            state.hasDeletedToken = false
+        },
+        [deleteDeviveToken.rejected]:(state,action)=>{
+
+            state.hasDeletedToken=false
+        },
     }
 })
 
@@ -344,5 +365,6 @@ export const selectUserData=(state)=>state.user.userData
 export const selectOtpId=(state)=>state.user.otp_id
 
 export const selectHasLoadedUpdatedData=(state)=>state.user.hasLoadedUpdatedData
+export const selectHasDeletedToken=(state)=>state.user.hasDeletedToken
 
 export default authSlice.reducer

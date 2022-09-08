@@ -48,6 +48,7 @@ import {
 //redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  deleteDeviveToken,
   getUserData,
   logout,
   selectHasError,
@@ -76,7 +77,7 @@ export default function RegisteredMuslimDashboard() {
   const hasError = useSelector(selectHasError);
 
   useEffect(() => {
-      dispatch(getUserData());
+    dispatch(getUserData());
   }, [dispatch, selectedTab]);
 
   return (
@@ -116,15 +117,49 @@ export default function RegisteredMuslimDashboard() {
               // Tab Bar Buttons....
             }
 
-            {user?TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic):<></>}
-            {TabButton(currentTab, setCurrentTab, 'Apply as Imam', imam_ic)}
-            {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
-            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
-            {TabButton(currentTab, setCurrentTab, 'Help', help)}
+            {user ? (
+              TabButton(
+                currentTab,
+                setCurrentTab,
+                'View Profile',
+                profile_ic,
+                user?.username,
+              )
+            ) : (
+              <></>
+            )}
+            {TabButton(
+              currentTab,
+              setCurrentTab,
+              'Apply as Imam',
+              imam_ic,
+              user?.username,
+            )}
+            {TabButton(
+              currentTab,
+              setCurrentTab,
+              'About',
+              about_ic,
+              user?.username,
+            )}
+            {TabButton(
+              currentTab,
+              setCurrentTab,
+              'Share App',
+              share_ic,
+              user?.username,
+            )}
+            {TabButton(currentTab, setCurrentTab, 'Help', help, user?.username)}
           </View>
 
           <View>
-          {TabButton(currentTab, setCurrentTab, user?'LogOut':'Exit', logout_ic)}
+            {TabButton(
+              currentTab,
+              setCurrentTab,
+              user ? 'LogOut' : 'Exit',
+              logout_ic,
+              user?.username,
+            )}
           </View>
         </View>
       )}
@@ -208,7 +243,7 @@ export default function RegisteredMuslimDashboard() {
 }
 
 // For multiple Buttons...
-const TabButton = (currentTab, setCurrentTab, title, image) => {
+const TabButton = (currentTab, setCurrentTab, title, image, username) => {
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
@@ -236,14 +271,14 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
       onPress={() => {
         title = title.toLowerCase();
 
-        if (title == 'logout' || title=='exit') {
+        if (title == 'logout' || title == 'exit') {
           //Remove token from async storage
           dispatch(logout());
-          PushNotification.cancelAllLocalNotifications()
+          dispatch(deleteDeviveToken({username}));
+          PushNotification.cancelAllLocalNotifications();
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE);
-          
         } else if (title == 'about') {
           navigator.navigate(ABOUT);
         } else if (title == 'apply as imam') {

@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React , {useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Heading,
@@ -36,7 +36,6 @@ import {
 } from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
 
 const VegNonVegDays = () => {
-
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const vegData = useSelector(selectVegData);
@@ -87,13 +86,13 @@ const VegNonVegDays = () => {
   ];
 
   const [vegSubscription, setVegSubscription] = useState({
-    monday: vegData?vegData?.monday:false,
-    tuesday: vegData?vegData?.tuesday:false,
-    wednesday: vegData?vegData?.wednesday:false,
-    thursday: vegData?vegData?.thursday:false,
-    friday: vegData?vegData?.friday:false,
-    saturday: vegData?vegData?.saturday:false,
-    sunday: vegData?vegData?.sunday:false,
+    monday: vegData ? vegData?.monday : false,
+    tuesday: vegData ? vegData?.tuesday : false,
+    wednesday: vegData ? vegData?.wednesday : false,
+    thursday: vegData ? vegData?.thursday : false,
+    friday: vegData ? vegData?.friday : false,
+    saturday: vegData ? vegData?.saturday : false,
+    sunday: vegData ? vegData?.sunday : false,
   });
 
   function handlePress() {
@@ -102,7 +101,6 @@ const VegNonVegDays = () => {
   }
 
   const handleDayChange = (state, day) => {
-
     setVegSubscription(prevState => ({
       ...prevState,
       [day.dayName.toLowerCase()]: state,
