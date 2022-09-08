@@ -73,7 +73,7 @@ function SplashScreeen() {
       } else {
         navigator.navigate(LOGIN);
       }
-    }, 2000);
+    }, 1000);
   }, [dispatch, token, religion]);
 
   return (

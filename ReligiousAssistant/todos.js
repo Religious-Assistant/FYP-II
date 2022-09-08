@@ -1,6 +1,5 @@
 //TODO: Improve app performance
 //TODO: Remove unnecessary Loaders
-//TODO: Check network availability for all API calls
 
 //TODO: Complete Update Namaz times in Mosque
 
@@ -29,3 +28,4 @@
 
 //TODO: Should I delete Share App file from common and components folder?
 
+//TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin

@@ -150,11 +150,6 @@ const SummaryCard = props => {
     <ScrollView style={styles.scrollContainer}>
       <>
         <View style={styles.summaryContainer}>
-          {/* <View style={styles.summaryMeta}>
-        <Text style={styles.metaText}>
-          {chapterSummary.chapter_number}
-        </Text>
-      </View> */}
           <Text style={[styles.summaryText]}>
             {chapterSummary?.summary?.en}
           </Text>

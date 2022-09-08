@@ -82,7 +82,7 @@ function HinduDashboardNavigation() {
       <HomeStack.Screen
         name={VEG_DAYS}
         component={VegNonVegDays}
-        options={{title: 'Recite Gita'}}
+        options={{title: 'Veg Non Veg'}}
       />
 
       <HomeStack.Screen
