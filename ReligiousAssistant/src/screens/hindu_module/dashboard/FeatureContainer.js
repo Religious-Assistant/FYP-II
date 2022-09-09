@@ -70,6 +70,12 @@ export default function FeatureContainer() {
 
   const featureArray2 = [
     {
+      title: 'Add Temple',
+      image: require('../../../../assets/images/add2_ic.png'),
+      screen: ADD_TEMPLE,
+      disabled: user ? false : true,
+    },
+    {
       title: 'View Calander',
       image: require('../../../../assets/images/calendar_ic.png'),
       screen: VIEW_HINDU_CALANDER,
@@ -81,21 +87,21 @@ export default function FeatureContainer() {
       screen: HINDU_ANNOUNCEMENTS,
       disabled: user ? false : true,
     },
-    {
-      title: 'Auto Silent',
-      image: require('../../../../assets/images/auto_silent_ic.png'),
-      screen: HINDU_AUTO_SILENT,
-      disabled: user ? false : true,
-    },
+    // {
+    //   title: 'Auto Silent',
+    //   image: require('../../../../assets/images/auto_silent_ic.png'),
+    //   screen: HINDU_AUTO_SILENT,
+    //   disabled: user ? false : true,
+    // },
   ];
 
   const featureArray3 = [
-    {
-      title: 'Add Temple',
-      image: require('../../../../assets/images/add2_ic.png'),
-      screen: ADD_TEMPLE,
-      disabled: user ? false : true,
-    },
+    // {
+    //   title: 'Add Temple',
+    //   image: require('../../../../assets/images/add2_ic.png'),
+    //   screen: ADD_TEMPLE,
+    //   disabled: user ? false : true,
+    // },
   ];
 
   return (

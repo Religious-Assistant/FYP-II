@@ -64,7 +64,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 export default function Announcements() {
   const [connectStatus, setConnectStatus] = useState(false);
-  
+
   const dispatch = useDispatch();
 
   let announcements = useSelector(selectAnnouncements);
@@ -72,6 +72,21 @@ export default function Announcements() {
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
   const isFocused = useIsFocused();
+  let announcementsArray = [];
+
+  Object.keys(announcements)
+    .sort()
+    .reverse()
+    .forEach(key => {
+      announcementsArray.push({
+        key: key,
+        _id: announcements[key]._id,
+        avatar: announcements[key].avatar,
+        statement: announcements[key].statement,
+        createdAt: announcements[key].createdAt,
+        announcedBy: announcements[key].announcedBy,
+      });
+    });
 
   useEffect(() => {
     checkConnected().then(res => {
@@ -103,8 +118,8 @@ export default function Announcements() {
         ) : (
           <FlatList
             style={styles.root}
-            data={announcements}
-            extraData={announcements}
+            data={announcementsArray}
+            extraData={announcementsArray}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

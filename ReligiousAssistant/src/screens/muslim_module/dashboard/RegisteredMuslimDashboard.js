@@ -275,7 +275,6 @@ const TabButton = (currentTab, setCurrentTab, title, image, username) => {
           //Remove token from async storage
           dispatch(deleteDeviveToken({username}));
           dispatch(logout());
-          
           PushNotification.cancelAllLocalNotifications();
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {

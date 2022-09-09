@@ -88,7 +88,7 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={[styles.dateInfo, {fontSize: 18}]}>{event}</Text>
+          <Text numberOfLines={1} style={[styles.dateInfo, {fontSize: 18}]}>{event}</Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: 30,
     paddingLeft: 20,
+    marginLeft: "5%"
   },
   namazInfoText: {
     fontFamily: fonts.Signika.medium,

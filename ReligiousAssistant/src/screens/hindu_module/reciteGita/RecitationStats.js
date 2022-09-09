@@ -50,11 +50,11 @@ const RecitationStats = () => {
     legend: ['Recited', 'Remaining'],
     data: [
       [
-        recitationStats.length>0? recitationStats[0]?.recitedSummaries?.length - 1 : 0,
+        recitationStats?.length>0? recitationStats[0]?.recitedSummaries?.length - 1 : 0,
         18,
       ],
       [
-        recitationStats.length>0? recitationStats[0]?.recitedChapters?.length - 1 : 0,
+        recitationStats?.length>0? recitationStats[0]?.recitedChapters?.length - 1 : 0,
         18,
       ],
     ],

@@ -39,3 +39,7 @@
 //TODO: New notification alert comes at beginning
 
 //TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin
+
+//TODO: Notification of primary mosque or set times
+
+//TODO: Loading in announcemnt and alerts in hindu module
