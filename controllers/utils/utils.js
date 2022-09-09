@@ -214,18 +214,10 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
   const users = await User.find({ religion: audienceReligion });
   
-  let loggedinUsrs = receivers.filter((receiver) => {
+  return receivers.filter((receiver) => {
       return targetAudience.includes(receiver.username);
   });
 
-  console.log(loggedinUsrs)
-  console.log(users)
-  let data=await users.filter((u) => {
-    return loggedinUsrs.includes(u.username);
-  });
-
-  console.log(data)
-  return data
 };
 
 module.exports = {
