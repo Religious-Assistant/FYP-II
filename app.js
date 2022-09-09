@@ -64,6 +64,7 @@ const recite_gita_route = require('./routes/hindu_user_routes/reciteGitaRoute')
 const veg_non_veg_route = require('./routes/hindu_user_routes/vegNonVegRoute')
 const namaz_alarms_route = require('./routes/muslim_user_routes/namazAlarmsRoute')
 const namaz_time_by_mosque_route = require('./routes/muslim_user_routes/namazTimeByMosqueRoute')
+const data_route = require('./routes/common_routes/dataRoutes')
 
 //Common endpoints
 app.use('/api', user_routes)
@@ -91,6 +92,8 @@ app.use('/api', hindu_notification_route)
 app.use('/api', recite_gita_route)
 app.use('/api', veg_non_veg_route)
 
+
+app.use('/api',data_route)
 
 // FCM: Notification configuration
 
