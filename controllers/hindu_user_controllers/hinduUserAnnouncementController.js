@@ -49,7 +49,6 @@ const makeAnnouncement = async (req, res) => {
 
           const recepients=await getNotificationReceivers(targetAudience,0) 
 
-          console.log('recepients', recepients)
           saveNotificationForHinduUser(recepients, title, statement,category, newAnnouncement._id, announcement_notification_logo).then(async (data) => {
               const totalReceivers = await notifyUsers(
                 title,
