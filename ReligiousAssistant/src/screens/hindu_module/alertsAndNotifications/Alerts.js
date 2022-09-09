@@ -76,27 +76,27 @@ export default function Alerts({route, navigation}) {
       dispatch(setTab('Alerts'));
     });
 
-    if(user){
+    // if(user){
 
-      if(notifications){
-        Object.keys(notifications).sort()
-        .reverse()
-        .forEach(key => {
-          notificationsArray.push({
-            key: key,
-            _id: notifications[key]._id,
-            category: notifications[key].category,
-            causedBy: notifications[key].causedBy,
-            title: notifications[key].title,
-            icon: notifications[key].icon,
-            createdAt: notifications[key].createdAt,
-            description: notifications[key].description,
-          });
-        });
-      }
-    }
-    //unsubscribe on unmount
-    return unsubscribe;
+    //   if(notifications){
+    //     Object.keys(notifications).sort()
+    //     .reverse()
+    //     .forEach(key => {
+    //       notificationsArray.push({
+    //         key: key,
+    //         _id: notifications[key]._id,
+    //         category: notifications[key].category,
+    //         causedBy: notifications[key].causedBy,
+    //         title: notifications[key].title,
+    //         icon: notifications[key].icon,
+    //         createdAt: notifications[key].createdAt,
+    //         description: notifications[key].description,
+    //       });
+    //     });
+    //   }
+    // }
+    // //unsubscribe on unmount
+    // return unsubscribe;
   }, [connectStatus,navigation, dispatch]);
 
   //Handle delete
@@ -121,8 +121,8 @@ export default function Alerts({route, navigation}) {
         ) : (
           <FlatList
             style={styles.root}
-            data={notificationsArray}
-            extraData={notificationsArray}
+            data={notifications}
+            extraData={notifications}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

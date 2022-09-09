@@ -45,7 +45,7 @@ const muslimNotificationSlice = createSlice({
             state.hasErrorInGettingNotifications=false
         },
         [getUserNotifications.rejected]:(state,action)=>{
-            state.isLoadingNotification=true
+            state.isLoadingNotification=false
             state.hasErrorInGettingNotifications=false
         },
         

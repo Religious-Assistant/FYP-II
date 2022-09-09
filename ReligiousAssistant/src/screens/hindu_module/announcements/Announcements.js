@@ -78,21 +78,21 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-    if(announcements){
-      Object.keys(announcements)
-      .sort()
-      .reverse()
-      .forEach(key => {
-        announcementsArray.push({
-          key: key,
-          _id: announcements[key]._id,
-          avatar: announcements[key].avatar,
-          statement: announcements[key].statement,
-          createdAt: announcements[key].createdAt,
-          announcedBy: announcements[key].announcedBy,
-        });
-      });
-    }
+    // if(announcements){
+    //   Object.keys(announcements)
+    //   .sort()
+    //   .reverse()
+    //   .forEach(key => {
+    //     announcementsArray.push({
+    //       key: key,
+    //       _id: announcements[key]._id,
+    //       avatar: announcements[key].avatar,
+    //       statement: announcements[key].statement,
+    //       createdAt: announcements[key].createdAt,
+    //       announcedBy: announcements[key].announcedBy,
+    //     });
+    //   });
+    // }
   
   }, [dispatch,connectStatus]);
 
@@ -116,8 +116,8 @@ export default function Announcements() {
         ) : (
           <FlatList
             style={styles.root}
-            data={announcementsArray}
-            extraData={announcementsArray}
+            data={announcements}
+            extraData={announcements}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {
