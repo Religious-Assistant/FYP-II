@@ -132,7 +132,7 @@ const addTemple = async (req, res) => {
 
       const voteCasters = [];
       await peopleAround.map((person) => {
-        if(person!=addedBy){
+        if(person!==addedBy){
           voteCasters.push({ username: person, hasVoted: false });
         }
       });

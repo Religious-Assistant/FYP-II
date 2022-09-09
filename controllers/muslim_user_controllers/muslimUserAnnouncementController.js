@@ -51,7 +51,6 @@ const makeAnnouncement = async (req, res) => {
           //Returns muslim users in range
           const recepients=await getNotificationReceivers(targetAudience,1) 
 
-          console.log(recepients)
           saveNotificationForMuslimUser(recepients, title, statement,category, newAnnouncement._id, announcement_notification_logo).then(async (data) => {
               const totalReceivers = await notifyUsers(
                 title,

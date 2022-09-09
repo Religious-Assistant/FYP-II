@@ -236,12 +236,7 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
       }
     }
   }
-
-  // let data = await loggedinUsrs.filter((u) => {
-  //   return users.includes(u.username);
-  // });
-
-  console.log(devices);
+  
   return devices;
 };
 
