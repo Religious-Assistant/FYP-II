@@ -212,7 +212,10 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
   const users = await User.find({ religion: audienceReligion });
 
-  console.log(audienceReligion)
+  console.log("users")
+  console.log(users)
+  console.log("receivers")
+  console.log(receivers)
 
   let loggedinUsrs = receivers.filter((receiver) => {
     if (receiver.username !== announcedBy) {
