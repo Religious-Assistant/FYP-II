@@ -49,6 +49,8 @@ const findNearByPeople = async (longitude, latitude) => {
 
 // Send a message to devices with the registered tokens
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
+
+  console.log(targetDevices)
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
     data: {
