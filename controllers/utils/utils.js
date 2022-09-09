@@ -218,6 +218,8 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
       return targetAudience.includes(receiver.username);
   });
 
+  console.log(loggedinUsrs)
+  console.log(users)
   let data=await users.filter((u) => {
     return loggedinUsrs.includes(u.username);
   });
