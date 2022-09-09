@@ -24,11 +24,6 @@ const hinduUserPreferencesSchema=mongoose.Schema({
         default:true
 
     },
-    // timeBeforeVegDay:{      //How much time before the day, notification should recieve
-    //     type:String,
-    //     required:true,
-    //     enum:[MINS_30,MINS_60,HOURS_12,HOURS_24]
-    // }   
 })
 
  
