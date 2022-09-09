@@ -29,3 +29,5 @@
 //TODO: Should I delete Share App file from common and components folder?
 
 //TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin
+
+//TODO: Schedule namaz alerts when preference is checked and primary mosque is selected and namaz times exist
