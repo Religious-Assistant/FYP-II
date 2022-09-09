@@ -50,7 +50,6 @@ const findNearByPeople = async (longitude, latitude) => {
 // Send a message to devices with the registered tokens
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
 
-  console.log(targetDevices)
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
     data: {
@@ -214,21 +213,17 @@ const saveNotificationForHinduUser = (
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
   const users = await User.find({ religion: audienceReligion });
-
-  console.log("****")
-  console.log(targetAudience)
-  console.log(receivers)
-  console.log(users)
   
   let loggedinUsrs = receivers.filter((receiver) => {
       return targetAudience.includes(receiver.username);
   });
 
-  console.log("audienceReligion")
-  console.log(loggedinUsrs)
-  return users.filter((u) => {
+  let data=await users.filter((u) => {
     return loggedinUsrs.includes(u.username);
   });
+
+  console.log(data)
+  return data
 };
 
 module.exports = {

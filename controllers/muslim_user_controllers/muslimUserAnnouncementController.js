@@ -51,6 +51,7 @@ const makeAnnouncement = async (req, res) => {
           //Returns muslim users in range
           const recepients=await getNotificationReceivers(targetAudience,1) 
 
+          console.log(recepients)
           saveNotificationForMuslimUser(recepients, title, statement,category, newAnnouncement._id, announcement_notification_logo).then(async (data) => {
               const totalReceivers = await notifyUsers(
                 title,
@@ -59,7 +60,6 @@ const makeAnnouncement = async (req, res) => {
                 ANNOUNCEMENT_CHANNEL_ID,
                 newAnnouncement.avatar,
               );
-              console.log("Created notifiction record for ",totalReceivers,"receivers");
               res.status(200).send({
                 success: true,
                 msg: `Announcement sent to ${totalReceivers} people around your location`,
