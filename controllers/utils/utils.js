@@ -224,17 +224,25 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   });
 
   const users = await User.find(
-    { religion: audienceReligion },
-    { _id: 0, password: 0, location: 0, mobile: 0, religion: 0, verified: 0,avatar:0, __v:0, username:1 }
+    { religion: audienceReligion }
   );
 
-  console.log(users);
-  let data = await loggedinUsrs.filter((u) => {
-    return users.includes(u.username);
-  });
+  let devices=[]
+  for(let i=0;i<users.length;i++){
 
-  console.log(data);
-  return data;
+    for(let j=0;j<loggedinUsrs.length;j++){
+      if(loggedinUsrs[j].username===users[i].username){
+        devices.push(loggedinUsrs[j])
+      }
+    }
+  }
+
+  // let data = await loggedinUsrs.filter((u) => {
+  //   return users.includes(u.username);
+  // });
+
+  console.log(devices);
+  return devices;
 };
 
 module.exports = {
