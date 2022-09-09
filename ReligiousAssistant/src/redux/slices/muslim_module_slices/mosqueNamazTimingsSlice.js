@@ -12,6 +12,7 @@ const initialState = {
   hasErrorUpdateNamazTimes: false,
 };
 
+//Only imam can do this
 export const updateNamazTimes = createAsyncThunk(
   'updateNamazTimings',
   async body => {
@@ -41,16 +42,18 @@ const mosqueNamazTimingsSlice = createSlice({
     [updateNamazTimes.pending]: (state, action) => {
       state.isLoadingUpdateNamaTimes = true;
       state.hasErrorUpdateNamazTimes = false;
+      state.updateNamazTimes = false;
     },
     [updateNamazTimes.rejected]: (state, action) => {
       state.isLoadingUpdateNamaTimes = false;
       state.hasErrorUpdateNamazTimes = true;
+      state.updateNamazTimes = false;
     },
 
     [getNamazTimesForUser.fulfilled]: (state, action) => {
       state.isLoadingNamazTimes = false;
       state.hasErrorGettingNamazTimes = false;
-      state.namazTimes = true;
+      state.namazTimes = action.payload.data;
     },
     [getNamazTimesForUser.pending]: (state, action) => {
       state.isLoadingNamazTimes = true;

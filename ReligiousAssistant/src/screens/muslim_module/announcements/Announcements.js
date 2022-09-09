@@ -73,23 +73,6 @@ export default function Announcements() {
   const user = useSelector(selectUserData);
   const isFocused = useIsFocused();
   let announcementsArray = [];
-
-  if(announcements){
-    Object.keys(announcements)
-    .sort()
-    .reverse()
-    .forEach(key => {
-      announcementsArray.push({
-        key: key,
-        _id: announcements[key]._id,
-        avatar: announcements[key].avatar,
-        statement: announcements[key].statement,
-        createdAt: announcements[key].createdAt,
-        announcedBy: announcements[key].announcedBy,
-      });
-    });
-  }
-
   useEffect(() => {
     checkConnected().then(res => {
       setConnectStatus(res);
@@ -97,6 +80,23 @@ export default function Announcements() {
 
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
+    }
+
+    if(announcements){
+      Object.keys(announcements)
+      .sort()
+      .reverse()
+      .forEach(key => {
+        announcementsArray.push({
+          key: key,
+          _id: announcements[key]._id,
+          avatar: announcements[key].avatar,
+          statement: announcements[key].statement,
+          createdAt: announcements[key].createdAt,
+          announcedBy: announcements[key].announcedBy,
+        });
+      });
+  
     }
   }, [connectStatus, dispatch, isFocused]);
 

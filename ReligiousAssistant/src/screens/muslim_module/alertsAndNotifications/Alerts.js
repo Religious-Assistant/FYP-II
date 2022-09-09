@@ -63,22 +63,7 @@ export default function Alerts({navigation}) {
   let notifications = useSelector(selectMuslimNotifications);
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
   let notificationsArray = [];
-  if(notifications){
-  Object.keys(notifications)
-    .sort()
-    .reverse()
-    .forEach(key => {
-      notificationsArray.push({
-        key: key,
-        _id: notifications[key]._id,
-        category: notifications[key].category,
-        causedBy: notifications[key].causedBy,
-        title: notifications[key].title,
-        icon: notifications[key].icon,
-        createdAt: notifications[key].createdAt,
-        description: notifications[key].description,
-      });
-    });}
+  
   const hasErrorInAnnouncements = useSelector(
     selectHasErrorInGettingNotifications,
   );
@@ -97,6 +82,23 @@ export default function Alerts({navigation}) {
       dispatch(setTab('Alerts'));
     });
 
+    if(notifications){
+      Object.keys(notifications)
+      .sort()
+      .reverse()
+      .forEach(key => {
+        notificationsArray.push({
+          key: key,
+          _id: notifications[key]._id,
+          category: notifications[key].category,
+          causedBy: notifications[key].causedBy,
+          title: notifications[key].title,
+          icon: notifications[key].icon,
+          createdAt: notifications[key].createdAt,
+          description: notifications[key].description,
+        });
+      });
+    }
     //unsubscribe on unmount
     return unsubscribe;
   }, [connectStatus, navigation, dispatch, isFocused]);

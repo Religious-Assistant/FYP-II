@@ -203,7 +203,7 @@ export default function FeatureContainer() {
                         alert(`Create account to access the feature`);
                       }
                     }}>
-                    <FeatureCard key={item.key}>
+                    <FeatureCard>
                       <Image
                         source={item?.disabled ? lock : item.image}
                         style={{
@@ -243,7 +243,7 @@ export default function FeatureContainer() {
                         alert(`Create account to access the feature`);
                       }
                     }}>
-                    <FeatureCard key={item.key} disabled={item.disabled}>
+                    <FeatureCard disabled={item.disabled}>
                       <Image
                         source={item?.disabled ? lock : item.image}
                         style={{

@@ -61,24 +61,6 @@ export default function Alerts({route, navigation}) {
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
   let notificationsArray = [];
 
-  if(notifications){
-    Object.keys(notifications)
-    .sort()
-    .reverse()
-    .forEach(key => {
-      notificationsArray.push({
-        key: key,
-        _id: notifications[key]._id,
-        category: notifications[key].category,
-        causedBy: notifications[key].causedBy,
-        title: notifications[key].title,
-        icon: notifications[key].icon,
-        createdAt: notifications[key].createdAt,
-        description: notifications[key].description,
-      });
-    });
-  }
-  
   const user = useSelector(selectUserData);
 
   //when tab is focused in MuslimBottomTab.js, this will be called
@@ -94,9 +76,28 @@ export default function Alerts({route, navigation}) {
       dispatch(setTab('Alerts'));
     });
 
+    if(user){
+
+      if(notifications){
+        Object.keys(notifications).sort()
+        .reverse()
+        .forEach(key => {
+          notificationsArray.push({
+            key: key,
+            _id: notifications[key]._id,
+            category: notifications[key].category,
+            causedBy: notifications[key].causedBy,
+            title: notifications[key].title,
+            icon: notifications[key].icon,
+            createdAt: notifications[key].createdAt,
+            description: notifications[key].description,
+          });
+        });
+      }
+    }
     //unsubscribe on unmount
     return unsubscribe;
-  }, [connectStatus,navigation]);
+  }, [connectStatus,navigation, dispatch]);
 
   //Handle delete
   const handleDelete = item => {

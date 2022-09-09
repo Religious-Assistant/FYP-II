@@ -78,11 +78,11 @@ const make_announcement='make-announcement'
 const delete_announcement='delete-announcement'
 const get_announcements='get-all-announcements'
 
-//Namaz timing
+//Namaz alarms
 const update_namaz_alarm_times='update-namaz-alarm-times'
 const get_namaz_alarms_for_user='get-namaz-alarms-for-user'
 
-//Namaz Alarms
+//Namaz times (Updated Time and Prayers Features)
 const update_namaz_times='update-namaz-times'
 const get_times_for_user='get-times-for-user'
 

@@ -70,22 +70,7 @@ export default function Announcements() {
   const user = useSelector(selectUserData);
 
   let announcementsArray = [];
-  if(announcements){
-    Object.keys(announcements)
-    .sort()
-    .reverse()
-    .forEach(key => {
-      announcementsArray.push({
-        key: key,
-        _id: announcements[key]._id,
-        avatar: announcements[key].avatar,
-        statement: announcements[key].statement,
-        createdAt: announcements[key].createdAt,
-        announcedBy: announcements[key].announcedBy,
-      });
-    });
-  }
-
+  
   useEffect(() => {
     checkConnected().then(res => {
       setConnectStatus(res);
@@ -93,7 +78,23 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-  }, [connectStatus]);
+    if(announcements){
+      Object.keys(announcements)
+      .sort()
+      .reverse()
+      .forEach(key => {
+        announcementsArray.push({
+          key: key,
+          _id: announcements[key]._id,
+          avatar: announcements[key].avatar,
+          statement: announcements[key].statement,
+          createdAt: announcements[key].createdAt,
+          announcedBy: announcements[key].announcedBy,
+        });
+      });
+    }
+  
+  }, [dispatch,connectStatus]);
 
   //Handle delete
   const handleDelete = item => {

@@ -4,7 +4,7 @@
  */
 
 import {View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Keyboard,
@@ -41,16 +41,37 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   getNamazTimesForUser,
   selectIsLoadingNamazTimesForUser,
+  selectIsLoadingUpdatedNamazTimes,
   selectNamazTimesForUser,
+  updateNamazTimes,
 } from '../../../redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 export default function UpdatePrayerTimes() {
+  //redux
+  const dispatch = useDispatch();
+  const isLoadingUpdateNamaTimes = useSelector(
+    selectIsLoadingUpdatedNamazTimes,
+  );
+
+  const mosqueTimes = useSelector(selectNamazTimesForUser);
+  const isLoadingNamazTimes = useSelector(selectIsLoadingNamazTimesForUser);
+  const user = useSelector(selectUserData);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(
+        getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
+      );
+    }
+  }, [dispatch]);
+
   function useInput() {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
+
     const onChange = (event, selectedDate) => {
       const currDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
@@ -58,9 +79,7 @@ export default function UpdatePrayerTimes() {
 
       let tempDate = new Date(currDate);
       let fTime = tempDate.toLocaleTimeString();
-      //let fTime = tempDate.getHours() + ':' + tempDate.getMinutes();
       setText(fTime);
-      //console.log(fTime);
     };
     const showMode = currentMode => {
       setShow(true);
@@ -75,11 +94,12 @@ export default function UpdatePrayerTimes() {
       mode,
     };
   }
+
   const fajrStartTime = useInput(new Date());
   const fajrEndTime = useInput(new Date());
 
-  const duhrStartTime = useInput(new Date());
-  const duhrEndTime = useInput(new Date());
+  const zuhrStartTime = useInput(new Date());
+  const zuhrEndTime = useInput(new Date());
 
   const asrStartTime = useInput(new Date());
   const asrEndTime = useInput(new Date());
@@ -94,10 +114,10 @@ export default function UpdatePrayerTimes() {
     {
       key: 1,
       label: 'Fajr',
-      defaultStartTime: '4:30:00 am',
-      defaultEndTime: '5:30:00 am',
-      updatedStartTime: fajrStartTime.text,
-      updatedEndTime: fajrEndTime.text,
+      defaultStartTime: mosqueTimes?.fajr?.startTime,
+      defaultEndTime: mosqueTimes?.fajr?.endTime,
+      updatedStartTime: fajrStartTime?.text,
+      updatedEndTime: fajrEndTime?.text,
       startShowMode: () => fajrStartTime.showMode('time'),
       endShowMode: () => fajrEndTime.showMode('time'),
       startShow: fajrStartTime.show,
@@ -109,25 +129,25 @@ export default function UpdatePrayerTimes() {
     },
     {
       key: 2,
-      label: 'Duhr',
-      defaultStartTime: '2:00:00 pm',
-      defaultEndTime: '3:00:00 pm',
-      updatedStartTime: duhrStartTime.text,
-      updatedEndTime: duhrEndTime.text,
-      startShowMode: () => duhrStartTime.showMode('time'),
-      endShowMode: () => duhrEndTime.showMode('time'),
-      startShow: duhrStartTime.show,
-      endShow: duhrEndTime.show,
-      startMode: duhrStartTime.mode,
-      endMode: duhrEndTime.mode,
-      onChangeStart: duhrStartTime.onChange,
-      onChangeEnd: duhrEndTime.onChange,
+      label: 'Zuhr',
+      defaultStartTime: mosqueTimes?.zuhr?.startTime,
+      defaultEndTime: mosqueTimes?.zuhr?.endTime,
+      updatedStartTime: zuhrStartTime.text,
+      updatedEndTime: zuhrEndTime.text,
+      startShowMode: () => zuhrStartTime.showMode('time'),
+      endShowMode: () => zuhrEndTime.showMode('time'),
+      startShow: zuhrStartTime.show,
+      endShow: zuhrEndTime.show,
+      startMode: zuhrStartTime.mode,
+      endMode: zuhrEndTime.mode,
+      onChangeStart: zuhrStartTime.onChange,
+      onChangeEnd: zuhrEndTime.onChange,
     },
     {
       key: 3,
       label: 'Asr',
-      defaultStartTime: '5:00:00 pm',
-      defaultEndTime: '5:45:00 pm',
+      defaultStartTime: mosqueTimes?.asr?.startTime,
+      defaultEndTime: mosqueTimes?.asr?.end,
       updatedStartTime: asrStartTime.text,
       updatedEndTime: asrEndTime.text,
       startShowMode: () => asrStartTime.showMode('time'),
@@ -143,8 +163,8 @@ export default function UpdatePrayerTimes() {
     {
       key: 4,
       label: 'Maghrib',
-      defaultStartTime: '7:00:00 pm',
-      defaultEndTime: '8:45:00 pm',
+      defaultStartTime: mosqueTimes?.maghrib?.startTime,
+      defaultEndTime: mosqueTimes?.maghrib?.endTime,
       updatedStartTime: maghribStartTime.text,
       updatedEndTime: maghribEndTime.text,
       startShowMode: () => maghribStartTime.showMode('time'),
@@ -160,8 +180,8 @@ export default function UpdatePrayerTimes() {
     {
       key: 5,
       label: 'Isha',
-      defaultStartTime: '9:00:00 pm',
-      defaultEndTime: '12:00:00 pm',
+      defaultStartTime: mosqueTimes?.isha?.startTime,
+      defaultEndTime: mosqueTimes?.isha?.endTime,
       updatedStartTime: ishaStartTime.text,
       updatedEndTime: ishaEndTime.text,
       startShowMode: () => ishaStartTime.showMode('time'),
@@ -175,19 +195,20 @@ export default function UpdatePrayerTimes() {
     },
   ];
 
-  //redux
-  const dispatch = useDispatch();
-  const namazTimes = useSelector(selectNamazTimesForUser);
-  const isLoadingNamazTimes = useSelector(selectIsLoadingNamazTimesForUser);
-  const user = useSelector(selectUserData);
+  const updatePrayerTimes = ({fajr, zuhr, asr, maghrib, isha}) => {
 
-  const updatePrayerTimes = (fajr, zuhr, asr, maghrib, isha) => {
-    if (user?.preferences?.primaryMosque !== 'NONE') {
+    if (user) {
       dispatch(
-        getNamazTimesForUser({mosqueId: user?.preferences.primaryMosque}),
+        updateNamazTimes({
+          mosqueId: user?.preferences?.primaryMosque,
+          fajr,
+          zuhr,
+          asr,
+          maghrib,
+          isha,
+          updatedBy: user?.username,
+        }),
       );
-    } else {
-      alert('No Primary Mosque');
     }
   };
 
@@ -322,11 +343,26 @@ export default function UpdatePrayerTimes() {
                   mt="5%"
                   onPress={() => {
                     updatePrayerTimes({
-                      fajr: [fajrStartTime.text, fajrEndTime.text],
-                      zuhr: [duhrStartTime.text, duhrEndTime.text],
-                      asr: [asrStartTime.text, asrEndTime.text],
-                      maghrib: [maghribStartTime.text, maghribEndTime.text],
-                      isha: [ishaStartTime.text, ishaEndTime.text],
+                      fajr: {
+                        startTime: fajrStartTime.text,
+                        endTime: fajrEndTime.text,
+                      },
+                      zuhr: {
+                        startTime: zuhrStartTime.text,
+                        endTime: zuhrEndTime.text,
+                      },
+                      asr: {
+                        startTime: asrStartTime.text,
+                        endTime: asrEndTime.text,
+                      },
+                      maghrib: {
+                        startTime: maghribStartTime.text,
+                        endTime: maghribEndTime.text,
+                      },
+                      isha: {
+                        startTime: ishaStartTime.text,
+                        endTime: ishaEndTime.text,
+                      },
                     });
                   }}
                 />
