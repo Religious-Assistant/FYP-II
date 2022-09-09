@@ -49,7 +49,6 @@ const findNearByPeople = async (longitude, latitude) => {
 
 // Send a message to devices with the registered tokens
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
-
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
     data: {
@@ -59,14 +58,21 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
         channelId: channelId + "",
         largeIcon: senderImage,
       }),
-      payload:null
+      payload: null,
     },
   });
 
   return resp.successCount;
 }
 
-async function sendNotificationWithData(title, body, targetDevices, channelId, senderImage,notfData) {
+async function sendNotificationWithData(
+  title,
+  body,
+  targetDevices,
+  channelId,
+  senderImage,
+  notfData
+) {
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
     data: {
@@ -76,7 +82,7 @@ async function sendNotificationWithData(title, body, targetDevices, channelId, s
         channelId: channelId + "",
         largeIcon: senderImage,
       }),
-      payload:notfData
+      payload: notfData,
     },
   });
 
@@ -212,22 +218,25 @@ const saveNotificationForHinduUser = (
 
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
-  const users = await User.find({ religion: audienceReligion });
-  
+  const users = await User.find(
+    { religion: audienceReligion },
+    { _id: 0, password: 0, location: 0, mobile: 0, religion: 0, verified: 0,avatar:0, __v:0, username:1 }
+  );
+
   let loggedinUsrs = receivers.filter((receiver) => {
-      if (targetAudience.includes(receiver.username)){
-        return receiver.username
-      }
+    if (targetAudience.includes(receiver.username)) {
+      return receiver.username;
+    }
   });
 
-  console.log(loggedinUsrs)
-  console.log(users)
-  let data=await users.filter((u) => {
-    return loggedinUsrs.includes(u.username);
+  console.log(loggedinUsrs);
+  console.log(users);
+  let data = await loggedinUsrs.filter((u) => {
+    return users.includes(u.username);
   });
 
-  console.log(data)
-  return data
+  console.log(data);
+  return data;
 };
 
 module.exports = {
@@ -238,5 +247,5 @@ module.exports = {
   saveNotificationForMuslimUser,
   saveNotificationForHinduUser,
   getNotificationReceivers,
-  sendNotificationWithData
+  sendNotificationWithData,
 };
