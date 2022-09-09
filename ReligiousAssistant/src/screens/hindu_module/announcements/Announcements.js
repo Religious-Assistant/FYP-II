@@ -69,6 +69,8 @@ export default function Announcements() {
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
 
+  let announcementsArray = [];
+
   useEffect(() => {
     checkConnected().then(res => {
       setConnectStatus(res);
@@ -76,7 +78,23 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-  }, [connectStatus]);
+    if(announcements){
+      Object.keys(announcements)
+      .sort()
+      .reverse()
+      .forEach(key => {
+        announcementsArray.push({
+          key: key,
+          _id: announcements[key]._id,
+          avatar: announcements[key].avatar,
+          statement: announcements[key].statement,
+          createdAt: announcements[key].createdAt,
+          announcedBy: announcements[key].announcedBy,
+        });
+      });
+    }
+  
+  }, [dispatch,connectStatus]);
 
   //Handle delete
   const handleDelete = item => {
@@ -98,8 +116,8 @@ export default function Announcements() {
         ) : (
           <FlatList
             style={styles.root}
-            data={announcements}
-            extraData={announcements}
+            data={announcementsArray}
+            extraData={announcementsArray}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

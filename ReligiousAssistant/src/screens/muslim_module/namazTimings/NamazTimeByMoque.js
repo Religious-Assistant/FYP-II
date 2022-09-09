@@ -52,8 +52,10 @@ export default function NamazTimeByMoque({navigation}) {
       dispatch(
         getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
       );
-
       dispatch(getMosqueById({mosqueId: user?.preferences?.primaryMosque}));
+    }
+
+    if(user){
       setNamazTimes([
         {
           key: 1,

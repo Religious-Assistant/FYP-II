@@ -36,52 +36,34 @@ import {
 } from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
 
 const VegNonVegDays = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUserData);
-  const vegData = useSelector(selectVegData);
-
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserData());
-    }
-    dispatch(getVegData({username: user?.username}));
-  }, [dispatch]);
-
   const days = [
     {
       key: 1,
       dayName: 'Monday',
-      value: vegData?.monday,
     },
     {
       key: 2,
       dayName: 'Tuesday',
-      value: vegData?.tuesday,
     },
     {
       key: 3,
       dayName: 'Wednesday',
-      value: vegData?.wednesday,
     },
     {
       key: 4,
       dayName: 'Thursday',
-      value: vegData?.thursday,
     },
     {
       key: 5,
       dayName: 'Friday',
-      value: vegData?.friday,
     },
     {
       key: 6,
       dayName: 'Saturday',
-      value: vegData?.saturday,
     },
     {
       key: 7,
       dayName: 'Sunday',
-      value: vegData?.sunday,
     },
   ];
 
@@ -96,6 +78,9 @@ const VegNonVegDays = () => {
   });
 
   function handlePress() {
+    var today = new Date();
+    const day = today.toDateString().split(' ')[0];
+    console.log(day);
     // console.log(vegSubscription)
     dispatch(setVegData({username: user?.username, vegSubscription}));
   }
@@ -147,6 +132,7 @@ const VegNonVegDays = () => {
               </Heading>
             </View>
           </View>
+
           <View
             style={{flex: 0.8, marginTop: '20%'}}
             width="95%"
@@ -175,8 +161,7 @@ const VegNonVegDays = () => {
                       />
                     );
                   })}
-
-                  <CustomButton
+                <CustomButton
                     title="Save"
                     color="yellow"
                     mt="5%"
@@ -189,6 +174,7 @@ const VegNonVegDays = () => {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
+
   );
 };
 
@@ -217,8 +203,9 @@ const Item = ({day, handleDayChange}) => {
     </Box>
   );
 };
-export default VegNonVegDays;
 
+
+export default VegNonVegDays;
 const styles = StyleSheet.create({
   text: {
     fontSize: 20,

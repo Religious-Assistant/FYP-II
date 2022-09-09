@@ -3,7 +3,7 @@
  * @version 1.0
  */
 
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -57,11 +57,13 @@ import {checkConnected} from '../../common/CheckConnection';
 
 export default function Alerts({navigation}) {
   const [connectStatus, setConnectStatus] = useState(false);
-  
+
   const dispatch = useDispatch();
 
   let notifications = useSelector(selectMuslimNotifications);
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
+  let notificationsArray = [];
+
   const hasErrorInAnnouncements = useSelector(
     selectHasErrorInGettingNotifications,
   );
@@ -80,9 +82,26 @@ export default function Alerts({navigation}) {
       dispatch(setTab('Alerts'));
     });
 
+    if(notifications){
+      Object.keys(notifications)
+      .sort()
+      .reverse()
+      .forEach(key => {
+        notificationsArray.push({
+          key: key,
+          _id: notifications[key]._id,
+          category: notifications[key].category,
+          causedBy: notifications[key].causedBy,
+          title: notifications[key].title,
+          icon: notifications[key].icon,
+          createdAt: notifications[key].createdAt,
+          description: notifications[key].description,
+        });
+      });
+    }
     //unsubscribe on unmount
     return unsubscribe;
-  }, [connectStatus,navigation, dispatch, isFocused]);
+  }, [connectStatus, navigation, dispatch, isFocused]);
 
   //Handle delete
   const handleDelete = item => {
@@ -98,16 +117,18 @@ export default function Alerts({navigation}) {
     }
   };
 
-  return connectStatus?(
+  //console.log(norificationsArray)
+
+  return connectStatus ? (
     <>
       <View style={styles.root}>
         {isLoadingNotification ? (
-          <Loader msg="Loagding Notifications" />
+          <Loader msg="Loading Notifications" />
         ) : (
           <FlatList
             style={styles.root}
-            data={notifications}
-            extraData={notifications}
+            data={notificationsArray}
+            extraData={notificationsArray}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {
@@ -135,7 +156,7 @@ export default function Alerts({navigation}) {
         )}
       </View>
     </>
-  ): (
+  ) : (
     <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {

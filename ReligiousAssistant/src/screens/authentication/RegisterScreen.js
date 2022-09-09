@@ -109,7 +109,7 @@ function RegisterScreen() {
     navigator.navigate(OTP_VERIFICATION, {
       values: {
         ...values,
-        location: {longitude: 68.5953277, latitude: 27.3027566},
+        location: {longitude: position?position.longitude:68.5953277, latitude: position?position.latitude:27.3027566},
       },
     });
   }
@@ -149,7 +149,7 @@ function RegisterScreen() {
                 }}
                 onSubmit={values => {
                   signupHandler(values);
-                  //position?console.log(position):console.log("no pos");
+                  position?console.log(position):console.log("no pos");
                 }}>
                 {({
                   handleChange,

@@ -16,48 +16,56 @@ import {Provider, useDispatch, useSelector} from 'react-redux';
 //Notifee
 import notifee, {EventType} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
-import {getUserData, selectUserData} from './src/redux/slices/auth_slices/authSlice';
+import {
+  getUserData,
+  selectUserData,
+} from './src/redux/slices/auth_slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
-import { getNamazTimesForUser, selectNamazTimesForUser } from './src/redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
+import {
+  getNamazTimesForUser,
+  selectNamazTimesForUser,
+} from './src/redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
 
 import appIcon from './assets/images/Logo-muslim.png';
-import { setHours } from './src/utils/helpers';
-
+import {setHours} from './src/utils/helpers';
 
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
-  
+
   // Only received when namaz times are updated by imam
 
-  if(message.data.payload){
-    const payload=await message.data.payload
-    const namazTimes=await payload.split("#")
+  if (message.data.payload) {
+    const payload = await message.data.payload;
+    const namazTimes = await payload.split('#');
 
-    const mosqueTimes={
-      fajr:{
-        startTime:namazTimes[0].split("|")[0],
-        endTime:namazTimes[0].split("|")[1]
+    const mosqueTimes = {
+      fajr: {
+        startTime: namazTimes[0].split('|')[0],
+        endTime: namazTimes[0].split('|')[1],
       },
-      zuhr:{
-        startTime:namazTimes[1].split("|")[0],
-        endTime:namazTimes[1].split("|")[1]
+      zuhr: {
+        startTime: namazTimes[1].split('|')[0],
+        endTime: namazTimes[1].split('|')[1],
       },
-      asr:{
-        startTime:namazTimes[2].split("|")[0],
-        endTime:namazTimes[2].split("|")[1]
+      asr: {
+        startTime: namazTimes[2].split('|')[0],
+        endTime: namazTimes[2].split('|')[1],
       },
-      maghrib:{
-        startTime:namazTimes[3].split("|")[0],
-        endTime:namazTimes[3].split("|")[1]
+      maghrib: {
+        startTime: namazTimes[3].split('|')[0],
+        endTime: namazTimes[3].split('|')[1],
       },
-      isha:{
-        startTime:namazTimes[4].split("|")[0],
-        endTime:namazTimes[4].split("|")[1]
+      isha: {
+        startTime: namazTimes[4].split('|')[0],
+        endTime: namazTimes[4].split('|')[1],
       },
-    }
+    };
 
-    await AsyncStorage.setItem("primary_mosque_times",JSON.stringify(mosqueTimes))
+    await AsyncStorage.setItem(
+      'primary_mosque_times',
+      JSON.stringify(mosqueTimes),
+    );
   }
 
   const channelId = await notifee.createChannel({
@@ -100,52 +108,48 @@ const EntryPoint = () => {
   //Namaz Notifications + Alarm if User is Muslim
 
   const dispatch = useDispatch();
-  const user=useSelector(selectUserData)
+  const user = useSelector(selectUserData);
   const mosqueTimes = useSelector(selectNamazTimesForUser);
 
   useEffect(() => {
     dispatch(getUserData());
-    dispatch(
-      getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
-    );
-
-    
-    const getNamazTimesInPrimaryMosque=async ()=>{
-      const times=await AsyncStorage.getItem('primary_mosque_times')
-      const parsedTimes=await JSON.parse(times)
-      return await parsedTimes?parsedTimes:mosqueTimes
-    }
 
     if(user){
+      dispatch(
+        getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
+      );  
+    }
+    const getNamazTimesInPrimaryMosque = async () => {
+      const times = await AsyncStorage.getItem('primary_mosque_times');
+      const parsedTimes = await JSON.parse(times);
+      return (await parsedTimes) ? parsedTimes : mosqueTimes;
+    };
 
+    if (user) {
+      if (user?.preferences?.namazNotifications) {
+        getNamazTimesInPrimaryMosque()
+          .then(times => {
+            console.error(times);
 
-      if(user?.preferences?.namazNotifications){
-
-        getNamazTimesInPrimaryMosque().then(times=>{
-          console.error(times)
-
-          PushNotification.channelExists('primary_mosque_times', exists => {
-    
-            if (!exists) {
-              createChannel();
-            } else {
-  
-              console.log("Channel already cretaed", times.fajr.startTime)
-              createNotification(times?.fajr.startTime)
-              createNotification(times?.zuhr.startTime)
-              createNotification(times?.asr.startTime)
-              createNotification(times?.maghrib.startTime)
-              createNotification(times?.isha.startTime)
-            }})
-
-        }).catch(error=>{
-          console.log(error)
-        }) 
-
+            PushNotification.channelExists('primary_mosque_times', exists => {
+              if (!exists) {
+                createChannel();
+              } else {
+                console.log('Channel already cretaed', times.fajr.startTime);
+                createNotification(times?.fajr.startTime);
+                createNotification(times?.zuhr.startTime);
+                createNotification(times?.asr.startTime);
+                createNotification(times?.maghrib.startTime);
+                createNotification(times?.isha.startTime);
+              }
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
     }
   }, [dispatch]);
-
 
   const createChannel = async () => {
     await PushNotification.createChannel(
@@ -163,7 +167,7 @@ const EntryPoint = () => {
     );
   };
 
-  const createNotification = async (time) => {
+  const createNotification = async time => {
     if (time.toUpperCase() == 'NONE') {
       return;
     }
@@ -212,8 +216,6 @@ const EntryPoint = () => {
       }
     });
   }, []);
-
-
 
   return <RootNavigator />;
 };

@@ -104,6 +104,7 @@ export default function Namaz() {
   }
 
   const handleChange = (value, time) => {
+    console.log("     ------",value, "  ",time)
     if (time) {
       console.log(dayNamazTimes)
       setDayNamazTimes(prev =>({...prev, [time.toLowerCase()]: value}));
@@ -111,6 +112,7 @@ export default function Namaz() {
   };
 
   async function handleSaveNamazAccountability() {
+
 
     if (user) {
       dispatch(
@@ -188,6 +190,7 @@ export default function Namaz() {
 }
 
 function NamazTimes({time, value, handleChange, selectedDate}) {
+  console.log(selectedDate,value)
   return (
     <View
       style={{

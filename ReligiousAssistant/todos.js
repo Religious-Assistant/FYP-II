@@ -16,7 +16,6 @@
 
 //TODO: Redux issue-> update times is not accessible to imam
 
-//TODO: Header in hindus
 
 //TODO: alerts notification and announcements-> does not appear when consensus is completed
 
@@ -28,6 +27,24 @@
 
 //TODO: Should I delete Share App file from common and components folder?
 
+<<<<<<< HEAD
 //TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin
 
 //TODO: Schedule namaz alerts when preference is checked and primary mosque is selected and namaz times exist
+
+
+//TODO: Hindu Alrams for veg/non veg
+
+//TODO: set Alarms 
+
+//TODO: Accountability noti send at 10 pm
+
+//TODO: hindus should not get muslims notifications and vice versa
+
+//TODO: New notification alert comes at beginning
+
+//TODO: Do proper authorization i.e delete from database and try to open app when user was last loggedin
+
+//TODO: Notification of primary mosque or set times
+
+//TODO: Loading in announcemnt and alerts in hindu module
