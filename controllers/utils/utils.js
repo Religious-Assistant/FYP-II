@@ -208,18 +208,37 @@ const saveNotificationForHinduUser = (
   });
 };
 
+// const getNotificationReceivers = async (targetAudience, audienceReligion) => {
+//   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
+//   const users = await User.find({ religion: audienceReligion });
+
+//   let loggedinUsrs = receivers.filter((receiver) => {
+//     if (receiver.username !== announcedBy) {
+//       return targetAudience.includes(receiver.username);
+//     }
+//   });
+
+//   console.log(loggedinUsrs)
+//   return users.filter((u) => {
+//     return loggedinUsrs.includes(u.username);
+//   });
+// };
+
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
-  const users = await User.find({ religion: audienceReligion });
 
-  let loggedinUsrs = receivers.filter((receiver) => {
-    if (receiver.username !== announcedBy) {
-      return targetAudience.includes(receiver.username);
-    }
-  });
+  //TODO:We have to send to only those who has subscribed to announcement notfs in preferences
 
-  return users.filter((u) => {
-    return loggedinUsrs.includes(u.username);
+  //#region
+  //1. Get only device tokens that are targeted i.e within range
+  //2. Mosque notification should be received by only muslim users religion===1 or religion===0
+  //3. Don't send to user himself
+  //#endregion
+
+  return receivers.filter((receiver) => {
+    // if (receiver.username !== announcedBy) {   //TODO: Don't send to self
+    return targetAudience.includes(receiver.username);    //TODO: Send to muslim when announced by muslim ---
+    // }
   });
 };
 

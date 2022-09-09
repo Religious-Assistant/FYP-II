@@ -10,6 +10,7 @@ const H=require('../../models/muslim_user_models/muslimUserPreferencesModel')
 const I=require('../../models/muslim_user_models/namazAccountabilityModel')
 const J=require('../../models/muslim_user_models/namazAlarmsModel')
 const K=require('../../models/muslim_user_models/namazInfoModel')
+const R=require('../../models/muslim_user_models/tasbihModel')
 
 const L=require('../../models/hindu_user_models/hinduAnnouncementModel')
 const M=require('../../models/hindu_user_models/hinduUserNotificationModel')
@@ -40,6 +41,7 @@ const deleteData = async (req, res) => {
     await O.deleteMany({})
     await P.deleteMany({})
     await Q.deleteMany({})
+    await R.deleteMany({})
 
     res.status(200).send({ success: true, msg: ``, data: [] });
   } catch (error) {
