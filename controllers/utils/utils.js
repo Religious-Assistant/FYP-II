@@ -218,18 +218,16 @@ const saveNotificationForHinduUser = (
 
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
+
+  let loggedinUsrs = receivers.filter((receiver) => {
+    return targetAudience.includes(receiver.username)
+  });
+
   const users = await User.find(
     { religion: audienceReligion },
     { _id: 0, password: 0, location: 0, mobile: 0, religion: 0, verified: 0,avatar:0, __v:0, username:1 }
   );
 
-  let loggedinUsrs = receivers.filter((receiver) => {
-    if (targetAudience.includes(receiver.username)) {
-      return receiver.username;
-    }
-  });
-
-  console.log(loggedinUsrs);
   console.log(users);
   let data = await loggedinUsrs.filter((u) => {
     return users.includes(u.username);
