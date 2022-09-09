@@ -61,7 +61,8 @@ export default function Alerts({route, navigation}) {
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
   let notificationsArray = [];
 
-  Object.keys(notifications)
+  if(notifications){
+    Object.keys(notifications)
     .sort()
     .reverse()
     .forEach(key => {
@@ -76,7 +77,8 @@ export default function Alerts({route, navigation}) {
         description: notifications[key].description,
       });
     });
-
+  }
+  
   const user = useSelector(selectUserData);
 
   //when tab is focused in MuslimBottomTab.js, this will be called

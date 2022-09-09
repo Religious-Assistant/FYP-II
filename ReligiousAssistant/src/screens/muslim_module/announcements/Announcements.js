@@ -74,7 +74,8 @@ export default function Announcements() {
   const isFocused = useIsFocused();
   let announcementsArray = [];
 
-  Object.keys(announcements)
+  if(announcements){
+    Object.keys(announcements)
     .sort()
     .reverse()
     .forEach(key => {
@@ -87,6 +88,7 @@ export default function Announcements() {
         announcedBy: announcements[key].announcedBy,
       });
     });
+  }
 
   useEffect(() => {
     checkConnected().then(res => {

@@ -63,7 +63,7 @@ export default function Alerts({navigation}) {
   let notifications = useSelector(selectMuslimNotifications);
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
   let notificationsArray = [];
-
+  if(notifications){
   Object.keys(notifications)
     .sort()
     .reverse()
@@ -78,7 +78,7 @@ export default function Alerts({navigation}) {
         createdAt: notifications[key].createdAt,
         description: notifications[key].description,
       });
-    });
+    });}
   const hasErrorInAnnouncements = useSelector(
     selectHasErrorInGettingNotifications,
   );
