@@ -121,13 +121,13 @@ export default function RegisteredHinduDashboard() {
             }
 
             {user ? (
-              TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic)
+              TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic, user?.username)
             ) : (
               <></>
             )}
-            {TabButton(currentTab, setCurrentTab, 'About', about_ic)}
-            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic)}
-            {TabButton(currentTab, setCurrentTab, 'Help', help)}
+            {TabButton(currentTab, setCurrentTab, 'About', about_ic, user?.username)}
+            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic, user?.username)}
+            {TabButton(currentTab, setCurrentTab, 'Help', help, user?.username)}
           </View>
 
           <View>
@@ -136,6 +136,7 @@ export default function RegisteredHinduDashboard() {
               setCurrentTab,
               user ? 'LogOut' : 'Exit',
               logout_ic,
+              user?.username
             )}
           </View>
         </View>
@@ -217,7 +218,7 @@ export default function RegisteredHinduDashboard() {
 }
 
 // For multiple Buttons...
-const TabButton = (currentTab, setCurrentTab, title, image) => {
+const TabButton = (currentTab, setCurrentTab, title, image, username) => {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
