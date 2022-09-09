@@ -237,10 +237,8 @@ const castUpvote = async (req, res) => {
           let temple_lat = templeToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
-          //TODO: Changed
-          delete peopleAround[username]
-
-          const recepients = await getNotificationReceivers(peopleAround, 0);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 0);
           saveNotificationForHinduUser(
             recepients,
             title,
@@ -332,8 +330,8 @@ const castDownvote = async (req, res) => {
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
           //TODO: changed
           delete peopleAround[username]
-
-          const recepients = await getNotificationReceivers(peopleAround, 0);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 0);
           saveNotificationForMuslimUser(
             recepients,
             title,

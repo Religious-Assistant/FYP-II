@@ -285,8 +285,8 @@ const castUpvote = async (req, res) => {
           let mosque_lat = mosqueToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
-          
-          const recepients = await getNotificationReceivers(peopleAround, 1);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 1);
           saveNotificationForMuslimUser(
             recepients,
             title,
@@ -376,8 +376,8 @@ const castDownvote = async (req, res) => {
           let mosque_lat = mosqueToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
-          
-          const recepients = await getNotificationReceivers(peopleAround, 1);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 1);
           saveNotificationForMuslimUser(
             recepients,
             title,

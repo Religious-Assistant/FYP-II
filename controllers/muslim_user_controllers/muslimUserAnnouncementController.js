@@ -28,6 +28,7 @@ const makeAnnouncement = async (req, res) => {
 
         const targetAudience = [];
         await peopleAround.map((person) => {
+          if(person!==announcedBy)
           targetAudience.push(person);
         });
 
