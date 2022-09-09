@@ -152,7 +152,6 @@ const addTemple = async (req, res) => {
           const title = `New Temple`.toUpperCase();
           const body = `${addedBy.toUpperCase()} feels that Temple ${templeName} is not yet present in the system and asks you to upvote so new temple could be added`
 
-          //TODO: Should return only Hindu users
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForHinduUser(
             recepients,
@@ -237,7 +236,6 @@ const castUpvote = async (req, res) => {
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
 
-          //TODO: Should return only Hindu users
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForHinduUser(
             recepients,
@@ -329,7 +327,6 @@ const castDownvote = async (req, res) => {
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
 
-          //TODO: Should return only Hindu users
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForMuslimUser(
             recepients,

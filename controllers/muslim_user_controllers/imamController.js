@@ -43,14 +43,12 @@ const becomeImam = async (req, res) => {
 
     if (imamaData) {
 
-      //TODO: Discuss about: Made this Mosque as primary of Imam to which he want ti become imam
       await MuslimPreference.findOneAndUpdate({ username },{$set:{primaryMosque:imamaData.mosqueId}},{new:true});
 
       //Sign a notification for users
       const title = `IMAM FOR ${mosque.mosqueName}`.toUpperCase();
       const body = `${username.toUpperCase()} claims that he is Imam of ${mosque.mosqueName.toUpperCase()}.`;
 
-      //TODO: Should return only Muslim users
       const recepients = await getNotificationReceivers(peopleAround, 1);
       console.log(recepients)
       saveNotificationForMuslimUser(
@@ -156,7 +154,6 @@ const casteUpVoteForImam = async (req, res) => {
 
           let peopleAround = await findNearByPeople(imamlocation_long, imamlocation_lat);
 
-          //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,
@@ -252,7 +249,6 @@ const castDownvoteForImam = async (req, res) => {
 
           let peopleAround = await findNearByPeople(imamlocation_long, imamlocation_lat);
 
-          //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,

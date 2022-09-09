@@ -101,6 +101,3 @@ admin.initializeApp({
 });
 
 module.exports=app;
-
-
-//TODO: Remove all hard coded variables outside of files

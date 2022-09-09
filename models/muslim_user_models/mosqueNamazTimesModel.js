@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const subDoc = mongoose.Schema({
   startTime: {
-    type: Date,
+    type: String,
     required: true,
   },
   endTime: {
-    type: Date,
+    type: String,
     required: true,
   },
 });

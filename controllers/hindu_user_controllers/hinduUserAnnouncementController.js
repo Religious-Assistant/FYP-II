@@ -45,7 +45,6 @@ const makeAnnouncement = async (req, res) => {
           const title = `Announcement by ${announcedBy.toUpperCase()}`;
           const body = `${statement}`;
 
-          //Returns hindu users in range
           const recepients=await getNotificationReceivers(targetAudience,0) 
 
           console.log('recepients', recepients)

@@ -155,7 +155,6 @@ const addMosque = async (req, res) => {
             peopleAround.length
           } people are notified! Be true to the good cause, give your perfect vote`;
 
-          //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
           console.log(consensus_notificaion_logo);
           saveNotificationForMuslimUser(
@@ -240,6 +239,7 @@ const castUpvote = async (req, res) => {
           namazTimes = await namazTimes.json();
           let timings = namazTimes.data.timings;
 
+          //TODO: Check if default mosque Namaz times are added to MosqueNamazTimes collection 
           const updateNamazTimes = await MosqueNamazTimes.create({
             mosqueId: mosqueId,
             updatedBy: "default",
@@ -284,7 +284,6 @@ const castUpvote = async (req, res) => {
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
 
-          //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,
@@ -376,7 +375,6 @@ const castDownvote = async (req, res) => {
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
 
-          //TODO: Should return only Muslim users
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,

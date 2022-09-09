@@ -199,7 +199,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-//TODO: GET updated data does not return preferences, isImam , what to do?
 
 const getUpdatedUserdata = async (req, res) => {
   console.log("Get Updated User Data hit");

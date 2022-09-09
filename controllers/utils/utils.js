@@ -51,22 +51,35 @@ const findNearByPeople = async (longitude, latitude) => {
 async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
   const resp = await admin.messaging().sendMulticast({
     tokens: targetDevices.map((token) => token.deviceToken),
-      data:{
-        notification: JSON.stringify({
+    data: {
+      notification: JSON.stringify({
         body: body,
         title: title,
         channelId: channelId + "",
         largeIcon: senderImage,
-      })
+      }),
     },
-      // data:{
-        
-      // },
   });
 
   return resp.successCount;
 }
 
+async function sendNotificationWithData(title, body, targetDevices, channelId, senderImage,notfData) {
+  const resp = await admin.messaging().sendMulticast({
+    tokens: targetDevices.map((token) => token.deviceToken),
+    data: {
+      notification: JSON.stringify({
+        body: body,
+        title: title,
+        channelId: channelId + "",
+        largeIcon: senderImage,
+      }),
+      payload:notfData
+    },
+  });
+
+  return resp.successCount;
+}
 const saveNotificationForMuslimUser = (
   recepients,
   title,
@@ -197,19 +210,16 @@ const saveNotificationForHinduUser = (
 
 const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   const receivers = await DeviceToken.find({}, { _id: 0, __v: 0 });
+  const users = await User.find({ religion: audienceReligion });
 
-  //TODO:We have to send to only those who has subscribed to announcement notfs in preferences
+  let loggedinUsrs = receivers.filter((receiver) => {
+    if (receiver.username !== announcedBy) {
+      return targetAudience.includes(receiver.username);
+    }
+  });
 
-  //#region
-  //1. Get only device tokens that are targeted i.e within range
-  //2. Mosque notification should be received by only muslim users religion===1 or religion===0
-  //3. Don't send to user himself
-  //#endregion
-
-  return receivers.filter((receiver) => {
-    // if (receiver.username !== announcedBy) {   //TODO: Don't send to self
-    return targetAudience.includes(receiver.username);    //TODO: Send to muslim when announced by muslim ---
-    // }
+  return users.filter((u) => {
+    return loggedinUsrs.includes(u.username);
   });
 };
 
@@ -221,4 +231,5 @@ module.exports = {
   saveNotificationForMuslimUser,
   saveNotificationForHinduUser,
   getNotificationReceivers,
+  sendNotificationWithData
 };

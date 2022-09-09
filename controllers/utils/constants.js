@@ -15,12 +15,15 @@ const rejected_notification_logo='https://res.cloudinary.com/nadirhussainnn/imag
 const new_temple_notification_logo=`https://res.cloudinary.com/nadirhussainnn/image/upload/v1660842229/religious-assistant/temple3_ic_ihvv3d.png`
 
 
+
 //Muslim notification channels
 const ANNOUNCEMENT_CHANNEL_ID = 1;
 const NAMAZ_CHANNEL_ID = 2;
 const ADD_NEW_MOSQUE_CHANNEL_ID = 3;
 const ADD_IMAM_CHANNEL_ID = 4;
+const UPDATE_NAMAZ_TIMES_IN_MOSQUE_CHANNEL_ID = 5;
 const ADD_NEW_TEMPLE_CHANNEL_ID = 10;
+
 
 //Categories: Synced with Frotnend
 const EID_NAMAZ='EID_NAMAZ'         //Alread received in request
@@ -58,6 +61,7 @@ module.exports = {
   ADD_NEW_MOSQUE_CHANNEL_ID,
   ADD_NEW_TEMPLE_CHANNEL_ID,
   ADD_IMAM_CHANNEL_ID,
+  UPDATE_NAMAZ_TIMES_IN_MOSQUE_CHANNEL_ID,
 
   //categories
   EID_NAMAZ,
