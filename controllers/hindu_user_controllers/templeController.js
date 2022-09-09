@@ -132,7 +132,9 @@ const addTemple = async (req, res) => {
 
       const voteCasters = [];
       await peopleAround.map((person) => {
-        voteCasters.push({ username: person, hasVoted: false });
+        if(person!=addedBy){
+          voteCasters.push({ username: person, hasVoted: false });
+        }
       });
 
       if (longitude && latitude) {
@@ -235,6 +237,8 @@ const castUpvote = async (req, res) => {
           let temple_lat = templeToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
+          //TODO: Changed
+          delete peopleAround[username]
 
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForHinduUser(
@@ -326,6 +330,8 @@ const castDownvote = async (req, res) => {
           let temple_lat = templeToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
+          //TODO: changed
+          delete peopleAround[username]
 
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForMuslimUser(

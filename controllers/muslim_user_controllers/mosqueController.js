@@ -134,7 +134,9 @@ const addMosque = async (req, res) => {
 
       const voteCasters = [];
       await peopleAround.map((person) => {
-        voteCasters.push({ username: person, hasVoted: false });
+        if(person!==addedBy){
+          voteCasters.push({ username: person, hasVoted: false });
+        }
       });
 
       if (longitude && latitude) {
@@ -156,7 +158,7 @@ const addMosque = async (req, res) => {
           } people are notified! Be true to the good cause, give your perfect vote`;
 
           const recepients = await getNotificationReceivers(peopleAround, 1);
-          console.log(consensus_notificaion_logo);
+
           saveNotificationForMuslimUser(
             recepients,
             title,
@@ -283,7 +285,7 @@ const castUpvote = async (req, res) => {
           let mosque_lat = mosqueToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
-
+          
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,
@@ -374,7 +376,7 @@ const castDownvote = async (req, res) => {
           let mosque_lat = mosqueToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(mosque_long, mosque_lat);
-
+          
           const recepients = await getNotificationReceivers(peopleAround, 1);
           saveNotificationForMuslimUser(
             recepients,

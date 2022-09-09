@@ -218,9 +218,7 @@ const getNotificationReceivers = async (targetAudience, audienceReligion) => {
   console.log(receivers)
 
   let loggedinUsrs = receivers.filter((receiver) => {
-    if (receiver.username !== announcedBy) {
       return targetAudience.includes(receiver.username);
-    }
   });
 
   console.log("audienceReligion")
