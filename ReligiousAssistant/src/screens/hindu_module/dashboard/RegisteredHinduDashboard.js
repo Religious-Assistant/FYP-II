@@ -47,6 +47,7 @@ import Loader from '../../common/Loader';
 //redux
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  deleteDeviveToken,
   getUserData,
   logout,
   selectHasError,
@@ -246,6 +247,7 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
         title = title.toLowerCase();
 
         if (title == 'logout' || title == 'exit') {
+          dispatch(deleteDeviveToken({username}));
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {

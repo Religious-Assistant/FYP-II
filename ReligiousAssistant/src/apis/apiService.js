@@ -1,3 +1,7 @@
+/**
+ * @author Nadir
+ * @version 1.0
+ */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from "./serviceConstants";
 
