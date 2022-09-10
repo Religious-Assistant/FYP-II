@@ -277,7 +277,10 @@ const TabButton = (currentTab, setCurrentTab, title, image, username) => {
 
         if (title == 'logout' || title == 'exit') {
           //Remove token from async storage
-          dispatch(deleteDeviveToken({username}));
+          if(title==='exit'){
+            dispatch(deleteDeviveToken({username}));
+          }
+          // dispatch(deleteDeviveToken({username}));
           dispatch(logout());
           PushNotification.cancelAllLocalNotifications();
           navigator.navigate(AUTH_STACK);
