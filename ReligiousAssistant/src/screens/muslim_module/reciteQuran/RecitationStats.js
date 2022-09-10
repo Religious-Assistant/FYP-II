@@ -96,11 +96,11 @@
        <Heading style={styles.heading}>Last Recitation Stats</Heading>
        <View style={styles.dataContainer}>
          <Text style={[styles.text]}>Parah </Text>
-         <Text style={[styles.text]}>{summaryLastRead.parahNumber}</Text>
+         <Text style={[styles.text]}>{summaryLastRead?.parahNumber}</Text>
        </View>
        <View style={styles.dataContainer}>
          <Text style={[styles.text]}>Surah</Text>
-         <Text style={[styles.text]}>{chapterLastRead.surahNumber}</Text>
+         <Text style={[styles.text]}>{chapterLastRead?.surahNumber}</Text>
        </View>
      </View>
    );

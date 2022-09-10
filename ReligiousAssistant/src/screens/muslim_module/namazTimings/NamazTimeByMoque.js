@@ -27,13 +27,14 @@ import {
   selectIsLoadingNamazTimesForUser,
   getNamazTimesForUser,
 } from '../../../redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
-import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import {getUserData, selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 import Loader from '../../common/Loader';
 import {useIsFocused} from '@react-navigation/native';
 import {
   getMosqueById,
   selectMosqueById,
 } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NamazTimeByMoque({navigation}) {
   const [connectStatus, setConnectStatus] = useState(false);
@@ -48,14 +49,29 @@ export default function NamazTimeByMoque({navigation}) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+
+    dispatch(getUserData())
     if (user) {
-      dispatch(
-        getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
-      );
-      dispatch(getMosqueById({mosqueId: user?.preferences?.primaryMosque}));
+
+
+      const getData=async()=>{
+        const data=await AsyncStorage.getItem('user')
+        return await JSON.parse(data)
+      }
+
+      getData().then(data=>{
+        console.log(data)
+        dispatch(
+          getNamazTimesForUser({mosqueId: data?.preferences?.primaryMosque}),
+        );
+        dispatch(getMosqueById({mosqueId: data?.preferences?.primaryMosque}));
+      })
+      
+    
     }
 
     if(user){
+
       setNamazTimes([
         {
           key: 1,
@@ -66,7 +82,7 @@ export default function NamazTimeByMoque({navigation}) {
         },
         {
           key: 2,
-          title: 'Duhr',
+          title: 'Zuhr',
           startTime: mosqueTimes?.zuhr?.startTime,
           endTime: mosqueTimes?.zuhr?.endTime,
           image: require('../../../../assets/images/duhr_img.jpeg'),
@@ -107,7 +123,7 @@ export default function NamazTimeByMoque({navigation}) {
 
     //unsubscribe on unmount
     return unsubscribe;
-  }, [connectStatus, navigation]);
+  }, [connectStatus, navigation, dispatch]);
 
   return connectStatus ? (
     <View style={{flex: 1, backgroundColor: colors.white}}>
