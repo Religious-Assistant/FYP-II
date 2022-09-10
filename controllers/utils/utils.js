@@ -58,7 +58,6 @@ async function notifyUsers(title, body, targetDevices, channelId, senderImage) {
         channelId: channelId + "",
         largeIcon: senderImage,
       }),
-      payload: null,
     },
   });
 
