@@ -248,7 +248,9 @@ const TabButton = (currentTab, setCurrentTab, title, image, username) => {
         title = title.toLowerCase();
 
         if (title == 'logout' || title == 'exit') {
-          dispatch(deleteDeviveToken({username}));
+          if(title==='exit'){
+            dispatch(deleteDeviveToken({username}));
+          }
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {
