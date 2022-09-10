@@ -407,7 +407,7 @@ export default function Settings({route, navigation}) {
                         </Heading>
                       </Stack>
                       <Text fontWeight="400" style={styles.text}>
-                        {mosqueById ? mosqueById.mosqueName : 'NONE'}
+                        {mosqueById ? mosqueById?.mosqueName : 'NONE'}
                       </Text>
                       {mosques ? (
                         <Select

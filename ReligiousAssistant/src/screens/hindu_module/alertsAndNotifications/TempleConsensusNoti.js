@@ -75,8 +75,8 @@ export default function TempleConsensusNoti({route, navigation}) {
     if (
       templeId &&
       !isAlreadyCasted &&
-      user &&
-      !templeById?.receivers[index].hasVoted
+      user && 
+      !templeById?.receivers[index]?.hasVoted
     ) {
       dispatch(castUpvote({templeId: templeId, username: user?.username}));
       setIsAlreadyCasted(true);
