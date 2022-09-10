@@ -32,9 +32,9 @@ const becomeImam = async (req, res) => {
 
     const voteCasters = [];
     peopleAround.map((person) => {
-      // if(person!==username){
+      if(person!==username){
         voteCasters.push({ username: person, hasVoted: false });
-      // }
+      }
     });
 
     const imamaData = await Imam.create({
@@ -155,8 +155,8 @@ const casteUpVoteForImam = async (req, res) => {
           let imamlocation_lat = imamHistory.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(imamlocation_long, imamlocation_lat);
-          // let filteredPeople=peopleAround.filter(p=>p!==username)
-          const recepients = await getNotificationReceivers(peopleAround, 1);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 1);
           saveNotificationForMuslimUser(
             recepients,
             title,
@@ -250,8 +250,8 @@ const castDownvoteForImam = async (req, res) => {
           let imamlocation_lat = imamHistory.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(imamlocation_long, imamlocation_lat);
-          // let filteredPeople=peopleAround.filter(p=>p!==username)
-          const recepients = await getNotificationReceivers(peopleAround, 1);
+          let filteredPeople=peopleAround.filter(p=>p!==username)
+          const recepients = await getNotificationReceivers(filteredPeople, 1);
           saveNotificationForMuslimUser(
             recepients,
             title,
