@@ -52,7 +52,7 @@ export default function FeatureContainer() {
       title: 'Recite Gita',
       image: require('../../../../assets/images/gita2_ic.png'),
       screen: RECITE_GITA,
-      disabled: false,
+      disabled: user ? false : true,
     },
     {
       title: 'Closest Temple',

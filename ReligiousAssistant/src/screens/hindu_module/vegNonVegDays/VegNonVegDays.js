@@ -36,9 +36,11 @@ import {
 } from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
 
 const VegNonVegDays = () => {
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const vegData = useSelector(selectVegData);
+
   useEffect(() => {
     if (!user) {
       dispatch(getUserData());
@@ -141,10 +143,9 @@ const VegNonVegDays = () => {
                 <Heading color={colors.white}>
                   <Text style={{fontFamily: fonts.Signika.bold}}>Days</Text>
                 </Heading>
-              </Heading>
+                </Heading>
             </View>
           </View>
-
           <View
             style={{flex: 0.8, marginTop: '20%'}}
             width="95%"
@@ -173,7 +174,8 @@ const VegNonVegDays = () => {
                       />
                     );
                   })}
-                <CustomButton
+
+                  <CustomButton
                     title="Save"
                     color="yellow"
                     mt="5%"
@@ -186,8 +188,8 @@ const VegNonVegDays = () => {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
-
   );
+
 };
 
 const Item = ({day, handleDayChange}) => {
@@ -229,3 +231,4 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
 });
+

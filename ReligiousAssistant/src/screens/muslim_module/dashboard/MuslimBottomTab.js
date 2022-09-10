@@ -165,7 +165,7 @@ export default function MuslimBottomTab() {
             }}
           />
         }
-
+        
         <BottomTab.Screen
           name={FIND_MOSQUE}
           component={FindMosque}

@@ -77,10 +77,10 @@ const RecitationStats = () => {
         <StatsCardForChapter
           screenWidth={screenWidth}
           summaryLastRead={
-            recitationStats[0] ? recitationStats[0]?.summaryLastRead : 0
+            recitationStats[0]?recitationStats[0]?.summaryLastRead : 0
           }
           chapterLastRead={
-            recitationStats[0] ? recitationStats[0]?.chapterLastRead : 0
+            recitationStats[0]?recitationStats[0]?.chapterLastRead : 0
           }
         />
       </ScrollView>

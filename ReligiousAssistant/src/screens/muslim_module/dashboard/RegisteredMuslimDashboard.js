@@ -128,12 +128,16 @@ export default function RegisteredMuslimDashboard() {
             ) : (
               <></>
             )}
-            {TabButton(
-              currentTab,
-              setCurrentTab,
-              'Apply as Imam',
-              imam_ic,
-              user?.username,
+            {user ? (
+              TabButton(
+                currentTab,
+                setCurrentTab,
+                'Apply as Imam',
+                imam_ic,
+                user?.username,
+              )
+            ) : (
+              <></>
             )}
             {TabButton(
               currentTab,
