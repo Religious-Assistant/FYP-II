@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  View
 } from 'react-native';
 import {
   Center,
@@ -72,7 +73,7 @@ const registerValidationSchema = yup.object().shape({
   religion: yup.number().required('Religion is Required'),
 });
 
-function RegisterScreen() {
+export default function RegisterScreen() {
   const navigator = useNavigation();
   const dispatch = useDispatch();
 
@@ -286,5 +287,3 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
 });
-
-export default RegisterScreen;
