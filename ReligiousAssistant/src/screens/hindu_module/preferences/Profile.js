@@ -106,7 +106,7 @@ export default function Profile() {
         {
           id: 6,
           label: 'Primary Temple',
-          info: templeById ? templeById.templeName : 'Not Set',
+          info: templeById ? templeById?.templeName : 'Not Set',
           icon: (
             <MaterialCommunityIcons
               name="mosque"

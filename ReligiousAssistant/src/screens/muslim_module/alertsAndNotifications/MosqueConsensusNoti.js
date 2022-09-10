@@ -93,7 +93,7 @@ export default function MosqueConsensusNoti({route, navigation}) {
       mosqueId &&
       !isAlreadyCasted &&
       user &&
-      !mosqueById?.receivers[index].hasVoted
+      !mosqueById?.receivers[index]?.hasVoted
     ) {
       dispatch(castDownvote({mosqueId: mosqueId, username: user?.username}));
       setIsAlreadyCasted(true);
