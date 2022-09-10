@@ -59,6 +59,8 @@ const makeAnnouncement = async (req, res) => {
                 ANNOUNCEMENT_CHANNEL_ID,
                 newAnnouncement.avatar,
               );
+
+              console.log(`Received by ${totalReceivers}`)
               res.status(200).send({
                 success: true,
                 msg: `Announcement sent to ${totalReceivers} people around your location`,
@@ -93,6 +95,7 @@ const getAllAnnouncements = async (req, res) => {
   try {
     const { username } = req.body;
     let announcements = await Announcement.find({ targetAudience: username });
+    console.log(announcements)
     res.status(200).send({
       msg: "Here are All Announcements",
       success: true,

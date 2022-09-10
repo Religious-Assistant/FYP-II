@@ -164,11 +164,13 @@ const getTimesForUser = async (req, res) => {
   console.log("Get Times For User API hit");
   try {
     const { mosqueId } = req.body;
+
     const mosqueNamazTimes = await MosqueNamazTimes.findOne({
       mosqueId: mosqueId,
     });
 
     if (mosqueNamazTimes) {
+    
       res.status(200).send({ success: true, data: mosqueNamazTimes });
     } else {
       res.status(200).send({ success: false });
