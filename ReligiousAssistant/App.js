@@ -33,6 +33,7 @@ import {setHours} from './src/utils/helpers';
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);
 
+  console.log(notification)
   // Only received when namaz times are updated by imam
 
   if (message.data.payload) {
@@ -122,7 +123,7 @@ const EntryPoint = () => {
     const getNamazTimesInPrimaryMosque = async () => {
       const times = await AsyncStorage.getItem('primary_mosque_times');
       const parsedTimes = await JSON.parse(times);
-      return (await parsedTimes) ? parsedTimes : mosqueTimes;
+      return await parsedTimes ? parsedTimes : mosqueTimes;
     };
 
     if (user) {
@@ -135,12 +136,11 @@ const EntryPoint = () => {
               if (!exists) {
                 createChannel();
               } else {
-                console.log('Channel already cretaed', times.fajr.startTime);
-                createNotification(times?.fajr.startTime);
-                createNotification(times?.zuhr.startTime);
-                createNotification(times?.asr.startTime);
-                createNotification(times?.maghrib.startTime);
-                createNotification(times?.isha.startTime);
+                createNotification(times?.fajr?.startTime);
+                createNotification(times?.zuhr?.startTime);
+                createNotification(times?.asr?.startTime);
+                createNotification(times?.maghrib?.startTime);
+                createNotification(times?.isha?.startTime);
               }
             });
           })
