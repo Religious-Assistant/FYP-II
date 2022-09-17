@@ -89,7 +89,7 @@ const QiblaDirection = () => {
       <ImageBackground
         style={styles.imageBg}
         resizeMode="stretch"
-        source={image}>
+        source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663410336/religious-assistant/static_assets/qibla_bg_xdsxa8.png'}}>
         <Center w="100%" mt={'95'} h="95%" maxW="100%">
           {/* Compass */}
           <ImageBackground
@@ -97,7 +97,7 @@ const QiblaDirection = () => {
               styles.image,
               {transform: [{rotate: `${360 - compassHeading}deg`}]},
             ]}
-            source={kompass}>
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663410413/religious-assistant/static_assets/kompas_cdd7pe.png'}}>
             <View
               style={{
                 flex: 1,
@@ -108,7 +108,7 @@ const QiblaDirection = () => {
               {/* Arrow that points to Qibla Direction */}
               {qiblad ? (
                 <Image
-                  source={kabahICon}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663410496/religious-assistant/static_assets/kabah_ic_qbykat.png'}}
                   alt="alt"
                   size={10}
                   style={{

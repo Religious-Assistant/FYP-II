@@ -58,7 +58,7 @@ import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constan
 
 export default function FindTemple() {
   const [connectStatus, setConnectStatus] = useState(false);
-
+  const[sourceCoordinates,setSourceCoordinates] = useState();
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
@@ -71,18 +71,19 @@ export default function FindTemple() {
       setConnectStatus(res);
     });
 
-    if (!user) {
-      dispatch(getUserData());
-    }
+    // if (!user) {
+    //   dispatch(getUserData());
+    // }
 
-    if (user) {
-      dispatch(
-        getClosestTemples({
-          longitude: user?.location?.coordinates[0],
-          latitude: user?.location?.coordinates[1],
-        }),
-      );
-    }
+    getLocation();
+    // if (user) {
+    //   dispatch(
+    //     getClosestTemples({
+    //       longitude: user?.location?.coordinates[0],
+    //       latitude: user?.location?.coordinates[1],
+    //     }),
+    //   );
+    // }
   }, [connectStatus,dispatch, isFocused]);
 
   getLocation = async () => {
@@ -90,7 +91,7 @@ export default function FindTemple() {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Geolocation Permission',
+          title: 'Location Permission',
           message: "App needs access to your phone's location.",
         },
       );

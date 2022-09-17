@@ -123,7 +123,7 @@ export default function MuslimBottomTab() {
             },
           }}
         />
-        {
+        {user ? (
           <BottomTab.Screen
             name={MUSLIM_ALERTS}
             component={Alerts}
@@ -164,98 +164,110 @@ export default function MuslimBottomTab() {
               },
             }}
           />
-        }
-        
-        <BottomTab.Screen
-          name={FIND_MOSQUE}
-          component={FindMosque}
-          options={{
-            // tabBarLabel:'Home',
-            headerShown: false,
-            tabBarIcon: ({focused}) => {
-              return (
-                <Image
-                  source={require('../../../../assets/images/search_mosque_ic.png')}
-                  resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: colors.primary,
-                  }}></Image>
-              );
-            },
-            tabBarButton: props => <AddMosqueButton {...props} />,
-          }}
-        />
-
-        <BottomTab.Screen
-          name={MUSLIM_PRAYERS}
-          component={NamazTimeByMoque}
-          options={{
-            // tabBarLabel:'Home',
-            headerShown: false,
-            tabBarIcon: ({focused}) => {
-              return (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    top: 10,
-                  }}>
+        ) : (
+          <></>
+        )}
+        {user ? (
+          <BottomTab.Screen
+            name={FIND_MOSQUE}
+            component={FindMosque}
+            options={{
+              // tabBarLabel:'Home',
+              headerShown: false,
+              tabBarIcon: ({focused}) => {
+                return (
                   <Image
-                    source={require('../../../../assets/images/time_ic.png')}
+                    source={require('../../../../assets/images/search_mosque_ic.png')}
                     resizeMode="contain"
                     style={{
-                      width: 25,
-                      height: 25,
-                      tintColor: focused ? colors.success.light : '#0f1e3d',
+                      width: 30,
+                      height: 30,
+                      tintColor: colors.primary,
                     }}></Image>
-                  <Text
-                    style={[
-                      styles.tabItemText,
-                      {color: focused ? colors.success.light : '#0f1e3d'},
-                    ]}>
-                    Prayers
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <BottomTab.Screen
-          name={MUSLIM_SETTINGS}
-          component={Settings}
-          options={{
-            // tabBarLabel:'Home',
-            headerShown: false,
-            tabBarIcon: ({focused}) => {
-              return (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    top: 10,
-                  }}>
-                  <Image
-                    source={require('../../../../assets/images/settings_ic.png')}
-                    resizeMode="contain"
+                );
+              },
+              tabBarButton: props => <AddMosqueButton {...props} />,
+            }}
+          />
+        ) : (
+          <></>
+        )}
+        {user ? (
+          <BottomTab.Screen
+            name={MUSLIM_PRAYERS}
+            component={NamazTimeByMoque}
+            options={{
+              // tabBarLabel:'Home',
+              headerShown: false,
+              tabBarIcon: ({focused}) => {
+                return (
+                  <View
                     style={{
-                      width: 25,
-                      height: 25,
-                      tintColor: focused ? colors.success.light : '#0f1e3d',
-                    }}></Image>
-                  <Text
-                    style={[
-                      styles.tabItemText,
-                      {color: focused ? colors.success.light : '#0f1e3d'},
-                    ]}>
-                    Settings
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      top: 10,
+                    }}>
+                    <Image
+                      source={require('../../../../assets/images/time_ic.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 25,
+                        height: 25,
+                        tintColor: focused ? colors.success.light : '#0f1e3d',
+                      }}></Image>
+                    <Text
+                      style={[
+                        styles.tabItemText,
+                        {color: focused ? colors.success.light : '#0f1e3d'},
+                      ]}>
+                      Prayers
+                    </Text>
+                  </View>
+                );
+              },
+            }}
+          />
+        ) : (
+          <></>
+        )}
+        {user ? (
+          <BottomTab.Screen
+            name={MUSLIM_SETTINGS}
+            component={Settings}
+            options={{
+              // tabBarLabel:'Home',
+              headerShown: false,
+              tabBarIcon: ({focused}) => {
+                return (
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      top: 10,
+                    }}>
+                    <Image
+                      source={require('../../../../assets/images/settings_ic.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 25,
+                        height: 25,
+                        tintColor: focused ? colors.success.light : '#0f1e3d',
+                      }}></Image>
+                    <Text
+                      style={[
+                        styles.tabItemText,
+                        {color: focused ? colors.success.light : '#0f1e3d'},
+                      ]}>
+                      Settings
+                    </Text>
+                  </View>
+                );
+              },
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </BottomTab.Navigator>
     </>
   );
