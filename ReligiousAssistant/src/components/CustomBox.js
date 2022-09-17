@@ -7,10 +7,6 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Box, Image, Text} from 'native-base';
 
-//images
-import mosqueIcon from '../../assets/images/closest_mosque_ic.png';
-import directionIcon from '../../assets/images/direction_ic.png';
-
 //theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
@@ -37,7 +33,7 @@ export default function CustomBox(props) {
           flexWrap: 'wrap',
         }}>
         <Image
-          source={props.templeic ? props.templeic : mosqueIcon}
+          source={{uri:props.templeic ? props.templeic : 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413006/religious-assistant/static_assets/closest_mosque_ic_snp3f2.png'}}
           style={{
             height: 40,
             width: 40,
@@ -64,7 +60,7 @@ export default function CustomBox(props) {
           onPress={props.onPress}
           activeOpacity={0.6}>
           <Image
-            source={directionIcon}
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413045/religious-assistant/static_assets/direction_ic_cantmg.png'}}
             style={{
               height: 50,
               width: 50,

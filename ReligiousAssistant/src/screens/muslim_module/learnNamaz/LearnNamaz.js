@@ -30,14 +30,6 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import fajrImg from '../../../../assets/images/fajr_game.jpg';
-import duhrImg from '../../../../assets/images/duhr_game.png';
-import asrImg from '../../../../assets/images/asr_game.png';
-import maghribImg from '../../../../assets/images/maghrib_game.png';
-import ishaImg from '../../../../assets/images/isha_game.png';
-import level_lock_ic from '../../../../assets/images/level_lock_ic.gif';
-
 //to check connection
 import NoConnectionScreen from '../../common/NoConnectionScreen';
 import {checkConnected} from '../../common/CheckConnection';
@@ -64,7 +56,6 @@ const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 
-
 export default function LearnNamaz() {
   const [connectStatus, setConnectStatus] = useState(false);
 
@@ -78,7 +69,7 @@ export default function LearnNamaz() {
 
   useEffect(() => {
     checkConnected().then(res => {
-      console.log(res)
+      console.log(res);
       setConnectStatus(res);
     });
 
@@ -87,7 +78,7 @@ export default function LearnNamaz() {
     if (user) {
       dispatch(getLearnNamazProgress({username: user?.username}));
     }
-  }, [connectStatus,dispatch]);
+  }, [connectStatus, dispatch]);
 
   const NAMAZ_TIMES = [
     {
@@ -98,7 +89,8 @@ export default function LearnNamaz() {
     {
       id: 2,
       name: 'Fajr',
-      poster: fajrImg,
+      poster:
+        'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413223/religious-assistant/static_assets/fajr_game_mcrwni.jpg',
       level: 'Level 1',
       rakahs: [
         {key: 1, rakatName: 'Sunnat', rakats: '2'},
@@ -109,7 +101,8 @@ export default function LearnNamaz() {
     {
       id: 3,
       name: 'Duhr',
-      poster: duhrImg,
+      poster:
+        'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413442/religious-assistant/static_assets/duhr_game_hzfzun.jpg',
       level: 'Level 2',
       rakahs: [
         {key: 3, rakatName: 'Sunnat', rakats: '4'},
@@ -127,7 +120,8 @@ export default function LearnNamaz() {
     {
       id: 4,
       name: 'Asr',
-      poster: asrImg,
+      poster:
+        'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413452/religious-assistant/static_assets/asr_game_v93qvb.jpg',
       level: 'Level 3',
       rakahs: [
         {key: 7, rakatName: 'Sunnat', rakats: '4'},
@@ -145,7 +139,8 @@ export default function LearnNamaz() {
     {
       id: 5,
       name: 'Maghrib',
-      poster: maghribImg,
+      poster:
+        'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413457/religious-assistant/static_assets/maghrib_game_lluwmd.jpg',
       level: 'Level 4',
       rakahs: [
         {key: 9, rakatName: 'Farz', rakats: '3'},
@@ -162,7 +157,8 @@ export default function LearnNamaz() {
     {
       id: 6,
       name: 'Isha',
-      poster: ishaImg,
+      poster:
+        'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413465/religious-assistant/static_assets/isha_game_ydhxhf.jpg',
       level: 'Level 5',
       rakahs: [
         {key: 12, rakatName: 'Sunnat', rakats: '4'},
@@ -214,8 +210,7 @@ export default function LearnNamaz() {
     setState({showModal: modalState, rakahs: rakats, namazName: name});
   }
 
-  return connectStatus?(
-    
+  return connectStatus ? (
     <SafeAreaView style={styles.MainContainer}>
       {isLoadingGetNamazProgress ? (
         <Loader msg="Getting progress..." />
@@ -339,7 +334,11 @@ export default function LearnNamaz() {
                           borderRadius: 34,
                         }}>
                         <Image
-                          source={item.disabled ? level_lock_ic : item.poster}
+                          source={{
+                            uri: item.disabled
+                              ? 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413551/religious-assistant/static_assets/level_lock_ic_k1gtr5.gif'
+                              : item.poster,
+                          }}
                           style={styles.posterImage}
                         />
                         <Text
@@ -385,7 +384,7 @@ export default function LearnNamaz() {
         </>
       )}
     </SafeAreaView>
-  ):(
+  ) : (
     <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {

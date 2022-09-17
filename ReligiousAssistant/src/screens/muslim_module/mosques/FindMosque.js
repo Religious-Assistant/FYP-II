@@ -26,9 +26,6 @@ import {
 //icons
 import Ioicons from 'react-native-vector-icons/Ionicons';
 
-//images
-import mosqueICon from '../../../../assets/images/Logo-muslim.png';
-
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -143,7 +140,7 @@ export default function FindMosque() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={mosqueICon}
+                source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663412866/religious-assistant/static_assets/Logo-muslim_rhaccq.png'}}
                 style={{
                   marginTop: '10%',
                   marginRight: '-5%',

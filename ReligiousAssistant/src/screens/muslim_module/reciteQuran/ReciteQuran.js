@@ -16,9 +16,6 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 
 import Header from '../../../components/Header';
 
-//images
-import img from '../../../../assets/images/quran_ic.png';
-
 //theme
 import fonts from '../../../theme/fonts';
 import colors from '../../../theme/colors';
@@ -86,7 +83,7 @@ const ReciteQuran = () => {
       <Header
         title1="Recite Quran"
         title2="Quran then becomes a witness for one on the Day of Judgment"
-        image={img}
+        image={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663412625/religious-assistant/static_assets/quran_ic_ugcdls.png'}}
         title1Size={30}
         title2Size={15}
         title1Color={colors.secondary}
