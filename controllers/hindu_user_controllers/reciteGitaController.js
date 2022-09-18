@@ -234,10 +234,11 @@ const getRecitationStats = async (req, res) => {
   console.log("GET recitation stats API hit");
   try {
     const { username } = req.body;
-    const record = await GitaRecitation.find({
+    const record = await GitaRecitation.findOne({
       username: username,
     });
 
+    
     if (record) {
       res.send({
         success: true,

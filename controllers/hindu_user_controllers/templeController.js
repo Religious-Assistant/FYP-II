@@ -113,10 +113,9 @@ const getUnverifiedTemplesAroundUser = async (req, res) => {
 };
 
 const addTemple = async (req, res) => {
-
   console.log("Add Temple API hit");
 
-  const { latitude, longitude, templeName, addedBy } = req.body;  
+  const { latitude, longitude, templeName, addedBy } = req.body;
 
   try {
     const user = await User.findOne({ username: addedBy });
@@ -133,12 +132,11 @@ const addTemple = async (req, res) => {
       const voteCasters = [];
       await peopleAround.map((person) => {
         // if(person!==addedBy){
-          voteCasters.push({ username: person, hasVoted: false });
+        voteCasters.push({ username: person, hasVoted: false });
         // }
       });
 
       if (longitude && latitude) {
-
         const newTempleData = await Temple.create({
           templeName: templeName,
           addedBy: addedBy,
@@ -152,7 +150,7 @@ const addTemple = async (req, res) => {
         if (newTempleData) {
           //Sign a notification for users
           const title = `New Temple`.toUpperCase();
-          const body = `${addedBy.toUpperCase()} feels that Temple ${templeName} is not yet present in the system and asks you to upvote so new temple could be added`
+          const body = `${addedBy.toUpperCase()} feels that Temple ${templeName} is not yet present in the system and asks you to upvote so new temple could be added`;
 
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForHinduUser(
@@ -328,7 +326,7 @@ const castDownvote = async (req, res) => {
           let temple_lat = templeToBeAdded.location.coordinates[1];
 
           let peopleAround = await findNearByPeople(temple_long, temple_lat);
-          
+
           // let filteredPeople=peopleAround.filter(p=>p!==username)
           const recepients = await getNotificationReceivers(peopleAround, 0);
           saveNotificationForMuslimUser(

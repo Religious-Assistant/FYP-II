@@ -238,7 +238,7 @@ const getRecitationStats = async (req, res) => {
   console.log("GET recitation stats API hit");
   try {
     const { username } = req.body;
-    const record = await QuranRecitation.find({
+    const record = await QuranRecitation.findOne({
       username: username,
     });
 
