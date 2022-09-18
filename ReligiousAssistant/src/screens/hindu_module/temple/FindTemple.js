@@ -6,7 +6,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
-  Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
   PermissionsAndroid,
@@ -25,8 +24,6 @@ import {
 
 //icons
 import Ioicons from 'react-native-vector-icons/Ionicons';
-import templeIcon from '../../../../assets/images/temple2_ic.png';
-import templeic from '../../../../assets/images/temple_ic.png';
 
 //theme
 import colors from '../../../theme/colors';
@@ -58,7 +55,7 @@ import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constan
 
 export default function FindTemple() {
   const [connectStatus, setConnectStatus] = useState(false);
-  const[sourceCoordinates,setSourceCoordinates] = useState();
+  const [sourceCoordinates, setSourceCoordinates] = useState();
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
@@ -84,7 +81,7 @@ export default function FindTemple() {
     //     }),
     //   );
     // }
-  }, [connectStatus,dispatch, isFocused]);
+  }, [connectStatus, dispatch, isFocused]);
 
   getLocation = async () => {
     try {
@@ -125,7 +122,7 @@ export default function FindTemple() {
     }
   }
 
-  return connectStatus?(
+  return connectStatus ? (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -143,7 +140,9 @@ export default function FindTemple() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={templeIcon}
+                source={{
+                  uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663526674/religious-assistant/static_assets/temple2_ic_kyhljl.png',
+                }}
                 style={{
                   marginTop: '10%',
                   marginRight: '-5%',
@@ -254,7 +253,9 @@ export default function FindTemple() {
                               mb={
                                 index == closesTemples.length - 1 ? '15%' : '0%'
                               }
-                              templeic={templeic}
+                              templeic={
+                                'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663526623/religious-assistant/static_assets/temple_ic_mkrhp4.png'
+                              }
                               text={temple.templeName}
                               distance={
                                 Math.round(
@@ -283,7 +284,7 @@ export default function FindTemple() {
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
-  ): (
+  ) : (
     <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {
