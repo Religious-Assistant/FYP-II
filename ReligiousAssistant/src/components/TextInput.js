@@ -38,6 +38,7 @@ export default function TextInput(props) {
       onBlur={props.onBlur}
       value={props.value}
       borderColor={props.isInValid ? 'red.400' : 'white'}
+      isRequired={true}
     />
   );
 }
