@@ -33,7 +33,7 @@ export default function CustomBox(props) {
           flexWrap: 'wrap',
         }}>
         <Image
-          source={{uri:props.templeic ? props.templeic : 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413006/religious-assistant/static_assets/closest_mosque_ic_snp3f2.png'}}
+          source={{uri:props.templeic ? props?.templeic : 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413006/religious-assistant/static_assets/closest_mosque_ic_snp3f2.png'}}
           style={{
             height: 40,
             width: 40,

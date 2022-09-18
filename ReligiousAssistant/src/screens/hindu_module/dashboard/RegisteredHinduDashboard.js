@@ -85,8 +85,8 @@ export default function RegisteredHinduDashboard() {
   }, [dispatch, selectedTab]);
   return (
     <SafeAreaView style={styles.container}>
-      {isLoadingGetUserData || hasError ? (
-        <Loader msg="Loading Dashboard ..." />
+      {isLoadingGetUserData ? (
+        <></>
       ) : (
         <View style={{justifyContent: 'flex-start', padding: 15}}>
           <View

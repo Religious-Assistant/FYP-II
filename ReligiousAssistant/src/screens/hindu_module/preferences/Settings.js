@@ -59,7 +59,6 @@ import {
 //constants
 import {GOOGLE_MAP, HINDU_SETTINGS} from '../../../navigation/constants';
 
-import Loader from '../../common/Loader';
 
 //navigation
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -275,9 +274,7 @@ export default function Settings({route, navigation}) {
       </View>
       {isLoadingGetUserData ||
       isUploadingProfileImage ||
-      isLoadingClosestTemples ? (
-        <Loader msg="Loading ..." />
-      ) : (
+      isLoadingClosestTemples ? <></>: (
         <>
           <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>
             <Image

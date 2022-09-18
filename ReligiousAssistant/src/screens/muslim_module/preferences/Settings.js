@@ -288,7 +288,7 @@ export default function Settings({route, navigation}) {
       {isLoadingGetUserData ||
       isUploadingProfileImage ||
       isLoadingClosestMosques ? (
-        <Loader msg="Loading ..." />
+        <Loader msg="Loading Data..." />
       ) : (
         <>
           <TouchableOpacity activeOpacity={0.98} onPress={onOpen}>

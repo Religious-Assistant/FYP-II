@@ -82,9 +82,7 @@ export default function RegisteredMuslimDashboard() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoadingGetUserData || hasError ? (
-        <Loader msg="Loading Dashboard for you ... " />
-      ) : (
+      {isLoadingGetUserData || hasError ?<></> : (
         <View style={{justifyContent: 'flex-start', padding: 15}}>
           <View
             style={{

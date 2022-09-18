@@ -50,11 +50,11 @@
      legend: ['Recited', 'Remaining'],
      data: [
        [
-         recitationStats?.length>0? recitationStats[0]?.recitedParahs?.length - 1 : 0,
+         recitationStats? recitationStats?.recitedParahs?.length - 1 : 0,
          30,
        ],
        [
-         recitationStats?.length>0? recitationStats[0]?.recitedSurahs?.length - 1 : 0,
+         recitationStats? recitationStats?.recitedSurahs?.length - 1 : 0,
          114,
        ],
      ],
@@ -77,10 +77,10 @@
          <StatsCardForChapter
            screenWidth={screenWidth}
            summaryLastRead={
-             recitationStats[0] ? recitationStats[0]?.parahLastRead : 0
+             recitationStats[0] ? recitationStats?.parahLastRead : null
            }
            chapterLastRead={
-             recitationStats[0] ? recitationStats[0]?.surahLastRead : 0
+             recitationStats[0] ? recitationStats?.surahLastRead : null
            }
          />
        </ScrollView>
@@ -96,11 +96,11 @@
        <Heading style={styles.heading}>Last Recitation Stats</Heading>
        <View style={styles.dataContainer}>
          <Text style={[styles.text]}>Parah </Text>
-         <Text style={[styles.text]}>{summaryLastRead?.parahNumber}</Text>
+         <Text style={[styles.text]}>{summaryLastRead?summaryLastRead?.parahNumber:0}</Text>
        </View>
        <View style={styles.dataContainer}>
          <Text style={[styles.text]}>Surah</Text>
-         <Text style={[styles.text]}>{chapterLastRead?.surahNumber}</Text>
+         <Text style={[styles.text]}>{chapterLastRead?chapterLastRead?.surahNumber:0}</Text>
        </View>
      </View>
    );

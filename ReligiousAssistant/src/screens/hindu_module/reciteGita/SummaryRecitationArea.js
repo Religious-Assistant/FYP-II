@@ -83,7 +83,7 @@ const SummaryRecitationArea = ({route, navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.white}}>
-      {isLoadingMarkSummaryAsRead || isLoadingMarkSummaryAsUnRead ? (
+      {isLoadingMarkSummaryAsRead ? (
         <Loader msg={`Getting Parah ${summary.meaning.en} for you ...`} />
       ) : (
         <>

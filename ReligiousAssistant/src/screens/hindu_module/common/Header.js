@@ -130,7 +130,7 @@ export default function Header() {
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text style={styles.dateInfo}>
+          <Text style={styles.locationInfo} numberOfLines={2}>
             {location ? location : 'No Location set'}
           </Text>
         </View>
@@ -174,4 +174,11 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     color: colors.white,
   },
+  locationInfo:{
+    fontFamily: fonts.Signika.ligh,
+    fontSize: 12,
+    marginTop: 3,
+    marginLeft: 3,
+    color: colors.white,
+  }
 });

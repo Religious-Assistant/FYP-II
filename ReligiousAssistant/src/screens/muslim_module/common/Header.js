@@ -107,7 +107,7 @@ export default function Header() {
                 tintColor: 'white',
               }}
               alt="Icon"></Image>
-            <Text style={styles.namazInfoText}>
+            <Text style={styles.locationInfo} numberOfLines={2}>
               {location ? location : 'No location set'}
             </Text>
           </View>
@@ -182,4 +182,12 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     color: colors.white,
   },
+
+  locationInfo:{
+    fontFamily: fonts.Signika.medium,
+    color: colors.success.light,
+    fontSize: 12,
+    marginLeft: 3,
+    marginTop: 3,
+  }
 });

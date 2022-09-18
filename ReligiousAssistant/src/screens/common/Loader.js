@@ -18,7 +18,9 @@ const Loader = props => {
       overlayColor="rgba(255,255,255,0.75)"
       source={require('./loader3.json')}
       animationStyle={styles.lottie}
-      speed={1}>
+      speed={1}
+      
+      >
       <Text style={styles.lottieText}>{props.msg}</Text>
     </AnimatedLoader>
   );
@@ -28,8 +30,8 @@ export default Loader;
 
 const styles = StyleSheet.create({
   lottie: {
-    width: 300,
-    height: 300,
+    width: 175,
+    height: 175,
   },
   lottieText: {
     fontFamily: fonts.Signika.bold,

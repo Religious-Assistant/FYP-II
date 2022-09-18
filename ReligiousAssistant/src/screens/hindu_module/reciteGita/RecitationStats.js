@@ -50,11 +50,11 @@ const RecitationStats = () => {
     legend: ['Recited', 'Remaining'],
     data: [
       [
-        recitationStats?.length>0? recitationStats[0]?.recitedSummaries?.length - 1 : 0,
+        recitationStats? recitationStats?.recitedSummaries?.length - 1 : 0,
         18,
       ],
       [
-        recitationStats?.length>0? recitationStats[0]?.recitedChapters?.length - 1 : 0,
+        recitationStats? recitationStats?.recitedChapters?.length - 1 : 0,
         18,
       ],
     ],
@@ -77,10 +77,10 @@ const RecitationStats = () => {
         <StatsCardForChapter
           screenWidth={screenWidth}
           summaryLastRead={
-            recitationStats[0]?recitationStats[0]?.summaryLastRead : 0
+            recitationStats?recitationStats?.summaryLastRead : null
           }
           chapterLastRead={
-            recitationStats[0]?recitationStats[0]?.chapterLastRead : 0
+            recitationStats?recitationStats?.chapterLastRead : null
           }
         />
       </ScrollView>
@@ -96,15 +96,15 @@ function StatsCardForChapter(props) {
       <Heading style={styles.heading}>Last Recitation Stats</Heading>
       <View style={styles.dataContainer}>
         <Text style={[styles.text]}>Chapter </Text>
-        <Text style={[styles.text]}>{chapterLastRead.chapterNumber}</Text>
+        <Text style={[styles.text]}>{chapterLastRead?chapterLastRead?.chapterNumber:0}</Text>
       </View>
       <View style={styles.dataContainer}>
         <Text style={[styles.text]}>Verse</Text>
-        <Text style={[styles.text]}>{chapterLastRead.verseNumber}</Text>
+        <Text style={[styles.text]}>{chapterLastRead?chapterLastRead?.verseNumber:0}</Text>
       </View>
       <View style={styles.dataContainer}>
         <Text style={[styles.text]}>Summary</Text>
-        <Text style={[styles.text]}>{summaryLastRead}</Text>
+        <Text style={[styles.text]}>{summaryLastRead?summaryLastRead:0}</Text>
       </View>
     </View>
   );
