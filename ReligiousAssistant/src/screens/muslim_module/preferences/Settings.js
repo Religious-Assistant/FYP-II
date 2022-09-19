@@ -27,18 +27,11 @@ import {
   CheckIcon,
 } from 'native-base';
 
-
 import ImagePicker from 'react-native-image-crop-picker';
 
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
-
-//images
-import editIcon from '../../../../assets/images/edit_ic.png';
-import cameraIcon from '../../../../assets/images/camera_ic.png';
-import galleryIcon from '../../../../assets/images/gallery_ic.png';
-import edit from '../../../../assets/images/edit.png';
 
 //to check connection
 import NoConnectionScreen from '../../common/NoConnectionScreen';
@@ -158,7 +151,7 @@ export default function Settings({route, navigation}) {
       : '';
 
     return unsubscribe;
-  }, [connectStatus,navigation, dispatch, isFocused]);
+  }, [connectStatus, navigation, dispatch, isFocused]);
 
   //avatar state
   const [avatar, setAvatar] = useState({
@@ -280,7 +273,7 @@ export default function Settings({route, navigation}) {
     setPassword(text);
   };
 
-  return connectStatus?(
+  return connectStatus ? (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Set Your Preferences</Text>
@@ -300,7 +293,9 @@ export default function Settings({route, navigation}) {
             <Image
               marginLeft="55%"
               marginTop="5%"
-              source={edit}
+              source={{
+                uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582531/religious-assistant/static_assets/edit_rb5wxb.png',
+              }}
               style={{
                 height: 45,
                 width: 45,
@@ -367,7 +362,9 @@ export default function Settings({route, navigation}) {
                           onPress={() => openeModal('Change Password')}>
                           <Image
                             marginLeft="6%"
-                            source={editIcon}
+                            source={{
+                              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582441/religious-assistant/static_assets/edit_ic_hap6nz.png',
+                            }}
                             style={{
                               height: 30,
                               width: 33,
@@ -502,7 +499,9 @@ export default function Settings({route, navigation}) {
                           }}>
                           <Image
                             marginLeft="6%"
-                            source={editIcon}
+                            source={{
+                              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582441/religious-assistant/static_assets/edit_ic_hap6nz.png',
+                            }}
                             style={{
                               height: 30,
                               width: 33,
@@ -571,7 +570,7 @@ export default function Settings({route, navigation}) {
                 </Box>
 
                 {/* AutoSilent Mode */}
-                <Box alignItems="center">
+                {/* <Box alignItems="center">
                   <Box
                     maxW="80"
                     rounded="lg"
@@ -604,7 +603,6 @@ export default function Settings({route, navigation}) {
                         flexDirection={'row'}
                         space={4}
                         justifyContent="space-between">
-                        {/* switch for Auto Silent mode */}
                         <HStack>
                           <Switch
                             offTrackColor="rose.300"
@@ -620,7 +618,7 @@ export default function Settings({route, navigation}) {
                       </HStack>
                     </Stack>
                   </Box>
-                </Box>
+                </Box> */}
 
                 {/* Accountability Notification */}
                 <Box alignItems="center">
@@ -724,7 +722,9 @@ export default function Settings({route, navigation}) {
                         <Image
                           marginTop="3%"
                           marginRight="29%"
-                          source={cameraIcon}
+                          source={{
+                            uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582510/religious-assistant/static_assets/camera_ic_bmpgw3.png',
+                          }}
                           style={{
                             height: 55,
                             width: 55,
@@ -740,7 +740,9 @@ export default function Settings({route, navigation}) {
                         onPress={choosePhotoFromLibrary}>
                         <Image
                           marginTop="6%"
-                          source={galleryIcon}
+                          source={{
+                            uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582519/religious-assistant/static_assets/gallery_ic_hftyft.png',
+                          }}
                           style={{
                             height: 55,
                             width: 55,
@@ -767,7 +769,7 @@ export default function Settings({route, navigation}) {
         </>
       )}
     </View>
-  ): (
+  ) : (
     <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {
