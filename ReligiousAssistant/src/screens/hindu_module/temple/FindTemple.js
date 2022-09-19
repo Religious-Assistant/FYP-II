@@ -60,6 +60,7 @@ export default function FindTemple() {
   const navigator = useNavigation();
 
   const closesTemples = useSelector(selectClosestTemples);
+  console.log("temple",closesTemples)
   const user = useSelector(selectUserData);
   const isFocused = useIsFocused();
 
@@ -88,7 +89,7 @@ export default function FindTemple() {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: 'Location Permission',
+          title: 'Geolocation Permission',
           message: "App needs access to your phone's location.",
         },
       );
@@ -96,11 +97,18 @@ export default function FindTemple() {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-            dispatch(getClosestTemples(position.coords));
-            setSourceCoordinates(position.coords);
+            const {latitude, longitude} = position.coords;
+            //console.log(latitude, longitude);
+            dispatch(
+              getClosestTemples({
+                longitude: longitude,
+                latitude: latitude,
+              }),
+            );
           },
           error => {
-            alert(`Error while seeking Permission. ${error.code}`);
+            // See error code charts below.
+            console.log(error.code, error.message);
           },
           {enableHighAccuracy: false, timeout: 15000},
         );
