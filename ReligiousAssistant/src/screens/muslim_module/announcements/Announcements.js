@@ -72,7 +72,7 @@ export default function Announcements() {
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
   const isFocused = useIsFocused();
-  let announcementsArray = [...announcements];
+  let announcementsArray = announcements?[...announcements]:[];
   announcementsArray.reverse();
   useEffect(() => {
     checkConnected().then(res => {
@@ -104,8 +104,8 @@ export default function Announcements() {
         ) : (
           <FlatList
             style={styles.root}
-            data={announcementsArray}
-            extraData={announcementsArray}
+            data={announcementsArray?announcementsArray:announcements}
+            extraData={announcementsArray?announcementsArray:announcements}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {
