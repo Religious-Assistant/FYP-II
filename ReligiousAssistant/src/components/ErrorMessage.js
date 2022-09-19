@@ -4,12 +4,11 @@
  */
 
 import React from 'react';
-import {View, Text, StyleSheet, Link} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {Link} from 'native-base';
 
-//icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-//theme
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 

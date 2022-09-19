@@ -10,7 +10,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
-  View
+  View,
 } from 'react-native';
 import {
   Center,
@@ -19,6 +19,8 @@ import {
   Button,
   Select,
   CheckIcon,
+  Link,
+  Text,
 } from 'native-base';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -28,6 +30,7 @@ import * as yup from 'yup';
 //icons
 import Ioicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 //theme
 import colors from '../../theme/colors';
@@ -69,7 +72,11 @@ const phoneRegExp = '^((\\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$';
 const registerValidationSchema = yup.object().shape({
   username: yup.string().required('username is required'),
   password: yup.string().min(8).required('Password is required'),
-  mobile: yup.string().required('Phone number is required').matches(phoneRegExp, 'Phone number is not valid').min(11),
+  mobile: yup
+    .string()
+    .required('Phone number is required')
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(11),
   religion: yup.number().required('Religion is Required'),
 });
 
@@ -98,27 +105,28 @@ export default function RegisterScreen() {
   }, []);
 
   function signupHandler(values) {
-
-    dispatch(getOTPCode({mobile:values.mobile}))
-    setRegisterValues({...values,
-      location:{longitude: position?position.longitude:68.5953277, latitude: position?position.latitude:27.3027566}
-    })
+    dispatch(getOTPCode({mobile: values.mobile}));
+    setRegisterValues({
+      ...values,
+      location: {
+        longitude: position ? position.longitude : 68.5953277,
+        latitude: position ? position.latitude : 27.3027566,
+      },
+    });
   }
 
   function enterAsGuest() {
     navigator.navigate(ENTER_AS_GUEST);
   }
 
-  useEffect(()=>{
-
-    if(!hasErrorGetOtpCode && isObtainedOTP){
-      navigator.navigate(OTP_VERIFICATION,{values:registerValues});
+  useEffect(() => {
+    if (!hasErrorGetOtpCode && isObtainedOTP) {
+      navigator.navigate(OTP_VERIFICATION, {values: registerValues});
     }
-    if(hasErrorGetOtpCode && !isObtainedOTP){
-      alert(`Number already in use, or error while getting OTP`)
+    if (hasErrorGetOtpCode && !isObtainedOTP) {
+      alert(`Number already in use, or error while getting OTP`);
     }
-
-  },[dispatch,hasErrorGetOtpCode, isObtainedOTP])
+  }, [dispatch, hasErrorGetOtpCode, isObtainedOTP]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

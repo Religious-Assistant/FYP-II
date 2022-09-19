@@ -64,8 +64,8 @@ import getDeviceToken from '../../../getDeviceToken';
 // });
 
 const loginValidationSchema = yup.object().shape({
-  username: yup.string(),
-  password: yup.string(),
+  username: yup.string().required('username is required'),
+  password: yup.string().required('password is required'),
 });
 
 export default function LoginScreen({navigation}) {
