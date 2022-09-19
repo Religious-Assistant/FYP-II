@@ -85,7 +85,7 @@ export default function Header() {
       <View style={[styles.subContainer1, {flex: user ? 0.4 : 0.6}]}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../../assets/images/time_ic.png')}
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572763/religious-assistant/static_assets/time_ic_squ7w4.png'}}
             style={{
               width: 25,
               height: 25,
@@ -100,7 +100,7 @@ export default function Header() {
         {user ? (
           <View style={styles.infoContainer} mt={2}>
             <Image
-              source={require('../../../../assets/images/location_ic.png')}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572808/religious-assistant/static_assets/location_ic_w7n2ng.png'}}
               style={{
                 width: 25,
                 height: 25,
@@ -119,7 +119,7 @@ export default function Header() {
       <View style={styles.subContainer2}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../../assets/images/islamic_date_ic.png')}
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572853/religious-assistant/static_assets/islamic_date_ic_kllvuk.png'}}
             style={{
               width: 25,
               height: 25,
@@ -132,7 +132,7 @@ export default function Header() {
 
         <View style={styles.infoContainer} mt={2}>
           <Image
-            source={require('../../../../assets/images/date_ic.png')}
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572899/religious-assistant/static_assets/date_ic_g1vgty.png'}}
             style={{
               width: 25,
               height: 25,
