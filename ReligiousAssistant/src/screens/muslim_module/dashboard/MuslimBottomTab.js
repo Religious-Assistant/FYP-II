@@ -104,7 +104,9 @@ export default function MuslimBottomTab() {
                     top: 10,
                   }}>
                   <Image
-                    source={require('../../../../assets/images/home_ic.png')}
+                    source={{
+                      uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577864/religious-assistant/static_assets/home_ic_yb67jc.png',
+                    }}
                     resizeMode="contain"
                     style={{
                       width: 25,
@@ -145,7 +147,9 @@ export default function MuslimBottomTab() {
                       top: 10,
                     }}>
                     <Image
-                      source={require('../../../../assets/images/notifications_ic.png')}
+                      source={{
+                        uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577910/religious-assistant/static_assets/notifications_ic_wjdd4q.png',
+                      }}
                       resizeMode="contain"
                       style={{
                         width: 25,
@@ -177,7 +181,9 @@ export default function MuslimBottomTab() {
               tabBarIcon: ({focused}) => {
                 return (
                   <Image
-                    source={require('../../../../assets/images/search_mosque_ic.png')}
+                    source={{
+                      uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663578008/religious-assistant/static_assets/search_mosque_ic_henbwa.png',
+                    }}
                     resizeMode="contain"
                     style={{
                       width: 30,
@@ -208,7 +214,9 @@ export default function MuslimBottomTab() {
                       top: 10,
                     }}>
                     <Image
-                      source={require('../../../../assets/images/time_ic.png')}
+                      source={{
+                        uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572763/religious-assistant/static_assets/time_ic_squ7w4.png',
+                      }}
                       resizeMode="contain"
                       style={{
                         width: 25,
@@ -246,7 +254,9 @@ export default function MuslimBottomTab() {
                       top: 10,
                     }}>
                     <Image
-                      source={require('../../../../assets/images/settings_ic.png')}
+                      source={{
+                        uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577812/religious-assistant/static_assets/settings_ic_dolfie.png',
+                      }}
                       resizeMode="contain"
                       style={{
                         width: 25,

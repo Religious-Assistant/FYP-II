@@ -16,19 +16,6 @@ import {Heading, Image, Text, Center, VStack, ScrollView} from 'native-base';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
-//images
-import registerScreenImg from '../../../assets/images/registerScreen.png';
-import muslimDashboardImg from '../../../assets/images/muslimDashboard.jpg';
-import hinduDashboardImg from '../../../assets/images/hinduDashboard.jpg';
-import settingsImg from '../../../assets/images/settingsScreen.jpg';
-import addMosqueImg from '../../../assets/images/addMosqueScreen.jpg';
-import namazAccImg from '../../../assets/images/namazAccountabilityScreen.jpg';
-import fastAccImg from '../../../assets/images/fastAccountabilityScreen.jpg';
-import consensusImg from '../../../assets/images/consensus.jpg';
-import findMosqueImg1 from '../../../assets/images/findMosque.jpg';
-import findMosqueImg2 from '../../../assets/images/findMosque2.jpg';
-import mosqueIcon from '../../../assets/images/Logo-combined.png';
-
 export default function UserManual() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -49,7 +36,7 @@ export default function UserManual() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={mosqueIcon}
+                source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574772/religious-assistant/static_assets/Logo-combined_ehsavt.png'}}
                 style={{
                   marginTop: '10%',
                   marginRight: '5%',
@@ -196,7 +183,7 @@ export default function UserManual() {
                   button and register.
                 </Text>
                 <Image
-                  source={registerScreenImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576803/religious-assistant/static_assets/registerScreen_i13ug5.png'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -233,7 +220,7 @@ export default function UserManual() {
                   profile.
                 </Text>
                 <Image
-                  source={muslimDashboardImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576821/religious-assistant/static_assets/muslimDashboard_ykwzyl.jpg'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -267,7 +254,7 @@ export default function UserManual() {
                   dashboard of registered Hindu users
                 </Text>
                 <Image
-                  source={hinduDashboardImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577574/religious-assistant/static_assets/hinduDashboard_slnb3t.jpg'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -291,7 +278,7 @@ export default function UserManual() {
                   Namaz notifications
                 </Text>
                 <Image
-                  source={settingsImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577574/religious-assistant/static_assets/settings_ka1mme.jpg'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -322,7 +309,7 @@ export default function UserManual() {
                     alignItems: 'center',
                   }}>
                   <Image
-                    source={findMosqueImg1}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576936/religious-assistant/static_assets/findMosque_abosig.jpg'}}
                     style={{
                       marginTop: '5%',
                       marginRight: '5%',
@@ -337,7 +324,7 @@ export default function UserManual() {
                     alt="icon .."
                   />
                   <Image
-                    source={findMosqueImg2}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576936/religious-assistant/static_assets/findMosque2_t6f9yw.jpg'}}
                     style={{
                       alignSelf: 'center',
                       marginTop: '5%',
@@ -368,7 +355,7 @@ export default function UserManual() {
                   information is correct the Mosque or Temple will be added.
                 </Text>
                 <Image
-                  source={addMosqueImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576843/religious-assistant/static_assets/addMosqueScreen_y7jewz.jpg'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
@@ -401,7 +388,7 @@ export default function UserManual() {
                     alignItems: 'center',
                   }}>
                   <Image
-                    source={namazAccImg}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577577/religious-assistant/static_assets/namazAccountability_dfxadh.jpg'}}
                     style={{
                       marginTop: '5%',
                       marginRight: '5%',
@@ -416,7 +403,7 @@ export default function UserManual() {
                     alt="icon .."
                   />
                   <Image
-                    source={fastAccImg}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577565/religious-assistant/static_assets/fastAccountability_hwsy18.jpg'}}
                     style={{
                       alignSelf: 'center',
                       marginTop: '5%',
@@ -440,7 +427,7 @@ export default function UserManual() {
                   notifications to which you have to give correct response.
                 </Text>
                 <Image
-                  source={consensusImg}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663576873/religious-assistant/static_assets/consensus_unnacw.jpg'}}
                   style={{
                     alignSelf: 'center',
                     marginTop: '5%',
