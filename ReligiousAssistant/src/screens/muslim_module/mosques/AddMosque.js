@@ -100,7 +100,7 @@ export default function AddMosque({route, navigation}) {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={mosqueICon}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573150/religious-assistant/static_assets/rakah_ic_nzzr5p.png'}}
               style={{
                 marginTop: '10%',
                 marginRight: '5%',

@@ -10,9 +10,6 @@ import {Heading, Image} from 'native-base';
 
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
-//images
-import timeICon from '../../../../assets/images/applyAsImam_ic.png';
-
 //fonts
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -102,7 +99,7 @@ export default function ApplyAsImam() {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={timeICon}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574570/religious-assistant/static_assets/applyAsImam_ic_gwnaqn.png'}}
               style={{
                 marginTop: '10%',
                 marginRight: '5%',

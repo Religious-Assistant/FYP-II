@@ -8,9 +8,6 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {Heading, Image, Center, Box} from 'native-base';
 
-//images
-import timeICon from '../../../../assets/images/clock_ic.png';
-
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -78,35 +75,35 @@ export default function NamazTimeByMoque({navigation}) {
           title: 'Fajr',
           startTime: mosqueTimes?.fajr?.startTime,
           endTime: mosqueTimes?.fajr?.endTime,
-          image: require('../../../../assets/images/fajr_img.jpeg'),
+          image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573861/religious-assistant/static_assets/fajr_img_ihd1vm.webp'},
         },
         {
           key: 2,
           title: 'Zuhr',
           startTime: mosqueTimes?.zuhr?.startTime,
           endTime: mosqueTimes?.zuhr?.endTime,
-          image: require('../../../../assets/images/duhr_img.jpeg'),
+          image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573872/religious-assistant/static_assets/duhr_img_cdbc12.webp'},
         },
         {
           key: 3,
           title: 'Asr',
           startTime: mosqueTimes?.asr?.startTime,
           endTime: mosqueTimes?.asr?.endTime,
-          image: require('../../../../assets/images/asr_img.jpeg'),
+          image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573881/religious-assistant/static_assets/asr_img_eyygmx.png'},
         },
         {
           key: 4,
           title: 'Maghrib',
           startTime: mosqueTimes?.maghrib?.startTime,
           endTime: mosqueTimes?.maghrib?.endTime,
-          image: require('../../../../assets/images/maghrib_img.jpeg'),
+          image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573890/religious-assistant/static_assets/maghrib_img_p2uriw.png'},
         },
         {
           key: 5,
           title: 'Isha',
           startTime: mosqueTimes?.isha?.startTime,
           endTime: mosqueTimes?.isha?.endTime,
-          image: require('../../../../assets/images/isha_img.jpeg'),
+          image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573897/religious-assistant/static_assets/isha_img_nu5mul.webp'},
         },
       ]);
     }
@@ -146,7 +143,7 @@ export default function NamazTimeByMoque({navigation}) {
         </View>
         <View style={{flex: 0.5, alignItems: 'flex-end'}}>
           <Image
-            source={timeICon}
+            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png'}}
             style={{
               marginTop: '12%',
               marginRight: '5%',

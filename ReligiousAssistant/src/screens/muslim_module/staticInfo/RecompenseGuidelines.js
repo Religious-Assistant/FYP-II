@@ -11,9 +11,6 @@ import {VStack, Divider, Box, Stack, Heading, ScrollView} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import guidelinesIcon from '../../../../assets/images/file-info.png';
-
 export default function RecompenseGuidelines({navigation}) {
   const guidelines = [
     {
@@ -95,7 +92,7 @@ export default function RecompenseGuidelines({navigation}) {
         <Image
           marginTop="4%"
           marginLeft="16%"
-          source={guidelinesIcon}
+          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574498/religious-assistant/static_assets/file-info_p3sbu0.png'}}
           style={{
             height: 75,
             width: 75,

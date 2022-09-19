@@ -21,9 +21,6 @@ import {
   Card,
 } from 'native-base';
 
-//images
-import clockIcon from '../../../../assets/images/clock_ic.png';
-
 //custom components
 import CustomButton from '../../../components/CustomButton';
 
@@ -231,7 +228,7 @@ export default function UpdatePrayerTimes() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={clockIcon}
+                source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png'}}
                 style={{
                   marginTop: '10%',
                   marginRight: '5%',

@@ -11,9 +11,6 @@ import {VStack, Divider, Box, Heading, FlatList} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import duaIcon from '../../../../assets/images/dua_ic.png';
-
 export default function AllahNames({navigation}) {
   const namesOfAllah = [
     {
@@ -517,7 +514,7 @@ export default function AllahNames({navigation}) {
       <View style={styles.header}>
         <Image
           marginTop="5%"
-          source={duaIcon}
+          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574409/religious-assistant/static_assets/dua_ic_xnvmkz.png'}}
           style={{
             height: 75,
             width: 75,

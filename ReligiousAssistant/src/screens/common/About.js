@@ -17,13 +17,6 @@ import {
   ScrollView,
 } from 'native-base';
 
-//images
-import logo from '../../../assets/images/Logo-combined.png';
-import ibaLogo from '../../../assets/images/iba_logo.png';
-import nadirImg from '../../../assets/images/nadir.png';
-import akashImg from '../../../assets/images/akash_img.png';
-import kinzaImg from '../../../assets/images/kinza_img.jpg';
-
 //theme
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -33,19 +26,19 @@ export default function About() {
     {
       key: 1,
       name: 'Nadir Hussain',
-      image: nadirImg,
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574619/religious-assistant/static_assets/nadir_vrr5jz.jpg'},
       email: 'nadirhussain.bcsf18@iba-suk.edu.pk',
     },
     {
       key: 2,
       name: 'Kinza Kiran',
-      image: kinzaImg,
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574614/religious-assistant/static_assets/kinza_img_qov03o.jpg'},
       email: 'kinzakiran.bsef18@iba-suk.edu.pk',
     },
     {
       key: 3,
       name: 'Akash Kumar',
-      image: akashImg,
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574626/religious-assistant/static_assets/akash_img_hu6qxw.png'},
       email: 'akashkumar.bcsf18@iba-suk.edu.pk',
     },
   ];
@@ -68,7 +61,7 @@ export default function About() {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={logo}
+                source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574772/religious-assistant/static_assets/Logo-combined_ehsavt.png'}}
                 style={{
                   marginTop: '10%',
                   marginRight: '5%',
@@ -114,7 +107,7 @@ export default function About() {
                 <HStack justifyContent="space-between">
                   <Image
                     mt={'-5%'}
-                    source={ibaLogo}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574726/religious-assistant/static_assets/iba_logo_s5qxgb.jpg'}}
                     style={styles.avatar}
                     alt="icon .."
                   />

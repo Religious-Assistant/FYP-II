@@ -18,10 +18,6 @@ import {
 } from '../../../redux/slices/muslim_module_slices/tasbihSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
-//images
-import tasbihIcon from '../../../../assets/images/tasbih_ic.png';
-import tasbihImg from '../../../../assets/images/tasbih_img.png';
-
 //custom components
 import CustomButton from '../../../components/CustomButton';
 import Header from '../../../components/Header';
@@ -57,7 +53,7 @@ export default function TasbihCounter() {
     <View style={{flex: 1, backgroundColor: colors.white}}>
       {/* Header */}
       <Header
-        image={tasbihIcon}
+        image={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574183/religious-assistant/static_assets/tasbih_ic_encbdn.png'}}
         title1="Remember your Lord and"
         title2="He will remember you"
         height={0.2}
@@ -94,7 +90,7 @@ export default function TasbihCounter() {
               size={230}
               resizeMode={'contain'}
               borderRadius={210}
-              source={tasbihImg}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663574263/religious-assistant/static_assets/tasbih_img_zaajsd.jpg'}}
               alt="Alternate Text"
             />
           </Center>
