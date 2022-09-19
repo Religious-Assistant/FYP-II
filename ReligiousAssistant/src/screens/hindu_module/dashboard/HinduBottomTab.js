@@ -103,7 +103,7 @@ export default function HinduBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../../assets/images/home_ic.png')}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577864/religious-assistant/static_assets/home_ic_yb67jc.png'}}
                   resizeMode="contain"
                   style={{
                     width: 25,
@@ -142,7 +142,7 @@ export default function HinduBottomTab() {
                     top: 10,
                   }}>
                   <Image
-                    source={require('../../../../assets/images/notifications_ic.png')}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577910/religious-assistant/static_assets/notifications_ic_wjdd4q.png'}}
                     resizeMode="contain"
                     style={{
                       width: 25,
@@ -172,7 +172,7 @@ export default function HinduBottomTab() {
             headerShown: false,
             tabBarIcon: ({focused}) => (
               <Image
-                source={require('../../../../assets/images/search_temple_ic.png')}
+                source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663583244/religious-assistant/static_assets/search_temple_ic_p3rikq.png'}}
                 resizeMode="contain"
                 style={{
                   width: 50,
@@ -198,7 +198,7 @@ export default function HinduBottomTab() {
                   top: 10,
                 }}>
                 <Image
-                  source={require('../../../../assets/images/info_ic1.png')}
+                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663583245/religious-assistant/static_assets/info_ic1_fozctf.png'}}
                   resizeMode="contain"
                   style={{
                     width: 25,
@@ -232,7 +232,7 @@ export default function HinduBottomTab() {
                     top: 10,
                   }}>
                   <Image
-                    source={require('../../../../assets/images/settings_ic.png')}
+                    source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663577812/religious-assistant/static_assets/settings_ic_dolfie.png'}}
                     resizeMode="contain"
                     style={{
                       width: 25,

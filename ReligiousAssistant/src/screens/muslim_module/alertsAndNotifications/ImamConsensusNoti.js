@@ -16,9 +16,6 @@ import {Heading, Image, Text, VStack, Box, HStack, Divider} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//image
-import voteIcon from '../../../../assets/images/vote_ic.png';
-
 //custom component
 import CustomButton from '../../../components/CustomButton';
 import Loader from '../../common/Loader';
@@ -107,7 +104,7 @@ export default function ImamConsensusNoti({route, navigation}) {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={voteIcon}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663584491/religious-assistant/static_assets/vote_ic_n61hyf.png'}}
               style={{
                 marginTop: '10%',
                 marginRight: '5%',

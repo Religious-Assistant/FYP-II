@@ -115,7 +115,9 @@ const Prayers = ({navigation}) => {
           </View>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={prayerIcon}
+              source={{
+                uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663584579/religious-assistant/static_assets/prayer_vmbgrn.png',
+              }}
               style={{
                 marginTop: '12%',
                 marginRight: '45%',

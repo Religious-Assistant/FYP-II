@@ -14,19 +14,6 @@ import {
 
 import {Image, Text, View} from 'native-base';
 
-//tab icons
-import profile_ic from '../../../../assets/images/profile_ic.png';
-import about_ic from '../../../../assets/images/about_ic.png';
-import share_ic from '../../../../assets/images/share_ic.png';
-
-//logout icon
-import logout_ic from '../../../../assets/images/logout_ic.png';
-
-//menu icons
-import menu from '../../../../assets/images/menu_ic.png';
-import close from '../../../../assets/images/close_ic.png';
-import help from '../../../../assets/images/help_ic.png';
-
 //theme
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
@@ -121,13 +108,13 @@ export default function RegisteredHinduDashboard() {
             }
 
             {user ? (
-              TabButton(currentTab, setCurrentTab, 'View Profile', profile_ic, user?.username)
+              TabButton(currentTab, setCurrentTab, 'View Profile', {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579243/religious-assistant/static_assets/profile_ic_mrgvep.png'}, user?.username)
             ) : (
               <></>
             )}
-            {TabButton(currentTab, setCurrentTab, 'About', about_ic, user?.username)}
-            {TabButton(currentTab, setCurrentTab, 'Share App', share_ic, user?.username)}
-            {TabButton(currentTab, setCurrentTab, 'Help', help, user?.username)}
+            {TabButton(currentTab, setCurrentTab, 'About', {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579266/religious-assistant/static_assets/about_ic_ukbwh1.png'}, user?.username)}
+            {TabButton(currentTab, setCurrentTab, 'Share App', {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579275/religious-assistant/static_assets/share_ic_tbdkau.png'}, user?.username)}
+            {TabButton(currentTab, setCurrentTab, 'Help', {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579283/religious-assistant/static_assets/help_ic_eflwne.png'}, user?.username)}
           </View>
 
           <View>
@@ -135,7 +122,7 @@ export default function RegisteredHinduDashboard() {
               currentTab,
               setCurrentTab,
               user ? 'LogOut' : 'Exit',
-              logout_ic,
+              {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579431/religious-assistant/static_assets/logout_ic_wdf0tl.png'},
               user?.username
             )}
           </View>
@@ -192,7 +179,7 @@ export default function RegisteredHinduDashboard() {
                   setShowMenu(!showMenu);
                 }}>
                 <Image
-                  source={showMenu ? close : menu}
+                  source={{uri:showMenu ? 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579483/religious-assistant/static_assets/close_ic_qzhm0n.png' : 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663579491/religious-assistant/static_assets/menu_ic_juuwal.png'}}
                   key={showMenu}
                   style={{
                     width: 20,

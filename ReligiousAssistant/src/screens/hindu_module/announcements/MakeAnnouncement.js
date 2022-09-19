@@ -12,9 +12,6 @@ import {Heading, Image, Center, TextArea, Select, CheckIcon} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import timeICon from '../../../../assets/images/announce_ic.png';
-
 //custom components
 import CustomButton from '../../../components/CustomButton';
 import Loader from '../../common/Loader';
@@ -74,7 +71,7 @@ export default function MakeAnnouncement() {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={timeICon}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573074/religious-assistant/static_assets/announce_ic_ki2fpd.png'}}
               tintColor={colors.secondary}
               style={{
                 marginTop: '20%',

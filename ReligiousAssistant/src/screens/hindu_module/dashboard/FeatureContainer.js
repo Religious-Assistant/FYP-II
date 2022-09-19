@@ -11,9 +11,6 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import lock from '../../../../assets/images/lock_ic.png';
-
 //navigation
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -50,19 +47,19 @@ export default function FeatureContainer() {
   const featureArray1 = [
     {
       title: 'Recite Gita',
-      image: require('../../../../assets/images/gita2_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582828/religious-assistant/static_assets/gita2_ic_gaiiac.png'},
       screen: RECITE_GITA,
       disabled: user ? false : true,
     },
     {
       title: 'Closest Temple',
-      image: require('../../../../assets/images/temple3_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582845/religious-assistant/static_assets/temple3_ic_ofzxs1.png'},
       screen: FIND_TEMPLE,
       disabled: false,
     },
     {
       title: 'Veg Days',
-      image: require('../../../../assets/images/veg2_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582850/religious-assistant/static_assets/veg2_ic_l0risz.png'},
       screen: VEG_DAYS,
       disabled: user ? false : true,
     },
@@ -71,19 +68,19 @@ export default function FeatureContainer() {
   const featureArray2 = [
     {
       title: 'Add Temple',
-      image: require('../../../../assets/images/add2_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582872/religious-assistant/static_assets/add2_ic_jmq5xg.png'},
       screen: ADD_TEMPLE,
       disabled: user ? false : true,
     },
     {
       title: 'View Calander',
-      image: require('../../../../assets/images/calendar_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582876/religious-assistant/static_assets/calendar_ic_k7xz4s.png'},
       screen: VIEW_HINDU_CALANDER,
       disabled: false,
     },
     {
       title: 'Announcements',
-      image: require('../../../../assets/images/announcement2_ic.png'),
+      image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582880/religious-assistant/static_assets/announcement2_ic_xltjb7.png'},
       screen: HINDU_ANNOUNCEMENTS,
       disabled: user ? false : true,
     },
@@ -136,7 +133,7 @@ export default function FeatureContainer() {
                     }}>
                     <FeatureCard>
                       <Image
-                        source={item?.disabled ? lock : item.image}
+                        source={item?.disabled ? {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663578167/religious-assistant/static_assets/lock_ic_rxfgxj.png'} : item.image}
                         style={{
                           height: 50,
                           width: 50,
@@ -170,7 +167,7 @@ export default function FeatureContainer() {
                     }}>
                     <FeatureCard>
                       <Image
-                        source={item?.disabled ? lock : item.image}
+                        source={item?.disabled ? {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663578167/religious-assistant/static_assets/lock_ic_rxfgxj.png'} : item.image}
                         style={{
                           height: 50,
                           width: 50,
@@ -205,7 +202,7 @@ export default function FeatureContainer() {
                   }}>
                   <FeatureCard>
                     <Image
-                      source={item?.disabled ? lock : item.image}
+                      source={item?.disabled ? {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663578167/religious-assistant/static_assets/lock_ic_rxfgxj.png'} : item.image}
                       style={{
                         height: 50,
                         width: 50,

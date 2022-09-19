@@ -17,10 +17,6 @@ import {Heading, Image, Text, ScrollView} from 'native-base';
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-//images
-import directionIcon from '../../../../assets/images/direction_ic.png';
-import templeIcon from '../../../../assets/images/temple_ic.png';
-
 //navigation
 import {useNavigation} from '@react-navigation/native';
 import {GOOGLE_MAP_DIRECTIONS_FOR_HINDU_USERS} from '../../../navigation/constants';
@@ -99,7 +95,9 @@ export default function NewTempleAddedNoti({route, navigation}) {
                 }}>
                 <View style={{flex: 0.5, alignItems: 'flex-end'}}>
                   <Image
-                    source={templeIcon}
+                    source={{
+                      uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663584199/religious-assistant/static_assets/temple_ic_hvumga.png',
+                    }}
                     style={{
                       marginTop: '10%',
                       marginRight: '5%',
@@ -152,7 +150,9 @@ export default function NewTempleAddedNoti({route, navigation}) {
                     }}
                     activeOpacity={0.6}>
                     <Image
-                      source={directionIcon}
+                      source={{
+                        uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413045/religious-assistant/static_assets/direction_ic_cantmg.png',
+                      }}
                       style={{
                         height: 40,
                         width: 40,

@@ -97,7 +97,9 @@ export default function NewMosqueAddedNoti({route, navigation}) {
                 }}>
                 <View style={{flex: 0.5, alignItems: 'flex-end'}}>
                   <Image
-                    source={mosqueIcon}
+                    source={{
+                      uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413006/religious-assistant/static_assets/closest_mosque_ic_snp3f2.png',
+                    }}
                     style={{
                       marginTop: '10%',
                       marginRight: '5%',
@@ -150,7 +152,9 @@ export default function NewMosqueAddedNoti({route, navigation}) {
                     }}
                     activeOpacity={0.6}>
                     <Image
-                      source={directionIcon}
+                      source={{
+                        uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663413045/religious-assistant/static_assets/direction_ic_cantmg.png',
+                      }}
                       style={{
                         height: 40,
                         width: 40,

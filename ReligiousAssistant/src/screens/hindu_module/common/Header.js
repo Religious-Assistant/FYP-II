@@ -27,9 +27,8 @@ import {
 import Geocoder from 'react-native-geocoding';
 
 export default function Header() {
-
   const [location, setLocation] = useState();
-  
+
   const [event, setEvent] = useState(null);
   const todayDate = new Date();
   const eventDate = `${todayDate.getFullYear()}-${(
@@ -81,19 +80,25 @@ export default function Header() {
       <View style={styles.subContainer1}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../../assets/images/islamic_date_ic.png')}
+            source={{
+              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572853/religious-assistant/static_assets/islamic_date_ic_kllvuk.png',
+            }}
             style={{
               width: 25,
               height: 25,
               tintColor: 'white',
             }}
             alt="Icon"></Image>
-          <Text numberOfLines={1} style={[styles.dateInfo, {fontSize: 18}]}>{event}</Text>
+          <Text numberOfLines={1} style={[styles.dateInfo, {fontSize: 18}]}>
+            {event}
+          </Text>
         </View>
 
         <View style={styles.infoContainer} mt={2}>
           <Image
-            source={require('../../../../assets/images/date_ic.png')}
+            source={{
+              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572899/religious-assistant/static_assets/date_ic_g1vgty.png',
+            }}
             style={{
               width: 25,
               height: 25,
@@ -109,7 +114,9 @@ export default function Header() {
       <View style={styles.subContainer2}>
         <View style={styles.infoContainer}>
           <Image
-            source={require('../../../../assets/images/time_ic.png')}
+            source={{
+              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572763/religious-assistant/static_assets/time_ic_squ7w4.png',
+            }}
             style={{
               width: 25,
               height: 25,
@@ -123,7 +130,9 @@ export default function Header() {
 
         <View style={styles.infoContainer} mt={2}>
           <Image
-            source={require('../../../../assets/images/location_ic.png')}
+            source={{
+              uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663572808/religious-assistant/static_assets/location_ic_w7n2ng.png',
+            }}
             style={{
               width: 25,
               height: 25,
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: 30,
     paddingLeft: 20,
-    marginLeft: "5%"
+    marginLeft: '5%',
   },
   namazInfoText: {
     fontFamily: fonts.Signika.medium,
@@ -174,11 +183,11 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     color: colors.white,
   },
-  locationInfo:{
+  locationInfo: {
     fontFamily: fonts.Signika.ligh,
     fontSize: 12,
     marginTop: 3,
     marginLeft: 3,
     color: colors.white,
-  }
+  },
 });

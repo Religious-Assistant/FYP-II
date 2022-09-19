@@ -20,8 +20,6 @@ import {
 import colors from '../../../theme/colors';
 import fonts from '../../../theme/fonts';
 
-import vegDays from '../../../../assets/images/vegDays_ic.png';
-
 import CustomButton from '../../../components/CustomButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -36,7 +34,6 @@ import {
 } from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
 
 const VegNonVegDays = () => {
-
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const vegData = useSelector(selectVegData);
@@ -86,13 +83,13 @@ const VegNonVegDays = () => {
   ];
 
   const [vegSubscription, setVegSubscription] = useState({
-    monday: vegData?vegData?.monday:false,
-    tuesday: vegData?vegData?.tuesday:false,
-    wednesday: vegData?vegData?.wednesday:false,
-    thursday: vegData?vegData?.thursday:false,
-    friday: vegData?vegData?.friday:false,
-    saturday: vegData?vegData?.saturday:false,
-    sunday: vegData?vegData?.sunday:false,
+    monday: vegData ? vegData?.monday : false,
+    tuesday: vegData ? vegData?.tuesday : false,
+    wednesday: vegData ? vegData?.wednesday : false,
+    thursday: vegData ? vegData?.thursday : false,
+    friday: vegData ? vegData?.friday : false,
+    saturday: vegData ? vegData?.saturday : false,
+    sunday: vegData ? vegData?.sunday : false,
   });
 
   function handlePress() {
@@ -124,7 +121,9 @@ const VegNonVegDays = () => {
             }}>
             <View style={{flex: 0.5, alignItems: 'flex-end'}}>
               <Image
-                source={vegDays}
+                source={{
+                  uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663583852/religious-assistant/static_assets/vegDays_ic_gajffq.png',
+                }}
                 style={{
                   marginTop: '10%',
                   marginBottom: '5%',
@@ -143,7 +142,7 @@ const VegNonVegDays = () => {
                 <Heading color={colors.white}>
                   <Text style={{fontFamily: fonts.Signika.bold}}>Days</Text>
                 </Heading>
-                </Heading>
+              </Heading>
             </View>
           </View>
           <View
@@ -189,7 +188,6 @@ const VegNonVegDays = () => {
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-
 };
 
 const Item = ({day, handleDayChange}) => {
@@ -218,7 +216,6 @@ const Item = ({day, handleDayChange}) => {
   );
 };
 
-
 export default VegNonVegDays;
 const styles = StyleSheet.create({
   text: {
@@ -231,4 +228,3 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
 });
-

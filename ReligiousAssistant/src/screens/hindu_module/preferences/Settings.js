@@ -39,12 +39,6 @@ import fonts from '../../../theme/fonts';
 import NoConnectionScreen from '../../common/NoConnectionScreen';
 import {checkConnected} from '../../common/CheckConnection';
 
-//images
-import editIcon from '../../../../assets/images/edit_ic.png';
-import cameraIcon from '../../../../assets/images/camera_ic.png';
-import galleryIcon from '../../../../assets/images/gallery_ic.png';
-import edit from '../../../../assets/images/edit.png';
-
 //Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {setTab} from '../../../redux/slices/hindu_module_slices/bottomNavSlice';
@@ -285,7 +279,7 @@ export default function Settings({route, navigation}) {
             <Image
               marginLeft="55%"
               marginTop="5%"
-              source={edit}
+              source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582531/religious-assistant/static_assets/edit_rb5wxb.png'}}
               style={{
                 height: 45,
                 width: 45,
@@ -353,7 +347,7 @@ export default function Settings({route, navigation}) {
                           onPress={() => openeModal('Change Password', true)}>
                           <Image
                             marginLeft="6%"
-                            source={editIcon}
+                            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582441/religious-assistant/static_assets/edit_ic_hap6nz.png'}}
                             style={{
                               height: 30,
                               width: 33,
@@ -488,7 +482,7 @@ export default function Settings({route, navigation}) {
                           }}>
                           <Image
                             marginLeft="6%"
-                            source={editIcon}
+                            source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582441/religious-assistant/static_assets/edit_ic_hap6nz.png'}}
                             style={{
                               height: 30,
                               width: 33,
@@ -555,7 +549,7 @@ export default function Settings({route, navigation}) {
                 </Box>
 
                 {/* AutoSilent Mode */}
-                <Box alignItems="center">
+                {/* <Box alignItems="center">
                   <Box
                     maxW="80"
                     rounded="lg"
@@ -588,7 +582,6 @@ export default function Settings({route, navigation}) {
                         flexDirection={'row'}
                         space={4}
                         justifyContent="space-between">
-                        {/* switch for Auto Silent mode */}
                         <HStack>
                           <Switch
                             offTrackColor="rose.300"
@@ -604,7 +597,7 @@ export default function Settings({route, navigation}) {
                       </HStack>
                     </Stack>
                   </Box>
-                </Box>
+                </Box> */}
               </VStack>
 
               {/* Modals */}
@@ -655,7 +648,7 @@ export default function Settings({route, navigation}) {
                         <Image
                           marginTop="3%"
                           marginRight="29%"
-                          source={cameraIcon}
+                          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582510/religious-assistant/static_assets/camera_ic_bmpgw3.png'}}
                           style={{
                             height: 55,
                             width: 55,
@@ -671,7 +664,7 @@ export default function Settings({route, navigation}) {
                         onPress={choosePhotoFromLibrary}>
                         <Image
                           marginTop="6%"
-                          source={galleryIcon}
+                          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582519/religious-assistant/static_assets/gallery_ic_hftyft.png'}}
                           style={{
                             height: 55,
                             width: 55,

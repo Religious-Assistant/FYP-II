@@ -80,7 +80,7 @@ const ReciteGita = () => {
       <Header
         title1="Recite Gita"
         title2="scripture is a dialogue between Pandava prince Arjuna and divine deity Krishna during the Kurukshetra war in the ancient Sanskrit epic-Mahabharata"
-        image={img}
+        image={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663582828/religious-assistant/static_assets/gita2_ic_gaiiac.png'}}
         title1Size={30}
         title2Size={15}
         title1Color={colors.secondary}

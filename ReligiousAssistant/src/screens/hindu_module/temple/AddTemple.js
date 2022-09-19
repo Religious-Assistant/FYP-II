@@ -19,9 +19,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import NoConnectionScreen from '../../common/NoConnectionScreen';
 import {checkConnected} from '../../common/CheckConnection';
 
-//images
-import templeICon from '../../../../assets/images/temple2_ic.png';
-
 //custom components
 import TextInput from '../../../components/TextInput';
 import CustomButton from '../../../components/CustomButton';
@@ -99,7 +96,9 @@ export default function AddTemple({route}) {
           }}>
           <View style={{flex: 0.5, alignItems: 'flex-end'}}>
             <Image
-              source={templeICon}
+              source={{
+                uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663583944/religious-assistant/static_assets/temple2_ic_tiewht.png',
+              }}
               style={{
                 marginTop: '10%',
                 marginRight: '-5%',
