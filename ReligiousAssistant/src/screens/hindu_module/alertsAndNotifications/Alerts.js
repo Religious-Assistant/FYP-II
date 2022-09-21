@@ -63,7 +63,6 @@ export default function Alerts({route, navigation}) {
 
   const user = useSelector(selectUserData);
 
-  //when tab is focused in MuslimBottomTab.js, this will be called
   useEffect(() => {
     checkConnected().then(res => {
       setConnectStatus(res);
@@ -97,7 +96,7 @@ export default function Alerts({route, navigation}) {
     // }
     // //unsubscribe on unmount
     // return unsubscribe;
-  }, [connectStatus,navigation, dispatch]);
+  }, [connectStatus, navigation, dispatch]);
 
   //Handle delete
   const handleDelete = item => {
@@ -113,7 +112,7 @@ export default function Alerts({route, navigation}) {
     }
   };
 
-  return connectStatus?(
+  return connectStatus ? (
     <>
       <View style={styles.root}>
         {isLoadingNotification ? (
@@ -150,7 +149,7 @@ export default function Alerts({route, navigation}) {
         )}
       </View>
     </>
-  ): (
+  ) : (
     <NoConnectionScreen
       onCheck={() => {
         checkConnected().then(res => {

@@ -158,7 +158,7 @@ export default function FeatureContainer() {
             },
             screen: TASBIH_COUNTER,
             key: 9,
-            disabled: user && data?.isImam ? false : true,
+            disabled: user ? false : true,
           },
           {
             title: 'View Calander',

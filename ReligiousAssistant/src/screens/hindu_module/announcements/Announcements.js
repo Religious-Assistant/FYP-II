@@ -69,7 +69,8 @@ export default function Announcements() {
   const hasErrorInAnnouncements = useSelector(selectHasErrorInAnnouncements);
   const user = useSelector(selectUserData);
 
-  let announcementsArray = [];
+  let announcementsArray = announcements?[...announcements]:[];
+  announcementsArray.reverse();
   
   useEffect(() => {
     checkConnected().then(res => {
@@ -78,22 +79,6 @@ export default function Announcements() {
     if (user) {
       dispatch(getAnnouncements({username: user.username}));
     }
-    // if(announcements){
-    //   Object.keys(announcements)
-    //   .sort()
-    //   .reverse()
-    //   .forEach(key => {
-    //     announcementsArray.push({
-    //       key: key,
-    //       _id: announcements[key]._id,
-    //       avatar: announcements[key].avatar,
-    //       statement: announcements[key].statement,
-    //       createdAt: announcements[key].createdAt,
-    //       announcedBy: announcements[key].announcedBy,
-    //     });
-    //   });
-    // }
-  
   }, [dispatch,connectStatus]);
 
   //Handle delete
@@ -116,8 +101,8 @@ export default function Announcements() {
         ) : (
           <FlatList
             style={styles.root}
-            data={announcements}
-            extraData={announcements}
+            data={announcementsArray?announcementsArray:announcements}
+            extraData={announcementsArray?announcementsArray:announcements}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {
