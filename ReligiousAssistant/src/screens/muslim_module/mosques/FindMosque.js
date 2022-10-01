@@ -56,6 +56,7 @@ import NoConnectionScreen from '../../common/NoConnectionScreen';
 import {checkConnected} from '../../common/CheckConnection';
 
 export default function FindMosque() {
+
   const [connectStatus, setConnectStatus] = useState(false);
   const dispatch = useDispatch();
   const navigator = useNavigation();
@@ -69,18 +70,19 @@ export default function FindMosque() {
       setConnectStatus(res);
     });
 
-    if (!user) {
-      dispatch(getUserData());
-    }
+    // if (!user) {
+    //   dispatch(getUserData());
+    // }
 
-    if (user) {
-      dispatch(
-        getClosestMosques({
-          longitude: user?.location?.coordinates[0],
-          latitude: user?.location?.coordinates[1],
-        }),
-      );
-    }
+      getLocation()
+    // if (user) {
+    //   dispatch(
+    //     getClosestMosques({
+    //       longitude: user?.location?.coordinates[0],
+    //       latitude: user?.location?.coordinates[1],
+    //     }),
+    //   );
+    // }
   }, [connectStatus, dispatch, isFocused]);
 
   getLocation = async () => {
@@ -96,8 +98,18 @@ export default function FindMosque() {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-            dispatch(getClosestMosques(position.coords));
-            setSourceCoordinates(position.coords);
+            // dispatch(getClosestMosques(position.coords));
+            // setSourceCoordinates(position.coords);
+
+            const {latitude, longitude} = position.coords;
+            //console.log(latitude, longitude);
+            dispatch(
+              getClosestMosques({
+                longitude: longitude,
+                latitude: latitude,
+              }),
+            );
+
           },
           error => {
             alert(`Error while seeking Permission. ${error.code}`);
