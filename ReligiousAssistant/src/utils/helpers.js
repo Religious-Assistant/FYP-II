@@ -44,7 +44,6 @@ export async function setHours(dt, time) {
   let seconds=secondsAndMeridum[0]
   let meridium=secondsAndMeridum[1]
 
-  console.log(`${hours}:${mins}:${seconds}`)
   dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours) : parseInt(hours));
   dt.setMinutes(parseInt(mins)); 
   dt.setSeconds(parseInt(seconds))

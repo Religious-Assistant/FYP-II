@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPATCH} from '../../../apis/apiService'
-import { update_accountability_notifications_setting, update_auto_silent_settings, update_location, update_namaz_notifications_setting, update_password, update_primupdate_primary_temple, ary_temple, update_profile_image, update_primary_temple, update_veg_notifications_setting, update_auto_silent_settings_for_hindu_user } from '../../endpoints';
+import { update_location, update_password , update_profile_image, update_primary_temple, update_veg_notifications_setting, update_auto_silent_settings_for_hindu_user } from '../../endpoints';
 
 const initialState = {
     profileData:null,

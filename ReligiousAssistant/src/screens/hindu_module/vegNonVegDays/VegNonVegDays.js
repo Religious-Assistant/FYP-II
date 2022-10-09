@@ -428,7 +428,7 @@ const VegNonVegDays = () => {
   };
 
   const setNotification = async time => {
-    await setHours(time, '08:00 am');
+    await setHours(time, '08:00:00 am');
     //6AM everyday
     PushNotification.localNotificationSchedule({
       channelId: 'veg_notification',

@@ -91,7 +91,6 @@ export const getUpdatedUserData = createAsyncThunk(
   'getUpdatedUserData',
   async body => {
     const result = await apiPOST(get_updated_user_data, body);
-    console.log(result)
     return result;
   },
 );
