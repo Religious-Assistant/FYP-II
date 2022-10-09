@@ -56,7 +56,7 @@ const getMosqueById = async (req, res) => {
 };
 
 const getClosestMosques = async (req, res) => {
-  console.log("Find closest Mosques API hit");
+  console.log("Find closest Mosques API hit", req.body);
 
   const { longitude, latitude } = req.body;
 
@@ -135,7 +135,7 @@ const addMosque = async (req, res) => {
       const voteCasters = [];
       await peopleAround.map((person) => {
         // if(person!==addedBy){
-          voteCasters.push({ username: person, hasVoted: false });
+        voteCasters.push({ username: person, hasVoted: false });
         // }
       });
 
@@ -241,7 +241,7 @@ const castUpvote = async (req, res) => {
           namazTimes = await namazTimes.json();
           let timings = namazTimes.data.timings;
 
-          //TODO: Check if default mosque Namaz times are added to MosqueNamazTimes collection 
+          //TODO: Check if default mosque Namaz times are added to MosqueNamazTimes collection
           const updateNamazTimes = await MosqueNamazTimes.create({
             mosqueId: mosqueId,
             updatedBy: "default",

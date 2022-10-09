@@ -1,10 +1,10 @@
 const NamazAlarmTimes = require("../../models/muslim_user_models/namazAlarmsModel");
 
 const updateNamazAlarmsTimes = async (req, res) => {
-  console.log("Update Namaz Alarms times API hit");
+  console.log("Update Namaz Alarms times API hit", req.body);
   try {
     const { username, fajr, zuhr, asr, maghrib, isha } = req.body;
-    const previousData=await NamazAlarmTimes.findOne({username})
+    const previousData = await NamazAlarmTimes.findOne({ username });
 
     const updatedAlamrs = await NamazAlarmTimes.findOneAndUpdate(
       { username },

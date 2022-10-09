@@ -199,7 +199,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const getUpdatedUserdata = async (req, res) => {
   console.log("Get Updated User Data hit");
   try {
@@ -214,6 +213,9 @@ const getUpdatedUserdata = async (req, res) => {
         const preferences = await MuslimPreference.findOne({ username });
         const alarms = await NamazAlarms.findOne({ username });
         let imam = await Imam.findOne({ username: username });
+
+        console.log(user_data._doc);
+
         res.send({
           success: true,
           data: {
@@ -351,7 +353,6 @@ const sendOTPCode = async (req, res) => {
   console.log("GET OTP Hit");
   try {
     const { mobile } = req.body;
-
     console.log(mobile);
     const doesExist = await User.findOne({ mobile: mobile });
 
@@ -396,6 +397,7 @@ const verifyOTPCode = async (req, res) => {
   try {
     const { otpId, otpCode } = req.body;
     let otp_id = otpId.otp_id;
+    console.log(otpCode);
     fetch("https://d7networks.com/api/verifier/verify", {
       method: "POST",
       headers: {
@@ -677,18 +679,18 @@ const deleteDeviceToken = async (req, res) => {
   try {
     const { username } = req.body;
 
-    DeviceToken.findOneAndDelete({ username }).then(deleted=>{
-      res.status(200).send({
-        success: true,
-        msg: "Deleted Successfully",
+    DeviceToken.findOneAndDelete({ username })
+      .then((deleted) => {
+        res.status(200).send({
+          success: true,
+          msg: "Deleted Successfully",
+        });
+      })
+      .catch((error) => {
+        res.status(400).send({ success: false, msg: "Could not Delete" });
       });
-    }).catch(error=>{
-      res.status(400).send({ success: false, msg: "Could not Delete" });
-    });
   } catch (err) {
-    res
-      .status(400)
-      .send({ success: false, msg: "Could not DELETE" });
+    res.status(400).send({ success: false, msg: "Could not DELETE" });
   }
 };
 
