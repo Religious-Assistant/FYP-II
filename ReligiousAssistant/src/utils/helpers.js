@@ -35,7 +35,7 @@ function timeSince(date) {
 }
 
 
-export function setHours(dt, time) {
+export async function setHours(dt, time) {
   var splitted = time.split(":");
   
   let hours=splitted[0]
@@ -44,6 +44,7 @@ export function setHours(dt, time) {
   let seconds=secondsAndMeridum[0]
   let meridium=secondsAndMeridum[1]
 
+  console.log(`${hours}:${mins}:${seconds}`)
   dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours) : parseInt(hours));
   dt.setMinutes(parseInt(mins)); 
   dt.setSeconds(parseInt(seconds))

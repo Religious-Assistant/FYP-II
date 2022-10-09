@@ -16,22 +16,31 @@ import {
   ScrollView,
   FormControl,
 } from 'native-base';
+import {useEffect} from 'react';
+import PushNotification from 'react-native-push-notification';
 
-import colors from '../../../theme/colors';
-import fonts from '../../../theme/fonts';
-
+//custom
 import CustomButton from '../../../components/CustomButton';
+
+//redux
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
-import {useEffect} from 'react';
 import {
   getVegData,
   selectVegData,
   setVegData,
 } from '../../../redux/slices/hindu_module_slices/vegNonVegSlice';
+
+//theme
+import colors from '../../../theme/colors';
+import fonts from '../../../theme/fonts';
+
+//images
+import appIcon from '../../../../assets/images/Logo-muslim.png';
+import {setHours} from '../../../utils/helpers';
 
 const VegNonVegDays = () => {
   const dispatch = useDispatch();
@@ -43,7 +52,27 @@ const VegNonVegDays = () => {
       dispatch(getUserData());
     }
     dispatch(getVegData({username: user?.username}));
-  }, [dispatch]);
+
+    PushNotification.channelExists('veg_notification', async exists => {
+      if (!exists) {
+        PushNotification.createChannel(
+          {
+            channelId: 'veg_notification',
+            channelName: 'My Veg Channel',
+            channelDescription:
+              'A channel to categorise your veg notifications',
+            // soundName: 'azan2.mp3',
+            importance: 5,
+            vibrate: true,
+          },
+          created => {
+            console.log(`createChannel returned '${created}'`);
+          },
+        );
+      }
+    });
+  }, [dispatch, vegData]); //TODO: Remove vegData incase problem
+
   const days = [
     {
       key: 1,
@@ -92,8 +121,303 @@ const VegNonVegDays = () => {
     sunday: vegData ? vegData?.sunday : false,
   });
 
-  function handlePress() {
+  async function handlePress() {
     dispatch(setVegData({username: user?.username, vegSubscription}));
+
+    console.log("Scheduled Veg Notfs")
+    PushNotification.getScheduledLocalNotifications(noti => {
+      console.log(noti);
+    });
+
+    // let scheduled=["2022-10-11T07:35:00.806Z","2022-10-16T07:35:00.806Z","2022-10-15T07:35:00.806Z","2022-10-12T07:35:00.806Z","2022-10-10T07:35:00.805Z"]
+    // for(let i=0;i<scheduled.length;i++){
+    //   let date = new Date(scheduled[i]);
+
+    //   console.log(
+    //     date.getFullYear() +
+    //       '-' +
+    //       (date.getMonth() + 1) +
+    //       '-' +
+    //       date.getDate() +
+    //       '-' +
+    //       date.getHours() +
+    //       '-' +
+    //       date.getMinutes() +
+    //       '-' +
+    //       date.getSeconds(),
+    //   );
+    // }
+
+
+    var days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const time1 = new Date();
+    var dayName = days[time1.getDay()].toLowerCase();
+
+    PushNotification.cancelAllLocalNotifications();
+    switch (dayName) {
+      case 'monday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+
+        break;
+      case 'tuesday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        break;
+      case 'wednesday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+
+        break;
+      case 'thursday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        break;
+      case 'friday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        break;
+      case 'saturday':
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        break;
+      default:
+        if (vegSubscription.monday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 1);
+          setNotification(time);
+        }
+        if (vegSubscription.tuesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 2);
+          setNotification(time);
+        }
+        if (vegSubscription.wednesday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 3);
+          setNotification(time);
+        }
+        if (vegSubscription.thursday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 4);
+          setNotification(time);
+        }
+        if (vegSubscription.friday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 5);
+          setNotification(time);
+        }
+        if (vegSubscription.saturday) {
+          let time = new Date();
+          time.setDate(time.getDate() + 6);
+          setNotification(time);
+        }
+        if (vegSubscription.sunday) {
+          let time = new Date();
+          setNotification(time);
+        }
+        break;
+    }
   }
 
   const handleDayChange = (state, day) => {
@@ -103,6 +427,23 @@ const VegNonVegDays = () => {
     }));
   };
 
+  const setNotification = async time => {
+    await setHours(time, '08:00 am');
+    //6AM everyday
+    PushNotification.localNotificationSchedule({
+      channelId: 'veg_notification',
+      title: '⏰Veg Non-veg Notification⏰',
+      message: 'Is it your veg day today?',
+      bigText: 'Religious Assistant detected, it is your veg day',
+      importance: 4,
+      vibrate: true,
+      smallIcon: appIcon,
+      date: time,
+      allowWhileIdle: true,
+      repeatType: 'week',
+      repeatTime: 1,
+    });
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView

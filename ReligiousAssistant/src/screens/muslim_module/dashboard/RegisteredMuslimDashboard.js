@@ -44,6 +44,7 @@ import {
 import {selectCurrentTab} from '../../../redux/slices/muslim_module_slices/bottomNavSlice';
 import Loader from '../../common/Loader';
 import PushNotification from 'react-native-push-notification';
+import { selectProfileData } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 
 export default function RegisteredMuslimDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -62,6 +63,19 @@ export default function RegisteredMuslimDashboard() {
   const isLoadingGetUserData = useSelector(selectIsLoadingGetUserData);
   const hasError = useSelector(selectHasError);
 
+  const profileData=useSelector(selectProfileData)
+  const [avatar, setAvatar]=useState({
+    image:!profileData?user?.avatar:profileData?.avatar,
+    key:0
+  })
+
+  useEffect(()=>{
+
+    if(profileData){
+      setAvatar({image: profileData?.avatar, key: 3});
+    }
+  },[profileData?.avatar])
+
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch, selectedTab]);
@@ -77,7 +91,7 @@ export default function RegisteredMuslimDashboard() {
               alignItems: 'center',
             }}>
             <Image
-              source={{uri: user?.avatar}}
+              source={{uri: avatar.image}}
               style={{
                 width: 80,
                 height: 80,
@@ -288,10 +302,11 @@ const TabButton = (currentTab, setCurrentTab, title, image, username) => {
           if (title === 'exit') {
             dispatch(deleteDeviveToken({username}));
           }
-          // dispatch(deleteDeviveToken({username}));
+          
           dispatch(logout());
           PushNotification.cancelAllLocalNotifications();
           navigator.navigate(AUTH_STACK);
+
         } else if (title == 'view profile') {
           navigator.navigate(MUSLIM_VIEW_PROFILE);
         } else if (title == 'about') {

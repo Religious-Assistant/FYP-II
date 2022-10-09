@@ -213,6 +213,9 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-analytics'
     
+    //TODO: For push notifications - Nadir added
+    implementation project(':react-native-push-notification')
+    
     compile 'com.facebook.fresco:fresco:2.5.0'
     // For animated GIF support
     compile 'com.facebook.fresco:animated-gif:2.5.0'
