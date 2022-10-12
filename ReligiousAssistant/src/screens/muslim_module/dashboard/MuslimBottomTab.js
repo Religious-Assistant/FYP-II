@@ -35,6 +35,7 @@ import {
   getUserData,
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
+import { useState } from 'react';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -65,10 +66,12 @@ export default function MuslimBottomTab() {
   const dispatch = useDispatch();
   const notifications = useSelector(selectMuslimNotifications);
   const user = useSelector(selectUserData);
+  let [notfCount, setNotfCount]=useState(0)
 
   useEffect(() => {
     dispatch(getUserData());
-  }, []);
+    setNotfCount(notifications?notifications.length:0)
+  }, [notfCount, notifications]);
 
   return (
     <>
@@ -132,7 +135,7 @@ export default function MuslimBottomTab() {
             options={{
               // tabBarLabel:'Home',
               headerShown: false,
-              tabBarBadge: notifications ? notifications.length : null,
+              tabBarBadge: notfCount>0?notfCount:null,
               tabBarBadgeStyle: {
                 color: colors.primary,
                 backgroundColor: colors.secondary,

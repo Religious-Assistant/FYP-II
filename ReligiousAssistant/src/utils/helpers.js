@@ -44,9 +44,9 @@ export async function setHours(dt, time) {
   let seconds=secondsAndMeridum[0]
   let meridium=secondsAndMeridum[1]
 
-  dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours) : parseInt(hours));
+  dt.setHours(meridium.toLowerCase() === 'pm' ? 12 + parseInt(hours) : parseInt(hours)%12);
   dt.setMinutes(parseInt(mins)); 
-  dt.setSeconds(parseInt(seconds))
+  dt.setSeconds(0)
 }
 
 function gmod(n, m) {

@@ -62,8 +62,12 @@ import {setHours} from '../../../utils/helpers';
 
 //async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../../../apis/serviceConstants';
+import { update_namaz_alarm_times } from '../../../redux/endpoints';
 
 export default function NamazAlarms() {
+
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const alarmTimes = useSelector(selectNamazAlarmTimesForUser);
@@ -76,7 +80,6 @@ export default function NamazAlarms() {
     selectIsLoadingUpdateNamazAlarmTimes,
   );
 
-  const hasUpdatedAlarms = useSelector(selectUpdatedNamazAlarmTimes);
   const hasLoadedUpdatedData = useSelector(selectHasLoadedUpdatedData);
 
   const fajrTime = useInput(new Date());
@@ -85,7 +88,6 @@ export default function NamazAlarms() {
   const maghribTime = useInput(new Date());
   const ishaTime = useInput(new Date());
 
-  const[count, setCount]=useState(1)
   useEffect(() => {
     if (!user) {
       dispatch(getUserData());
@@ -94,7 +96,7 @@ export default function NamazAlarms() {
     if (user) {
       dispatch(getNamazAlarmsForUser({username: user?.username}));
     }
-  }, [dispatch, user]); //TODO: remove user if causes problem
+  }, [dispatch, user]);
 
   useEffect(() => {
 
@@ -112,75 +114,58 @@ export default function NamazAlarms() {
     }
   }, [dispatch, hasLoadedUpdatedData]);
 
-
-  const getAlarmTimes = async () => {
-    try {
-      let result = await AsyncStorage.getItem('user');
-      result = result != null ? JSON.parse(result) : null;
-      return result?.alarms;
-    } catch (e) {
-      console.log('ERROR while Retrieving user data from Async Storage', e);
-    }
-  };
-
-  function updateNamazAlarms() {
+  async function updateNamazAlarms() {
     if (user) {
-      dispatch(
-        updateNamazAlarmTimes({
-          username: user?.username,
-          fajr: fajrTime.text,
-          zuhr: duhrTime.text,
-          asr: asrTime.text,
-          maghrib: maghribTime.text,
-          isha: ishaTime.text,
-        }),
-      );
-      dispatch(getUpdatedUserData({username: user?.username}));      
+
+      fetch(BASE_URL+"/"+update_namaz_alarm_times,{
+        method:"PATCH",
+        headers:{
+          'Accept': 'application/json',
+          "Content-Type":"application/json",
+          "Authorization":await AsyncStorage.getItem('token')
+      },
+        body:JSON.stringify(
+          {
+            username: user?.username,
+            fajr: fajrTime.text,
+            zuhr: duhrTime.text,
+            asr: asrTime.text,
+            maghrib: maghribTime.text,
+            isha: ishaTime.text,
+          }
+        )
+      }).then(resp=>resp.json()).then(resp=>{
+
+        PushNotification.cancelAllLocalNotifications()
+        if(resp?.data?.fajr !== 'NONE'){
+            createNotification(resp?.data?.fajr)
+          }
+
+          if(resp?.data?.zuhr !== 'NONE'){
+            createNotification(resp?.data?.zuhr)
+            
+          }
+
+          if(resp?.data?.asr !== 'NONE'){
+            createNotification(resp?.data?.asr)
+            
+          }
+
+          if(resp?.data?.maghrib !== 'NONE'){
+            createNotification(resp?.data?.maghrib)
+            
+          }
+          
+          if(resp?.data?.isha !== 'NONE'){
+            createNotification(resp?.data?.isha)
+            
+          }
+      })
+     
+
+
     } else {
       alert(`Error occured. Get back Later`);
-    }
-
-    //Set Alarms TODO: LEFT HERE
-
-    if (user?.preferences?.namazNotifications) {
-  
-      getAlarmTimes()
-        .then(alarms => {
-          
-          //Remove already scheduled notfs
-          PushNotification.cancelAllLocalNotifications()
-
-          if(alarms?.fajr !== 'NONE'){
-            createNotification(alarms?.fajr)
-            setCount(prev=>prev+1)
-          }
-
-          if(alarms?.zuhr !== 'NONE'){
-            createNotification(alarms?.zuhr)
-            setCount(prev=>prev+1)
-          }
-
-          if(alarms?.asr !== 'NONE'){
-            createNotification(alarms?.asr)
-            setCount(prev=>prev+1)
-          }
-
-          if(alarms?.maghrib !== 'NONE'){
-            createNotification(alarms?.maghrib)
-            setCount(prev=>prev+1)
-          }
-          
-          if(alarms?.isha !== 'NONE'){
-            createNotification(alarms?.isha)
-            setCount(prev=>prev+1)
-          }
-
-          PushNotification.getScheduledLocalNotifications(notfs=>{
-            console.log(notfs)
-          })
-
-        })
-        .catch(error => console.log(error));
     }
 
   }
@@ -200,28 +185,24 @@ export default function NamazAlarms() {
   };
 
   const createNotification = async (time) => {
-    
+
     let alarm = new Date();
 
-    // if(time.endsWith("am") && alarm.getHours()>12){
-    //   alarm.setDate(alarm.getDate() + 1);
-    // }
+    if((parseInt(time.split(":")[0])%12)<=((alarm.getHours())%12) && parseInt((time.split(":")[1])%60)<((alarm.getMinutes())%60)){
+        alarm.setDate(alarm.getDate()+1)
+    }
+    else if((parseInt(time.split(":")[0])%12)<((alarm.getHours())%12)){
+      alarm.setDate(alarm.getDate()+1)
+    }
 
-    // else if(time.endsWith("pm") && alarm.getHours()<12){
-    //   alarm.setDate(alarm.getDate() + 1);
-    // }
-
-
-    await setHours(alarm, time);
-
+    await setHours(alarm, time);//)
     PushNotification.localNotificationSchedule({
       channelId: 'namaz_notification',
       message: 'Salah Wipes Away Sins',
-      id:count,
       bigText:
         'And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive [to Allah]: \nSurah Baqrah (2:45)',
       soundName: 'azan2.mp3',
-      importance: 3,
+      importance: 6,
       vibrate: true,
       smallIcon: appIcon,
       date: alarm,
