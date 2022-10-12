@@ -43,9 +43,20 @@ import appIcon from '../../../../assets/images/Logo-muslim.png';
 import {setHours} from '../../../utils/helpers';
 
 const VegNonVegDays = () => {
+
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const vegData = useSelector(selectVegData);
+
+  const [vegSubscription, setVegSubscription] = useState({
+    monday: vegData ? vegData?.monday : false,
+    tuesday: vegData ? vegData?.tuesday : false,
+    wednesday: vegData ? vegData?.wednesday : false,
+    thursday: vegData ? vegData?.thursday : false,
+    friday: vegData ? vegData?.friday : false,
+    saturday: vegData ? vegData?.saturday : false,
+    sunday: vegData ? vegData?.sunday : false,
+  });
 
   useEffect(() => {
     if (!user) {
@@ -71,7 +82,7 @@ const VegNonVegDays = () => {
         );
       }
     });
-  }, [dispatch, vegData]); //TODO: Remove vegData incase problem
+  }, [dispatch, vegSubscription]); //TODO: Remove vegData incase problem
 
   const days = [
     {
@@ -111,15 +122,6 @@ const VegNonVegDays = () => {
     },
   ];
 
-  const [vegSubscription, setVegSubscription] = useState({
-    monday: vegData ? vegData?.monday : false,
-    tuesday: vegData ? vegData?.tuesday : false,
-    wednesday: vegData ? vegData?.wednesday : false,
-    thursday: vegData ? vegData?.thursday : false,
-    friday: vegData ? vegData?.friday : false,
-    saturday: vegData ? vegData?.saturday : false,
-    sunday: vegData ? vegData?.sunday : false,
-  });
 
   async function handlePress() {
     dispatch(setVegData({username: user?.username, vegSubscription}));
@@ -428,21 +430,27 @@ const VegNonVegDays = () => {
   };
 
   const setNotification = async time => {
-    await setHours(time, '08:00:00 am');
-    //6AM everyday
-    PushNotification.localNotificationSchedule({
-      channelId: 'veg_notification',
-      title: '⏰Veg Non-veg Notification⏰',
-      message: 'Is it your veg day today?',
-      bigText: 'Religious Assistant detected, it is your veg day',
-      importance: 4,
-      vibrate: true,
-      smallIcon: appIcon,
-      date: time,
-      allowWhileIdle: true,
-      repeatType: 'week',
-      repeatTime: 1,
-    });
+
+    const hours=(new Date().getHours())%12
+
+    if(hours>=8){
+      time.setDate(time.getDate()+7)
+    }
+      await setHours(time, '8:30:00 am');
+      //6AM everyday
+      PushNotification.localNotificationSchedule({
+        channelId: 'veg_notification',
+        title: '⏰Veg Non-veg Notification⏰',
+        message: 'Is it your veg day today?',
+        bigText: 'Religious Assistant detected, it is your veg day',
+        importance: 4,
+        vibrate: true,
+        smallIcon: appIcon,
+        date: time,
+        allowWhileIdle: true,
+        repeatType: 'week',
+        repeatTime: 1,
+      });
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
