@@ -209,9 +209,9 @@ const sunnah4 = [
   {
     step: 5,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+    text: ' وَٱلْعَصْرِ, إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ, إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ',
     desc: 'AL-QAYYAM',
-    sound:'surahfatiha.mp3'
+    sound:'surahasr.mp3'
   },
   {
     step: 6,
@@ -259,7 +259,7 @@ const sunnah4 = [
   {
     step: 12,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ مَلِكِ ٱلنَّاسِ إِلَـٰهِ ٱلنَّاسِ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ',
+    text: 'قُلْ هُوَ ٱللَّهُ أَحَدٌ, ٱللَّهُ ٱلصَّمَدُ , لَمْ يَلِدْ وَلَمْ يُولَدْ, وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ',
     desc: 'AL-QAYYAM',
     sound:'surahikhlas.mp3'
   },
@@ -505,9 +505,9 @@ const farz4 = [
   {
     step: 5,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+    text: ' وَٱلْعَصْرِ, إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ, إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ',
     desc: 'AL-QAYYAM',
-    sound:'surahikhlas.mp3'
+    sound:'surahasr.mp3'
   },
   {
     step: 6,
@@ -555,7 +555,7 @@ const farz4 = [
   {
     step: 12,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ مَلِكِ ٱلنَّاسِ إِلَـٰهِ ٱلنَّاسِ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ',
+    text: 'قُلْ هُوَ ٱللَّهُ أَحَدٌ, ٱللَّهُ ٱلصَّمَدُ , لَمْ يَلِدْ وَلَمْ يُولَدْ, وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ',
     desc: 'AL-QAYYAM',
     sound:'surahikhlas.mp3'
   },
@@ -787,9 +787,9 @@ const farz3 = [
   {
     step: 5,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+    text: ' وَٱلْعَصْرِ, إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ, إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ',
     desc: 'AL-QAYYAM',
-    sound:'surahfatiha.mp3'
+    sound:'surahasr.mp3'
   },
   {
     step: 6,
@@ -837,7 +837,7 @@ const farz3 = [
   {
     step: 12,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ مَلِكِ ٱلنَّاسِ إِلَـٰهِ ٱلنَّاسِ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ',
+    text: 'قُلْ هُوَ ٱللَّهُ أَحَدٌ, ٱللَّهُ ٱلصَّمَدُ , لَمْ يَلِدْ وَلَمْ يُولَدْ, وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ',
     desc: 'AL-QAYYAM',
     sound:'surahikhlas.mp3'
   },
@@ -1200,9 +1200,9 @@ const nafl2 = [
   {
     step: 5,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+    text: ' وَٱلْعَصْرِ, إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ, إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ',
     desc: 'AL-QAYYAM',
-    sound:'surahfatiha.mp3'
+    sound:'surahasr.mp3'
   },
   {
     step: 6,
@@ -1250,7 +1250,7 @@ const nafl2 = [
   {
     step: 12,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ مَلِكِ ٱلنَّاسِ إِلَـٰهِ ٱلنَّاسِ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ',
+    text: 'قُلْ هُوَ ٱللَّهُ أَحَدٌ, ٱللَّهُ ٱلصَّمَدُ , لَمْ يَلِدْ وَلَمْ يُولَدْ, وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ',
     desc: 'AL-QAYYAM',
     sound:'surahikhlas.mp3'
   },
@@ -1374,9 +1374,9 @@ const witr3 = [
   {
     step: 5,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ',
+    text: ' وَٱلْعَصْرِ, إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ, إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ',
     desc: 'AL-QAYYAM',
-    sound:'surahikhlas.mp3'
+    sound:'surahasr.mp3'
   },
   {
     step: 6,
@@ -1424,7 +1424,7 @@ const witr3 = [
   {
     step: 12,
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
-    text: 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ مَلِكِ ٱلنَّاسِ إِلَـٰهِ ٱلنَّاسِ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ',
+    text: 'قُلْ هُوَ ٱللَّهُ أَحَدٌ, ٱللَّهُ ٱلصَّمَدُ , لَمْ يَلِدْ وَلَمْ يُولَدْ, وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ',
     desc: 'AL-QAYYAM',
     sound:'surahikhlas.mp3'
   },
@@ -1519,7 +1519,7 @@ const witr3 = [
     image: {uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663414283/religious-assistant/static_assets/learn_namaz/3_urp7xi.jpg'},
     text: 'للهُمَّ إِيَّاكَ نَعْبُدُ وَلَكَ نُصَلِّي , وَنَسْجُدُ وَإِلَيْكَ نَسْعَى وَنَحْفِدُ ونَرْجُو رَحْمَتَكَ وَنَخْشَى عَذَابَكَ إِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحِقٌ',
     desc: 'AL-QAYYAM',
-    sound:'duaqunoot1.mp3'
+    sound:'duaqunoot2.mp3'
   },
   {
     step: 26,
