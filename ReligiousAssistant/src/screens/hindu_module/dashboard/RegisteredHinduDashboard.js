@@ -45,6 +45,7 @@ import {selectCurrentTab} from '../../../redux/slices/hindu_module_slices/bottom
 
 //constants
 import {defaultAvatar} from '../UIContants';
+import PushNotification from 'react-native-push-notification';
 
 export default function RegisteredHinduDashboard() {
   const [currentTab, setCurrentTab] = useState('View Profile');
@@ -238,6 +239,8 @@ const TabButton = (currentTab, setCurrentTab, title, image, username) => {
           if(title==='exit'){
             dispatch(deleteDeviveToken({username}));
           }
+          //Cancel all notifications when logout
+          PushNotification.cancelAllLocalNotifications()
           dispatch(logout());
           navigator.navigate(AUTH_STACK);
         } else if (title == 'view profile') {

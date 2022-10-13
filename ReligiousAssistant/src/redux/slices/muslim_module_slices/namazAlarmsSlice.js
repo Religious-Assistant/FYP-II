@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPATCH, apiPOST} from '../../../apis/apiService'
 import { get_namaz_alarms_for_user, update_namaz_alarm_times} from '../../endpoints'
@@ -40,6 +41,12 @@ const namazAlarmsSlice = createSlice({
             state.isLoadingUpdateNamaAlarmTimes = false
             state.hasErrorUpdateNamazAlarmTimes = false
             state.hasUpdatedNamazAlarmTimes=true
+
+            if(action.payload?.data){
+                const data=JSON.stringify(action.payload.data)
+                AsyncStorage.setItem("namaz_alarms", data)
+            }
+
         },
         [updateNamazAlarmTimes.pending]:(state,action)=>{
             state.isLoadingUpdateNamaAlarmTimes=true

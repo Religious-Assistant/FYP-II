@@ -15,6 +15,9 @@ import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 // import com.airbnb.android.react.maps.MapsPackage;
 
+//TODO: Remove this if problem
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =

@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import {apiPATCH} from '../../../apis/apiService'
-import { update_accountability_notifications_setting, update_auto_silent_settings, update_location, update_namaz_notifications_setting, update_password, update_primupdate_primary_temple, ary_temple, update_profile_image, update_primary_temple, update_veg_notifications_setting, update_auto_silent_settings_for_hindu_user } from '../../endpoints';
+import { update_location, update_password , update_profile_image, update_primary_temple, update_veg_notifications_setting, update_auto_silent_settings_for_hindu_user } from '../../endpoints';
 
 const initialState = {
+    profileData:null,
     hasUpdatedPassword:false,
     hasUpdatedAutoSilentSettings:false,
     hasUpdatedPrimaryTemple:false,
@@ -122,6 +123,7 @@ const hinduPreferencesSlice = createSlice({
         [updateProfileImage.fulfilled]:(state,action)=>{
             state.isUploadingProfileImage = false
             state.hasErrorInUploadingProfileImage=false
+            state.profileData=action.payload?.data
 
         },
         [updateProfileImage.pending]:(state,action)=>{
@@ -206,5 +208,6 @@ export const selectIsLoadingGetPrimaryTempleData=(state)=>state.hindupreferences
 
 export const selectIsLoading=(state)=>state.hindupreferences.isLoading
 export const selectHasError=(state)=>state.hindupreferences.hasError
+export const selectProfileData=(state)=>state.hindupreferences.profileData
 
 export default hinduPreferencesSlice.reducer

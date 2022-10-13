@@ -62,6 +62,8 @@ import {setHours} from '../../../utils/helpers';
 
 //async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from '../../../apis/serviceConstants';
+import {update_namaz_alarm_times} from '../../../redux/endpoints';
 
 export default function NamazAlarms() {
   const dispatch = useDispatch();
@@ -76,7 +78,7 @@ export default function NamazAlarms() {
     selectIsLoadingUpdateNamazAlarmTimes,
   );
 
-  const hasUpdatedAlarms = useSelector(selectUpdatedNamazAlarmTimes);
+  const hasLoadedUpdatedData = useSelector(selectHasLoadedUpdatedData);
 
   const fajrTime = useInput(new Date());
   const duhrTime = useInput(new Date());
@@ -92,12 +94,32 @@ export default function NamazAlarms() {
     if (user) {
       dispatch(getNamazAlarmsForUser({username: user?.username}));
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
-  function updateNamazAlarms() {
+  useEffect(() => {
+    if (hasLoadedUpdatedData) {
+      //#region  Configure Alarm
+      PushNotification.channelExists('namaz_notification', exists => {
+        if (!exists) {
+          createChannel();
+        } else {
+          console.log('Namaz notf channel created');
+        }
+      });
+      //#endregion
+    }
+  }, [dispatch, hasLoadedUpdatedData]);
+
+  async function updateNamazAlarms() {
     if (user) {
-      dispatch(
-        updateNamazAlarmTimes({
+      fetch(BASE_URL + '/' + update_namaz_alarm_times, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+        body: JSON.stringify({
           username: user?.username,
           fajr: fajrTime.text,
           zuhr: duhrTime.text,
@@ -105,65 +127,40 @@ export default function NamazAlarms() {
           maghrib: maghribTime.text,
           isha: ishaTime.text,
         }),
-      );
-      dispatch(getUpdatedUserData({username: user?.username}));
+      })
+        .then(resp => resp.json())
+        .then(resp => {
+          PushNotification.cancelAllLocalNotifications();
+          if (resp?.data?.fajr !== 'NONE') {
+            createNotification(resp?.data?.fajr);
+          }
+
+          if (resp?.data?.zuhr !== 'NONE') {
+            createNotification(resp?.data?.zuhr);
+          }
+
+          if (resp?.data?.asr !== 'NONE') {
+            createNotification(resp?.data?.asr);
+          }
+
+          if (resp?.data?.maghrib !== 'NONE') {
+            createNotification(resp?.data?.maghrib);
+          }
+
+          if (resp?.data?.isha !== 'NONE') {
+            createNotification(resp?.data?.isha);
+          }
+        });
     } else {
       alert(`Error occured. Get back Later`);
     }
   }
 
-  const hasLoadedUpdatedData = useSelector(selectHasLoadedUpdatedData);
-
-  const getAlarmTimes = async () => {
-    try {
-      let result = await AsyncStorage.getItem('user');
-      result = result != null ? JSON.parse(result) : null;
-      return result?.alarms;
-    } catch (e) {
-      console.log('ERROR while Retrieving user data from Async Storage', e);
-    }
-  };
-
-  useEffect(() => {
-    if (hasLoadedUpdatedData) {
-      //#region  Configure Alarm
-      PushNotification.channelExists('namaz_notification', exists => {
-        // PushNotification.cancelAllLocalNotifications()
-
-        if (!exists) {
-          createChannel();
-          console.log('Created channel');
-        } else {
-          if (user?.preferences?.namazNotifications) {
-            getAlarmTimes()
-              .then(alarms => {
-                console.log(alarms);
-                alarms?.fajr !== 'NONE' ? createNotification(alarms?.fajr) : '';
-                alarms?.zuhr !== 'NONE' ? createNotification(alarms?.zuhr) : '';
-                alarms?.asr !== 'NONE' ? createNotification(alarms?.asr) : '';
-                alarms?.maghrib !== 'NONE'
-                  ? createNotification(alarms?.maghrib)
-                  : '';
-                alarms?.isha !== 'NONE' ? createNotification(alarms?.isha) : '';
-
-                // PushNotification.getScheduledLocalNotifications(scheduled => {
-                //   console.log(scheduled.length);
-                // });
-              })
-              .catch(error => console.log(error));
-          }
-        }
-      });
-      //#endregion
-    }
-  }, [dispatch, hasLoadedUpdatedData]);
-
   const createChannel = async () => {
-    await PushNotification.createChannel(
+    PushNotification.createChannel(
       {
         channelId: 'namaz_notification',
-        channelName: 'My channel',
-        channelDescription: 'A channel to categorise your notifications',
+        channelDescription: 'A channe to categorise your notifications',
         soundName: 'azan2.mp3',
         importance: 4,
         vibrate: true,
@@ -175,27 +172,39 @@ export default function NamazAlarms() {
   };
 
   const createNotification = async time => {
-    if (time.toUpperCase() == 'NONE') {
-      return;
+    let alarm = new Date();
+    var splitted = time.split(':');
+    let mins = splitted[1];
+    let secondsAndMeridum = splitted[2].split(' ');
+    let meridium = secondsAndMeridum[1];
+
+    if (alarm.getHours() >= 12 && meridium.toLowerCase() === 'am') {
+      alarm.setDate(alarm.getDate() + 1);
+    } else if (alarm.getHours() <= 12 && meridium.toLowerCase() === 'pm') {
+      alarm.setHours(alarm.getHours() % 12);
+    } else if (
+      alarm.getHours() <= 12 &&
+      meridium.toLowerCase() === 'am' &&
+      alarm.getMinutes() > mins
+    ) {
+      alarm.setDate(alarm.getDate() + 1);
     }
-    var alarm = new Date();
-    //   setHours(alarm,`${user?.alarms.fajr}`) ////1:31:03 am   //imported from helpers.js
 
     await setHours(alarm, time);
 
     PushNotification.localNotificationSchedule({
       channelId: 'namaz_notification',
-      title: '⏰Namaz Notification⏰',
       message: 'Salah Wipes Away Sins',
       bigText:
         'And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive [to Allah]: \nSurah Baqrah (2:45)',
       soundName: 'azan2.mp3',
-      importance: 4,
+      importance: 1,
       vibrate: true,
       smallIcon: appIcon,
       date: alarm,
       allowWhileIdle: true,
       repeatType: 'day',
+      repeatTime: 1,
     });
   };
 
@@ -303,7 +312,9 @@ export default function NamazAlarms() {
               }}>
               <View style={{flex: 0.5, alignItems: 'flex-end'}}>
                 <Image
-                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png'}}
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png',
+                  }}
                   style={{
                     marginTop: '10%',
                     marginRight: '5%',
@@ -353,6 +364,7 @@ export default function NamazAlarms() {
                             marginTop: '3%',
                             backgroundColor: colors.cover,
                             elevation: 0.0,
+                            
                           }}>
                           <Text style={styles.label}>{itm.label}</Text>
                           <Text style={styles.secondHeading}>

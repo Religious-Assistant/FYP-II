@@ -4,6 +4,7 @@ import {apiPATCH} from '../../../apis/apiService'
 import { update_accountability_notifications_setting, update_auto_silent_settings, update_location, update_namaz_notifications_setting, update_password, update_primary_mosque, update_profile_image } from '../../endpoints';
 
 const initialState = {
+    profileData:null,
     hasUpdatedPassword:false,
     hasUpdatedAutoSilentSettings:false,
     hasUpdatedNamazNotificationsSetting:false,
@@ -140,6 +141,7 @@ const muslimPreferencesSlice = createSlice({
         [updateProfileImage.fulfilled]:(state,action)=>{
             state.isUploadingProfileImage = false
             state.hasErrorInUploadingProfileImage=false
+            state.profileData=action.payload?.data
 
         },
         [updateProfileImage.pending]:(state,action)=>{
@@ -260,5 +262,6 @@ export const selectIsLoadingGetPrimaryMosqueData=(state)=>state.muslimpreference
 
 export const selectIsLoading=(state)=>state.muslimpreferences.isLoading
 export const selectHasError=(state)=>state.muslimpreferences.hasError
+export const selectProfileData=(state)=>state.muslimpreferences.profileData
 
 export default muslimPreferencesSlice.reducer

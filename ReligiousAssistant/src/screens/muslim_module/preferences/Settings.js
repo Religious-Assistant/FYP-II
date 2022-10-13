@@ -69,6 +69,7 @@ import {
   updateProfileImage,
   updatePassword,
   updatePrimaryMosque,
+  selectProfileData,
 } from '../../../redux/slices/muslim_module_slices/muslimPreferencesSlice';
 import {
   getClosestMosques,
@@ -124,12 +125,25 @@ export default function Settings({route, navigation}) {
   const isUploadingProfileImage = useSelector(selectIsUploadingProfileImage);
   const hasUpdatedPassword = useSelector(selectHasUpdatedPassword);
 
+  const profileData=useSelector(selectProfileData)
+  
+  useEffect(()=>{
+
+    if(profileData){
+      console.log(profileData)
+      setAvatar({image: profileData?.avatar, key: 3});
+    }
+
+  },[profileData?.avatar])
+
+
   useEffect(() => {
     checkConnected().then(res => {
       setConnectStatus(res);
     });
     dispatch(getUserData());
-    if (user?.avatar) {
+
+    if (user?.avatar && !profileData) {
       setAvatar({image: user?.avatar, key: 0});
     }
 
@@ -155,15 +169,12 @@ export default function Settings({route, navigation}) {
 
   //avatar state
   const [avatar, setAvatar] = useState({
-    image: `${user?.avatar}`,
+    image: `${!profileData?user?.avatar:profileData?.avatar}`,
     key: 1,
   });
 
   const sendFileToBackend = image => {
-    dispatch(
-      updateProfileImage({profileImage: image.data, username: user?.username}),
-    );
-    dispatch(getUpdatedUserData({username: user?.username}));
+    dispatch(updateProfileImage({profileImage: image.data, username: user?.username}));
   };
 
   //Take user's profile from Camera

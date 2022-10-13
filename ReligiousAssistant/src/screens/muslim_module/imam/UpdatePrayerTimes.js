@@ -43,6 +43,7 @@ import {
   updateNamazTimes,
 } from '../../../redux/slices/muslim_module_slices/mosqueNamazTimingsSlice';
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
+import { getMosqueById, selectMosqueById } from '../../../redux/slices/muslim_module_slices/mosqueSlice';
 
 export default function UpdatePrayerTimes() {
   //redux
@@ -54,12 +55,15 @@ export default function UpdatePrayerTimes() {
   const mosqueTimes = useSelector(selectNamazTimesForUser);
   const isLoadingNamazTimes = useSelector(selectIsLoadingNamazTimesForUser);
   const user = useSelector(selectUserData);
+  const mosqueById = useSelector(selectMosqueById);
 
   useEffect(() => {
     if (user) {
       dispatch(
         getNamazTimesForUser({mosqueId: user?.preferences?.primaryMosque}),
       );
+
+      dispatch(getMosqueById({mosqueId: user?.preferences?.primaryMosque}));
     }
   }, [dispatch]);
 
@@ -264,7 +268,7 @@ export default function UpdatePrayerTimes() {
               marginLeft={'5%'}
               marginBottom={'5%'}>
               <VStack space={3} w="100%" marginTop={'10%'}>
-                <Text style={styles.boldHeading}>Mosque Name</Text>
+                <Text style={styles.boldHeading}>{mosqueById ? mosqueById?.mosqueName : 'Mosque'}</Text>
                 {data ? (
                   data.map(itm => {
                     return (

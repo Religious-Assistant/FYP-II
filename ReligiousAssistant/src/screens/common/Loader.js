@@ -16,7 +16,7 @@ const Loader = props => {
     <AnimatedLoader
       visible={true}
       overlayColor="rgba(255,255,255,0.75)"
-      source={require('./loader1.json')}
+      source={require('./loader2.json')}
       animationStyle={styles.lottie}
       speed={1}
       

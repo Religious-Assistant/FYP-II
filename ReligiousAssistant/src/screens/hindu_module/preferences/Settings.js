@@ -61,6 +61,7 @@ import {
   selectHasUpdatedPassword,
   selectHasUpdatedVegNotifications,
   selectIsUploadingProfileImage,
+  selectProfileData,
   updateAutoSilentSetting,
   updatePassword,
   updatePrimaryTemple,
@@ -109,10 +110,23 @@ export default function Settings({route, navigation}) {
   const [open, setOpen] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
 
+  const profileData=useSelector(selectProfileData)
+  
+  useEffect(()=>{
+
+    if(profileData){
+      setAvatar({image: profileData?.avatar, key: 3});
+    }
+
+  },[profileData?.avatar])
+
+
+  //avatar state
   const [avatar, setAvatar] = useState({
-    image: `${user?.avatar}`,
+    image: `${!profileData?user?.avatar:profileData?.avatar}`,
     key: 1,
   });
+
 
   const [password, setPassword] = useState();
   const handlePassword = text => {
@@ -220,7 +234,7 @@ export default function Settings({route, navigation}) {
     dispatch(
       updateProfileImage({profileImage: image.data, username: user?.username}),
     );
-    dispatch(getUpdatedUserData({username: user?.username}));
+    // dispatch(getUpdatedUserData({username: user?.username}));
   };
 
   //Take user's profile from Camera

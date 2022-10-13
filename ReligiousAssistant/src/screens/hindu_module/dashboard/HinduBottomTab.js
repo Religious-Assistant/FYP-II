@@ -35,6 +35,7 @@ import {
   selectUserData,
 } from '../../../redux/slices/auth_slices/authSlice';
 import {selectHinduNotifications} from '../../../redux/slices/hindu_module_slices/hinduNotificationSlice';
+import { useState } from 'react';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -66,9 +67,11 @@ export default function HinduBottomTab() {
   const notifications = useSelector(selectHinduNotifications);
   const user = useSelector(selectUserData);
 
+  const[notfCount, setNotfCount]=useState(0)
   useEffect(() => {
     dispatch(getUserData());
-  }, []);
+    setNotfCount(notifications?notifications?.length:0)
+  }, [notfCount, notifications]);
 
   return (
     <>
@@ -128,7 +131,7 @@ export default function HinduBottomTab() {
             options={{
               // tabBarLabel:'Home',
               headerShown: false,
-              tabBarBadge: notifications ? notifications.length : null,
+              tabBarBadge: notfCount>0?notfCount:null,
               tabBarBadgeStyle: {
                 color: colors.primary,
                 backgroundColor: colors.secondary,
