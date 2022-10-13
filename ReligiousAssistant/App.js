@@ -29,6 +29,7 @@ import {
 
 import appIcon from './assets/images/Logo-muslim.png';
 import {setHours} from './src/utils/helpers';
+import CheckVoice from './src/screens/muslim_module/learnNamaz/CheckVoice';
 
 async function onMessageReceived(message) {
   const notification = await JSON.parse(message.data.notification);

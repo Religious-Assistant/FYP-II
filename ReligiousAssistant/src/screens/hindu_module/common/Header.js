@@ -31,9 +31,9 @@ export default function Header() {
 
   const [event, setEvent] = useState(null);
   const todayDate = new Date();
-  const eventDate = `${todayDate.getFullYear()}-${(
+  const eventDate = `${todayDate.getFullYear()}-${('0' + (todayDate.getMonth() + 1)).slice(-2)}-${(
     '0' + todayDate.getDate()
-  ).slice(-2)}-${('0' + (todayDate.getMonth() + 1)).slice(-2)}`;
+  ).slice(-2)}`;
 
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
@@ -45,6 +45,7 @@ export default function Header() {
 
   useEffect(() => {
     const res = hinduEventsData.hasOwnProperty(eventDate);
+    console.log(res)
     if (res) {
       setEvent(hinduEventsData[eventDate][0].name);
     } else {

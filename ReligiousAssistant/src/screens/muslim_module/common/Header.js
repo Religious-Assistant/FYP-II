@@ -54,7 +54,7 @@ export default function Header() {
 
   useEffect(() => {
     dispatch(getUserData());
-    setIslamicDate(writeIslamicFullDate(new Date(), -1));
+    setIslamicDate(writeIslamicFullDate(new Date(), -2));
 
     user
       ? Geocoder.from(

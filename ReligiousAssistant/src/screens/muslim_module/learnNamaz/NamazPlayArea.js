@@ -5,7 +5,7 @@
 
 import React, {useState, useEffect} from 'react';
 import {Button, Image, View, Text, Progress} from 'native-base';
-import {StyleSheet, TouchableHighlight} from 'react-native';
+import {StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
 
 //icons
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -38,15 +38,47 @@ import {
 import {selectUserData} from '../../../redux/slices/auth_slices/authSlice';
 
 import Loader from '../../common/Loader';
+//for audio
+import Sound from 'react-native-sound';
 
 const NamazPlayArea = ({route, navigation}) => {
   const {namazInfo, namazName} = route.params;
+  const [playBtn, setPlayBtn] = useState(false);
+  const [pauseBtn, setPauseBtn] = useState(true);
+  const [resumeBtn, setResumeBtn] = useState(true);
+  const [stopBtn, setStopBtn] = useState(true);
 
   const namaz = checkRakat(namazInfo);
   const [scene, setScene] = useState(getScene(namaz, 0));
   const [progress, setProgress] = useState(1);
 
+  const [audio, setAudio] = useState(null);
+
+  const play = ayatSound => {
+    let namazSound = new Sound(ayatSound, Sound.MAIN_BUNDLE, err => {
+      if (err) {
+        console.log('error', err);
+        return;
+      } else {
+        namazSound.play(success => {
+          console.log(success);
+          setPlayBtn(false);
+    setPauseBtn(true);
+    setResumeBtn(true);
+    setStopBtn(true);
+        });
+      }
+    });
+    setAudio(namazSound);
+    
+  };
+
   async function renderNextScene() {
+    audio?audio.stop():''
+    setPlayBtn(false);
+    setPauseBtn(true);
+    setResumeBtn(true);
+    setStopBtn(true);
     if (scene.step < namaz.length) {
       setScene(getScene(namaz, scene.step));
       setProgress(prev => prev + 1);
@@ -136,6 +168,11 @@ const NamazPlayArea = ({route, navigation}) => {
     return namaz;
   }
   async function renderPreviousScsne() {
+    audio?audio.stop():''
+    setPlayBtn(false);
+    setPauseBtn(true);
+    setResumeBtn(true);
+    setStopBtn(true);
     if (scene.step > 1) {
       setScene(getScene(namaz, scene.step - 2));
       setProgress(prev => prev - 1);
@@ -207,7 +244,7 @@ const NamazPlayArea = ({route, navigation}) => {
           </View>
 
           <View style={styles.controls}>
-            <TouchableHighlight onPress={renderPreviousScsne}>
+            <TouchableHighlight onPress={renderPreviousScsne} >
               <View style={styles.iconButton}>
                 <Icon name="arrow-back" size={30} style={styles.icon}></Icon>
                 <Text style={styles.text}>Back</Text>
@@ -244,6 +281,110 @@ const NamazPlayArea = ({route, navigation}) => {
               </View>
             </TouchableHighlight>
           </View>
+          <View
+            style={{
+              justifyContent: 'space-around',
+              flexDirection: 'row',
+              opacity: scene.sound == '' ? 0 : 1,
+              flex: 0.1,
+            }}>
+              <View style={{alignContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setPlayBtn(true);
+                  setStopBtn(true);
+                  setPauseBtn(true)
+                  setResumeBtn(false);
+                  audio.pause();
+                }}
+                disabled={pauseBtn}>
+                <Image
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665654301/religious-assistant/static_assets/pause_ygmljb.png',
+                  }}
+                  alt="pause"
+                  tintColor={
+                    pauseBtn ? colors.tertiary : colors.success.moderate
+                  }
+                  style={{width: 40, height: 40}}
+                />
+              </TouchableOpacity>
+              <Text style={{fontFamily: fonts.Signika.bold, marginTop: '-15%'}}>
+                Pause
+              </Text>
+            </View>
+            <View style={{alignContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setStopBtn(false);
+                  setPauseBtn(false);
+                  setPlayBtn(true);
+                  play(scene.sound);
+                }}
+                disabled={playBtn}>
+                <Image
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665654301/religious-assistant/static_assets/play-button_nqncok.png',
+                  }}
+                  alt="play"
+                  style={{width: 40, height: 40}}
+                  tintColor={playBtn ? colors.muted : colors.success.moderate}
+                />
+              </TouchableOpacity>
+              <Text style={{fontFamily: fonts.Signika.bold, marginTop: '-15%'}}>
+                Play
+              </Text>
+            </View>
+            <View style={{alignContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setPlayBtn(false);
+                  setPauseBtn(true);
+                  setStopBtn(true);
+                  setResumeBtn(true);
+                  audio.stop();
+                }}
+                disabled={stopBtn}>
+                <Image
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665654300/religious-assistant/static_assets/stop-button_dlrbat.png',
+                  }}
+                  alt="stop"
+                  tintColor={
+                    stopBtn ? colors.tertiary : colors.success.moderate
+                  }
+                  style={{width: 40, height: 40}}
+                />
+              </TouchableOpacity>
+              <Text style={{fontFamily: fonts.Signika.bold, marginTop: '-15%'}}>
+                Stop
+              </Text>
+            </View>
+            <View style={{alignContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setPauseBtn(false);
+                  setStopBtn(false);
+                  setResumeBtn(true)
+                  audio.play();
+                }}
+                disabled={resumeBtn}>
+                <Image
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665654301/religious-assistant/static_assets/record_rhfimw.png',
+                  }}
+                  alt="resume"
+                  tintColor={
+                    resumeBtn ? colors.tertiary : colors.success.moderate
+                  }
+                  style={{width: 50, height: 40}}
+                />
+              </TouchableOpacity>
+              <Text style={{fontFamily: fonts.Signika.bold, marginTop: '-15%'}}>
+                Resume
+              </Text>
+            </View>
+          </View>
         </>
       )}
     </View>
@@ -257,7 +398,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flex: 0.24,
+    flex: 0.28,
     backgroundColor: colors.primary,
   },
 
@@ -266,9 +407,11 @@ const styles = StyleSheet.create({
   },
   controls: {
     flex: 0.06,
-    margin: 10,
+    margin: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop:'5%',
+    marginBottom:'1%'
   },
   iconButton: {
     justifyContent: 'space-evenly',

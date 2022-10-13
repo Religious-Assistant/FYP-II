@@ -31,7 +31,7 @@ export default function Calander() {
     const finalDate = newDate.split(',')[0];
     return writeIslamicDateForCalendar(
       new Date(finalDate, finalmonth, finalyear),
-      -1,
+      -2,
     );
   }
 
@@ -45,7 +45,7 @@ export default function Calander() {
             fontFamily: fonts.Signika.bold,
             fontSize: 16,
           }}>
-          {writeIslamicFullDate(new Date(), -1)}
+          {writeIslamicFullDate(new Date(), -2)}
         </Text>
         <Calendar
           style={{height: 500}}
