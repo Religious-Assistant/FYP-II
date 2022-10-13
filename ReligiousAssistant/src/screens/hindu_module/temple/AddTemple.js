@@ -76,7 +76,7 @@ export default function AddTemple({route}) {
       );
 
       if (newTemple) {
-        console.log(newTemple);
+        alert("Temple placed for consensus")
       }
     } else {
       alert('Location and Name required');
@@ -146,11 +146,13 @@ export default function AddTemple({route}) {
               />
               {route?.params ? (
                 <Text mt={5} fontFamily={fonts.Signika.bold}>
-                  {`Longitude: ${route.params?.longitude}\n Latitude: ${route.params?.latitude}`}
+                
+                  {/* {`Longitude: ${route.params?.longitude}\n Latitude: ${route.params?.latitude}`} */}
                 </Text>
               ) : (
                 <></>
-              )}
+              )
+              }
               <CustomButton
                 title="Add Temple"
                 variant="solid"

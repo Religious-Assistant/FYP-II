@@ -420,6 +420,8 @@ const VegNonVegDays = () => {
         }
         break;
     }
+
+    alert("Your days have been set..")
   }
 
   const handleDayChange = (state, day) => {
@@ -431,12 +433,17 @@ const VegNonVegDays = () => {
 
   const setNotification = async time => {
 
-    const hours=(new Date().getHours())%12
+    const hours=(new Date().getHours())
 
-    if(hours>=8){
+    const OFFSET_HOUR=8
+    const OFFSET_MINS=30
+    const OFFSET_FORMAT="am"
+
+    if(hours<=12 && (hours%12)>OFFSET_HOUR){
       time.setDate(time.getDate()+7)
     }
-      await setHours(time, '08:30:00 am'); 
+  
+    await setHours(time, `${OFFSET_HOUR}:${OFFSET_MINS}:00 ${OFFSET_FORMAT}`); 
 
       PushNotification.localNotificationSchedule({
         channelId: 'veg_notification',

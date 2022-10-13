@@ -59,7 +59,8 @@ export default function Alerts({route, navigation}) {
 
   let notifications = useSelector(selectHinduNotifications);
   const isLoadingNotification = useSelector(selectIsLoadingNotification);
-  let notificationsArray = [];
+  let notificationsArray = notifications?[...notifications]:[];
+  notificationsArray.reverse();
 
   const user = useSelector(selectUserData);
 
@@ -120,8 +121,8 @@ export default function Alerts({route, navigation}) {
         ) : (
           <FlatList
             style={styles.root}
-            data={notifications}
-            extraData={notifications}
+            data={notificationsArray?notificationsArray:notifications}
+            extraData={notificationsArray?notificationsArray:notifications}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             keyExtractor={item => item?._id}
             renderItem={v => {

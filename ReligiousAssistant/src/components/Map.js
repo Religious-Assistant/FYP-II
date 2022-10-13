@@ -82,7 +82,6 @@ const Map = ({route, navigation}) => {
     if (screen === MUSLIM_SETTINGS && user) {
       //update location on confirm click
 
-      console.log(position);
       dispatch(
         updateLocation({
           username: user.username,
