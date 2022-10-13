@@ -44,7 +44,7 @@ export default function ConnectAsGuest() {
     <View style={styles.flexRatio}>
       <ImageBackground
         style={styles.image}
-        source={require('../../../assets/images/connectAsGuest_bg.png')}>
+        source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665685997/religious-assistant/static_assets/connectAsGuest_bg_elvqc7.png'}}>
         <Center w="100%" mt={'20%'}>
           <Box safeArea p="1%" w="90%" maxW="82%" py="7%" mt="20%">
             <Formik

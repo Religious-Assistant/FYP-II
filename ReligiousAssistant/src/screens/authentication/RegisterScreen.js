@@ -134,7 +134,7 @@ export default function RegisterScreen() {
         <ImageBackground
           style={styles.image}
           resizeMode="stretch"
-          source={image}>
+          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665685997/religious-assistant/static_assets/signUp_bg_iur4zb.png'}}>
           <Center w="100%" h="80%" mt="12%">
             <VStack space={3} mt="12" maxW={'80%'} _text={styles.text} h="90%">
               <Formik

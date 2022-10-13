@@ -102,7 +102,7 @@ export default function LoginScreen({navigation}) {
         <ImageBackground
           style={styles.image}
           resizeMode="stretch"
-          source={image}>
+          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665685997/religious-assistant/static_assets/login_bg_adiyth.png'}}>
           {isLoadingLogin ? (
             <Loader msg="Verifying Login Details..." />
           ) : (

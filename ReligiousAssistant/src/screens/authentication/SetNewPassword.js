@@ -74,7 +74,7 @@ export default function SetNewPassword() {
         <ImageBackground
           style={styles.image}
           resizeMode="stretch"
-          source={image}>
+          source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1665685996/religious-assistant/static_assets/setPassword_bg_zuwrzs.png'}}>
           {isLoading ? (
             <Loader msg="Updating Password" />
           ) : (
