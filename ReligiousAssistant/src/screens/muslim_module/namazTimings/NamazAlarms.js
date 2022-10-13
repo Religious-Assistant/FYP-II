@@ -62,12 +62,10 @@ import {setHours} from '../../../utils/helpers';
 
 //async storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL } from '../../../apis/serviceConstants';
-import { update_namaz_alarm_times } from '../../../redux/endpoints';
+import {BASE_URL} from '../../../apis/serviceConstants';
+import {update_namaz_alarm_times} from '../../../redux/endpoints';
 
 export default function NamazAlarms() {
-
-
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const alarmTimes = useSelector(selectNamazAlarmTimesForUser);
@@ -99,16 +97,14 @@ export default function NamazAlarms() {
   }, [dispatch, user]);
 
   useEffect(() => {
-
     if (hasLoadedUpdatedData) {
       //#region  Configure Alarm
       PushNotification.channelExists('namaz_notification', exists => {
         if (!exists) {
           createChannel();
+        } else {
+          console.log('Namaz notf channel created');
         }
-        else{
-          console.log("Namaz notf channel created")
-        } 
       });
       //#endregion
     }
@@ -116,62 +112,53 @@ export default function NamazAlarms() {
 
   async function updateNamazAlarms() {
     if (user) {
-
-      fetch(BASE_URL+"/"+update_namaz_alarm_times,{
-        method:"PATCH",
-        headers:{
-          'Accept': 'application/json',
-          "Content-Type":"application/json",
-          "Authorization":await AsyncStorage.getItem('token')
-      },
-        body:JSON.stringify(
-          {
-            username: user?.username,
-            fajr: fajrTime.text,
-            zuhr: duhrTime.text,
-            asr: asrTime.text,
-            maghrib: maghribTime.text,
-            isha: ishaTime.text,
-          }
-        )
-      }).then(resp=>resp.json()).then(resp=>{
-
-        PushNotification.cancelAllLocalNotifications()
-        if(resp?.data?.fajr !== 'NONE'){
-            createNotification(resp?.data?.fajr)
-          }
-
-          if(resp?.data?.zuhr !== 'NONE'){
-            createNotification(resp?.data?.zuhr)
-            
-          }
-
-          if(resp?.data?.asr !== 'NONE'){
-            createNotification(resp?.data?.asr)
-            
-          }
-
-          if(resp?.data?.maghrib !== 'NONE'){
-            createNotification(resp?.data?.maghrib)
-            
-          }
-          
-          if(resp?.data?.isha !== 'NONE'){
-            createNotification(resp?.data?.isha)
-            
-          }
+      fetch(BASE_URL + '/' + update_namaz_alarm_times, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          username: user?.username,
+          fajr: fajrTime.text,
+          zuhr: duhrTime.text,
+          asr: asrTime.text,
+          maghrib: maghribTime.text,
+          isha: ishaTime.text,
+        }),
       })
-     
+        .then(resp => resp.json())
+        .then(resp => {
+          PushNotification.cancelAllLocalNotifications();
+          if (resp?.data?.fajr !== 'NONE') {
+            createNotification(resp?.data?.fajr);
+          }
 
+          if (resp?.data?.zuhr !== 'NONE') {
+            createNotification(resp?.data?.zuhr);
+          }
 
+          if (resp?.data?.asr !== 'NONE') {
+            createNotification(resp?.data?.asr);
+          }
+
+          if (resp?.data?.maghrib !== 'NONE') {
+            createNotification(resp?.data?.maghrib);
+          }
+
+          if (resp?.data?.isha !== 'NONE') {
+            createNotification(resp?.data?.isha);
+          }
+        });
     } else {
       alert(`Error occured. Get back Later`);
     }
-
   }
 
   const createChannel = async () => {
-    PushNotification.createChannel({
+    PushNotification.createChannel(
+      {
         channelId: 'namaz_notification',
         channelDescription: 'A channe to categorise your notifications',
         soundName: 'azan2.mp3',
@@ -184,31 +171,40 @@ export default function NamazAlarms() {
     );
   };
 
-  const createNotification = async (time) => {
-
+  const createNotification = async time => {
     let alarm = new Date();
+    var splitted = time.split(':');
+    let mins = splitted[1];
+    let secondsAndMeridum = splitted[2].split(' ');
+    let meridium = secondsAndMeridum[1];
 
-    if((parseInt(time.split(":")[0])%12)<=((alarm.getHours())%12) && parseInt((time.split(":")[1])%60)<((alarm.getMinutes())%60)){
-        alarm.setDate(alarm.getDate()+1)
-    }
-    else if((parseInt(time.split(":")[0])%12)<((alarm.getHours())%12)){
-      alarm.setDate(alarm.getDate()+1)
+    if (alarm.getHours() >= 12 && meridium.toLowerCase() === 'am') {
+      alarm.setDate(alarm.getDate() + 1);
+    } else if (alarm.getHours() <= 12 && meridium.toLowerCase() === 'pm') {
+      alarm.setHours(alarm.getHours() % 12);
+    } else if (
+      alarm.getHours() <= 12 &&
+      meridium.toLowerCase() === 'am' &&
+      alarm.getMinutes() > mins
+    ) {
+      alarm.setDate(alarm.getDate() + 1);
     }
 
-    await setHours(alarm, time);//)
+    await setHours(alarm, time);
+
     PushNotification.localNotificationSchedule({
       channelId: 'namaz_notification',
       message: 'Salah Wipes Away Sins',
       bigText:
         'And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive [to Allah]: \nSurah Baqrah (2:45)',
       soundName: 'azan2.mp3',
-      importance: 6,
+      importance: 1,
       vibrate: true,
       smallIcon: appIcon,
       date: alarm,
       allowWhileIdle: true,
       repeatType: 'day',
-      repeatTime:1,
+      repeatTime: 1,
     });
   };
 
@@ -316,7 +312,9 @@ export default function NamazAlarms() {
               }}>
               <View style={{flex: 0.5, alignItems: 'flex-end'}}>
                 <Image
-                  source={{uri:'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png'}}
+                  source={{
+                    uri: 'https://res.cloudinary.com/nadirhussainnn/image/upload/v1663573340/religious-assistant/static_assets/clock_ic_k3h21w.png',
+                  }}
                   style={{
                     marginTop: '10%',
                     marginRight: '5%',
@@ -366,6 +364,7 @@ export default function NamazAlarms() {
                             marginTop: '3%',
                             backgroundColor: colors.cover,
                             elevation: 0.0,
+                            
                           }}>
                           <Text style={styles.label}>{itm.label}</Text>
                           <Text style={styles.secondHeading}>

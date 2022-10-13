@@ -436,8 +436,8 @@ const VegNonVegDays = () => {
     if(hours>=8){
       time.setDate(time.getDate()+7)
     }
-      await setHours(time, '8:30:00 am');
-      //6AM everyday
+      await setHours(time, '08:30:00 am'); 
+
       PushNotification.localNotificationSchedule({
         channelId: 'veg_notification',
         title: '⏰Veg Non-veg Notification⏰',
