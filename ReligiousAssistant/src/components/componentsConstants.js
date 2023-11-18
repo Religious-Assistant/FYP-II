@@ -1,7 +1,0 @@
-// const GOOGLE_MAPS_APIKEY = 'AIzaSyAYgN_qJ-teJ5AJxO05TWaH35gcs5StQNE';
-
-const GOOGLE_MAPS_APIKEY = 'AIzaSyCBmqrdG4QQUNNSOIPtxt2CD7rBmj_wPTI';
-
-export{
-    GOOGLE_MAPS_APIKEY
-}
