@@ -1,0 +1,18 @@
+Clone a git repo, be on main branch
+    then 
+>heroku login
+>heroku create 'app-name-here'
+>git push heroku main
+> heroku ps:scale web=1
+> heroku open
+
+Switch to another app via heroku cli
+>heroku git:remote -a app_name
+
+Log erros
+>heroku logs --tail
+
+DELETE heroku app
+>heroku apps:destroy
+
+//For database or Environment variables, set them in config vars
